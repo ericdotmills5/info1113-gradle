@@ -19,7 +19,7 @@ public class App extends PApplet {
     public static final int SIDEBAR = 120;
     public static final int TOPBAR = 40;
     public static final int BOARD_WIDTH = 20;
-    public static final String lvl1Loc = "level2.txt"; // only works for level 1, fix required
+    public static final String lvl1Loc = "level3.txt"; // only works for level 1, fix required
 
     public static int WIDTH = CELLSIZE*BOARD_WIDTH+SIDEBAR;
     public static int HEIGHT = BOARD_WIDTH*CELLSIZE+TOPBAR;
@@ -33,7 +33,7 @@ public class App extends PApplet {
 
     public Random random = new Random();
 	
-	// Feel free to add any additional methods or attributes you want. Please put classes in different files.
+    // Feel free to add any additional methods or attributes you want. Please put classes in different files.
 
     public App() {
         this.configPath = "config.json";

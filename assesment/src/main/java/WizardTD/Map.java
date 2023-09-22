@@ -4,6 +4,7 @@ import java.util.Scanner;
 import processing.core.PApplet;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 /*
  * Edge cases:
@@ -19,6 +20,7 @@ public class Map {
     private int[] wizCordsXY = new int[2];
     private App app;
     private Wizard wizard;
+    private ArrayList<Path> spawns;
 
     public Map(String fileLoc, App app){
         this.app = app;
@@ -97,7 +99,6 @@ public class Map {
             for(Tile entry: row){
                 if(entry instanceof WizOrPath){
                     ((WizOrPath)entry).assignProperties(); // type cast into path type
-                    System.out.println(entry + " assigned properties");
                 }
                 if(entry instanceof Path){
                     ((Path)entry).updatePath();
@@ -105,6 +106,20 @@ public class Map {
                 }
             }
         }
+    }
+
+    public void createSpawns(){
+        for(Tile[] row: this.land){
+            for(Tile entry: row){ // if object is a path and is next to an edge of the map
+                if(entry instanceof Path && ((Path)entry).terminal != 0){
+                    this.spawns.add((Path)entry); // put it into the spawn list
+                }
+            }
+        }
+    }
+
+    public void createPaths(){
+        
     }
 
     public void draw(PApplet app){ // draw each element in matrix onto screen

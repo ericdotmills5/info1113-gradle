@@ -6,6 +6,7 @@ abstract class WizOrPath extends Tile{
     protected int wizDist = 0;
     protected Tile[] adj = new Tile[5];
     protected int terminal; // Not: 0, edge on right:1, edge up: 2...
+    protected int optimal; // from wiz dist
 
     public WizOrPath(int x, int y, Map map){
         super(x, y, map);
@@ -25,6 +26,13 @@ abstract class WizOrPath extends Tile{
 
                 ((Path)i).wizDist = this.wizDist + 1; // give it my better distance + 1
                 System.out.println(i + " Distance: " + ((Path)i).wizDist);
+
+                for(int j = 0; j < 5; j++){ // determine his optimal direction
+                    if(((Path)i).adj[j] == this){ // if your currently iterating over me
+                        ((Path)i).optimal = j; // then im the optimal direction
+                        System.out.println(i + " optimal path direction " + j);
+                    }
+                }
                 ((Path)i).determineWizDists(); // ask his friends to do it
             }
         }
@@ -63,19 +71,21 @@ abstract class WizOrPath extends Tile{
             adj[4] = this.map.getLand()[this.x][this.y + 1]; 
         }
         
+        System.out.print(this + " is adjacent to: ");
         for(Tile i: adj){
-            System.out.print(i);
+            System.out.print(i + "; ");
         }
+        System.out.println();
 
         return adj;
     }
 }
 
 class Wizard extends WizOrPath{
-
     public Wizard(int x, int y, Map map){
         super(x, y, map);
         this.wizDist = 0;
+        this.optimal = 0;
         this.sprite = map.getApp().loadImage("src/main/resources/WizardTD/wizard_house.png");
     }
 

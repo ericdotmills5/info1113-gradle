@@ -5,6 +5,7 @@ import processing.core.PImage;
 public class Path extends WizOrPath{
     private int pathType; // 1 straight, 2 rAngle, 3 T, 4 cross
     private int rotates; // how many 90 degree anticlockwise rotations?
+    
 
     public Path(int x, int y, Map map){
         super(x, y, map);

@@ -19,6 +19,10 @@ abstract class Tile{
         this.map = map;
     }
 
+    public String toString(){
+        return this.getClass().getName() + " @ x=" + this.x + ", y=" + this.y;
+    }
+
     public void tick(){
 
     }
