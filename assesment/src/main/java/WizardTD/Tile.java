@@ -35,22 +35,7 @@ class Shrub extends Tile{
     }
 }
 
-class Wizard extends Tile{
-    private int wizDist = 0;
-    private Tile[] adj = new Tile[5];
 
-    public Wizard(int x, int y, Map map){
-        super(x, y, map);
-        this.sprite = map.getApp().loadImage("src/main/resources/WizardTD/wizard_house.png");
-    }
-
-    @Override
-    public void draw(PApplet app){
-        app.image(
-            this.sprite, this.x * tileSize + wizShiftX, this.y * tileSize + wizShiftY
-            ); // wizard house needs to be shifted
-    }
-}
 
 class Grass extends Tile{
     public Grass(int x, int y, Map map){

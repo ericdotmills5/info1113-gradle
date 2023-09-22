@@ -1,11 +1,16 @@
 package WizardTD;
 
 import java.util.Scanner;
-
 import processing.core.PApplet;
-
 import java.io.File;
 import java.io.FileNotFoundException;
+
+/*
+ * Edge cases:
+ *  Path on terminal corner
+ *  Wizard hut on side
+ *  Wizard hut on corner
+ */
 
 public class Map {
     static final int sqrMapSize = 20;
@@ -76,7 +81,6 @@ public class Map {
                 i++;
             }
             System.out.println("row " + j + " read");
-
         }
 
         
@@ -87,8 +91,13 @@ public class Map {
     public void updateAllPaths(){ // iterate through paths to find type and orientation
         for(Tile[] row: this.land){
             for(Tile entry: row){
+                if(entry instanceof WizOrPath){
+                    ((WizOrPath)entry).assignProperties(); // type cast into path type
+                    System.out.println(entry + " assigned properties");
+                }
                 if(entry instanceof Path){
-                    ((Path)entry).updatePath(); // type cast into path type
+                    ((Path)entry).updatePath();
+                    System.out.println(entry + " assigned rotation");
                 }
             }
         }
