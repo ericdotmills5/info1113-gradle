@@ -1,12 +1,13 @@
 package WizardTD;
 
 import processing.core.PApplet;
+import java.util.HashMap;
 
 abstract class WizOrPath extends Tile{
     protected int wizDist = 0;
-    protected Tile[] adj = new Tile[5];
-    protected int terminal; // Not: 0, edge on right:1, edge up: 2...
-    protected int optimal; // from wiz dist
+    protected HashMap<Direction, Tile> adj = new HashMap<Direction, Tile>();
+    protected Direction terminal; // Not: 0, edge on right:1, edge up: 2...
+    protected Direction optimal; // from wiz dist
 
     public WizOrPath(int x, int y, Map map){
         super(x, y, map);
@@ -18,7 +19,7 @@ abstract class WizOrPath extends Tile{
     }
 
     public void determineWizDists(){
-        for(Tile i: this.adj){ // for everyone around me
+        for(Tile i: this.adj.values()){ // for everyone around me
             if(
                 i instanceof Path // if the adjacent tile is a path
                 && (((Path)i).wizDist == 0 // and it either has no distance
@@ -26,9 +27,9 @@ abstract class WizOrPath extends Tile{
 
                 ((Path)i).wizDist = this.wizDist + 1; // give it my better distance + 1
                 System.out.println(i + " Distance: " + ((Path)i).wizDist);
-
-                for(int j = 0; j < 5; j++){ // determine his optimal direction
-                    if(((Path)i).adj[j] == this){ // if your currently iterating over me
+                
+                for(Direction j: ((Path)i).adj.keySet()){ // determine his optimal direction
+                    if(((Path)i).adj.get(j) == this){ // if your currently iterating over me
                         ((Path)i).optimal = j; // then im the optimal direction
                         System.out.println(i + " optimal path direction " + j);
                     }
@@ -38,45 +39,46 @@ abstract class WizOrPath extends Tile{
         }
     }
 
-    public int findTerminality(){ // returns int characterising edge on screen
+    public Direction findTerminality(){ // returns int characterising edge on screen
         switch(this.x){ // assume no paths on corners
             case 19:
-                return 1;
+                return Direction.RIGHT;
             case 0:
-                return 3;
+                return Direction.LEFT;
         }
         switch(this.y){
             case 0:
-                return 2;
+                return Direction.UP;
             case 19:
-                return 4;
+                return Direction.DOWN;
         }
-        return 0;
+        return Direction.NONE;
     }
 
-    public Tile[] buildAdj(){
-        Tile[] adj = new Tile[5];
-        adj[0] = this; // probably useless, enter itself
+    public HashMap<Direction, Tile> buildAdj(){
+        HashMap<Direction, Tile> adj = new HashMap<Direction, Tile>();
         
-        if(this.terminal != 1){ // enter tile to the right
-            adj[1] = this.map.getLand()[this.x + 1][this.y];
+        if(this.terminal != Direction.RIGHT){ // enter tile to the right
+            adj.put(Direction.RIGHT, this.map.getLand()[this.x + 1][this.y]);
+        } else{ // otherwise, enter null
+            adj.put(Direction.RIGHT, null);
         }
-        if(this.terminal != 2){ // enter tile above
-            adj[2] = this.map.getLand()[this.x][this.y - 1]; 
+        if(this.terminal != Direction.UP){ // enter tile above
+            adj.put(Direction.UP, this.map.getLand()[this.x][this.y - 1]);
+        } else{
+            adj.put(Direction.UP, null);
         }
-        if(this.terminal != 3){ // enter left
-            adj[3] = this.map.getLand()[this.x - 1][this.y]; 
+        if(this.terminal != Direction.LEFT){ // enter left
+            adj.put(Direction.LEFT, this.map.getLand()[this.x - 1][this.y]); 
+        } else{
+            adj.put(Direction.LEFT, null);
         }
-        if(this.terminal != 4){ // enter bellow
-            adj[4] = this.map.getLand()[this.x][this.y + 1]; 
+        if(this.terminal != Direction.DOWN){ // enter bellow
+            adj.put(Direction.DOWN, this.map.getLand()[this.x][this.y + 1]); 
+        } else{
+            adj.put(Direction.DOWN, null);
         }
         
-        System.out.print(this + " is adjacent to: ");
-        for(Tile i: adj){
-            System.out.print(i + "; ");
-        }
-        System.out.println();
-
         return adj;
     }
 }
@@ -85,7 +87,7 @@ class Wizard extends WizOrPath{
     public Wizard(int x, int y, Map map){
         super(x, y, map);
         this.wizDist = 0;
-        this.optimal = 0;
+        this.optimal = Direction.NONE;
         this.sprite = map.getApp().loadImage("src/main/resources/WizardTD/wizard_house.png");
     }
 

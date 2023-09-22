@@ -2,10 +2,13 @@ package WizardTD;
 
 import processing.core.PImage;
 
+enum pathTypes{
+    STRAIGHT, RANGLE, T, CROSS;
+}
+
 public class Path extends WizOrPath{
     private int pathType; // 1 straight, 2 rAngle, 3 T, 4 cross
     private int rotates; // how many 90 degree anticlockwise rotations?
-    
 
     public Path(int x, int y, Map map){
         super(x, y, map);
@@ -16,14 +19,100 @@ public class Path extends WizOrPath{
         this.sprite = this.createImage();
     }
 
+    public void pathTypeRotate(){
+        boolean left = false;
+        boolean right = false;
+        boolean up = false;
+        boolean down = false;
+
+        if(this.adj.get(Direction.LEFT) instanceof WizOrPath){
+            left = true;
+        }
+        if(this.adj.get(Direction.RIGHT) instanceof WizOrPath){
+            right = true;
+        }
+        if(this.adj.get(Direction.UP) instanceof WizOrPath){
+            up = true;
+        }
+        if(this.adj.get(Direction.DOWN) instanceof WizOrPath){
+            down = true;
+        }
+
+        if(left && right && up && down){
+            this.pathType = 3;
+            this.rotates = 0;
+            return;
+        } else if(left && right && up){
+            this.pathType = 2;
+            this.rotates = 2;
+            return;
+        } else if(left && right && down){
+            this.pathType = 2;
+            this.rotates = 0;
+            return;
+        } else if(left && up && down){
+            this.pathType = 2;
+            this.rotates = 3;
+            return;
+        } else if(right && up && down){
+            this.pathType = 2;
+            this.rotates = 1;
+            return;
+        } else if(left && right){
+            this.pathType = 0;
+            this.rotates = 0;
+            return;
+        } else if(up && down){
+            this.pathType = 0;
+            this.rotates = 1;
+            return;
+        } else if(left && up){
+            this.pathType = 1;
+            this.rotates = 3;
+            return;
+        } else if(left && down){
+            this.pathType = 1;
+            this.rotates = 0;
+            return;
+        } else if(right && up){
+            this.pathType = 1;
+            this.rotates = 2;
+            return;
+        } else if(right && down){
+            this.pathType = 1;
+            this.rotates = 1;
+            return;
+        } else if(left){
+            this.pathType = 0;
+            this.rotates = 0;
+            return;
+        } else if(right){
+            this.pathType = 0;
+            this.rotates = 0;
+            return;
+        } else if(up){
+            this.pathType = 0;
+            this.rotates = 1;
+            return;
+        } else if(down){
+            this.pathType = 0;
+            this.rotates = 1;
+            return;
+        } else{
+            System.out.println("Error diagnosing path type " + this);
+            return;
+        }
+    }
+
+    /* 
     public void pathTypeRotate(){ // 0 1 2 3 0 index as opposed to 1 index
         boolean[] pathArray = new boolean[this.adj.length - 1]; // ignore itself
         int adjs = 0;
         int not = 0; // where path isnt for 3
         int evens = 0;
 
-        for(int i = 0; i < pathArray.length; i++){ // look through adjacent tuple
-            if(this.adj[i + 1] instanceof Path){
+        for(Tile i: this.adj.values()){ // look through adjacent hashmap
+            if(i instanceof Path){
                 pathArray[i] = true;
                 adjs++;
 
@@ -88,6 +177,7 @@ public class Path extends WizOrPath{
         System.out.println("Error diagnosing path type " + this);
         return;
     }
+    */
 
     public PImage createImage(){
         PImage noRotate;

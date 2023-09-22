@@ -1,17 +1,25 @@
 package WizardTD;
 
 import java.util.Scanner;
+
+import org.checkerframework.checker.units.qual.A;
+
 import processing.core.PApplet;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
+import java.lang.reflect.Array;
+import java.util.*;
 
 /*
  * Edge cases:
  *  Path on terminal corner
  *  Wizard hut on side
  *  Wizard hut on corner
- */
+*/
+
+enum Direction{ // add directions to previously integer stuff
+    UP, DOWN, LEFT, RIGHT, NONE;
+}
 
 public class Map {
     static final int sqrMapSize = 20;
@@ -20,7 +28,9 @@ public class Map {
     private int[] wizCordsXY = new int[2];
     private App app;
     private Wizard wizard;
-    private ArrayList<Path> spawns;
+    private HashMap<Path, ArrayList<Direction>> routes = 
+    new HashMap<Path, ArrayList<Direction>>(); // terminal path, assosiated route
+
 
     public Map(String fileLoc, App app){
         this.app = app;
@@ -94,11 +104,15 @@ public class Map {
         return matrix;
     }
 
-    public void updateAllPaths(){ // iterate through paths to find type and orientation
+    public void updateAllPaths(){ // iterate through paths to find type and orientation and terminal paths
         for(Tile[] row: this.land){
             for(Tile entry: row){
                 if(entry instanceof WizOrPath){
                     ((WizOrPath)entry).assignProperties(); // type cast into path type
+
+                    if(((WizOrPath)entry).terminal != Direction.NONE){ // if its a spawn
+                        this.routes.put((Path)entry, null); // add it to the spawn list, no route yet
+                    }
                 }
                 if(entry instanceof Path){
                     ((Path)entry).updatePath();
@@ -108,19 +122,19 @@ public class Map {
         }
     }
 
-    public void createSpawns(){
-        for(Tile[] row: this.land){
-            for(Tile entry: row){ // if object is a path and is next to an edge of the map
-                if(entry instanceof Path && ((Path)entry).terminal != 0){
-                    this.spawns.add((Path)entry); // put it into the spawn list
-                }
-            }
+    // create route from terminal paths (spawns) to wizard via optimal paths
+    public ArrayList<Direction> createRoute(Path spawn){ 
+        ArrayList<Direction> route = new ArrayList<Direction>();
+        WizOrPath current = spawn;
+
+        while(!(current instanceof Wizard)){
+            Direction currentDirection = ((Path)current).optimal;
+            route.add(currentDirection); // add optimal direction to route
+            current = (Path)current.adj.get(currentDirection); // move to next path
         }
+        return route;
     }
 
-    public void createPaths(){
-        
-    }
 
     public void draw(PApplet app){ // draw each element in matrix onto screen
         for(Tile[] row: this.land){
@@ -139,6 +153,8 @@ public class Map {
     public static void main(String args[]){
         
     }
+
+
 }
 
 

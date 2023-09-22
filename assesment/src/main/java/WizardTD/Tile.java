@@ -39,8 +39,6 @@ class Shrub extends Tile{
     }
 }
 
-
-
 class Grass extends Tile{
     public Grass(int x, int y, Map map){
         super(x, y, map);
