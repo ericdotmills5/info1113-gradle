@@ -18,6 +18,7 @@ public class Map {
     private Tile[][] land = new Tile[sqrMapSize][sqrMapSize];
     private int[] wizCordsXY = new int[2];
     private App app;
+    private Wizard wizard;
 
     public Map(String fileLoc, App app){
         this.app = app;
@@ -27,6 +28,8 @@ public class Map {
         this.updateAllPaths();
 
         System.out.println("Paths rotated");
+
+        this.wizard.determineWizDists();
         
         // assume this is only fileIO method call
     }
@@ -66,7 +69,8 @@ public class Map {
                         matrix[i][j] = new Path(i, j, this);
                         break;
                     case 'W':
-                        matrix[i][j] = new Wizard(i, j, this);
+                        this.wizard = new Wizard(i, j, this);
+                        matrix[i][j] = this.wizard;
                         this.wizCordsXY[0] = i;
                         this.wizCordsXY[1] = j;
                         break;
@@ -109,7 +113,7 @@ public class Map {
                 if(!(entry instanceof Wizard)){ // draw it if its not a wizard house
                     entry.draw(app); 
                 } else{ // if it is a wizard house, draw grass under the wizard house
-                    Tile wizGrass = new Grass(wizCordsXY[0], wizCordsXY[1], this);
+                    Tile wizGrass = new Grass(wizCordsXY[0], wizCordsXY[1], this); // change this
                     wizGrass.draw(app);
                 }
             }

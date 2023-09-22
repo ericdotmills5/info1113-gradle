@@ -17,7 +17,17 @@ abstract class WizOrPath extends Tile{
     }
 
     public void determineWizDists(){
-        
+        for(Tile i: this.adj){ // for everyone around me
+            if(
+                i instanceof Path // if the adjacent tile is a path
+                && (((Path)i).wizDist == 0 // and it either has no distance
+                || ((Path)i).wizDist > this.wizDist + 1)){ // or it has a bigger distance
+
+                ((Path)i).wizDist = this.wizDist + 1; // give it my better distance + 1
+                System.out.println(i + " Distance: " + ((Path)i).wizDist);
+                ((Path)i).determineWizDists(); // ask his friends to do it
+            }
+        }
     }
 
     public int findTerminality(){ // returns int characterising edge on screen
@@ -65,6 +75,7 @@ class Wizard extends WizOrPath{
 
     public Wizard(int x, int y, Map map){
         super(x, y, map);
+        this.wizDist = 0;
         this.sprite = map.getApp().loadImage("src/main/resources/WizardTD/wizard_house.png");
     }
 
