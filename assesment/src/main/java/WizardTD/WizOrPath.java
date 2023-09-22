@@ -4,6 +4,8 @@ import processing.core.PApplet;
 import java.util.HashMap;
 
 abstract class WizOrPath extends Tile{
+    public static final int CELLSIZE = App.CELLSIZE;
+
     protected int wizDist = 0;
     protected HashMap<Direction, Tile> adj = new HashMap<Direction, Tile>();
     protected Direction terminal; // Not: 0, edge on right:1, edge up: 2...
@@ -94,7 +96,7 @@ class Wizard extends WizOrPath{
     @Override
     public void draw(PApplet app){
         app.image(
-            this.sprite, this.x * tileSize + wizShiftX, this.y * tileSize + wizShiftY
+            this.sprite, this.x * CELLSIZE + wizShiftX, this.y * CELLSIZE + wizShiftY
             ); // wizard house needs to be shifted
     }
 }

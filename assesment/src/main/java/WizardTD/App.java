@@ -19,7 +19,7 @@ public class App extends PApplet {
     public static final int SIDEBAR = 120;
     public static final int TOPBAR = 40;
     public static final int BOARD_WIDTH = 20;
-    public static final String lvl1Loc = "level4.txt"; // only works for level 1, fix required
+    public static final String lvl1Loc = "level4.txt"; 
 
     public static int WIDTH = CELLSIZE*BOARD_WIDTH+SIDEBAR;
     public static int HEIGHT = BOARD_WIDTH*CELLSIZE+TOPBAR;
@@ -28,6 +28,8 @@ public class App extends PApplet {
 
     public String configPath;
     public Map map;
+
+    public Monster monster; /// testing
 
     public PImage pic;
 
@@ -55,10 +57,10 @@ public class App extends PApplet {
         frameRate(FPS);
 
         this.map = new Map(lvl1Loc, this);
-
-        this.pic = this.loadImage("src/main/resources/WizardTD/shrub.png");///
         
-
+        this.monster = new Monster(0, 0, 1, this.map.getRoutes().values().iterator().next(), this);
+        // put him on the right spawn path, preferably from hashmap
+        
         
 
         // Load images during setup
@@ -106,6 +108,7 @@ public class App extends PApplet {
 	@Override
     public void draw() {
         this.map.draw(this);
+        this.monster.draw(this);
     }
 
     public static void main(String[] args) {

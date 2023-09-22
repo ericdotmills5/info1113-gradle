@@ -4,7 +4,7 @@ import processing.core.PApplet;
 import processing.core.PImage;
 
 abstract class Tile{
-    public static final int tileSize = 32;
+    public static final int CELLSIZE = App.CELLSIZE;
     public static final int wizShiftX = -8; // 8 pixels left
     public static final int wizShiftY = -5; // 5 pixels up
 
@@ -28,7 +28,7 @@ abstract class Tile{
     }
 
     public void draw(PApplet app){
-        app.image(this.sprite, this.x * tileSize, this.y * tileSize);
+        app.image(this.sprite, this.x * CELLSIZE, this.y * CELLSIZE);
     }
 }
 

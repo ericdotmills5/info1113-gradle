@@ -22,9 +22,9 @@ enum Direction{ // add directions to previously integer stuff
 }
 
 public class Map {
-    static final int sqrMapSize = 20;
+    static final int BOARD_WIDTH = App.BOARD_WIDTH;
 
-    private Tile[][] land = new Tile[sqrMapSize][sqrMapSize];
+    private Tile[][] land = new Tile[BOARD_WIDTH][BOARD_WIDTH];
     private int[] wizCordsXY = new int[2];
     private App app;
     private Wizard wizard;
@@ -42,6 +42,8 @@ public class Map {
         System.out.println("Paths rotated");
 
         this.wizard.determineWizDists();
+
+        this.createRoutes();
         
         // assume this is only fileIO method call
     }
@@ -52,6 +54,10 @@ public class Map {
 
     public App getApp(){
         return this.app;
+    }
+
+    public HashMap<Path, ArrayList<Direction>> getRoutes(){
+        return this.routes;
     }
 
     static Scanner fileIO(String loc){ // read file into scanner obj
@@ -67,10 +73,10 @@ public class Map {
     }
 
     public Tile[][] scan2Matrix(Scanner scan){
-        Tile[][] matrix = new Tile[sqrMapSize][sqrMapSize]; // assume level is sqrmapsize
+        Tile[][] matrix = new Tile[BOARD_WIDTH][BOARD_WIDTH]; // assume level is sqrmapsize
         int i;
         
-        for(int j = 0; j < sqrMapSize; j++){ // iterate through each line
+        for(int j = 0; j < BOARD_WIDTH; j++){ // iterate through each line
             i = 0;
             for(char c: scan.nextLine().toCharArray()){ // iterate through each letter
                 switch(c){
@@ -92,7 +98,7 @@ public class Map {
                 }
                 i++;
             }
-            while(i < sqrMapSize){ // fill trailing empty text with grass
+            while(i < BOARD_WIDTH){ // fill trailing empty text with grass
                 matrix[i][j] = new Grass(i, j, this);
                 i++;
             }
@@ -130,11 +136,16 @@ public class Map {
         while(!(current instanceof Wizard)){
             Direction currentDirection = ((Path)current).optimal;
             route.add(currentDirection); // add optimal direction to route
-            current = (Path)current.adj.get(currentDirection); // move to next path
+            current = (WizOrPath)current.adj.get(currentDirection); // move to next path
         }
         return route;
     }
 
+    public void createRoutes(){ // create routes for each spawn
+        for(Path spawn: this.routes.keySet()){
+            this.routes.put(spawn, this.createRoute(spawn));
+        }
+    }
 
     public void draw(PApplet app){ // draw each element in matrix onto screen
         for(Tile[] row: this.land){
