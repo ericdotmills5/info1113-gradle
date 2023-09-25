@@ -1,13 +1,11 @@
 package WizardTD;
 
 import java.util.Scanner;
-
-import org.checkerframework.checker.units.qual.A;
-
 import processing.core.PApplet;
+import processing.data.JSONObject;
+
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.lang.reflect.Array;
 import java.util.*;
 
 /*
@@ -15,6 +13,7 @@ import java.util.*;
  *  Path on terminal corner
  *  Wizard hut on side
  *  Wizard hut on corner
+ *  
 */
 
 enum Direction{ // add directions to previously integer stuff
@@ -30,6 +29,8 @@ public class Map {
     private Wizard wizard;
     private HashMap<Path, ArrayList<Direction>> routes = 
     new HashMap<Path, ArrayList<Direction>>(); // terminal path, assosiated route
+    private JSONObject data;
+    private Wave wave; // turn into wave list for many waves
 
 
     public Map(String fileLoc, App app){
@@ -46,6 +47,11 @@ public class Map {
         this.createRoutes();
         
         // assume this is only fileIO method call
+
+        this.data = app.loadJSONObject(app.configPath);
+
+        this.wave = new Wave(this.data.getJSONArray("waves").getJSONObject(1), this.routes, this.app);
+        // test with 1st wave
     }
 
     public Tile[][] getLand(){
@@ -59,6 +65,9 @@ public class Map {
     public HashMap<Path, ArrayList<Direction>> getRoutes(){
         return this.routes;
     }
+
+    // q: how do i import a json file
+    // a
 
     static Scanner fileIO(String loc){ // read file into scanner obj
         File f = new File(loc);
@@ -147,6 +156,10 @@ public class Map {
         }
     }
 
+    public void tick(){
+        this.wave.tick();
+    }
+
     public void draw(PApplet app){ // draw each element in matrix onto screen
         for(Tile[] row: this.land){
             for(Tile entry: row){
@@ -159,11 +172,11 @@ public class Map {
             }
         }
         this.land[wizCordsXY[0]][wizCordsXY[1]].draw(app); // draw wizard house last so it is drawn on top layer
+
+        this.wave.draw();
     }
 
-    public static void main(String args[]){
-        
-    }
+    
 
 
 }

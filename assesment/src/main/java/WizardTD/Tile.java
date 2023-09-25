@@ -5,8 +5,8 @@ import processing.core.PImage;
 
 abstract class Tile{
     public static final int CELLSIZE = App.CELLSIZE;
-    public static final int wizShiftX = -8; // 8 pixels left
-    public static final int wizShiftY = -5; // 5 pixels up
+    public static final int wizShiftX = App.wizShiftX; // 8 pixels left
+    public static final int wizShiftY = App.wizShiftY; // 5 pixels up
 
     protected int x;
     protected int y;
@@ -17,6 +17,14 @@ abstract class Tile{
         this.x = x;
         this.y = y;
         this.map = map;
+    }
+
+    public int getX(){
+        return this.x;
+    }
+
+    public int getY(){
+        return this.y;
     }
 
     public String toString(){

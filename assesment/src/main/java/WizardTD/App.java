@@ -19,7 +19,13 @@ public class App extends PApplet {
     public static final int SIDEBAR = 120;
     public static final int TOPBAR = 40;
     public static final int BOARD_WIDTH = 20;
-    public static final String lvl1Loc = "level4.txt"; 
+    public static final int wizShiftX = -8; // 8 pixels left
+    public static final int wizShiftY = -5; // 5 pixels up
+    public static final int ghostShiftX = 5; // 5 pixels right
+    public static final int ghostShiftY = 5; // 5 pixels down
+    public static final int healthShiftY = 0; // 6 pixels up
+    public static final int healthLength = 30; // 30 pixels long
+    public static final int healthWidth = 2; // 5 pixels tall
 
     public static int WIDTH = CELLSIZE*BOARD_WIDTH+SIDEBAR;
     public static int HEIGHT = BOARD_WIDTH*CELLSIZE+TOPBAR;
@@ -27,11 +33,10 @@ public class App extends PApplet {
     public static final int FPS = 60;
 
     public String configPath;
+    public static String lvlLoc;
     public Map map;
 
     public Monster monster; /// testing
-
-    public PImage pic;
 
     public Random random = new Random();
 	
@@ -56,11 +61,15 @@ public class App extends PApplet {
     public void setup() {
         frameRate(FPS);
 
-        this.map = new Map(lvl1Loc, this);
-        
-        this.monster = new Monster(0, 0, 1, this.map.getRoutes().values().iterator().next(), this);
+        lvlLoc = this.loadJSONObject(this.configPath).getString("layout");
+        this.map = new Map(lvlLoc, this);
+
+        /*
+        Path hello = (Path)this.map.getRoutes().keySet().toArray()[2];
+
+        this.monster = new Monster(hello.x, hello.y, 1, 100, this.map.getRoutes().get(hello), this);
         // put him on the right spawn path, preferably from hashmap
-        
+        */
         
 
         // Load images during setup
@@ -107,8 +116,10 @@ public class App extends PApplet {
      */
 	@Override
     public void draw() {
+        this.map.tick();
+
         this.map.draw(this);
-        this.monster.draw(this);
+
     }
 
     public static void main(String[] args) {
