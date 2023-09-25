@@ -38,6 +38,10 @@ public class Wave {
         System.out.println("Wave created");
     }
 
+    public JSONObject getData(){
+        return this.waveData;
+    }
+
     public void tick(){
         this.currentFrame += 1;
 

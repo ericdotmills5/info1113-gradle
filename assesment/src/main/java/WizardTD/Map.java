@@ -22,6 +22,7 @@ enum Direction{ // add directions to previously integer stuff
 
 public class Map {
     static final int BOARD_WIDTH = App.BOARD_WIDTH;
+    static final int FPS = App.FPS;
 
     private Tile[][] land = new Tile[BOARD_WIDTH][BOARD_WIDTH];
     private int[] wizCordsXY = new int[2];
@@ -30,7 +31,10 @@ public class Map {
     private HashMap<Path, ArrayList<Direction>> routes = 
     new HashMap<Path, ArrayList<Direction>>(); // terminal path, assosiated route
     private JSONObject data;
-    private Wave wave; // turn into wave list for many waves
+    private ArrayList<Wave> waveList = new ArrayList<>(); // turn into wave list for many waves
+    private int waveNumber = 0;
+    private double waveTime;
+    private boolean lastWave = false;
 
 
     public Map(String fileLoc, App app){
@@ -50,9 +54,12 @@ public class Map {
 
         this.data = app.loadJSONObject(app.configPath);
 
-        this.wave = new Wave(this.data.getJSONArray("waves").getJSONObject(1), this.routes, this.app);
-        // test with 1st wave
-    }
+        this.waveList.add(new Wave(
+            this.data.getJSONArray("waves").getJSONObject(waveNumber), this.routes, this.app
+        )); // add pre wave pause for 1st wave
+        this.waveTime = this.addWaveTimes() + this.data.getJSONArray("waves").getJSONObject(this.waveNumber).getDouble("pre_wave_pause") * FPS;
+        System.out.println(this.waveTime);
+    } 
 
     public Tile[][] getLand(){
         return this.land;
@@ -62,12 +69,14 @@ public class Map {
         return this.app;
     }
 
+    public double addWaveTimes(){ // current wave time + next wave prewave pause * fps
+        return (this.data.getJSONArray("waves").getJSONObject(this.waveNumber).getDouble("duration") 
+        + data.getJSONArray("waves").getJSONObject(this.waveNumber + 1).getDouble("pre_wave_pause")) * FPS;
+    }
+
     public HashMap<Path, ArrayList<Direction>> getRoutes(){
         return this.routes;
     }
-
-    // q: how do i import a json file
-    // a
 
     static Scanner fileIO(String loc){ // read file into scanner obj
         File f = new File(loc);
@@ -156,8 +165,37 @@ public class Map {
         }
     }
 
+    public void nextWave(){
+        this.waveNumber++;
+        this.waveList.add(new Wave(
+            this.data.getJSONArray("waves").getJSONObject(waveNumber), this.routes, this.app
+        ));
+
+        if(this.waveNumber == this.data.getJSONArray("waves").size() - 1){ // if its the last wave
+            this.lastWave = true;
+        } else{ // otherwise (if its not the last wave)
+            this.waveTime = this.addWaveTimes();
+        }
+        
+    }
+
     public void tick(){
-        this.wave.tick();
+        System.out.println("Wave time: " + this.waveTime);
+
+        if(!(waveNumber == 0 && this.waveTime > this.addWaveTimes())){ // after 1st pre wave time
+            for(Wave wave: this.waveList){
+                wave.tick();
+            }
+            this.waveTime--;
+
+            if(this.waveTime < 0 && !this.lastWave){
+                this.nextWave();
+            }   
+        } else{
+            this.waveTime--;
+            System.out.println("Pre wave time: " + this.waveTime);
+        }
+        
     }
 
     public void draw(PApplet app){ // draw each element in matrix onto screen
@@ -173,7 +211,9 @@ public class Map {
         }
         this.land[wizCordsXY[0]][wizCordsXY[1]].draw(app); // draw wizard house last so it is drawn on top layer
 
-        this.wave.draw();
+        for(Wave wave: this.waveList){
+            wave.draw();
+        }
     }
 
     

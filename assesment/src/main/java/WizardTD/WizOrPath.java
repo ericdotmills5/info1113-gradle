@@ -96,7 +96,7 @@ class Wizard extends WizOrPath{
     @Override
     public void draw(PApplet app){
         app.image(
-            this.sprite, this.x * CELLSIZE + wizShiftX, this.y * CELLSIZE + wizShiftY
+            this.sprite, this.x * CELLSIZE + wizShiftX, this.y * CELLSIZE + wizShiftY + TOPBAR
             ); // wizard house needs to be shifted
     }
 }

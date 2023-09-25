@@ -7,6 +7,7 @@ abstract class Tile{
     public static final int CELLSIZE = App.CELLSIZE;
     public static final int wizShiftX = App.wizShiftX; // 8 pixels left
     public static final int wizShiftY = App.wizShiftY; // 5 pixels up
+    public static final int TOPBAR = App.TOPBAR; // 40 pixels down
 
     protected int x;
     protected int y;
@@ -36,7 +37,7 @@ abstract class Tile{
     }
 
     public void draw(PApplet app){
-        app.image(this.sprite, this.x * CELLSIZE, this.y * CELLSIZE);
+        app.image(this.sprite, this.x * CELLSIZE, this.y * CELLSIZE + TOPBAR);
     }
 }
 

@@ -23,7 +23,8 @@ public class App extends PApplet {
     public static final int wizShiftY = -5; // 5 pixels up
     public static final int ghostShiftX = 5; // 5 pixels right
     public static final int ghostShiftY = 5; // 5 pixels down
-    public static final int healthShiftY = 0; // 6 pixels up
+    public static final int healthShiftX = -5; // 5 pixels left
+    public static final int healthShiftY = -5; // 6 pixels up
     public static final int healthLength = 30; // 30 pixels long
     public static final int healthWidth = 2; // 5 pixels tall
 
@@ -117,6 +118,9 @@ public class App extends PApplet {
 	@Override
     public void draw() {
         this.map.tick();
+
+        this.fill(131, 111, 75); // brown background
+        this.rect(0, 0, WIDTH, HEIGHT);
 
         this.map.draw(this);
 

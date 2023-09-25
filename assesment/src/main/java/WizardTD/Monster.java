@@ -8,9 +8,11 @@ public class Monster {
     public static final int CELLSIZE = App.CELLSIZE;
     public static final int ghostShiftX = App.ghostShiftX; // 5 pixels right
     public static final int ghostShiftY = App.ghostShiftY; // 5 pixels down
+    public static final int healthShiftX = App.healthShiftX; // 5 pixels left
     public static final int healthShiftY = App.healthShiftY; // 6 pixels up
     public static final int healthLength = App.healthLength; // 30 pixels long
     public static final int healthWidth = App.healthWidth; // 5 pixels wide
+    public static final int TOPBAR = App.TOPBAR; // 40 pixels down
 
     private int pixelX;
     private int pixelY;
@@ -38,8 +40,8 @@ public class Monster {
         this.maxHealth = maxHealth;
         this.currHealth = maxHealth;
         this.app = app;
-        this.pixelX = tileX * CELLSIZE;
-        this.pixelY = tileY * CELLSIZE;
+        this.pixelX = tileX * CELLSIZE + ghostShiftX;
+        this.pixelY = tileY * CELLSIZE + ghostShiftY + TOPBAR;
         this.sprite = app.loadImage("src/main/resources/WizardTD/gremlin.png");
 
         System.out.println("Monster created at " + this.tileX + ", " + this.tileY);
@@ -75,7 +77,7 @@ public class Monster {
                 case NONE:
                     System.out.println("Monster has no route");
             }
-            if(this.pixelX % CELLSIZE == 0 && this.pixelY % CELLSIZE == 0){ // every 32 pixels:
+            if((this.pixelX - ghostShiftX) % CELLSIZE == 0 && (this.pixelY - ghostShiftY - TOPBAR) % CELLSIZE == 0){ // every 32 pixels:
                 this.tileX = this.pixelX / CELLSIZE; // update tile position
                 this.tileY = this.pixelY / CELLSIZE;
                 this.tileNo++; // follow next direction
@@ -107,15 +109,19 @@ public class Monster {
 
     public void draw(PApplet app){
         // monster sprite
-        app.image(this.sprite, this.pixelX + ghostShiftX, this.pixelY + ghostShiftY);
+        app.image(this.sprite, this.pixelX, this.pixelY);
 
         // health bar
         if(this.alive){ // health bar only displays if alive
             app.fill(0, 255, 0); // green bit
-            app.rect(this.pixelX, this.pixelY + healthShiftY, (int) (healthLength * healthProp), healthWidth);
+            app.rect(this.pixelX + healthShiftX, this.pixelY + healthShiftY, (int) (healthLength * healthProp), healthWidth);
             
             app.fill(255, 0, 0); // red bit
-            app.rect(this.pixelX + (int) (healthLength * healthProp), this.pixelY + healthShiftY, (int) (healthLength * (1 - healthProp)), healthWidth);
+            app.rect(
+                this.pixelX + healthShiftX + (int) (healthLength * healthProp), 
+                this.pixelY + healthShiftY, 
+                (int) (healthLength * (1 - healthProp)), 
+                healthWidth);
     
         }
     }
