@@ -119,6 +119,7 @@ public class App extends PApplet {
     public void draw() {
         this.map.tick();
 
+        this.noStroke();
         this.fill(131, 111, 75); // brown background
         this.rect(0, 0, WIDTH, HEIGHT);
 

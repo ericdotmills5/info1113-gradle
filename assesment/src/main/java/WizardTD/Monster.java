@@ -14,12 +14,12 @@ public class Monster {
     public static final int healthWidth = App.healthWidth; // 5 pixels wide
     public static final int TOPBAR = App.TOPBAR; // 40 pixels down
 
-    private int pixelX;
-    private int pixelY;
+    private double pixelX;
+    private double pixelY;
     
-    private int pixSpeed;
-    private int maxHealth;
-    private int currHealth;
+    private double pixSpeed;
+    private double maxHealth; // double
+    private double currHealth; // double
     private double armour;
     private App app;
     private double healthProp;
@@ -30,10 +30,9 @@ public class Monster {
     private ArrayList<Direction> route;
     private PImage sprite;
     private int moves;
-    private int dir;
 
     public Monster(
-        int tileX, int tileY, int pixSpeed, int maxHealth, double armour, ArrayList<Direction> route, App app
+        int tileX, int tileY, double pixSpeed, double maxHealth, double armour, ArrayList<Direction> route, App app
         ){
         this.pixSpeed = pixSpeed;
         
@@ -58,9 +57,9 @@ public class Monster {
     }
 
     public void tick(){
-        
+        this.currHealth -= 0.2;
         // health
-        this.healthProp = (double) this.currHealth / (double) this.maxHealth;
+        this.healthProp = this.currHealth / this.maxHealth;
 
         if (this.currHealth <= 0){
             this.alive = false;
@@ -108,46 +107,28 @@ public class Monster {
                 this.tileNo++;
                 this.moves = 0; // reset pixels
             } // if monster has moved a full tile, move to next direction
-            // after moving to next tile (in pixels), update tile position, round back if needed
-            /*
-            if((this.pixelX - ghostShiftX) >= CELLSIZE * (this.tileX + 1) || 
-                
-               
-               (this.pixelY - ghostShiftY - TOPBAR) >= CELLSIZE * (this.tileY + 1)){
-               
-                this.tileX = this.pixelX / CELLSIZE; // update tile position
-                this.tileY = this.pixelY / CELLSIZE;
-
-                this.tileNo++; // follow next direction
-                
-                
-                this.pixelX = this.tileX * CELLSIZE + ghostShiftX; // round back to tile
-                this.pixelY = this.tileY * CELLSIZE + ghostShiftY + TOPBAR;
-                
-            } 
-            */
         }
 
         // kill animation
         if(!this.alive){
             this.deathTick += 1;
             switch(this.deathTick){
-                case 4:
+                case 0:
                     this.sprite = app.loadImage("src/main/resources/WizardTD/gremlin1.png");
                     break;
-                case 8:
+                case 4:
                     this.sprite = app.loadImage("src/main/resources/WizardTD/gremlin2.png");
                     break;
-                case 12:
+                case 8:
                     this.sprite = app.loadImage("src/main/resources/WizardTD/gremlin3.png");
                     break;
-                case 16:
+                case 12:
                     this.sprite = app.loadImage("src/main/resources/WizardTD/gremlin4.png");
                     break;
-                case 20:
+                case 16:
                     this.sprite = app.loadImage("src/main/resources/WizardTD/gremlin5.png");
                     break;
-                case 24:
+                case 20:
                     this.exists = false; // will be deleted from spawn array
                     break;
                 
@@ -157,18 +138,19 @@ public class Monster {
 
     public void draw(PApplet app){
         // monster sprite
-        app.image(this.sprite, this.pixelX, this.pixelY);
+        app.image(this.sprite, (float)this.pixelX, (float)this.pixelY);
 
         // health bar
         if(this.alive){ // health bar only displays if alive
+            app.noStroke(); // no border
             app.fill(0, 255, 0); // green bit
-            app.rect(this.pixelX + healthShiftX, this.pixelY + healthShiftY, (int) (healthLength * healthProp), healthWidth);
+            app.rect((float)this.pixelX + healthShiftX, (float)this.pixelY + healthShiftY, (int) (healthLength * healthProp), healthWidth);
             
             app.fill(255, 0, 0); // red bit
             app.rect(
-                this.pixelX + healthShiftX + (int) (healthLength * healthProp), 
-                this.pixelY + healthShiftY, 
-                (int) (healthLength * (1 - healthProp)), 
+                (float)(this.pixelX + healthShiftX + (healthLength * healthProp)), 
+                (float)(this.pixelY + healthShiftY), 
+                (float) (healthLength * (1 - healthProp)), 
                 healthWidth);
     
         }

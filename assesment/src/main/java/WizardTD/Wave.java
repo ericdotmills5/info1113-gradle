@@ -54,16 +54,6 @@ public class Wave {
                 monsterIterator.remove();
             } // remove monsters whove finished death animation
         }
-        
-        /* // concurrent modification exception
-        for(Monster monster : this.monsters){
-            monster.tick(); // tick all monsters in array
-
-            if(!(monster.getExists())){ 
-                this.monsters.remove(monster); 
-            }  
-        }
-        */
 
         // generate new random monster type with random spawn path
         if(this.currentFrame % this.framesPerSpawn == 0 && this.monstersRemaining > 0){
@@ -75,8 +65,8 @@ public class Wave {
             Path spawnPath = this.spawnPaths[randSpawnPath];
 
             this.monsters.add(new Monster(
-                spawnPath.getX(), spawnPath.getY(), monsterType.getInt("speed"), 
-                monsterType.getInt("hp"), monsterType.getDouble("armour"), this.routes.get(spawnPath), this.app
+                spawnPath.getX(), spawnPath.getY(), monsterType.getDouble("speed"), 
+                monsterType.getDouble("hp"), monsterType.getDouble("armour"), this.routes.get(spawnPath), this.app
             )); // add new monster type with spawn to array
             
             
