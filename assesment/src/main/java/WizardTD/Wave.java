@@ -33,7 +33,11 @@ public class Wave {
             this.monstersRemaining += this.monsterTypeCounts.get(i);
         } // fill array list with number of each type of monster remaining, and total monsters remaining      
 
-        this.framesPerSpawn = Math.floorDiv(this.waveFrames, this.monstersRemaining);
+        if(this.monstersRemaining == 0){
+            this.framesPerSpawn = 0; // prevent division by 0 error
+        } else{
+        this.framesPerSpawn = this.waveFrames / this.monstersRemaining;
+        }
 
         System.out.println("Wave created");
     }
@@ -56,7 +60,7 @@ public class Wave {
         }
 
         // generate new random monster type with random spawn path
-        if(this.currentFrame % this.framesPerSpawn == 0 && this.monstersRemaining > 0){
+        if(this.monstersRemaining > 0 && this.currentFrame % this.framesPerSpawn == 0){
             Random rand = new Random();
             int randMonsterType = rand.nextInt(this.monsterTypeCounts.size()); // choose random monster
             JSONObject monsterType = this.waveData.getJSONArray("monsters").getJSONObject(randMonsterType);

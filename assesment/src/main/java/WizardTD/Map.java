@@ -3,6 +3,7 @@ package WizardTD;
 import java.util.Scanner;
 import processing.core.PApplet;
 import processing.data.JSONObject;
+import processing.data.JSONArray;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -14,6 +15,7 @@ import java.util.*;
  *  Wizard hut on side
  *  Wizard hut on corner
  *  only 1 wave in config breaks everything
+ *  make monsters spawn off screen
  * 
  * check ghost speeds are actually correct
  * check if integer config values can take floats
@@ -75,6 +77,11 @@ public class Map {
     }
 
     public double addWaveTimes(){ // current wave time + next wave prewave pause * fps
+        JSONArray waves = this.data.getJSONArray("waves");
+        if(waves.size() == 1){ // force wave to be negative (endless)
+            this.lastWave = true;
+            return -1 * (this.data.getJSONArray("waves").getJSONObject(this.waveNumber).getDouble("pre_wave_pause") * FPS + 1);
+        }
         return (this.data.getJSONArray("waves").getJSONObject(this.waveNumber).getDouble("duration") 
         + data.getJSONArray("waves").getJSONObject(this.waveNumber + 1).getDouble("pre_wave_pause")) * FPS;
     }
@@ -227,7 +234,7 @@ public class Map {
         }
 
         // draw wave countdown, negative time implies final wave
-        if(this.waveSeconds >= 0){
+        if(this.waveSeconds >= 0 && !this.lastWave){
             app.fill(0);
             app.textSize(23); // + 1 to change base from 0 to 1, + 1 to refer to next wave
             app.text("Wave " + (this.waveNumber + 2) + " starts: " + this.waveSeconds, 10, 30);
