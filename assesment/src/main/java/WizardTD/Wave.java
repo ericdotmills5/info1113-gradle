@@ -76,7 +76,7 @@ public class Wave {
 
             this.monsters.add(new Monster(
                 spawnPath.getX(), spawnPath.getY(), monsterType.getInt("speed"), 
-                monsterType.getInt("hp"), this.routes.get(spawnPath), this.app
+                monsterType.getInt("hp"), monsterType.getDouble("armour"), this.routes.get(spawnPath), this.app
             )); // add new monster type with spawn to array
             
             

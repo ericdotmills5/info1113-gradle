@@ -14,6 +14,7 @@ import java.util.*;
  *  Wizard hut on side
  *  Wizard hut on corner
  *  check ghost speeds are actually correct
+ * check if integer config values can take floats
 */
 
 enum Direction{ // add directions to previously integer stuff

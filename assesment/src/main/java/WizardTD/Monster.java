@@ -16,11 +16,11 @@ public class Monster {
 
     private int pixelX;
     private int pixelY;
-    private int tileX;
-    private int tileY;
+    
     private int pixSpeed;
     private int maxHealth;
     private int currHealth;
+    private double armour;
     private App app;
     private double healthProp;
     private boolean alive = true;
@@ -29,26 +29,32 @@ public class Monster {
     private int tileNo = 0;
     private ArrayList<Direction> route;
     private PImage sprite;
+    private int moves;
+    private int dir;
 
     public Monster(
-        int tileX, int tileY, int pixSpeed, int maxHealth, ArrayList<Direction> route, App app
+        int tileX, int tileY, int pixSpeed, int maxHealth, double armour, ArrayList<Direction> route, App app
         ){
         this.pixSpeed = pixSpeed;
-        this.tileX = tileX;
-        this.tileY = tileY;
+        
         this.route = route;
         this.maxHealth = maxHealth;
         this.currHealth = maxHealth;
+        this.armour = armour;
         this.app = app;
         this.pixelX = tileX * CELLSIZE + ghostShiftX;
         this.pixelY = tileY * CELLSIZE + ghostShiftY + TOPBAR;
         this.sprite = app.loadImage("src/main/resources/WizardTD/gremlin.png");
 
-        System.out.println("Monster created at " + this.tileX + ", " + this.tileY);
+        System.out.println("Monster created at " + tileX + ", " + tileY);
     }
 
     public boolean getExists(){
         return this.exists;
+    }
+
+    public void takeDamage(){ // remember armour
+
     }
 
     public void tick(){
@@ -77,12 +83,49 @@ public class Monster {
                     break;
                 case NONE:
                     System.out.println("Monster has no route");
-            }
-            if((this.pixelX - ghostShiftX) % CELLSIZE == 0 && (this.pixelY - ghostShiftY - TOPBAR) % CELLSIZE == 0){ // every 32 pixels:
+                    break;
+            } 
+            this.moves += 1;
+            double difference = this.pixSpeed * this.moves - CELLSIZE;
+
+            if(difference >= 0){
+                switch(this.route.get(tileNo)){ // take off difference based on direction
+                    case UP:
+                        this.pixelY += difference;
+                        break;
+                    case DOWN:
+                        this.pixelY -= difference;
+                        break;
+                    case LEFT:
+                        this.pixelX += difference;
+                        break;
+                    case RIGHT:
+                        this.pixelX -= difference;
+                        break;
+                    case NONE:
+                        break; // do nothing
+                }
+                this.tileNo++;
+                this.moves = 0; // reset pixels
+            } // if monster has moved a full tile, move to next direction
+            // after moving to next tile (in pixels), update tile position, round back if needed
+            /*
+            if((this.pixelX - ghostShiftX) >= CELLSIZE * (this.tileX + 1) || 
+                
+               
+               (this.pixelY - ghostShiftY - TOPBAR) >= CELLSIZE * (this.tileY + 1)){
+               
                 this.tileX = this.pixelX / CELLSIZE; // update tile position
                 this.tileY = this.pixelY / CELLSIZE;
+
                 this.tileNo++; // follow next direction
-            }
+                
+                
+                this.pixelX = this.tileX * CELLSIZE + ghostShiftX; // round back to tile
+                this.pixelY = this.tileY * CELLSIZE + ghostShiftY + TOPBAR;
+                
+            } 
+            */
         }
 
         // kill animation
