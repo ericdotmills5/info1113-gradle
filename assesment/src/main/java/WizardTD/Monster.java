@@ -44,6 +44,7 @@ public class Monster {
         this.pixelX = tileX * CELLSIZE + ghostShiftX;
         this.pixelY = tileY * CELLSIZE + ghostShiftY + TOPBAR;
         this.sprite = app.loadImage("src/main/resources/WizardTD/gremlin.png");
+        //this.spawnShift();
 
         System.out.println("Monster created at " + tileX + ", " + tileY);
     }
@@ -52,20 +53,32 @@ public class Monster {
         return this.exists;
     }
 
+    public void spawnShift(){ // shift mosnter so it spawns off screen
+        this.route.add(0, this.route.get(0)); // duplicate the first element
+        switch(this.route.get(0)){
+            case UP:
+                this.pixelY += CELLSIZE;
+                break;
+            case DOWN:
+                this.pixelY -= CELLSIZE;
+                break;
+            case LEFT:
+                this.pixelX += CELLSIZE;
+                break;
+            case RIGHT:
+                this.pixelX -= CELLSIZE;
+                break;
+            case NONE:
+                // do nothing
+                break;
+        } 
+    }
+
     public void takeDamage(){ // remember armour
 
     }
 
-    public void tick(){
-        this.currHealth -= 0.2;
-        // health
-        this.healthProp = this.currHealth / this.maxHealth;
-
-        if (this.currHealth <= 0){
-            this.alive = false;
-        } // kill monster
-
-        // movement
+    public void move(){
         if(this.tileNo < this.route.size() && this.alive){ // if directions are not empty
             switch(this.route.get(tileNo)){ // follow next direction
                 case UP:
@@ -108,10 +121,30 @@ public class Monster {
                 this.moves = 0; // reset pixels
             } // if monster has moved a full tile, move to next direction
         }
+    }
+
+    public void tick(){
+        //this.currHealth -= 0.2;
+        // health
+        this.healthProp = this.currHealth / this.maxHealth;
+
+        
+
+        
+
+        // movement
+        for(int i = 0; i < app.rate; i++){
+            if (this.currHealth <= 0){
+            this.alive = false;
+            } // kill monster based on rate
+
+            this.move();
+        } // move monster based on rate
+        
 
         // kill animation
         if(!this.alive){
-            this.deathTick += 1;
+            this.deathTick += app.rate; // kill animation twice as fast
             switch(this.deathTick){
                 case 0:
                     this.sprite = app.loadImage("src/main/resources/WizardTD/gremlin1.png");

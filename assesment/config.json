@@ -3,7 +3,7 @@
   "waves": [
     {
       "duration": 8,
-      "pre_wave_pause": 0.5,
+      "pre_wave_pause": 0,
 	  "monsters": [
         {
           "type": "gremlin",

@@ -43,7 +43,7 @@ public class Wave {
     }
 
     public void tick(){
-        this.currentFrame += 1;
+        this.currentFrame += app.rate;
 
         Iterator<Monster> monsterIterator = this.monsters.iterator(); // use iterator for hasNext() method
         while(monsterIterator.hasNext()){ // tick all monsters in array

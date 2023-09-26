@@ -13,7 +13,9 @@ import java.util.*;
  *  Path on terminal corner
  *  Wizard hut on side
  *  Wizard hut on corner
- *  check ghost speeds are actually correct
+ *  only 1 wave in config breaks everything
+ * 
+ * check ghost speeds are actually correct
  * check if integer config values can take floats
 */
 
@@ -185,18 +187,20 @@ public class Map {
     }
 
     public void tick(){
+
+        // tick each wave
         if(!(waveNumber == 0 && this.waveTime > this.addWaveTimes())){ // after 1st pre wave time
             for(Wave wave: this.waveList){
                 wave.tick();
             }
-            this.waveTime--;
+            this.waveTime -= app.rate;
             this.updateWaveSeconds();
 
             if(this.waveTime < 0 && !this.lastWave){
                 this.nextWave();
             }   
         } else{
-            this.waveTime--;
+            this.waveTime -= app.rate;
             System.out.println("Pre wave time: " + this.waveTime);
         }
         

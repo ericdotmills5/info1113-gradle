@@ -32,10 +32,12 @@ public class App extends PApplet {
     public static int HEIGHT = BOARD_WIDTH*CELLSIZE+TOPBAR;
 
     public static final int FPS = 60;
+    public int rate = 1;
 
     public String configPath;
     public static String lvlLoc;
     public Map map;
+    
 
     public Monster monster; /// testing
 
@@ -118,6 +120,10 @@ public class App extends PApplet {
 	@Override
     public void draw() {
         this.map.tick();
+        
+
+
+
 
         this.noStroke();
         this.fill(131, 111, 75); // brown background
@@ -125,6 +131,7 @@ public class App extends PApplet {
 
         this.map.draw(this);
 
+        
     }
 
     public static void main(String[] args) {
