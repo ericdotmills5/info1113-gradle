@@ -52,6 +52,7 @@ public class Monster {
     }
 
     public void tick(){
+        
         // health
         this.healthProp = (double) this.currHealth / (double) this.maxHealth;
 
@@ -88,20 +89,24 @@ public class Monster {
         if(!this.alive){
             this.deathTick += 1;
             switch(this.deathTick){
-                case 1:
+                case 4:
                     this.sprite = app.loadImage("src/main/resources/WizardTD/gremlin1.png");
                     break;
-                case 2:
+                case 8:
                     this.sprite = app.loadImage("src/main/resources/WizardTD/gremlin2.png");
                     break;
-                case 3:
+                case 12:
                     this.sprite = app.loadImage("src/main/resources/WizardTD/gremlin3.png");
                     break;
-                case 4:
+                case 16:
                     this.sprite = app.loadImage("src/main/resources/WizardTD/gremlin4.png");
                     break;
-                default:
+                case 20:
+                    this.sprite = app.loadImage("src/main/resources/WizardTD/gremlin5.png");
+                    break;
+                case 24:
                     this.exists = false; // will be deleted from spawn array
+                    break;
                 
             }
         }

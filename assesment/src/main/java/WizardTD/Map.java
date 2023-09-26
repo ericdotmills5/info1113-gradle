@@ -13,7 +13,7 @@ import java.util.*;
  *  Path on terminal corner
  *  Wizard hut on side
  *  Wizard hut on corner
- *  
+ *  check ghost speeds are actually correct
 */
 
 enum Direction{ // add directions to previously integer stuff
@@ -34,6 +34,7 @@ public class Map {
     private ArrayList<Wave> waveList = new ArrayList<>(); // turn into wave list for many waves
     private int waveNumber = 0;
     private double waveTime;
+    private int waveSeconds;
     private boolean lastWave = false;
 
 
@@ -58,6 +59,7 @@ public class Map {
             this.data.getJSONArray("waves").getJSONObject(waveNumber), this.routes, this.app
         )); // add pre wave pause for 1st wave
         this.waveTime = this.addWaveTimes() + this.data.getJSONArray("waves").getJSONObject(this.waveNumber).getDouble("pre_wave_pause") * FPS;
+        this.updateWaveSeconds();
         System.out.println(this.waveTime);
     } 
 
@@ -122,8 +124,6 @@ public class Map {
             }
             System.out.println("row " + j + " read");
         }
-
-        
         scan.close(); // close scanner
         return matrix;
     }
@@ -179,14 +179,17 @@ public class Map {
         
     }
 
-    public void tick(){
-        System.out.println("Wave time: " + this.waveTime);
+    public void updateWaveSeconds(){
+        this.waveSeconds = (int) Math.floor(this.waveTime / FPS);
+    }
 
+    public void tick(){
         if(!(waveNumber == 0 && this.waveTime > this.addWaveTimes())){ // after 1st pre wave time
             for(Wave wave: this.waveList){
                 wave.tick();
             }
             this.waveTime--;
+            this.updateWaveSeconds();
 
             if(this.waveTime < 0 && !this.lastWave){
                 this.nextWave();
@@ -199,6 +202,8 @@ public class Map {
     }
 
     public void draw(PApplet app){ // draw each element in matrix onto screen
+
+        // draw each tile
         for(Tile[] row: this.land){
             for(Tile entry: row){
                 if(!(entry instanceof Wizard)){ // draw it if its not a wizard house
@@ -211,9 +216,18 @@ public class Map {
         }
         this.land[wizCordsXY[0]][wizCordsXY[1]].draw(app); // draw wizard house last so it is drawn on top layer
 
+        // draw each wave
         for(Wave wave: this.waveList){
             wave.draw();
         }
+
+        // draw wave countdown, negative time implies final wave
+        if(this.waveSeconds >= 0){
+            app.fill(0);
+            app.textSize(23); // + 1 to change base from 0 to 1, + 1 to refer to next wave
+            app.text("Wave " + (this.waveNumber + 2) + " starts: " + this.waveSeconds, 10, 30);
+        }
+        
     }
 
     
