@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import processing.data.JSONObject;
 import java.util.Random;
-import java.lang.Math;
 
 public class Wave {
     private ArrayList<Monster> monsters = new ArrayList<Monster>();

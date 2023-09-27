@@ -1,6 +1,5 @@
 package WizardTD;
 
-import java.util.Scanner;
 import processing.core.PApplet;
 import processing.data.JSONObject;
 import processing.data.JSONArray;
@@ -14,11 +13,12 @@ import java.util.*;
  *  Path on terminal corner
  *  Wizard hut on side
  *  Wizard hut on corner
- *  only 1 wave in config breaks everything
- *  make monsters spawn off screen
  * 
  * check ghost speeds are actually correct
  * check if integer config values can take floats
+ * check if your passing any lists in by reference
+ * check pasue/ff doesnt mess stuff up (check logic)
+ * check mana spell math on all calculations
 */
 
 enum Direction{ // add directions to previously integer stuff
@@ -39,8 +39,8 @@ public class Map {
     private ArrayList<Wave> waveList = new ArrayList<>(); // turn into wave list for many waves
     private int waveNumber = 0;
     private double waveTime;
-    private int waveSeconds;
     private boolean lastWave = false;
+    private Mana mana;
 
 
     public Map(String fileLoc, App app){
@@ -64,7 +64,17 @@ public class Map {
             this.data.getJSONArray("waves").getJSONObject(waveNumber), this.routes, this.app
         )); // add pre wave pause for 1st wave
         this.waveTime = this.addWaveTimes() + this.data.getJSONArray("waves").getJSONObject(this.waveNumber).getDouble("pre_wave_pause") * FPS;
-        this.updateWaveSeconds();
+
+        this.mana = new Mana(
+            this.data.getDouble("initial_mana"), 
+            this.data.getDouble("initial_mana_cap"), 
+            this.data.getDouble("initial_mana_gained_per_second"), 
+            this.data.getDouble("mana_pool_spell_initial_cost"),
+            this.data.getDouble("mana_pool_spell_cost_increase_per_use"),
+            this.data.getDouble("mana_pool_spell_cap_multiplier"),
+            this.data.getDouble("mana_pool_spell_mana_gained_multiplier")
+        );
+
         System.out.println(this.waveTime);
     } 
 
@@ -74,6 +84,22 @@ public class Map {
 
     public App getApp(){
         return this.app;
+    }
+
+    public boolean getLastWave(){
+        return this.lastWave;
+    }
+
+    public int getWaveNumber(){
+        return this.waveNumber;
+    }
+
+    public double getWaveTime(){
+        return this.waveTime;
+    }
+
+    public Mana getMana(){
+        return this.mana;
     }
 
     public double addWaveTimes(){ // current wave time + next wave prewave pause * fps
@@ -189,9 +215,7 @@ public class Map {
         
     }
 
-    public void updateWaveSeconds(){
-        this.waveSeconds = (int) Math.floor(this.waveTime / FPS);
-    }
+    
 
     public void tick(){
 
@@ -201,7 +225,6 @@ public class Map {
                 wave.tick();
             }
             this.waveTime -= app.rate;
-            this.updateWaveSeconds();
 
             if(this.waveTime < 0 && !this.lastWave){
                 this.nextWave();
@@ -210,6 +233,8 @@ public class Map {
             this.waveTime -= app.rate;
             System.out.println("Pre wave time: " + this.waveTime);
         }
+
+        this.mana.tick(this.app);
         
     }
 
@@ -233,12 +258,6 @@ public class Map {
             wave.draw();
         }
 
-        // draw wave countdown, negative time implies final wave
-        if(this.waveSeconds >= 0 && !this.lastWave){
-            app.fill(0);
-            app.textSize(23); // + 1 to change base from 0 to 1, + 1 to refer to next wave
-            app.text("Wave " + (this.waveNumber + 2) + " starts: " + this.waveSeconds, 10, 30);
-        }
         
     }
 

@@ -27,6 +27,13 @@ public class App extends PApplet {
     public static final int healthShiftY = -5; // 6 pixels up
     public static final int healthLength = 30; // 30 pixels long
     public static final int healthWidth = 2; // 5 pixels tall
+    public static final int MANAX = 375;
+    public static final int MANAY = 10;
+    public static final int MANALENGTH = 320;
+    public static final int MANAWIDTH = 18;
+    public static final int MANATEXTX = MANAX - 60;
+    public static final int MANATEXTY = MANAY + 16;
+    public static final int MANACURRSHIFT = 173;
 
     public static int WIDTH = CELLSIZE*BOARD_WIDTH+SIDEBAR;
     public static int HEIGHT = BOARD_WIDTH*CELLSIZE+TOPBAR;
@@ -37,6 +44,7 @@ public class App extends PApplet {
     public String configPath;
     public static String lvlLoc;
     public Map map;
+    public Ui ui;
     
 
     public Monster monster; /// testing
@@ -66,6 +74,7 @@ public class App extends PApplet {
 
         lvlLoc = this.loadJSONObject(this.configPath).getString("layout");
         this.map = new Map(lvlLoc, this);
+        this.ui = new Ui(this.map);
 
         /*
         Path hello = (Path)this.map.getRoutes().keySet().toArray()[2];
@@ -88,7 +97,21 @@ public class App extends PApplet {
      */
 	@Override
     public void keyPressed(){
-        
+        if(keyCode == 'M'){
+            this.map.getMana().clickPoolSpell();
+        } else if(keyCode == 'F'){
+            if(this.rate == 2){ // will ff even if paused
+                this.rate = 1;
+            }else{
+                this.rate = 2;
+            }
+        } else if(keyCode == 'P'){ // will pause even if ff
+            if(this.rate == 0){
+                this.rate = 1;
+            }else{
+                this.rate = 0;
+            }
+        }
     }
 
     /**
@@ -119,19 +142,23 @@ public class App extends PApplet {
      */
 	@Override
     public void draw() {
+    // tick
         this.map.tick();
+        this.ui.tick();
         
-
-
-
-
-        this.noStroke();
-        this.fill(131, 111, 75); // brown background
-        this.rect(0, 0, WIDTH, HEIGHT);
-
+    // draw
+        // map
         this.map.draw(this);
 
-        
+        // background
+        this.noStroke();
+        this.fill(131, 111, 75); // brown background
+        this.rect(0, 0, WIDTH, TOPBAR); // top bar
+        this.rect(CELLSIZE*BOARD_WIDTH, 0, SIDEBAR, HEIGHT); // side bar
+
+        // ui
+        this.ui.draw(this);
+
     }
 
     public static void main(String[] args) {

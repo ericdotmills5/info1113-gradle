@@ -27,16 +27,18 @@ public class Monster {
     private boolean exists = true;
     private int deathTick = 0;
     private int tileNo = 0;
-    private ArrayList<Direction> route;
+    private ArrayList<Direction> route = new ArrayList<>();
     private PImage sprite;
     private int moves;
 
     public Monster(
         int tileX, int tileY, double pixSpeed, double maxHealth, double armour, ArrayList<Direction> route, App app
         ){
-        this.pixSpeed = pixSpeed;
+        for(Direction dir: route){
+            this.route.add(dir);
+        } // copy route as to not edit reference
         
-        this.route = route;
+        this.pixSpeed = pixSpeed;
         this.maxHealth = maxHealth;
         this.currHealth = maxHealth;
         this.armour = armour;
@@ -44,7 +46,7 @@ public class Monster {
         this.pixelX = tileX * CELLSIZE + ghostShiftX;
         this.pixelY = tileY * CELLSIZE + ghostShiftY + TOPBAR;
         this.sprite = app.loadImage("src/main/resources/WizardTD/gremlin.png");
-        //this.spawnShift();
+        this.spawnShift();
 
         System.out.println("Monster created at " + tileX + ", " + tileY);
     }
@@ -55,6 +57,8 @@ public class Monster {
 
     public void spawnShift(){ // shift mosnter so it spawns off screen
         this.route.add(0, this.route.get(0)); // duplicate the first element
+        
+
         switch(this.route.get(0)){
             case UP:
                 this.pixelY += CELLSIZE;
@@ -118,13 +122,13 @@ public class Monster {
                         break; // do nothing
                 }
                 this.tileNo++;
-                this.moves = 0; // reset pixels
+                this.moves = 0; // reset pixels       
             } // if monster has moved a full tile, move to next direction
         }
     }
 
     public void tick(){
-        //this.currHealth -= 0.2;
+        //this.currHealth -= 1;
         // health
         this.healthProp = this.currHealth / this.maxHealth;
 
