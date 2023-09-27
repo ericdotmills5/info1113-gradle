@@ -4,8 +4,6 @@ import processing.core.PApplet;
 import processing.data.JSONObject;
 import processing.data.JSONArray;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.*;
 
 /*
@@ -13,6 +11,7 @@ import java.util.*;
  *  Path on terminal corner
  *  Wizard hut on side
  *  Wizard hut on corner
+ *  monsters that take you down to 0hp kill you (currently can live with 0 mana)
  * 
  * check ghost speeds are actually correct
  * check if integer config values can take floats
@@ -43,9 +42,9 @@ public class Map {
     private Mana mana;
 
 
-    public Map(String fileLoc, App app){
+    public Map(Scanner scan, App app){
         this.app = app;
-        this.land = this.scan2Matrix(fileIO(fileLoc));
+        this.land = this.scan2Matrix(scan);
         System.out.println("matrix made");
 
         this.updateAllPaths();
@@ -114,18 +113,6 @@ public class Map {
 
     public HashMap<Path, ArrayList<Direction>> getRoutes(){
         return this.routes;
-    }
-
-    static Scanner fileIO(String loc){ // read file into scanner obj
-        File f = new File(loc);
-        Scanner scan;
-        try{
-            scan = new Scanner(f);
-        } catch (FileNotFoundException e){
-            System.out.println("File not found!");
-            return null; // this might be dangerous
-        }
-        return scan;
     }
 
     public Tile[][] scan2Matrix(Scanner scan){
@@ -215,8 +202,6 @@ public class Map {
         
     }
 
-    
-
     public void tick(){
 
         // tick each wave
@@ -251,12 +236,13 @@ public class Map {
                 }
             }
         }
-        this.land[wizCordsXY[0]][wizCordsXY[1]].draw(app); // draw wizard house last so it is drawn on top layer
-
+        
         // draw each wave
         for(Wave wave: this.waveList){
             wave.draw();
         }
+
+        this.land[wizCordsXY[0]][wizCordsXY[1]].draw(app); // draw wizard house last so it is drawn on top layer
 
         
     }

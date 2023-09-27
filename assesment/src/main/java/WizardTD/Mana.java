@@ -40,7 +40,7 @@ public class Mana {
     }
         
     public boolean updateMana(double add){
-        if(this.currMana + add < 0){
+        if(this.currMana + add <= 0){
             return false;
         // either building is too expensive and won't be placed
         // or ghost kills player
@@ -57,8 +57,9 @@ public class Mana {
     public void tick(App app){
         this.counterOfFrames += app.rate;
 
-        if(this.counterOfFrames % App.FPS == 0){
+        if(this.counterOfFrames >= App.FPS){
             this.updateMana(this.regenRate);
+            this.counterOfFrames = 0;
         } // update mana every second
     }
         

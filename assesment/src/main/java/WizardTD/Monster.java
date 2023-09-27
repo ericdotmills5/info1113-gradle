@@ -30,22 +30,31 @@ public class Monster {
     private ArrayList<Direction> route = new ArrayList<>();
     private PImage sprite;
     private int moves;
+    private double manaOnKill;
+    int tileX;
+    int tileY;
 
     public Monster(
-        int tileX, int tileY, double pixSpeed, double maxHealth, double armour, ArrayList<Direction> route, App app
+        int tileX, int tileY, double pixSpeed, double maxHealth, 
+        double armour, ArrayList<Direction> route, App app, double manaOnKill
         ){
         for(Direction dir: route){
             this.route.add(dir);
         } // copy route as to not edit reference
         
+        this.tileX = tileX;
+        this.tileY = tileY;
         this.pixSpeed = pixSpeed;
         this.maxHealth = maxHealth;
         this.currHealth = maxHealth;
         this.armour = armour;
         this.app = app;
+        this.manaOnKill = manaOnKill;
         this.pixelX = tileX * CELLSIZE + ghostShiftX;
         this.pixelY = tileY * CELLSIZE + ghostShiftY + TOPBAR;
         this.sprite = app.loadImage("src/main/resources/WizardTD/gremlin.png");
+
+        this.route.add(0, this.route.get(0)); // duplicate the first element
         this.spawnShift();
 
         System.out.println("Monster created at " + tileX + ", " + tileY);
@@ -56,9 +65,6 @@ public class Monster {
     }
 
     public void spawnShift(){ // shift mosnter so it spawns off screen
-        this.route.add(0, this.route.get(0)); // duplicate the first element
-        
-
         switch(this.route.get(0)){
             case UP:
                 this.pixelY += CELLSIZE;
@@ -124,22 +130,31 @@ public class Monster {
                 this.tileNo++;
                 this.moves = 0; // reset pixels       
             } // if monster has moved a full tile, move to next direction
+        } else if(this.tileNo >= this.route.size() && this.alive){
+
+            // take me back to the beginning
+            this.pixelX = tileX * CELLSIZE + ghostShiftX;
+            this.pixelY = tileY * CELLSIZE + ghostShiftY + TOPBAR;
+            this.spawnShift();
+            this.tileNo = 0;
+            this.moves = 0;
+
+            // deduct mana and potentially lose
+            if(!app.map.getMana().updateMana(-1 * this.currHealth)){
+                app.onLossScreen = true;
+            }
         }
     }
 
     public void tick(){
-        //this.currHealth -= 1;
+        this.currHealth -= this.app.rate * 0.01; // testing
         // health
         this.healthProp = this.currHealth / this.maxHealth;
 
-        
-
-        
-
-        // movement
         for(int i = 0; i < app.rate; i++){
-            if (this.currHealth <= 0){
+            if (this.alive && this.currHealth <= 0){
             this.alive = false;
+            app.map.getMana().updateMana(manaOnKill);
             } // kill monster based on rate
 
             this.move();
@@ -149,29 +164,22 @@ public class Monster {
         // kill animation
         if(!this.alive){
             this.deathTick += app.rate; // kill animation twice as fast
-            switch(this.deathTick){
-                case 0:
-                    this.sprite = app.loadImage("src/main/resources/WizardTD/gremlin1.png");
-                    break;
-                case 4:
-                    this.sprite = app.loadImage("src/main/resources/WizardTD/gremlin2.png");
-                    break;
-                case 8:
-                    this.sprite = app.loadImage("src/main/resources/WizardTD/gremlin3.png");
-                    break;
-                case 12:
-                    this.sprite = app.loadImage("src/main/resources/WizardTD/gremlin4.png");
-                    break;
-                case 16:
-                    this.sprite = app.loadImage("src/main/resources/WizardTD/gremlin5.png");
-                    break;
-                case 20:
-                    this.exists = false; // will be deleted from spawn array
-                    break;
-                
-            }
+            if(this.deathTick > 20){
+                this.exists = false; // will be deleted from spawn array
+            } else if(this.deathTick > 16){
+                this.sprite = app.loadImage("src/main/resources/WizardTD/gremlin5.png"); 
+            } else if(this.deathTick > 12){
+                this.sprite = app.loadImage("src/main/resources/WizardTD/gremlin4.png");
+            } else if(this.deathTick > 8){
+                this.sprite = app.loadImage("src/main/resources/WizardTD/gremlin3.png");
+            } else if(this.deathTick > 4){
+                this.sprite = app.loadImage("src/main/resources/WizardTD/gremlin2.png");
+            } else if(this.deathTick > 0){
+                this.sprite = app.loadImage("src/main/resources/WizardTD/gremlin1.png");
+            }            
         }
     }
+    
 
     public void draw(PApplet app){
         // monster sprite

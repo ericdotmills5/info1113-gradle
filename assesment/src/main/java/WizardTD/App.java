@@ -38,8 +38,10 @@ public class App extends PApplet {
     public static int WIDTH = CELLSIZE*BOARD_WIDTH+SIDEBAR;
     public static int HEIGHT = BOARD_WIDTH*CELLSIZE+TOPBAR;
 
+    public Scanner scan;
     public static final int FPS = 60;
     public int rate = 1;
+    public boolean onLossScreen = false;
 
     public String configPath;
     public static String lvlLoc;
@@ -72,8 +74,8 @@ public class App extends PApplet {
     public void setup() {
         frameRate(FPS);
 
-        lvlLoc = this.loadJSONObject(this.configPath).getString("layout");
-        this.map = new Map(lvlLoc, this);
+        this.scan = fileIO(this.loadJSONObject(this.configPath).getString("layout"));
+        this.map = new Map(scan, this);
         this.ui = new Ui(this.map);
 
         /*
@@ -92,12 +94,31 @@ public class App extends PApplet {
 
     }
 
+    static Scanner fileIO(String loc){ // read file into scanner obj
+        File f = new File(loc);
+        Scanner scan;
+        try{
+            scan = new Scanner(f);
+        } catch (FileNotFoundException e){
+            System.out.println("File not found!");
+            return null; // this might be dangerous
+        }
+        return scan;
+    }
+
     /**
      * Receive key pressed signal from the keyboard.
      */
 	@Override
     public void keyPressed(){
-        if(keyCode == 'M'){
+
+        if(this.onLossScreen){
+            if(keyCode == 'R'){
+                this.onLossScreen = false;
+                this.map = new Map(scan, this);
+                this.ui = new Ui(this.map);
+            }
+        } else if(keyCode == 'M'){
             this.map.getMana().clickPoolSpell();
         } else if(keyCode == 'F'){
             if(this.rate == 2){ // will ff even if paused
@@ -142,22 +163,34 @@ public class App extends PApplet {
      */
 	@Override
     public void draw() {
-    // tick
-        this.map.tick();
-        this.ui.tick();
+        if(!this.onLossScreen){
+            // tick
+            this.map.tick();
+            this.ui.tick();
+
+            // draw
+            // map
+            this.map.draw(this);
+
+            // background
+            this.noStroke();
+            this.fill(131, 111, 75); // brown background
+            this.rect(0, 0, WIDTH, TOPBAR); // top bar
+            this.rect(CELLSIZE*BOARD_WIDTH, 0, SIDEBAR, HEIGHT); // side bar
+
+            // ui
+            this.ui.draw(this);
+        } else{
+            this.fill(0, 0, 0);
+            this.textSize(50);
+            this.text("YOU LOST", 100, 100);
+
+            // press r to restart
+        }
         
-    // draw
-        // map
-        this.map.draw(this);
-
-        // background
-        this.noStroke();
-        this.fill(131, 111, 75); // brown background
-        this.rect(0, 0, WIDTH, TOPBAR); // top bar
-        this.rect(CELLSIZE*BOARD_WIDTH, 0, SIDEBAR, HEIGHT); // side bar
-
-        // ui
-        this.ui.draw(this);
+        
+        
+    
 
     }
 

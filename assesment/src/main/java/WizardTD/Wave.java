@@ -59,7 +59,7 @@ public class Wave {
         }
 
         // generate new random monster type with random spawn path
-        if(this.monstersRemaining > 0 && this.currentFrame % this.framesPerSpawn == 0){
+        if(this.monstersRemaining > 0 && this.currentFrame >= this.framesPerSpawn){
             Random rand = new Random();
             int randMonsterType = rand.nextInt(this.monsterTypeCounts.size()); // choose random monster
             JSONObject monsterType = this.waveData.getJSONArray("monsters").getJSONObject(randMonsterType);
@@ -69,7 +69,8 @@ public class Wave {
 
             this.monsters.add(new Monster(
                 spawnPath.getX(), spawnPath.getY(), monsterType.getDouble("speed"), 
-                monsterType.getDouble("hp"), monsterType.getDouble("armour"), this.routes.get(spawnPath), this.app
+                monsterType.getDouble("hp"), monsterType.getDouble("armour"), 
+                this.routes.get(spawnPath), this.app, monsterType.getDouble("mana_gained_on_kill")
             )); // add new monster type with spawn to array
             
             
@@ -81,6 +82,8 @@ public class Wave {
                     monsterTypeCounts.remove(i); 
                 } // remove monster type from count if none left
             }
+
+            this.currentFrame = 0; // reset frame counter
         }
     }
 
