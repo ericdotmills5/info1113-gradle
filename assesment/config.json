@@ -3,7 +3,7 @@
   "waves": [
     {
       "duration": 1,
-      "pre_wave_pause": 1,
+      "pre_wave_pause": 0,
 	  "monsters": [
         {
           "type": "gremlin",
@@ -11,13 +11,13 @@
           "speed": 1,
           "armour": 0.5,
           "mana_gained_on_kill": 10,
-          "quantity": 50
+          "quantity": 1
         }
 	  ]
     },
     {
-      "duration": 5,
-      "pre_wave_pause": 10,
+      "duration": 0,
+      "pre_wave_pause": 0,
       "monsters": [
         {
           "type": "gremlin",

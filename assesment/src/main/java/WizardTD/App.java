@@ -34,19 +34,23 @@ public class App extends PApplet {
     public static final int MANATEXTX = MANAX - 60;
     public static final int MANATEXTY = MANAY + 16;
     public static final int MANACURRSHIFT = 173;
+    public static final int LOSTX = 240;
+    public static final int LOSTY = 227;
+
 
     public static int WIDTH = CELLSIZE*BOARD_WIDTH+SIDEBAR;
     public static int HEIGHT = BOARD_WIDTH*CELLSIZE+TOPBAR;
 
-    public Scanner scan;
     public static final int FPS = 60;
     public int rate = 1;
+    public boolean onWinScreen = false;
     public boolean onLossScreen = false;
 
     public String configPath;
     public static String lvlLoc;
     public Map map;
     public Ui ui;
+    public Iterable<String> mapIterable;
     
 
     public Monster monster; /// testing
@@ -74,8 +78,10 @@ public class App extends PApplet {
     public void setup() {
         frameRate(FPS);
 
-        this.scan = fileIO(this.loadJSONObject(this.configPath).getString("layout"));
-        this.map = new Map(scan, this);
+        Scanner scan = fileIO(this.loadJSONObject(this.configPath).getString("layout"));
+        this.mapIterable = scan2Iterable(scan);
+        scan.close();
+        this.map = new Map(this.mapIterable, this);
         this.ui = new Ui(this.map);
 
         /*
@@ -106,6 +112,14 @@ public class App extends PApplet {
         return scan;
     }
 
+    static Iterable<String> scan2Iterable(Scanner scan){ // read lines from scanner obj
+        ArrayList<String> lines = new ArrayList<String>();
+        while(scan.hasNextLine()){
+            lines.add(scan.nextLine());
+        }
+        return lines;
+    }
+
     /**
      * Receive key pressed signal from the keyboard.
      */
@@ -115,9 +129,11 @@ public class App extends PApplet {
         if(this.onLossScreen){
             if(keyCode == 'R'){
                 this.onLossScreen = false;
-                this.map = new Map(scan, this);
+                this.map = new Map(this.mapIterable, this);
                 this.ui = new Ui(this.map);
             }
+        } else if(this.onWinScreen){
+            // not allowed to press bellow buttons
         } else if(keyCode == 'M'){
             this.map.getMana().clickPoolSpell();
         } else if(keyCode == 'F'){
@@ -163,7 +179,7 @@ public class App extends PApplet {
      */
 	@Override
     public void draw() {
-        if(!this.onLossScreen){
+        if(!this.onLossScreen && !this.onWinScreen){
             // tick
             this.map.tick();
             this.ui.tick();
@@ -180,18 +196,19 @@ public class App extends PApplet {
 
             // ui
             this.ui.draw(this);
-        } else{
-            this.fill(0, 0, 0);
-            this.textSize(50);
-            this.text("YOU LOST", 100, 100);
-
-            // press r to restart
+        } 
+        if(this.onLossScreen) {
+            this.fill(0, 255, 0);
+            this.textSize(35);
+            this.text("YOU LOST", LOSTX, LOSTY);
+            this.textSize(20);
+            this.text("Press 'r' to restart", LOSTX - 7, LOSTY + 30);
+        } 
+        if (this.onWinScreen) {
+            this.fill(255, 0, 255);
+            this.textSize(35);
+            this.text("YOU WIN", LOSTX, LOSTY);
         }
-        
-        
-        
-    
-
     }
 
     public static void main(String[] args) {

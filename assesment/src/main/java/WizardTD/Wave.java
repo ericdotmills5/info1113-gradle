@@ -17,6 +17,7 @@ public class Wave {
     private ArrayList<Integer> monsterTypeCounts = new ArrayList<>();
     private int monstersRemaining = 0;
     private Path[] spawnPaths;
+    private boolean waveComplete = false;
     
     public static final int FPS = App.FPS;
 
@@ -45,10 +46,14 @@ public class Wave {
         return this.waveData;
     }
 
+    public boolean getWaveComplete(){
+        return this.waveComplete;
+    }
+
     public void tick(){
         this.currentFrame += app.rate;
 
-        Iterator<Monster> monsterIterator = this.monsters.iterator(); // use iterator for hasNext() method
+        Iterator<Monster> monsterIterator = this.monsters.iterator(); // used since updating elements as we iterate
         while(monsterIterator.hasNext()){ // tick all monsters in array
             Monster monster = monsterIterator.next();
             monster.tick();
@@ -84,7 +89,11 @@ public class Wave {
             }
 
             this.currentFrame = 0; // reset frame counter
-        }
+        } 
+        
+        if (this.monstersRemaining == 0 && this.monsters.size() == 0){
+            this.waveComplete = true;
+        } // if all monsters have been spawned and killed, wave will be removed from map array
     }
 
     public void draw(){

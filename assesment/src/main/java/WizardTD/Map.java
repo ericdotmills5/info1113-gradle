@@ -11,7 +11,7 @@ import java.util.*;
  *  Path on terminal corner
  *  Wizard hut on side
  *  Wizard hut on corner
- *  monsters that take you down to 0hp kill you (currently can live with 0 mana)
+ *  restart upon loss takes too long to restart
  * 
  * check ghost speeds are actually correct
  * check if integer config values can take floats
@@ -42,9 +42,9 @@ public class Map {
     private Mana mana;
 
 
-    public Map(Scanner scan, App app){
+    public Map(Iterable<String> mapIterable, App app){
         this.app = app;
-        this.land = this.scan2Matrix(scan);
+        this.land = this.iterator2Matrix(mapIterable.iterator());
         System.out.println("matrix made");
 
         this.updateAllPaths();
@@ -101,27 +101,13 @@ public class Map {
         return this.mana;
     }
 
-    public double addWaveTimes(){ // current wave time + next wave prewave pause * fps
-        JSONArray waves = this.data.getJSONArray("waves");
-        if(waves.size() == 1){ // force wave to be negative (endless)
-            this.lastWave = true;
-            return -1 * (this.data.getJSONArray("waves").getJSONObject(this.waveNumber).getDouble("pre_wave_pause") * FPS + 1);
-        }
-        return (this.data.getJSONArray("waves").getJSONObject(this.waveNumber).getDouble("duration") 
-        + data.getJSONArray("waves").getJSONObject(this.waveNumber + 1).getDouble("pre_wave_pause")) * FPS;
-    }
-
-    public HashMap<Path, ArrayList<Direction>> getRoutes(){
-        return this.routes;
-    }
-
-    public Tile[][] scan2Matrix(Scanner scan){
+    public Tile[][] iterator2Matrix(Iterator<String> scan){
         Tile[][] matrix = new Tile[BOARD_WIDTH][BOARD_WIDTH]; // assume level is sqrmapsize
         int i;
         
         for(int j = 0; j < BOARD_WIDTH; j++){ // iterate through each line
             i = 0;
-            for(char c: scan.nextLine().toCharArray()){ // iterate through each letter
+            for(char c: scan.next().toCharArray()){ // iterate through each letter
                 switch(c){
                     case 'S':
                         matrix[i][j] = new Shrub(i, j, this);
@@ -147,9 +133,24 @@ public class Map {
             }
             System.out.println("row " + j + " read");
         }
-        scan.close(); // close scanner
         return matrix;
     }
+
+    public double addWaveTimes(){ // current wave time + next wave prewave pause * fps
+        JSONArray waves = this.data.getJSONArray("waves");
+        if(waves.size() == 1){ // force wave to be negative (endless)
+            this.lastWave = true;
+            return -1 * (this.data.getJSONArray("waves").getJSONObject(this.waveNumber).getDouble("pre_wave_pause") * FPS + 1);
+        }
+        return (this.data.getJSONArray("waves").getJSONObject(this.waveNumber).getDouble("duration") 
+        + data.getJSONArray("waves").getJSONObject(this.waveNumber + 1).getDouble("pre_wave_pause")) * FPS;
+    }
+
+    public HashMap<Path, ArrayList<Direction>> getRoutes(){
+        return this.routes;
+    }
+
+    
 
     public void updateAllPaths(){ // iterate through paths to find type and orientation and terminal paths
         for(Tile[] row: this.land){
@@ -205,11 +206,22 @@ public class Map {
     public void tick(){
 
         // tick each wave
-        if(!(waveNumber == 0 && this.waveTime > this.addWaveTimes())){ // after 1st pre wave time
-            for(Wave wave: this.waveList){
+        if(!(waveNumber == 0 && this.waveTime > this.addWaveTimes()))
+        { // after 1st pre wave time
+            Iterator<Wave> waveIterator = this.waveList.iterator(); // use  for hasNext() method
+            while(waveIterator.hasNext()){ // tick all waves in array
+                Wave wave = waveIterator.next();
                 wave.tick();
+
+                if(wave.getWaveComplete()){
+                    waveIterator.remove();
+                } // remove waves with all monsters spawned and killed
             }
             this.waveTime -= app.rate;
+
+            if (this.lastWave && this.waveList.size() == 0) { 
+                this.app.onWinScreen = true;
+            } // win, if its the last wave and all monsters are dead
 
             if(this.waveTime < 0 && !this.lastWave){
                 this.nextWave();

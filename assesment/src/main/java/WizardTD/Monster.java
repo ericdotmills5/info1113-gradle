@@ -141,13 +141,15 @@ public class Monster {
 
             // deduct mana and potentially lose
             if(!app.map.getMana().updateMana(-1 * this.currHealth)){
+                app.map.getMana().makeManaZero(); // deduct all mana
                 app.onLossScreen = true;
             }
         }
     }
 
     public void tick(){
-        this.currHealth -= this.app.rate * 0.01; // testing
+        this.currHealth -= this.app.rate * 0.9; // testing
+        
         // health
         this.healthProp = this.currHealth / this.maxHealth;
 

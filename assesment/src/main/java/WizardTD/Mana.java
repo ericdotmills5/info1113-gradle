@@ -54,6 +54,10 @@ public class Mana {
         }
     }
 
+    public void makeManaZero(){
+        this.currMana = 0;
+    }
+
     public void tick(App app){
         this.counterOfFrames += app.rate;
 
