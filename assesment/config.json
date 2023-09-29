@@ -16,8 +16,8 @@
 	  ]
     },
     {
-      "duration": 0,
-      "pre_wave_pause": 0,
+      "duration": 10,
+      "pre_wave_pause": 10,
       "monsters": [
         {
           "type": "gremlin",

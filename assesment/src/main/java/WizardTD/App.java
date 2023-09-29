@@ -2,8 +2,8 @@ package WizardTD;
 
 import processing.core.PApplet;
 import processing.core.PImage;
-import processing.data.JSONArray;
-import processing.data.JSONObject;
+//import processing.data.JSONArray;
+//import processing.data.JSONObject;
 import processing.event.MouseEvent;
 
 import java.awt.Graphics2D;
@@ -36,11 +36,21 @@ public class App extends PApplet {
     public static final int MANACURRSHIFT = 173;
     public static final int LOSTX = 240;
     public static final int LOSTY = 227;
-    public static final int BUTTONX = CELLSIZE * BOARD_WIDTH + 10;
-    public static final int BUTTONY = 50;
-    public static final int BUTTONSIZE = 50; // square
+    public static final int BUTTONX = CELLSIZE * BOARD_WIDTH + 6;
+    public static final int BUTTONSIZE = 42; // square
     public static final int BUTTONSPACING = 10;
-
+    public static final int BUTTONTEXT0SIZE = 25;
+    public static final int BUTTONTEXT12SIZE = 12;
+    public static final int BUTTONTEXTSHIFTX = 5;
+    public static final int BUTTONTEXT0SHIFTY = 30;
+    public static final int BUTTONTEXT1SHIFTY = 15;
+    public static final int BUTTONTEXT2SHIFTY = BUTTONTEXT1SHIFTY + 20;
+    public static final int BUTTONHOVERLENGTH = 72; // assume 4 digit price max
+    public static final int BUTTONHOVERHEIGHT = 20;
+    public static final int BUTTONHOVERX = CELLSIZE * BOARD_WIDTH - BUTTONHOVERLENGTH - 7;
+    public static final int BUTTONHOVERTEXTX = BUTTONHOVERX + 4;
+    public static final int BUTTONHOVERTEXTSIZE = BUTTONTEXT12SIZE;
+    public static final int BUTTONHOVERTEXTSHIFTY = BUTTONTEXT1SHIFTY;
 
 
     public static int WIDTH = CELLSIZE*BOARD_WIDTH+SIDEBAR;
@@ -141,13 +151,26 @@ public class App extends PApplet {
             }
         } else if(this.onWinScreen){
             // not allowed to press bellow buttons
-        } else if(keyCode == 'M'){
+        } else {
+            char[] buttons = {' ', 'F', 'P', 'T', '1', '2', '3', 'M'};
+            // placeholder, ff, pause, place tower, range, speed, dmg, mana pool
+
+            for(int i = 1; i < buttons.length; i++){
+                if(keyCode == buttons[i]){
+                    this.ui.toggleSwitch(this, i);
+                }
+            }
+        }
+        
+        
+        
+        /*else if(keyCode == 'M'){
             this.map.getMana().clickPoolSpell();
         } else if(keyCode == 'P'){
             this.ui.pauseToggle(this);
         } else if(keyCode == 'F'){
             this.ui.ffToggle(this);
-        }
+        }*/
         
         
         
@@ -178,24 +201,53 @@ public class App extends PApplet {
     }
 
     @Override
-    public void mousePressed(MouseEvent e) {
+    public void mousePressed(MouseEvent e) 
+    { // hover over grey + cost
+        for (int buttonNO = 1; buttonNO <= 7; buttonNO++)
+        {
+            if (isMouseOverButton(buttonNO))
+            {
+                this.ui.toggleSwitch(this, buttonNO);
+            }
+        }
+        
+        /*
         if (mouseX > BUTTONX &&
             mouseX < BUTTONX + BUTTONSIZE &&
-            mouseY > BUTTONY &&
-            mouseY < BUTTONY + BUTTONSIZE) {
+            mouseY > TOPBAR + BUTTONSPACING &&
+            mouseY < TOPBAR + BUTTONSPACING + BUTTONSIZE) {
                 this.ui.ffToggle(this);
             }
         else if (mouseX > BUTTONX &&
                  mouseX < BUTTONX + BUTTONSIZE &&
-                 mouseY > 2 * (BUTTONY + BUTTONSPACING) &&
-                 mouseY < 2 * (BUTTONY + BUTTONSPACING) + BUTTONSIZE) {
+                 mouseY > TOPBAR + buttonNO * BUTTONSPACING + (buttonNO - 1) BUTTONSIZE &&
+                 mouseY < buttonNO * (BUTTONSPACING + BUTTONSIZE) + TOPBAR) {
                     this.ui.pauseToggle(this);
-                }
+                } */
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
 
+    }
+    
+    public void mouseHover() {
+        for (int buttonNO = 1; buttonNO <= 7; buttonNO++){
+            if (isMouseOverButton(buttonNO))
+            {
+                this.ui.setHoveredButton(buttonNO, true);
+            } else
+            {
+                this.ui.setHoveredButton(buttonNO, false);
+            }
+        }
+    }
+
+    public boolean isMouseOverButton(int buttonNO){
+        return (mouseX > BUTTONX &&
+                mouseX < BUTTONX + BUTTONSIZE &&
+                mouseY > TOPBAR + buttonNO * BUTTONSPACING + (buttonNO-1)*BUTTONSIZE &&
+                mouseY < buttonNO * (BUTTONSPACING + BUTTONSIZE) + TOPBAR);
     }
 
     /*@Override
@@ -212,6 +264,7 @@ public class App extends PApplet {
             // tick
             this.map.tick();
             this.ui.tick();
+            this.mouseHover();
 
             // draw
             // map

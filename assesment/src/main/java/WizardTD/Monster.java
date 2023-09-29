@@ -20,7 +20,7 @@ public class Monster {
     private double pixSpeed;
     private double maxHealth; // double
     private double currHealth; // double
-    private double armour;
+    //private double armour;
     private App app;
     private double healthProp;
     private boolean alive = true;
@@ -47,7 +47,7 @@ public class Monster {
         this.pixSpeed = pixSpeed;
         this.maxHealth = maxHealth;
         this.currHealth = maxHealth;
-        this.armour = armour;
+        //this.armour = armour;
         this.app = app;
         this.manaOnKill = manaOnKill;
         this.pixelX = tileX * CELLSIZE + ghostShiftX;

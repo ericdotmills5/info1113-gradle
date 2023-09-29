@@ -30,6 +30,10 @@ public class Mana {
         return this.cap;
     }
 
+    public double getPoolCost(){
+        return this.poolCost;
+    }
+
     public void clickPoolSpell(){
         if(updateMana(-1 * poolCost)){
         // checks if mana is enough, and if so, deducts mana
