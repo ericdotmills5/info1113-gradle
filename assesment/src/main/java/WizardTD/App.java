@@ -36,13 +36,20 @@ public class App extends PApplet {
     public static final int MANACURRSHIFT = 173;
     public static final int LOSTX = 240;
     public static final int LOSTY = 227;
+    public static final int BUTTONX = CELLSIZE * BOARD_WIDTH + 10;
+    public static final int BUTTONY = 50;
+    public static final int BUTTONSIZE = 50; // square
+    public static final int BUTTONSPACING = 10;
+
 
 
     public static int WIDTH = CELLSIZE*BOARD_WIDTH+SIDEBAR;
     public static int HEIGHT = BOARD_WIDTH*CELLSIZE+TOPBAR;
 
     public static final int FPS = 60;
-    public int rate = 1;
+    public int doubleRate = 1; // 2 or 1
+    public int pauseRate = 1; // 1 or 0
+    public int rate = doubleRate * pauseRate;
     public boolean onWinScreen = false;
     public boolean onLossScreen = false;
 
@@ -136,7 +143,17 @@ public class App extends PApplet {
             // not allowed to press bellow buttons
         } else if(keyCode == 'M'){
             this.map.getMana().clickPoolSpell();
+        } else if(keyCode == 'P'){
+            this.ui.pauseToggle(this);
         } else if(keyCode == 'F'){
+            this.ui.ffToggle(this);
+        }
+        
+        
+        
+        
+        /*
+        else if(keyCode == 'F'){
             if(this.rate == 2){ // will ff even if paused
                 this.rate = 1;
             }else{
@@ -149,6 +166,7 @@ public class App extends PApplet {
                 this.rate = 0;
             }
         }
+        */
     }
 
     /**
@@ -161,7 +179,18 @@ public class App extends PApplet {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        
+        if (mouseX > BUTTONX &&
+            mouseX < BUTTONX + BUTTONSIZE &&
+            mouseY > BUTTONY &&
+            mouseY < BUTTONY + BUTTONSIZE) {
+                this.ui.ffToggle(this);
+            }
+        else if (mouseX > BUTTONX &&
+                 mouseX < BUTTONX + BUTTONSIZE &&
+                 mouseY > 2 * (BUTTONY + BUTTONSPACING) &&
+                 mouseY < 2 * (BUTTONY + BUTTONSPACING) + BUTTONSIZE) {
+                    this.ui.pauseToggle(this);
+                }
     }
 
     @Override

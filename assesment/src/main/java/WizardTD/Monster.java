@@ -148,7 +148,7 @@ public class Monster {
     }
 
     public void tick(){
-        this.currHealth -= this.app.rate * 0.9; // testing
+        this.currHealth -= this.app.rate * 0.1; // testing
         
         // health
         this.healthProp = this.currHealth / this.maxHealth;

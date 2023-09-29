@@ -3,16 +3,21 @@ package WizardTD;
 public class Ui {
     private Map map;
     private int waveSeconds;
+    private boolean paused = false;
+    private boolean ff = false;
 
-    public Ui(Map map){
+    public Ui(Map map)
+    {
         this.map = map;
     }
 
-    public int updateWaveSeconds(){
+    public int updateWaveSeconds()
+    {
         return (int) Math.floorDiv((int)this.map.getWaveTime(), App.FPS);
     }
 
-    public void waveCountdown(App app){
+    public void waveCountdown(App app)
+    {
         if(!this.map.getLastWave()){ // if not last wave
             app.fill(0);
             app.textSize(25);
@@ -21,7 +26,8 @@ public class Ui {
         }
     }
 
-    public void manaBar(App app){
+    public void manaBar(App app)
+    {
         float manaProp = (float)(this.map.getMana().getCurrMana() / this.map.getMana().getCap());
 
         // blue bit
@@ -39,7 +45,8 @@ public class Ui {
             App.MANAWIDTH);
     }
 
-    public void manaText(App app){
+    public void manaText(App app)
+    {
         app.fill(0);
         app.textSize(17);
         app.text("MANA:", App.MANATEXTX, App.MANATEXTY);
@@ -47,23 +54,68 @@ public class Ui {
                  App.MANATEXTX + App.MANACURRSHIFT, App.MANATEXTY);
     }
 
-    public void tick(){
+    public void ffToggle(App app)
+    {
+        this.ff = !this.ff;
+        app.doubleRate = app.doubleRate == 1 ? 2 : 1;
+        app.rate = app.doubleRate * app.pauseRate;
+    }
+
+    public void ffDraw(App app)
+    {
+        if(this.ff){
+            app.fill(255, 255, 0);
+        } else{
+            app.noFill();
+        }
+        app.stroke(0, 0, 0);
+        app.strokeWeight(2);
+        app.rect(App.BUTTONX, App.BUTTONY, App.BUTTONSIZE, App.BUTTONSIZE);
+    }
+
+    public void pauseToggle(App app)
+    {
+        this.paused = !this.paused;
+        app.pauseRate = this.paused ? 0 : 1;
+        app.rate = app.doubleRate * app.pauseRate;
+    }
+
+    public void pauseDraw(App app)
+    {
+        if(this.paused){
+            app.fill(255, 255, 0);
+        } else{
+            app.noFill();
+        }
+        app.stroke(0, 0, 0);
+        app.strokeWeight(2);
+        app.rect(App.BUTTONX, 2 * (App.BUTTONY + App.BUTTONSPACING), App.BUTTONSIZE, App.BUTTONSIZE);
+    }
+    
+
+    public void tick()
+    {
         this.waveSeconds = this.updateWaveSeconds(); // convert wave time to seconds
     }
 
-    public void draw(App app){
+    public void draw(App app)
+    {
+        this.waveCountdown(app); // wave timer
 
-        this.waveCountdown(app);
+        // mana
         this.manaBar(app);
         this.manaText(app);
 
-
+        // pause button
+        this.pauseDraw(app);
         
+        // ff button
+        this.ffDraw(app);
        
         
 
 
-        // mana text
+        
         
     }
 }
