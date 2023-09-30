@@ -257,8 +257,33 @@ public class Ui {
         }
     }
 
-    public void greyTower(){
-        // grey tower that hovers with cursor if in tower mode
+    public void hoverPlace(App app){
+        app.noFill();
+        app.stroke(0, 0, 0); // black
+        app.strokeWeight(2);
+        int x1 = app.mouseX - App.CELLSIZE / 2; // shift to center of cell
+        int y1 = app.mouseY - App.CELLSIZE / 2;
+        int x2 = app.mouseX + App.CELLSIZE / 2;
+        int y2 = app.mouseY + App.CELLSIZE / 2;
+        int circleGrow = 10;
+        int crossGrow = -10; // shift crosshair to center of cell
+
+        if(this.placeTower){
+            app.image(
+                app.loadImage("src/main/resources/WizardTD/towerGrey.png"), 
+                x1, y1
+            );
+        }
+        if(this.upgradeSpeed){
+            app.rect(x1, y1, App.CELLSIZE, App.CELLSIZE);
+        }
+        if(this.upgradeRange){
+            app.ellipse(app.mouseX, app.mouseY, App.CELLSIZE + circleGrow, App.CELLSIZE + circleGrow);
+        } // + 5 makes it distinguishable from square
+        if(this.upgradeDamage){
+            app.line(x1 - crossGrow, y1 - crossGrow, x2 + crossGrow, y2 + crossGrow);
+            app.line(x1 - crossGrow, y2 + crossGrow, x2 + crossGrow, y1 - crossGrow);
+        }// +- 5 makes it distinguishable from square
     }
 
     /*
@@ -313,5 +338,7 @@ public class Ui {
         for(int i = 1; i <= 7; i++){
             this.buttonDraw(app, i);
         }
+
+        hoverPlace(app);
     }
 }

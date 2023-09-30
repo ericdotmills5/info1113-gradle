@@ -149,12 +149,5 @@ public class Tower extends Tile {
                 tileY + App.TOWERFIRSTUPGRADEDMGSHIFTY
             );
         } // each successive damage upgrade indicator moves right
-
-        
-        
-
-        
-        
-        
     }
 }
