@@ -51,7 +51,16 @@ public class App extends PApplet {
     public static final int BUTTONHOVERTEXTX = BUTTONHOVERX + 4;
     public static final int BUTTONHOVERTEXTSIZE = BUTTONTEXT12SIZE;
     public static final int BUTTONHOVERTEXTSHIFTY = BUTTONTEXT1SHIFTY;
-
+    public static final int TOWERFIRSTUPGRADESHIFTX = 5;
+    public static final int TOWERFIRSTUPGRADESHIFTY = 2;
+    public static final int RANGEUPGRADEDIAMETER = 6;
+    public static final int TOWERFIRSTUPGRADEDMGSHIFTY = 25;
+    public static final int TOWERUPGRADECIRCLEDIST = 2;
+    public static final int TOWERUPGRADECROSSDIST = 5;
+    public static final int TOWERDAMAGECROSSLENGTHX = RANGEUPGRADEDIAMETER - 3;
+    public static final int TOWERDAMAGECROSSLENGTHY = RANGEUPGRADEDIAMETER;
+    public static final int TOWERSPEEDSQUARESHIFT = 5;
+    public static final int TOWERSPEEDSQUARELENGTH = 20;
 
     public static int WIDTH = CELLSIZE*BOARD_WIDTH+SIDEBAR;
     public static int HEIGHT = BOARD_WIDTH*CELLSIZE+TOPBAR;
@@ -85,7 +94,8 @@ public class App extends PApplet {
      */
 	@Override
     public void settings() {
-        size(WIDTH, HEIGHT);
+        size(WIDTH, HEIGHT); 
+        // glitched, probably due to window decorations on windows
     }
 
     /**
@@ -161,35 +171,6 @@ public class App extends PApplet {
                 }
             }
         }
-        
-        
-        
-        /*else if(keyCode == 'M'){
-            this.map.getMana().clickPoolSpell();
-        } else if(keyCode == 'P'){
-            this.ui.pauseToggle(this);
-        } else if(keyCode == 'F'){
-            this.ui.ffToggle(this);
-        }*/
-        
-        
-        
-        
-        /*
-        else if(keyCode == 'F'){
-            if(this.rate == 2){ // will ff even if paused
-                this.rate = 1;
-            }else{
-                this.rate = 2;
-            }
-        } else if(keyCode == 'P'){ // will pause even if ff
-            if(this.rate == 0){
-                this.rate = 1;
-            }else{
-                this.rate = 0;
-            }
-        }
-        */
     }
 
     /**
@@ -210,25 +191,12 @@ public class App extends PApplet {
                 this.ui.toggleSwitch(this, buttonNO);
             }
         }
-        
-        /*
-        if (mouseX > BUTTONX &&
-            mouseX < BUTTONX + BUTTONSIZE &&
-            mouseY > TOPBAR + BUTTONSPACING &&
-            mouseY < TOPBAR + BUTTONSPACING + BUTTONSIZE) {
-                this.ui.ffToggle(this);
-            }
-        else if (mouseX > BUTTONX &&
-                 mouseX < BUTTONX + BUTTONSIZE &&
-                 mouseY > TOPBAR + buttonNO * BUTTONSPACING + (buttonNO - 1) BUTTONSIZE &&
-                 mouseY < buttonNO * (BUTTONSPACING + BUTTONSIZE) + TOPBAR) {
-                    this.ui.pauseToggle(this);
-                } */
+        this.ui.click(this);
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-
+        
     }
     
     public void mouseHover() {
@@ -249,11 +217,6 @@ public class App extends PApplet {
                 mouseY > TOPBAR + buttonNO * BUTTONSPACING + (buttonNO-1)*BUTTONSIZE &&
                 mouseY < buttonNO * (BUTTONSPACING + BUTTONSIZE) + TOPBAR);
     }
-
-    /*@Override
-    public void mouseDragged(MouseEvent e) {
-
-    }*/
 
     /**
      * Draw all elements in the game by current frame.

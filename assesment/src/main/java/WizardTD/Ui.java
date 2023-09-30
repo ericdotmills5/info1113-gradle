@@ -27,6 +27,10 @@ public class Ui {
         return (int) Math.floorDiv((int)this.map.getWaveTime(), App.FPS);
     }
 
+    static public boolean isMouseInMap(int x, int y) {
+        return x > 0 && x < App.CELLSIZE * App.BOARD_WIDTH && y > App.TOPBAR && y < App.HEIGHT;
+    }
+
     public void waveCountdown(App app)
     {
         if(!this.map.getLastWave()){ // if not last wave
@@ -122,59 +126,6 @@ public class Ui {
                 break;
         }
     }
-
-    /*
-    public void ffToggle(App app)
-    {
-        this.ff = !this.ff;
-        app.doubleRate = app.doubleRate == 1 ? 2 : 1;
-        app.rate = app.doubleRate * app.pauseRate;
-    }
-
-    public void ffDraw(App app)
-    {
-        int buttonNO = 1;
-
-        if(this.ff){
-            app.fill(255, 255, 0);
-        } else{
-            app.noFill();
-        }
-        app.stroke(0, 0, 0);
-        app.strokeWeight(2);
-        app.rect(App.BUTTONX, App.TOPBAR + buttonNO * App.BUTTONSPACING + (buttonNO-1)*App.BUTTONSIZE, App.BUTTONSIZE, App.BUTTONSIZE);
-
-        // text
-        app.fill(0, 0, 0);
-        app.textSize(App.BUTTONTEXTSIZE);
-        app.text("F", App.BUTTONX + App.BUTTONTEXTSHIFTX, App.TOPBAR + buttonNO * App.BUTTONSPACING + (buttonNO-1)*App.BUTTONSIZE + App.BUTTONTEXTSHIFTY);
-    }
-    
-    public void pauseToggle(App app)
-    {
-        this.paused = !this.paused;
-        app.pauseRate = this.paused ? 0 : 1;
-        app.rate = app.doubleRate * app.pauseRate;
-    }
-    
-    public void pauseDraw(App app)
-    {
-        int buttonNO = 2;
-
-        if(this.paused){
-            app.fill(255, 255, 0);
-        } else{
-            app.noFill();
-        }
-        app.stroke(0, 0, 0);
-        app.strokeWeight(2);
-        app.rect(App.BUTTONX, App.TOPBAR + buttonNO * App.BUTTONSPACING + (buttonNO-1)*App.BUTTONSIZE, App.BUTTONSIZE, App.BUTTONSIZE);
-
-        // text
-        app.fill(0, 0, 0);
-        app.textSize(App.BUTTONTEXTSIZE);
-        app.text("P", App.BUTTONX + App.BUTTONTEXTSHIFTX, App.TOPBAR + buttonNO * App.BUTTONSPACING + (buttonNO-1)*App.BUTTONSIZE + App.BUTTONTEXTSHIFTY);
-    } */
     
     public void buttonDraw(App app, int buttonNO)
     {
@@ -210,7 +161,7 @@ public class Ui {
                 light = this.placeTower;
                 hover = this.placeTowerHov;
                 hasHoverText = true;
-                cost = 100; // replace with tower cost when implemented
+                cost = (int)this.map.getTowerCost();
                 text0 = "T";
                 text1 = "Build";
                 text2 = "tower";
@@ -218,8 +169,8 @@ public class Ui {
             case 4:
                 light = this.upgradeRange;
                 hover = this.upgradeRangeHov;
-                hasHoverText = true;
-                cost = 20; // replace with upgrade cost when implemented
+                hasHoverText = false;
+                
                 text0 = "U1";
                 text1 = "Upgrade";
                 text2 = "range";
@@ -227,8 +178,8 @@ public class Ui {
             case 5:
                 light = this.upgradeSpeed;
                 hover = this.upgradeSpeedHov;
-                hasHoverText = true;
-                cost = 30; // replace with upgrade cost when implemented
+                hasHoverText = false;
+                
                 text0 = "U2";
                 text1 = "Upgrade";
                 text2 = "speed";
@@ -236,8 +187,8 @@ public class Ui {
             case 6:
                 light = this.upgradeDamage;
                 hover = this.upgradeDamageHov;
-                hasHoverText = true;
-                cost = 40; // replace with upgrade cost when implemented
+                hasHoverText = false;
+                
                 text0 = "U3";
                 text1 = "Upgrade";
                 text2 = "damage";
@@ -292,7 +243,58 @@ public class Ui {
             app.text("Cost: " + cost, App.BUTTONHOVERTEXTX, y + App.BUTTONHOVERTEXTSHIFTY);
             
         }
-    }   
+    }
+
+    public void click(App app){
+        if(isMouseInMap(app.mouseX, app.mouseY)){
+            if(this.placeTower)
+            {
+                this.map.place(app.mouseX, app.mouseY, this.upgradeRange, this.upgradeSpeed, this.upgradeDamage);
+            } else
+            {
+                this.map.upgrade(app.mouseX, app.mouseY, this.upgradeRange, this.upgradeSpeed, this.upgradeDamage);
+            }
+        }
+    }
+
+    public void greyTower(){
+        // grey tower that hovers with cursor if in tower mode
+    }
+
+    /*
+    public boolean towerMode(App app)
+    { // return true if tower placed
+        if(isMouseInMap(app.mouseX, app.mouseY))
+        {
+            if(this.placeTower)
+            {
+                // place tower
+                if(this.click){
+                    return this.map.place(app.mouseX, app.mouseY, this.upgradeRange, this.upgradeSpeed, this.upgradeDamage);
+                }
+
+                // hover grey tower
+
+            } else if(this.click){
+                // upgrade tower
+                this.map.upgrade(app.mouseX, app.mouseY, this.upgradeRange, this.upgradeSpeed, this.upgradeDamage);
+                return true;
+            }
+        
+            /* 
+            else if(this.upgradeRange){
+                this.map.upgradeRange(app.mouseX, app.mouseY);
+                return true;
+            } else if(this.upgradeSpeed){
+                this.map.upgradeSpeed(app.mouseX, app.mouseY);
+                return true;
+            } else if(this.upgradeDamage){
+                this.map.upgradeDamage(app.mouseX, app.mouseY);
+                return true;
+            }
+        }
+        return false;
+    }*/
 
     public void tick()
     {
@@ -311,6 +313,5 @@ public class Ui {
         for(int i = 1; i <= 7; i++){
             this.buttonDraw(app, i);
         }
-    
     }
 }

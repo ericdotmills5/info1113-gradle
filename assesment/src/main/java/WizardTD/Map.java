@@ -12,6 +12,7 @@ import java.util.*;
  *  Wizard hut on side
  *  Wizard hut on corner
  *  restart upon loss takes too long to restart
+ *  sumarise long if else statements
  * 
  * check ghost speeds are actually correct
  * check if integer config values can take floats
@@ -101,6 +102,22 @@ public class Map {
         return this.mana;
     }
 
+    public double getTowerCost(){
+        return this.data.getDouble("tower_cost");
+    }
+
+    public double getInitialTowerRange(){
+        return this.data.getDouble("initial_tower_range");
+    }
+
+    public double getInitialTowerFiringSpeed(){
+        return this.data.getDouble("initial_tower_firing_speed");
+    }
+
+    public double getInitialTowerDamage(){
+        return this.data.getDouble("initial_tower_damage");
+    }
+
     public Tile[][] iterator2Matrix(Iterator<String> scan){
         Tile[][] matrix = new Tile[BOARD_WIDTH][BOARD_WIDTH]; // assume level is sqrmapsize
         int i;
@@ -149,8 +166,6 @@ public class Map {
     public HashMap<Path, ArrayList<Direction>> getRoutes(){
         return this.routes;
     }
-
-    
 
     public void updateAllPaths(){ // iterate through paths to find type and orientation and terminal paths
         for(Tile[] row: this.land){
@@ -203,12 +218,189 @@ public class Map {
         
     }
 
+    static int[] mouse2Tile(int x, int y)
+    { // assume only called within map and not in ui
+        int[] tileCords = new int[2];
+        tileCords[0] = Math.floorDiv(x, Tile.CELLSIZE);
+        tileCords[1] = Math.floorDiv(y - Tile.TOPBAR, Tile.CELLSIZE);
+        return tileCords;
+    }
+
+    public boolean place(int x, int y, boolean initialRangeLevel, boolean initialFiringSpeedLevel, boolean initialDamageLevel)
+    {
+        int noOfUpgrades = (initialRangeLevel ? 1 : 0) + (initialFiringSpeedLevel ? 1 : 0) + (initialDamageLevel ? 1 : 0);
+        int[] tileCords = mouse2Tile(x, y);
+        
+        /*boolean range = false;
+        boolean speed = false;
+        boolean dmg = false;*/
+
+        if(this.land[tileCords[0]][tileCords[1]] instanceof Grass)
+        { // if its grass
+            while(
+                noOfUpgrades >= 0 &&
+                !this.mana.updateMana(-1 * (this.getTowerCost() + 20 * noOfUpgrades))
+                ){ // reduce price until affordable
+                noOfUpgrades--;
+            } if(noOfUpgrades < 0){
+                return false;
+            } // if not affordable, return false
+
+            /*if(noOfUpgrades == 3){
+                range = true;
+                speed = true;
+                dmg = true;
+            } else if(noOfUpgrades == 2)
+            {
+                if(initialRangeLevel){
+                    range = true;
+                } 
+                if(initialFiringSpeedLevel){
+                    speed = true;
+                } 
+                if(initialDamageLevel && !(range && speed)){
+                    dmg = true;
+                }
+            } else if(noOfUpgrades == 1)
+            {
+                if(initialRangeLevel){
+                    range = true;
+                } else if(initialFiringSpeedLevel){
+                    speed = true;
+                } else{
+                    dmg = true;
+                }
+            }  // set booleans to true if they are to be upgraded */
+            
+            boolean[] upgrades = this.determineUpgrades(noOfUpgrades, initialRangeLevel, initialFiringSpeedLevel, initialDamageLevel);
+            this.land[tileCords[0]][tileCords[1]] = new Tower(
+                tileCords[0], tileCords[1], 
+                this.getInitialTowerRange(),
+                this.getInitialTowerFiringSpeed(),
+                this.getInitialTowerDamage(),
+                upgrades[0], upgrades[1], upgrades[2], this
+            );
+
+            return true;
+        }
+        return false;
+    }
+
+    public boolean[] determineUpgrades(int noOfUpgrades, boolean initialRangeLevel, boolean initialFiringSpeedLevel, boolean initialDamageLevel)
+    {
+        boolean range = false;
+        boolean speed = false;
+        boolean dmg = false;
+        // set booleans to true if they are to be upgraded
+
+        if(noOfUpgrades == 3){
+            range = true;
+            speed = true;
+            dmg = true;
+        } else if(noOfUpgrades == 2)
+        {
+            if(initialRangeLevel){
+                range = true;
+            } 
+            if(initialFiringSpeedLevel){
+                speed = true;
+            } 
+            if(initialDamageLevel && !(range && speed)){
+                dmg = true;
+            }
+        } else if(noOfUpgrades == 1)
+        {
+            if(initialRangeLevel){
+                range = true;
+            } else if(initialFiringSpeedLevel){
+                speed = true;
+            } else{
+                dmg = true;
+            }
+        } // else if noOfUpgrades == 0, leave everything false  
+
+        return new boolean[] {range, speed, dmg};
+    }
+
+    public void upgrade(int x, int y, boolean range, boolean speed, boolean dmg){
+        int[] tileCords = mouse2Tile(x, y);
+        if(this.land[tileCords[0]][tileCords[1]] instanceof Tower)
+        {
+            Tower tower = (Tower)this.land[tileCords[0]][tileCords[1]];
+            int rangeInt = range ? 1 : 0;
+            int speedInt = speed ? 1 : 0;
+            int dmgInt = dmg ? 1 : 0;
+
+            if(
+                range && speed && dmg &&
+                this.mana.updateMana(
+                    -1 * (rangeInt * tower.getRangeCost() + 
+                    speedInt * tower.getFiringSpeedCost() + 
+                    dmgInt * tower.getDamageCost())
+                )
+            ){
+                tower.upgradeRange();
+                tower.upgradeFiringSpeed();
+                tower.upgradeDamage();
+            } else if(
+                range && speed &&
+                this.mana.updateMana(
+                    -1 * (rangeInt * tower.getRangeCost() + 
+                    speedInt * tower.getFiringSpeedCost())
+                )
+            ){
+                tower.upgradeRange();
+                tower.upgradeFiringSpeed();
+            } else if(
+                range && dmg &&
+                this.mana.updateMana(
+                    -1 * (rangeInt * tower.getRangeCost() + 
+                    dmgInt * tower.getDamageCost())
+                )
+            ){
+                tower.upgradeRange();
+                tower.upgradeDamage();
+            } else if(
+                speed && dmg &&
+                this.mana.updateMana(
+                    -1 * (speedInt * tower.getFiringSpeedCost() + 
+                    dmgInt * tower.getDamageCost())
+                )
+            ){
+                tower.upgradeFiringSpeed();
+                tower.upgradeDamage();
+            } else if(
+                range &&
+                this.mana.updateMana(
+                    -1 * (rangeInt * tower.getRangeCost())
+                )
+            ){
+                tower.upgradeRange();
+            } else if(
+                speed &&
+                this.mana.updateMana(
+                    -1 * (speedInt * tower.getFiringSpeedCost())
+                )
+            ){
+                tower.upgradeFiringSpeed();
+            } else if(
+                dmg &&
+                this.mana.updateMana(
+                    -1 * (dmgInt * tower.getDamageCost())
+                )
+            ){
+                tower.upgradeDamage();
+            } // else do nothing
+            // cycle through upgrades you could afford to do in order of range, speed, dmg
+        }
+    }
+
     public void tick(){
 
         // tick each wave
         if(!(waveNumber == 0 && this.waveTime > this.addWaveTimes()))
         { // after 1st pre wave time
-            Iterator<Wave> waveIterator = this.waveList.iterator(); // use  for hasNext() method
+            Iterator<Wave> waveIterator = this.waveList.iterator(); // use for hasNext() method
             while(waveIterator.hasNext()){ // tick all waves in array
                 Wave wave = waveIterator.next();
                 wave.tick();
@@ -232,7 +424,6 @@ public class Map {
         }
 
         this.mana.tick(this.app);
-        
     }
 
     public void draw(PApplet app){ // draw each element in matrix onto screen
@@ -255,13 +446,7 @@ public class Map {
         }
 
         this.land[wizCordsXY[0]][wizCordsXY[1]].draw(app); // draw wizard house last so it is drawn on top layer
-
-        
     }
-
-    
-
-
 }
 
 

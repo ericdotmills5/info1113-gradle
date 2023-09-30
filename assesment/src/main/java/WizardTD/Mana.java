@@ -12,7 +12,7 @@ public class Mana {
     int counterOfFrames = 0;
 
     public Mana(double initial, double cap, double regenRate, double poolCost, double poolCostIncrease, double capMultiplier, double manaMultiplier){
-        this.currMana = initial;
+        this.currMana = initial > cap ? cap : initial;
         this.cap = cap;
         this.regenRate = regenRate;
         this.initialRegenRate = regenRate;
