@@ -50,6 +50,10 @@ public class Wave {
         return this.waveComplete;
     }
 
+    public ArrayList<Monster> getMonsters(){
+        return this.monsters;
+    }
+
     public void tick(){
         this.currentFrame += app.rate;
 
@@ -60,7 +64,7 @@ public class Wave {
 
             if(!(monster.getExists())){
                 monsterIterator.remove();
-            } // remove monsters whove finished death animation
+            } // remove monsters that finished death animation
         }
 
         // generate new random monster type with random spawn path

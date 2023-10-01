@@ -1,5 +1,9 @@
 package WizardTD;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Random;
+
 import processing.core.PApplet;
 
 public class Tower extends Tile {
@@ -11,6 +15,10 @@ public class Tower extends Tile {
     private double firingSpeed; // fireballs per second
     private double damage; // self explanatory
     private double initialTowerDamage;
+    private int framesCounter = 0;
+    private int centerX;
+    private int centerY;
+    private ArrayList<Fireball> projectiles = new ArrayList<Fireball>();
 
     Tower(int x, int y, double initialRange, 
           double initialFiringSpeed, double initialDamage, 
@@ -18,8 +26,11 @@ public class Tower extends Tile {
           boolean initialDamageLevel, Map map)
     {
         super(x, y, map);
+        this.centerX = x * CELLSIZE + CELLSIZE / 2;
+        this.centerY = y * CELLSIZE + CELLSIZE / 2 + TOPBAR;
         this.range = initialRange;
         this.firingSpeed = initialFiringSpeed;
+        // convert to fireballs per second to fireballs per frame
         this.damage = initialDamage;
         this.initialTowerDamage = initialDamage;
 
@@ -51,6 +62,16 @@ public class Tower extends Tile {
     public double getDamageCost()
     {
         return 20 + 10 * this.damageLevel;
+    }
+
+    public double getRange()
+    {
+        return this.range;
+    }
+
+    public ArrayList<Fireball> getProjectiles()
+    {
+        return this.projectiles;
     }
 
     public void findLowestLevel()
@@ -91,10 +112,64 @@ public class Tower extends Tile {
         System.out.println("upgraded damage to " + this);
     }
 
+    public void shoot(){
+        // create list of enemies in range
+        ArrayList<Monster> enemiesInRange = new ArrayList<Monster>();
+        for(Wave wave: this.map.getWaves()){
+            for(Monster monster: wave.getMonsters()){
+                double spriteCentreX = monster.getPixelX() + App.SPRITESHIFT;
+                double spriteCentreY = monster.getPixelY() + App.SPRITESHIFT;
+
+                if(App.scalarDistance(
+                    this.centerX, this.centerY, 
+                    spriteCentreX, spriteCentreY
+                    ) <= this.range){
+                    enemiesInRange.add(monster);
+                }
+            }
+        }
+
+        // only shoot if enemies in range
+        if(enemiesInRange.size() > 0){
+            // randomly select one
+            Random rand = new Random();
+            int randIndex = rand.nextInt(enemiesInRange.size());
+            Monster target = enemiesInRange.get(randIndex);
+
+            // create fireball, targeting that enemy
+            projectiles.add(new Fireball(
+                this.centerX, this.centerY, target, this.damage, this.map.getApp()
+            ));
+            System.out.println("Shot fired");
+        }
+    }
+
     public String toString()
     {
         return this.rangeLevel + " " + this.firingSpeedLevel + " " + 
                this.damageLevel + " tower at (" + this.x + ", " + this.y + ")";
+    }
+
+    public void tick()
+    {
+        // shoot if enough frames have passed
+        double framesPerFireball = App.FPS / this.firingSpeed;
+        if(this.framesCounter > framesPerFireball){
+            this.shoot();
+            this.framesCounter = 0;
+        }
+        this.framesCounter += this.map.getApp().rate;
+
+        // tick and remove all fireballs
+        Iterator<Fireball> fireballIterator = this.projectiles.iterator();
+        while(fireballIterator.hasNext()){
+            Fireball fireball = fireballIterator.next();
+            fireball.tick();
+
+            if(!(fireball.getExists())){
+                fireballIterator.remove();
+            }
+        }
     }
 
     @Override

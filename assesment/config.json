@@ -2,7 +2,7 @@
   "layout": "level2.txt",
   "waves": [
     {
-      "duration": 1,
+      "duration": 20,
       "pre_wave_pause": 0,
 	  "monsters": [
         {
@@ -11,7 +11,7 @@
           "speed": 1,
           "armour": 0.5,
           "mana_gained_on_kill": 10,
-          "quantity": 1
+          "quantity": 20
         }
 	  ]
     },
@@ -30,16 +30,16 @@
       ]
     },
     {
-      "duration": 2,
+      "duration": 50,
       "pre_wave_pause": 0,
       "monsters": [
         {
           "type": "gremlin",
-          "hp": 150,
-          "speed": 1.0,
+          "hp": 200,
+          "speed": 2.5,
           "armour": 0.7,
           "mana_gained_on_kill": 70,
-          "quantity": 1
+          "quantity": 50
         }
       ]
     }

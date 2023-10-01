@@ -61,6 +61,17 @@ public class App extends PApplet {
     public static final int TOWERDAMAGECROSSLENGTHY = RANGEUPGRADEDIAMETER;
     public static final int TOWERSPEEDSQUARESHIFT = 5;
     public static final int TOWERSPEEDSQUARELENGTH = 20;
+    public static final int UPGRADEBUBBLEX = CELLSIZE * BOARD_WIDTH + 10;
+    public static final int UPGRADEBUBBLEY = 16 * CELLSIZE + TOPBAR;
+    public static final int UPGRADEBUBBLELENGTH = BUTTONSIZE * 2;
+    public static final int UPGRADEBUBBLEHEIGHT = BUTTONSIZE / 2;
+    public static final int UPGRADEBUBBLETEXTSIZE = 12;
+    public static final int UPGRADEBUBBLETEXTSHIFTX = 3;
+    public static final int UPGRADEBUBBLETEXTSHIFTY = UPGRADEBUBBLEHEIGHT / 2 + 5;
+    public static final int SPRITESHIFT = ghostShiftX + 10; // sprite is 20x20 pixels
+    public static final int PROJSPEED = 5;
+    public static final int MONSTERRADIUS = 20 / 2; // monster is 20x20 pixels
+    public static final int FIREBALLRADIUS = 6 / 3; // fireball is 6x6 pixels
 
     public static int WIDTH = CELLSIZE*BOARD_WIDTH+SIDEBAR;
     public static int HEIGHT = BOARD_WIDTH*CELLSIZE+TOPBAR;
@@ -145,6 +156,10 @@ public class App extends PApplet {
             lines.add(scan.nextLine());
         }
         return lines;
+    }
+
+    static double scalarDistance(double x1, double y1, double x2, double y2){
+        return Math.sqrt(Math.pow(x1-x2, 2) + Math.pow(y1-y2, 2));
     }
 
     /**

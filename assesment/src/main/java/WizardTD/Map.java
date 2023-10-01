@@ -13,6 +13,7 @@ import java.util.*;
  *  Wizard hut on corner
  *  restart upon loss takes too long to restart
  *  sumarise long if else statements
+ *  towers lag out your game
  * 
  * check ghost speeds are actually correct
  * check if integer config values can take floats
@@ -41,6 +42,7 @@ public class Map {
     private double waveTime;
     private boolean lastWave = false;
     private Mana mana;
+    private ArrayList<Tower> towerList = new ArrayList<>();
 
 
     public Map(Iterable<String> mapIterable, App app){
@@ -92,6 +94,10 @@ public class Map {
 
     public int getWaveNumber(){
         return this.waveNumber;
+    }
+
+    public ArrayList<Wave> getWaves(){
+        return this.waveList;
     }
 
     public double getWaveTime(){
@@ -245,41 +251,17 @@ public class Map {
             } if(noOfUpgrades < 0){
                 return false;
             } // if not affordable, return false
-
-            /*if(noOfUpgrades == 3){
-                range = true;
-                speed = true;
-                dmg = true;
-            } else if(noOfUpgrades == 2)
-            {
-                if(initialRangeLevel){
-                    range = true;
-                } 
-                if(initialFiringSpeedLevel){
-                    speed = true;
-                } 
-                if(initialDamageLevel && !(range && speed)){
-                    dmg = true;
-                }
-            } else if(noOfUpgrades == 1)
-            {
-                if(initialRangeLevel){
-                    range = true;
-                } else if(initialFiringSpeedLevel){
-                    speed = true;
-                } else{
-                    dmg = true;
-                }
-            }  // set booleans to true if they are to be upgraded */
             
             boolean[] upgrades = this.determineUpgrades(noOfUpgrades, initialRangeLevel, initialFiringSpeedLevel, initialDamageLevel);
-            this.land[tileCords[0]][tileCords[1]] = new Tower(
+            Tower tower = new Tower(
                 tileCords[0], tileCords[1], 
                 this.getInitialTowerRange(),
                 this.getInitialTowerFiringSpeed(),
                 this.getInitialTowerDamage(),
                 upgrades[0], upgrades[1], upgrades[2], this
             );
+            this.land[tileCords[0]][tileCords[1]] = tower;
+            this.towerList.add(tower);
 
             return true;
         }
@@ -395,6 +377,35 @@ public class Map {
         }
     }
 
+    public void drawRangeCircle(App app){
+        Tile potentialTower = this.mouse2Land(app.mouseX, app.mouseY);
+
+        if(potentialTower instanceof Tower)
+        {
+            Tower tower = (Tower)potentialTower;
+            // draw tower
+            tower.draw(this.app);
+
+            // draw circle around tower
+            int centerX = App.CELLSIZE * tower.getX() + App.CELLSIZE / 2;
+            int centerY = App.CELLSIZE * tower.getY() + App.TOPBAR + App.CELLSIZE / 2;
+            float diameter = (float)(tower.getRange() * 2);
+            app.noFill();
+            app.stroke(255, 255, 0); // yellow
+            app.strokeWeight(2);
+            app.ellipse(centerX, centerY, diameter, diameter);
+        }
+    }
+
+    public Tile mouse2Land(int x, int y){
+        if(Ui.isMouseInMap(x, y)){
+            int[] tileCords = mouse2Tile(x, y);
+            return this.land[tileCords[0]][tileCords[1]];
+        } else{
+            return null; // potential null pointer exception
+        }
+    }
+
     public void tick(){
 
         // tick each wave
@@ -423,12 +434,18 @@ public class Map {
             System.out.println("Pre wave time: " + this.waveTime);
         }
 
-        this.mana.tick(this.app);
+        // tick mana
+        this.mana.tick(this.app); 
+
+        // tick towers;
+        for(Tower tower: this.towerList){
+            tower.tick();
+        }
     }
 
-    public void draw(PApplet app){ // draw each element in matrix onto screen
-
-        // draw each tile
+    public void draw(PApplet app)
+    { 
+        // draw each tile in matrix onto screen
         for(Tile[] row: this.land){
             for(Tile entry: row){
                 if(!(entry instanceof Wizard)){ // draw it if its not a wizard house
@@ -445,7 +462,18 @@ public class Map {
             wave.draw();
         }
 
-        this.land[wizCordsXY[0]][wizCordsXY[1]].draw(app); // draw wizard house last so it is drawn on top layer
+        // draw wizard house above monsters and other tiles
+        this.land[wizCordsXY[0]][wizCordsXY[1]].draw(app); 
+
+        // draw range circles around tower cursor is over under ui, over tiles
+        drawRangeCircle(this.app);
+
+        // draw all towers' fireballs'
+        for(Tower tower: this.towerList){
+            for(Fireball fireball: tower.getProjectiles()){
+                fireball.draw();
+            }
+        }
     }
 }
 

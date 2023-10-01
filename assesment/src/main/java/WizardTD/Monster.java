@@ -20,7 +20,7 @@ public class Monster {
     private double pixSpeed;
     private double maxHealth; // double
     private double currHealth; // double
-    //private double armour;
+    private double armour;
     private App app;
     private double healthProp;
     private boolean alive = true;
@@ -31,8 +31,8 @@ public class Monster {
     private PImage sprite;
     private int moves;
     private double manaOnKill;
-    int tileX;
-    int tileY;
+    private int tileX;
+    private int tileY;
 
     public Monster(
         int tileX, int tileY, double pixSpeed, double maxHealth, 
@@ -47,7 +47,7 @@ public class Monster {
         this.pixSpeed = pixSpeed;
         this.maxHealth = maxHealth;
         this.currHealth = maxHealth;
-        //this.armour = armour;
+        this.armour = armour;
         this.app = app;
         this.manaOnKill = manaOnKill;
         this.pixelX = tileX * CELLSIZE + ghostShiftX;
@@ -57,11 +57,19 @@ public class Monster {
         this.route.add(0, this.route.get(0)); // duplicate the first element
         this.spawnShift();
 
-        System.out.println("Monster created at " + tileX + ", " + tileY);
+        System.out.println("Created " + this);
     }
 
     public boolean getExists(){
         return this.exists;
+    }
+
+    public double getPixelX(){
+        return this.pixelX;
+    }
+
+    public double getPixelY(){
+        return this.pixelY;
     }
 
     public void spawnShift(){ // shift mosnter so it spawns off screen
@@ -84,8 +92,9 @@ public class Monster {
         } 
     }
 
-    public void takeDamage(){ // remember armour
-
+    public void takeDamage(double damage){ // remember armour
+        this.currHealth -= damage * this.armour;
+        System.out.println("Did " + damage + " damage to " + this);
     }
 
     public void move(){
@@ -147,8 +156,13 @@ public class Monster {
         }
     }
 
+    @Override
+    public String toString(){
+        return this.currHealth + " hp monster at (" + this.tileX + ", " + this.tileY + ")";
+    }
+
     public void tick(){
-        this.currHealth -= this.app.rate * 0.1; // testing
+        //this.currHealth -= this.app.rate * 0.1; // testing
         
         // health
         this.healthProp = this.currHealth / this.maxHealth;
@@ -182,7 +196,6 @@ public class Monster {
         }
     }
     
-
     public void draw(PApplet app){
         // monster sprite
         app.image(this.sprite, (float)this.pixelX, (float)this.pixelY);

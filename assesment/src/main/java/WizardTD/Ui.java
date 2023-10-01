@@ -250,10 +250,10 @@ public class Ui {
             if(this.placeTower)
             {
                 this.map.place(app.mouseX, app.mouseY, this.upgradeRange, this.upgradeSpeed, this.upgradeDamage);
-            } else
-            {
-                this.map.upgrade(app.mouseX, app.mouseY, this.upgradeRange, this.upgradeSpeed, this.upgradeDamage);
-            }
+            } 
+            // upgrade even if in tower mode
+            this.map.upgrade(app.mouseX, app.mouseY, this.upgradeRange, this.upgradeSpeed, this.upgradeDamage);
+            
         }
     }
 
@@ -286,40 +286,76 @@ public class Ui {
         }// +- 5 makes it distinguishable from square
     }
 
-    /*
-    public boolean towerMode(App app)
-    { // return true if tower placed
-        if(isMouseInMap(app.mouseX, app.mouseY))
-        {
-            if(this.placeTower)
-            {
-                // place tower
-                if(this.click){
-                    return this.map.place(app.mouseX, app.mouseY, this.upgradeRange, this.upgradeSpeed, this.upgradeDamage);
-                }
-
-                // hover grey tower
-
-            } else if(this.click){
-                // upgrade tower
-                this.map.upgrade(app.mouseX, app.mouseY, this.upgradeRange, this.upgradeSpeed, this.upgradeDamage);
-                return true;
-            }
+    public void upgradeBubble(App app, Tower tower){
+        // bubble
+        int upgrades = (this.upgradeRange ? 1 : 0) + (this.upgradeSpeed ? 1 : 0) + (this.upgradeDamage ? 1 : 0);
+        int textTally = 0;
+        int totalCost = (this.upgradeRange ? 1 : 0) * (int)tower.getRangeCost() + 
+                        (this.upgradeSpeed ? 1 : 0) * (int)tower.getFiringSpeedCost() + 
+                        (this.upgradeDamage ? 1 : 0) * (int)tower.getDamageCost();
+        app.stroke(0, 0, 0); // black
+        app.strokeWeight(2);
+        app.fill(255, 255, 255); // white
         
-            /* 
-            else if(this.upgradeRange){
-                this.map.upgradeRange(app.mouseX, app.mouseY);
-                return true;
-            } else if(this.upgradeSpeed){
-                this.map.upgradeSpeed(app.mouseX, app.mouseY);
-                return true;
-            } else if(this.upgradeDamage){
-                this.map.upgradeDamage(app.mouseX, app.mouseY);
-                return true;
-            }
+        // shapes
+        // "upgrade cost" rectangle
+        app.rect(
+            App.UPGRADEBUBBLEX, App.UPGRADEBUBBLEY, 
+            App.UPGRADEBUBBLELENGTH, App.UPGRADEBUBBLEHEIGHT
+        );
+
+        // specific upgrade rectangle
+        app.rect(
+            App.UPGRADEBUBBLEX, App.UPGRADEBUBBLEY + App.UPGRADEBUBBLEHEIGHT, 
+            App.UPGRADEBUBBLELENGTH, App.UPGRADEBUBBLEHEIGHT * upgrades
+        );
+
+        // total cost rectangle
+        app.rect(
+            App.UPGRADEBUBBLEX, App.UPGRADEBUBBLEY + App.UPGRADEBUBBLEHEIGHT * (upgrades + 1), 
+            App.UPGRADEBUBBLELENGTH, App.UPGRADEBUBBLEHEIGHT
+        );
+
+        // text 
+        app.fill(0, 0, 0); // black text
+        app.textSize(App.UPGRADEBUBBLETEXTSIZE);
+        app.text(
+            "Upgrade cost", App.UPGRADEBUBBLEX + App.UPGRADEBUBBLETEXTSHIFTX, 
+            App.UPGRADEBUBBLEY + App.UPGRADEBUBBLETEXTSHIFTY + textTally * (App.UPGRADEBUBBLEHEIGHT)
+        );
+        textTally++;
+
+        if(this.upgradeRange){
+            app.text(
+                "range:     " + (int)tower.getRangeCost(), 
+                App.UPGRADEBUBBLEX + App.UPGRADEBUBBLETEXTSHIFTX, 
+                App.UPGRADEBUBBLEY + App.UPGRADEBUBBLETEXTSHIFTY + textTally * (App.UPGRADEBUBBLEHEIGHT)
+            );
+            textTally++;
         }
-        return false;
-    }*/
+        if(this.upgradeSpeed){
+            app.text(
+                "speed:     " + (int)tower.getFiringSpeedCost(), 
+                App.UPGRADEBUBBLEX + App.UPGRADEBUBBLETEXTSHIFTX, 
+                App.UPGRADEBUBBLEY + App.UPGRADEBUBBLETEXTSHIFTY + textTally * (App.UPGRADEBUBBLEHEIGHT)
+            );
+            textTally++;
+        }
+        if(this.upgradeDamage){
+            app.text(
+                "damage: " + (int)tower.getDamageCost(), 
+                App.UPGRADEBUBBLEX + App.UPGRADEBUBBLETEXTSHIFTX, 
+                App.UPGRADEBUBBLEY + App.UPGRADEBUBBLETEXTSHIFTY + textTally * (App.UPGRADEBUBBLEHEIGHT)
+            );
+            textTally++;
+        }
+
+        app.text(
+            "Total:      " + totalCost, 
+            App.UPGRADEBUBBLEX + App.UPGRADEBUBBLETEXTSHIFTX, 
+            App.UPGRADEBUBBLEY + App.UPGRADEBUBBLETEXTSHIFTY + textTally * (App.UPGRADEBUBBLEHEIGHT)
+        );
+    }
 
     public void tick()
     {
@@ -339,6 +375,18 @@ public class Ui {
             this.buttonDraw(app, i);
         }
 
+        // tower mode
         hoverPlace(app);
+
+        // draw upgrade bubble in bottom right
+        Tile potentialTower = this.map.mouse2Land(app.mouseX, app.mouseY);
+
+        if(
+            potentialTower instanceof Tower && 
+            (this.upgradeRange || this.upgradeSpeed || this.upgradeDamage)
+        ){
+            Tower tower = (Tower) potentialTower;
+            upgradeBubble(app, tower);
+        }
     }
 }

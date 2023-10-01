@@ -9,7 +9,7 @@ abstract class Tile{
     public static final int wizShiftY = App.wizShiftY; // 5 pixels up
     public static final int TOPBAR = App.TOPBAR; // 40 pixels down
 
-    protected int x;
+    protected int x; // tile coordinates
     protected int y;
     protected Map map;
     protected PImage sprite;
@@ -30,10 +30,6 @@ abstract class Tile{
 
     public String toString(){
         return this.getClass().getName() + " @ x=" + this.x + ", y=" + this.y;
-    }
-
-    public void tick(){
-
     }
 
     public void draw(PApplet app){
