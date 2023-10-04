@@ -8,17 +8,17 @@ import java.util.*;
 
 /*
  * Edge cases:
- *  Path on terminal corner
- *  Wizard hut on side
- *  Wizard hut on corner
- *  restart upon loss takes too long to restart
+ *  Path on terminal corner * 
+ *  Wizard hut on side * 
+ *  Wizard hut on corner * 
+ *  restart upon loss takes too long to restart * 
  *  sumarise long if else statements
  *  towers lag out your game
  *  bottom right upgrade bubble should only show upgrades player can afford (source?)
- *  google java style guide
+ *  google java style guide * 
  *  90%+ test coverage
- *  clean up code with functions
- *  restarting doesnt reset app rate (ff/pause)
+ *  clean up code with functions * 
+ *  restarting doesnt reset app rate (ff/pause) * 
  * 
  * check ghost speeds are actually correct
  * check if integer config values can take floats
