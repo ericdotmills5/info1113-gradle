@@ -186,7 +186,7 @@ public class Tower extends Tile {
         if(this.firingSpeedLevel - this.lowestLevel >= 1)
         { // only draw if upgraded past sprite
             app.stroke(120, 180, 255); // light blue
-            app.strokeWeight(this.firingSpeedLevel - this.lowestLevel); // stroke weight increases with level
+            app.strokeWeight((this.firingSpeedLevel - this.lowestLevel)* 2); // stroke weight increases with level
             app.rect(
                 tileX + App.TOWERSPEEDSQUARESHIFT, tileY + App.TOWERSPEEDSQUARESHIFT,
                 App.TOWERSPEEDSQUARELENGTH, App.TOWERSPEEDSQUARELENGTH

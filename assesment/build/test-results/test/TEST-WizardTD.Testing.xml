@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="WizardTD.Testing" tests="1" skipped="0" failures="0" errors="0" timestamp="2023-10-04T07:55:41" hostname="DESKTOP-G6IO8O8" time="0.198">
+  <properties/>
+  <testcase name="testSetup()" classname="WizardTD.Testing" time="0.198"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -27,7 +27,10 @@ import java.util.*;
  * check mana spell math on all calculations
 */
 
-enum Direction{ // add directions to previously integer stuff
+/**
+* Enum for directions
+*/
+enum Direction{
     UP, DOWN, LEFT, RIGHT, NONE;
 }
 
@@ -51,7 +54,13 @@ public class Map {
     private boolean poison = false;
     private double poisonFrames;
 
-    public Map(Iterable<String> mapIterable, App app){
+    /**
+     * Draws map onto screen, creates routes for each spawn, creates waves, creates mana object
+     * @param mapIterable iterable of strings representing map
+     * @param app app object
+     */
+    public Map(Iterable<String> mapIterable, App app)
+    {
         this.poisonFrames = app.poisonFrames;
         this.app = app;
         this.land = this.iterator2Matrix(mapIterable.iterator());
@@ -64,15 +73,14 @@ public class Map {
         this.wizard.determineWizDists();
 
         this.createRoutes();
-        
-        // assume this is only fileIO method call
 
         this.data = app.loadJSONObject(app.configPath);
 
         this.waveList.add(new Wave(
             this.data.getJSONArray("waves").getJSONObject(waveNumber), this.routes, this.app
         )); // add pre wave pause for 1st wave
-        this.waveTime = this.addWaveTimes() + this.data.getJSONArray("waves").getJSONObject(this.waveNumber).getDouble("pre_wave_pause") * FPS;
+        this.waveTime = this.addWaveTimes() + 
+            this.data.getJSONArray("waves").getJSONObject(this.waveNumber).getDouble("pre_wave_pause") * FPS;
 
         this.mana = new Mana(
             this.data.getDouble("initial_mana"), 
@@ -135,12 +143,25 @@ public class Map {
         return this.poison;
     }
 
+    public HashMap<Path, ArrayList<Direction>> getRoutes()
+    {
+        return this.routes;
+    }
+
+    /**
+     * Toggles poison on and off based on whether player has enough mana
+     */
     public void togglePoison(){
         if(!this.poison && this.mana.updateMana(-1 * this.app.poisonCost)){
             this.poison = true;
         }
     }
 
+    /**
+     * Converts iterable of strings into matrix of tiles that can be drawn and iterated through
+     * @param scan iterable of strings representing map
+     * @return matrix of tiles
+     */
     public Tile[][] iterator2Matrix(Iterator<String> scan){
         Tile[][] matrix = new Tile[BOARD_WIDTH][BOARD_WIDTH]; // assume level is sqrmapsize
         int i;
@@ -176,7 +197,13 @@ public class Map {
         return matrix;
     }
 
-    public double addWaveTimes(){ // current wave time + next wave prewave pause * fps
+    /**
+     * Finds what wave time needs to be put onto the screen
+     * Does so by adding current wave time with next wave prewave pause directly from config
+     * @return wave time to be put onto screen
+     */
+    public double addWaveTimes()
+    { 
         JSONArray waves = this.data.getJSONArray("waves");
         if(waves.size() == 1){ // force wave to be negative (endless)
             this.lastWave = true;
@@ -186,11 +213,11 @@ public class Map {
         + data.getJSONArray("waves").getJSONObject(this.waveNumber + 1).getDouble("pre_wave_pause")) * FPS;
     }
 
-    public HashMap<Path, ArrayList<Direction>> getRoutes(){
-        return this.routes;
-    }
-
-    public void updateAllPaths(){ // iterate through paths to find type and orientation and terminal paths
+    /**
+     * Iterates through each tile in matrix and assigns properties to each path
+     */
+    public void updateAllPaths()
+    { 
         for(Tile[] row: this.land){
             for(Tile entry: row){
                 if(entry instanceof WizOrPath){
@@ -208,8 +235,13 @@ public class Map {
         }
     }
 
-    // create route from terminal paths (spawns) to wizard via optimal paths
-    public ArrayList<Direction> createRoute(Path spawn){ 
+    /**
+     * create route from terminal paths (spawns) to wizard via optimal paths.
+     * @param spawn spawn to create route from
+     * @return list of optimal path directions to get to wizard
+     */
+    public ArrayList<Direction> createRoute(Path spawn)
+    { 
         ArrayList<Direction> route = new ArrayList<Direction>();
         WizOrPath current = spawn;
 
@@ -221,13 +253,23 @@ public class Map {
         return route;
     }
 
-    public void createRoutes(){ // create routes for each spawn
+    /**
+     * create routes for each spawn by calling createRoute on each terminal path
+     */
+    public void createRoutes() 
+    { 
         for(Path spawn: this.routes.keySet()){
             this.routes.put(spawn, this.createRoute(spawn));
         }
     }
 
-    public void nextWave(){
+    /**
+     * Creates next wave and adds it to wave list.
+     * If its the last wave, set last wave to true.
+     * Otherwise, set wave time to be the next wave time.
+     */
+    public void nextWave()
+    {
         this.waveNumber++;
         this.waveList.add(new Wave(
             this.data.getJSONArray("waves").getJSONObject(waveNumber), this.routes, this.app
@@ -241,22 +283,38 @@ public class Map {
         
     }
 
+    /**
+     * Converts mouse coordinates to tile coordinates.
+     * Assume only for map, not ui.
+     * Used to determine where to place towers, and which to upgrade.
+     * @param x mouse x coordinate
+     * @param y mouse y coordinate
+     * @return array of tile coordinates
+     */
     static int[] mouse2Tile(int x, int y)
-    { // assume only called within map and not in ui
+    {
         int[] tileCords = new int[2];
         tileCords[0] = Math.floorDiv(x, Tile.CELLSIZE);
         tileCords[1] = Math.floorDiv(y - Tile.TOPBAR, Tile.CELLSIZE);
         return tileCords;
     }
 
-    public boolean place(int x, int y, boolean initialRangeLevel, boolean initialFiringSpeedLevel, boolean initialDamageLevel)
+    /**
+     * Places tower on map (in matrix) if player can afford it, and grass tile.
+     * Deducts mana and provides initial upgrades accordingly.
+     * @param x mouse x coordinate
+     * @param y mouse y coordinate
+     * @param initialRangeLevel whether tower was placed in range mode
+     * @param initialFiringSpeedLevel whether tower was placed in firing speed mode
+     * @param initialDamageLevel whether tower was placed in damage mode
+     * @return whether tower was placed
+     */
+    public boolean place(
+        int x, int y, boolean initialRangeLevel, 
+        boolean initialFiringSpeedLevel, boolean initialDamageLevel)
     {
         int noOfUpgrades = (initialRangeLevel ? 1 : 0) + (initialFiringSpeedLevel ? 1 : 0) + (initialDamageLevel ? 1 : 0);
         int[] tileCords = mouse2Tile(x, y);
-        
-        /*boolean range = false;
-        boolean speed = false;
-        boolean dmg = false;*/
 
         if(this.land[tileCords[0]][tileCords[1]] instanceof Grass)
         { // if its grass
@@ -269,7 +327,9 @@ public class Map {
                 return false;
             } // if not affordable, return false
             
-            boolean[] upgrades = this.determineUpgrades(noOfUpgrades, initialRangeLevel, initialFiringSpeedLevel, initialDamageLevel);
+            boolean[] upgrades = this.determineUpgrades(
+                noOfUpgrades, initialRangeLevel, initialFiringSpeedLevel, initialDamageLevel
+                );
             Tower tower = new Tower(
                 tileCords[0], tileCords[1], 
                 this.getInitialTowerRange(),
@@ -285,7 +345,19 @@ public class Map {
         return false;
     }
 
-    public boolean[] determineUpgrades(int noOfUpgrades, boolean initialRangeLevel, boolean initialFiringSpeedLevel, boolean initialDamageLevel)
+    /**
+     * Applies appropriate upgrade order.
+     * This is based on requested upgrades and number upgrades player can afford.
+     * @param noOfUpgrades number of upgrades player can afford
+     * @param initialRangeLevel whether player wants to upgrade range
+     * @param initialFiringSpeedLevel whether player wants to upgrade firing speed
+     * @param initialDamageLevel whether player wants to upgrade damage
+     * @return array of booleans representing which upgrades to apply
+     */
+    public boolean[] determineUpgrades(
+        int noOfUpgrades, boolean initialRangeLevel, 
+        boolean initialFiringSpeedLevel, boolean initialDamageLevel
+        )
     {
         boolean range = false;
         boolean speed = false;
@@ -321,7 +393,19 @@ public class Map {
         return new boolean[] {range, speed, dmg};
     }
 
-    public void upgrade(int x, int y, boolean range, boolean speed, boolean dmg){
+    /**
+     * This method does multiple things:
+     * Which tower is to be upgraded
+     * What upgrades are to be applied based on what can be afforded
+     * How much mana to deduct, and doing so
+     * @param x mouse x coordinate
+     * @param y mouse y coordinate
+     * @param range whether in range mode
+     * @param speed whether in speed mode
+     * @param dmg whether in damage mode
+     */
+    public void upgrade(int x, int y, boolean range, boolean speed, boolean dmg)
+    {
         int[] tileCords = mouse2Tile(x, y);
         if(this.land[tileCords[0]][tileCords[1]] instanceof Tower)
         {
@@ -394,7 +478,12 @@ public class Map {
         }
     }
 
-    public void drawRangeCircle(App app){
+    /**
+     * Draws range circle around tower cursor is over under ui, over tiles
+     * @param app needs app to draw
+     */
+    public void drawRangeCircle(App app)
+    {
         Tile potentialTower = this.mouse2Land(app.mouseX, app.mouseY);
 
         if(potentialTower instanceof Tower)
@@ -414,7 +503,14 @@ public class Map {
         }
     }
 
-    public Tile mouse2Land(int x, int y){
+    /**
+     * Converts mouse coordinates to corresponding tile object
+     * @param x mouse x coordinate
+     * @param y mouse y coordinate
+     * @return corresponding tile object
+     */
+    public Tile mouse2Land(int x, int y)
+    {
         if(Ui.isMouseInMap(x, y)){
             int[] tileCords = mouse2Tile(x, y);
             return this.land[tileCords[0]][tileCords[1]];
@@ -423,6 +519,13 @@ public class Map {
         }
     }
 
+    /**
+     * Applies map logic each frame to:
+     * each wave (+ wave time),
+     * mana,
+     * towers,
+     * screen poison.
+     */
     public void tick()
     {
         // tick each wave
@@ -468,6 +571,15 @@ public class Map {
         }
     }
 
+    /**
+     * Draws map onto screen, from bottom to top:
+     * each tile in matrix,
+     * each wave,
+     * wizard house (seperate from matrix as to be drawn above monsters and other tiles),
+     * range circles around tower cursor is over under ui
+     * all towers' fireballs'
+     * @param app needs app to draw
+     */
     public void draw(PApplet app)
     { 
         // draw each tile in matrix onto screen

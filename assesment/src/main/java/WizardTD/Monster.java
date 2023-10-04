@@ -165,7 +165,7 @@ public class Monster {
     {
         // poison
         if(this.app.map.getPoison()){
-            this.takeDamage(this.app.poisonDamage); // influenced by armour
+            this.takeDamage(this.app.poisonDamage * this.app.rate); // influenced by armour
         }
         
         // health

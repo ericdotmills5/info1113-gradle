@@ -212,8 +212,8 @@ public class Ui {
                 hover = this.poisonHov;
                 hasHoverText = true;
                 cost = (int)this.map.getApp().poisonCost;
-                text0 = "P";
-                text1 = "Poison";
+                text0 = "U4";
+                text1 = "Poison all";
                 text2 = "cost: " + cost; // assume 4 digit price max
                 break;
         }

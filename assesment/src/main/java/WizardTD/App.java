@@ -73,7 +73,7 @@ public class App extends PApplet {
     public static final int PROJSPEED = 5;
     public static final int MONSTERRADIUS = 20 / 2; // monster is 20x20 pixels
     public static final int FIREBALLRADIUS = 6 / 3; // fireball is 6x6 pixels
-    public static final char[] buttons = {' ', 'F', 'P', 'T', '1', '2', '3', 'M', 'P'};
+    public static final char[] buttons = {' ', 'F', 'P', 'T', '1', '2', '3', 'M', '4'};
     public static final int NUMBEROFBUTTONS = buttons.length - 1; // exclude 1st space bar
 
 
@@ -104,6 +104,7 @@ public class App extends PApplet {
 	
     // Feel free to add any additional methods or attributes you want. Please put classes in different files.
 
+
     public App() {
         
     }
@@ -121,50 +122,50 @@ public class App extends PApplet {
      * Load all resources such as images. Initialise the elements such as the player, enemies and map elements.
      */
 	@Override
-    public void setup() {
+    public void setup() 
+    {
+        // read config
         this.configPath = "config.json";
         this.config = loadJSONObject(this.configPath);
         this.poisonCost = this.config.getDouble("poison_cost");
         this.poisonFrames = this.config.getDouble("poison_time") * FPS;
         this.poisonDamage = this.config.getDouble("poison_damage_per_second");
 
-
+        // read map
         frameRate(FPS);
         Scanner scan = fileIO(this.loadJSONObject(this.configPath).getString("layout"));
         this.mapIterable = scan2Iterable(scan);
         scan.close();
+
+        // initialise map and ui classes
         this.map = new Map(this.mapIterable, this);
         this.ui = new Ui(this.map);
-
-        /*
-        Path hello = (Path)this.map.getRoutes().keySet().toArray()[2];
-
-        this.monster = new Monster(hello.x, hello.y, 1, 100, this.map.getRoutes().get(hello), this);
-        // put him on the right spawn path, preferably from hashmap
-        */
-        
-
-        // Load images during setup
-		// Eg:
-        // loadImage("src/main/resources/WizardTD/tower0.png");
-        // loadImage("src/main/resources/WizardTD/tower1.png");
-        // loadImage("src/main/resources/WizardTD/tower2.png");
-
     }
 
-    static Scanner fileIO(String loc){ // read file into scanner obj
+    /**
+     * Read file into scanner object. Used to read map file.
+     * @param loc String of file location.
+     * @return Scanner object of file.
+     */
+    static Scanner fileIO(String loc)
+    { 
         File f = new File(loc);
         Scanner scan;
         try{
             scan = new Scanner(f);
         } catch (FileNotFoundException e){
             System.out.println("File not found!");
-            return null; // this might be dangerous
+            return null;
         }
         return scan;
     }
 
-    static Iterable<String> scan2Iterable(Scanner scan){ // read lines from scanner obj
+    /**
+     * Read scanner object into iterable object. Used to read map file.
+     * @param scan Scanner object of file, use fileIO() to get.
+     * @return Iterable object of file of read scanner.
+     */
+    static Iterable<String> scan2Iterable(Scanner scan){
         ArrayList<String> lines = new ArrayList<String>();
         while(scan.hasNextLine()){
             lines.add(scan.nextLine());
@@ -172,6 +173,14 @@ public class App extends PApplet {
         return lines;
     }
 
+    /**
+     * Calculate distance between two points.
+     * @param x1 x coordinate of first point.
+     * @param y1 y coordinate of first point.
+     * @param x2 x coordinate of second point.
+     * @param y2 y coordinate of second point.
+     * @return double distance between two points.
+     */
     static double scalarDistance(double x1, double y1, double x2, double y2){
         return Math.sqrt(Math.pow(x1-x2, 2) + Math.pow(y1-y2, 2));
     }
@@ -207,6 +216,10 @@ public class App extends PApplet {
 
     }
 
+    /**
+     * Receive mouse pressed signal from the mouse.
+     * Used to indicate clicking to ui class.
+     */
     @Override
     public void mousePressed(MouseEvent e) 
     { // hover over grey + cost
@@ -225,6 +238,9 @@ public class App extends PApplet {
         
     }
     
+    /**
+     * tells ui class which button is being hovered over
+     */
     public void mouseHover() {
         for (int buttonNO = 1; buttonNO <= App.NUMBEROFBUTTONS; buttonNO++){
             if (isMouseOverButton(buttonNO))
@@ -237,6 +253,12 @@ public class App extends PApplet {
         }
     }
 
+    /**
+     * Check if mouse is over a button. Based on x and y coordinates of mouse.
+     * Assumes buttons are in a column with equally spaced entries.
+     * @param buttonNO int of button number.
+     * @return boolean of whether mouse is over button.
+     */
     public boolean isMouseOverButton(int buttonNO){
         return (mouseX > BUTTONX &&
                 mouseX < BUTTONX + BUTTONSIZE &&

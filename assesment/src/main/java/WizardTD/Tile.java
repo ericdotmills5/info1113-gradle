@@ -3,7 +3,7 @@ package WizardTD;
 import processing.core.PApplet;
 import processing.core.PImage;
 
-abstract class Tile{
+abstract class Tile {
     public static final int CELLSIZE = App.CELLSIZE;
     public static final int wizShiftX = App.wizShiftX; // 8 pixels left
     public static final int wizShiftY = App.wizShiftY; // 5 pixels up
@@ -14,6 +14,12 @@ abstract class Tile{
     protected Map map;
     protected PImage sprite;
 
+    /**
+     * Constructor for abstract tile class
+     * @param x x tile cordinates [0, 19]
+     * @param y y tile cordinates [0, 19]
+     * @param map map class it is generated from
+     */
     public Tile(int x, int y, Map map){
         this.x = x;
         this.y = y;
@@ -28,16 +34,29 @@ abstract class Tile{
         return this.y;
     }
 
+    /**
+     * @return String representation of tile (x, y) for debugging
+     */
     public String toString(){
         return this.getClass().getName() + " @ x=" + this.x + ", y=" + this.y;
     }
 
+    /**
+     * Draws tile to screen, converting tile coordinates to pixel coordinates
+     * @param app need app to draw with
+     */
     public void draw(PApplet app){
         app.image(this.sprite, this.x * CELLSIZE, this.y * CELLSIZE + TOPBAR);
     }
 }
 
-class Shrub extends Tile{
+class Shrub extends Tile {
+    /**
+     * Only unique thing about shrub is its sprite.
+     * @param x x tile cordinates [0, 19]
+     * @param y y tile cordinates [0, 19]
+     * @param map map class it is generated from
+     */
     public Shrub(int x, int y, Map map){
         super(x, y, map);
         this.sprite = map.getApp().loadImage("src/main/resources/WizardTD/shrub.png");
@@ -45,6 +64,12 @@ class Shrub extends Tile{
 }
 
 class Grass extends Tile{
+    /**
+     * Only unique thing about grass is its sprite.
+     * @param x x tile cordinates [0, 19]
+     * @param y y tile cordinates [0, 19]
+     * @param map map class it is generated from
+     */
     public Grass(int x, int y, Map map){
         super(x, y, map);
         this.sprite = map.getApp().loadImage("src/main/resources/WizardTD/grass.png");
