@@ -2,6 +2,7 @@ package WizardTD;
 
 import processing.core.PApplet;
 import processing.core.PImage;
+import processing.data.JSONObject;
 //import processing.data.JSONArray;
 //import processing.data.JSONObject;
 import processing.event.MouseEvent;
@@ -72,6 +73,9 @@ public class App extends PApplet {
     public static final int PROJSPEED = 5;
     public static final int MONSTERRADIUS = 20 / 2; // monster is 20x20 pixels
     public static final int FIREBALLRADIUS = 6 / 3; // fireball is 6x6 pixels
+    public static final char[] buttons = {' ', 'F', 'P', 'T', '1', '2', '3', 'M', 'P'};
+    public static final int NUMBEROFBUTTONS = buttons.length - 1; // exclude 1st space bar
+
 
     public static int WIDTH = CELLSIZE*BOARD_WIDTH+SIDEBAR;
     public static int HEIGHT = BOARD_WIDTH*CELLSIZE+TOPBAR;
@@ -84,20 +88,24 @@ public class App extends PApplet {
     public boolean onLossScreen = false;
 
     public String configPath;
+    public JSONObject config;
     public static String lvlLoc;
     public Map map;
     public Ui ui;
     public Iterable<String> mapIterable;
-    
 
-    public Monster monster; /// testing
+    public double poisonCost;
+    public double poisonFrames;
+    public double poisonDamage;
+    
+    public Monster monster; // testing
 
     public Random random = new Random();
 	
     // Feel free to add any additional methods or attributes you want. Please put classes in different files.
 
     public App() {
-        this.configPath = "config.json";
+        
     }
 
     /**
@@ -114,8 +122,14 @@ public class App extends PApplet {
      */
 	@Override
     public void setup() {
-        frameRate(FPS);
+        this.configPath = "config.json";
+        this.config = loadJSONObject(this.configPath);
+        this.poisonCost = this.config.getDouble("poison_cost");
+        this.poisonFrames = this.config.getDouble("poison_time") * FPS;
+        this.poisonDamage = this.config.getDouble("poison_damage_per_second");
 
+
+        frameRate(FPS);
         Scanner scan = fileIO(this.loadJSONObject(this.configPath).getString("layout"));
         this.mapIterable = scan2Iterable(scan);
         scan.close();
@@ -177,11 +191,8 @@ public class App extends PApplet {
         } else if(this.onWinScreen){
             // not allowed to press bellow buttons
         } else {
-            char[] buttons = {' ', 'F', 'P', 'T', '1', '2', '3', 'M'};
-            // placeholder, ff, pause, place tower, range, speed, dmg, mana pool
-
-            for(int i = 1; i < buttons.length; i++){
-                if(keyCode == buttons[i]){
+            for(int i = 1; i < App.buttons.length; i++){
+                if(keyCode == App.buttons[i]){
                     this.ui.toggleSwitch(this, i);
                 }
             }
@@ -199,7 +210,7 @@ public class App extends PApplet {
     @Override
     public void mousePressed(MouseEvent e) 
     { // hover over grey + cost
-        for (int buttonNO = 1; buttonNO <= 7; buttonNO++)
+        for (int buttonNO = 1; buttonNO <= App.NUMBEROFBUTTONS; buttonNO++)
         {
             if (isMouseOverButton(buttonNO))
             {
@@ -215,7 +226,7 @@ public class App extends PApplet {
     }
     
     public void mouseHover() {
-        for (int buttonNO = 1; buttonNO <= 7; buttonNO++){
+        for (int buttonNO = 1; buttonNO <= App.NUMBEROFBUTTONS; buttonNO++){
             if (isMouseOverButton(buttonNO))
             {
                 this.ui.setHoveredButton(buttonNO, true);

@@ -16,6 +16,7 @@ public class Ui {
     private boolean upgradeDamage = false;
     private boolean upgradeDamageHov = false;
     private boolean manaPoolHov = false;
+    private boolean poisonHov = false;
 
     public Ui(Map map)
     {
@@ -97,6 +98,8 @@ public class Ui {
             case 7: // upgrade mana pool
                 this.map.getMana().clickPoolSpell();
                 break;
+            case 8:
+                this.map.togglePoison();
         }
     }
 
@@ -124,6 +127,8 @@ public class Ui {
             case 7: // upgrade mana pool
                 this.manaPoolHov = hover;
                 break;
+            case 8:
+                this.poisonHov = hover;
         }
     }
     
@@ -200,6 +205,15 @@ public class Ui {
                 cost = (int)this.map.getMana().getPoolCost();
                 text0 = "M";
                 text1 = "Mana pool";
+                text2 = "cost: " + cost; // assume 4 digit price max
+                break;
+            case 8:
+                light = this.map.getPoison();
+                hover = this.poisonHov;
+                hasHoverText = true;
+                cost = (int)this.map.getApp().poisonCost;
+                text0 = "P";
+                text1 = "Poison";
                 text2 = "cost: " + cost; // assume 4 digit price max
                 break;
         }
@@ -371,7 +385,7 @@ public class Ui {
         this.manaText(app);
 
         // buttons
-        for(int i = 1; i <= 7; i++){
+        for(int i = 1; i <= App.NUMBEROFBUTTONS; i++){
             this.buttonDraw(app, i);
         }
 

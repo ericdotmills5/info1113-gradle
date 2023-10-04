@@ -161,8 +161,12 @@ public class Monster {
         return this.currHealth + " hp monster at (" + this.tileX + ", " + this.tileY + ")";
     }
 
-    public void tick(){
-        //this.currHealth -= this.app.rate * 0.1; // testing
+    public void tick()
+    {
+        // poison
+        if(this.app.map.getPoison()){
+            this.takeDamage(this.app.poisonDamage); // influenced by armour
+        }
         
         // health
         this.healthProp = this.currHealth / this.maxHealth;

@@ -14,6 +14,11 @@ import java.util.*;
  *  restart upon loss takes too long to restart
  *  sumarise long if else statements
  *  towers lag out your game
+ *  bottom right upgrade bubble should only show upgrades player can afford (source?)
+ *  google java style guide
+ *  90%+ test coverage
+ *  clean up code with functions
+ *  restarting doesnt reset app rate (ff/pause)
  * 
  * check ghost speeds are actually correct
  * check if integer config values can take floats
@@ -43,9 +48,11 @@ public class Map {
     private boolean lastWave = false;
     private Mana mana;
     private ArrayList<Tower> towerList = new ArrayList<>();
-
+    private boolean poison = false;
+    private double poisonFrames;
 
     public Map(Iterable<String> mapIterable, App app){
+        this.poisonFrames = app.poisonFrames;
         this.app = app;
         this.land = this.iterator2Matrix(mapIterable.iterator());
         System.out.println("matrix made");
@@ -122,6 +129,16 @@ public class Map {
 
     public double getInitialTowerDamage(){
         return this.data.getDouble("initial_tower_damage");
+    }
+
+    public boolean getPoison(){
+        return this.poison;
+    }
+
+    public void togglePoison(){
+        if(!this.poison && this.mana.updateMana(-1 * this.app.poisonCost)){
+            this.poison = true;
+        }
     }
 
     public Tile[][] iterator2Matrix(Iterator<String> scan){
@@ -406,8 +423,8 @@ public class Map {
         }
     }
 
-    public void tick(){
-
+    public void tick()
+    {
         // tick each wave
         if(!(waveNumber == 0 && this.waveTime > this.addWaveTimes()))
         { // after 1st pre wave time
@@ -440,6 +457,14 @@ public class Map {
         // tick towers;
         for(Tower tower: this.towerList){
             tower.tick();
+        }
+
+        // poison
+        if(this.poison && this.poisonFrames <= 0){
+            this.poison = false;
+            this.poisonFrames = this.app.poisonFrames;
+        } else{
+            this.poisonFrames -= this.app.rate;
         }
     }
 
