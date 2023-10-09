@@ -133,7 +133,7 @@ public class App extends PApplet {
 
         // read map
         frameRate(FPS);
-        Scanner scan = fileIO(this.loadJSONObject(this.configPath).getString("layout"));
+        Scanner scan = fileIO(this.config.getString("layout"));
         this.mapIterable = scan2Iterable(scan);
         scan.close();
 
