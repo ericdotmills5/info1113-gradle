@@ -51,7 +51,6 @@ jar {
         attributes 'Main-Class': 'WizardTD.App'
     }
     from {
-        //configurations.runtimeClasspath.findAll { it.name.endsWith('jar') }.collect { zipTree(it) }
-        configurations.runtimeClasspath.collect {it.isDirectory() ? it : zipTree(it) }
+        configurations.runtimeClasspath.findAll { it.name.endsWith('jar') }.collect { zipTree(it) }
     }
 }

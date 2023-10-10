@@ -11,14 +11,11 @@ import java.util.*;
  *  Path on terminal corner * 
  *  Wizard hut on side * 
  *  Wizard hut on corner * 
- *  restart upon loss takes too long to restart * 
  *  sumarise long if else statements
- *  towers lag out your game
  *  bottom right upgrade bubble should only show upgrades player can afford (source?)
  *  google java style guide * 
  *  90%+ test coverage
  *  clean up code with functions * 
- *  restarting doesnt reset app rate (ff/pause) * 
  * 
  * check ghost speeds are actually correct
  * check if integer config values can take floats
@@ -131,15 +128,18 @@ public class Map {
         return this.data.getDouble("initial_tower_range");
     }
 
-    public double getInitialTowerFiringSpeed(){
+    public double getInitialTowerFiringSpeed()
+    {
         return this.data.getDouble("initial_tower_firing_speed");
     }
 
-    public double getInitialTowerDamage(){
+    public double getInitialTowerDamage()
+    {
         return this.data.getDouble("initial_tower_damage");
     }
 
-    public boolean getPoison(){
+    public boolean getPoison()
+    {
         return this.poison;
     }
 
@@ -225,6 +225,7 @@ public class Map {
 
                     if(((WizOrPath)entry).terminal != Direction.NONE){ // if its a spawn
                         this.routes.put((Path)entry, null); // add it to the spawn list, no route yet
+                        System.out.println(entry + " is a spawn");
                     }
                 }
                 if(entry instanceof Path){

@@ -194,8 +194,12 @@ public class App extends PApplet {
         if(this.onLossScreen){
             if(keyCode == 'R'){
                 this.onLossScreen = false;
+                this.doubleRate = 1;
+                this.pauseRate = 1;
+                this.rate = doubleRate * pauseRate;
                 this.map = new Map(this.mapIterable, this);
                 this.ui = new Ui(this.map);
+                
             }
         } else if(this.onWinScreen){
             // not allowed to press bellow buttons

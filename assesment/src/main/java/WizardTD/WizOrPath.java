@@ -8,8 +8,9 @@ abstract class WizOrPath extends Tile {
 
     protected int wizDist = 0;
     protected HashMap<Direction, Tile> adj = new HashMap<Direction, Tile>();
-    protected Direction terminal; // Not: 0, edge on right:1, edge up: 2...
+    protected Direction terminal; // direction of terminality
     protected Direction optimal; // from wiz dist
+    protected Direction[] termArray = new Direction[3]; // {left, NONE}, left is off the screen
 
     /**
      * Wizard and paths have similarities that deserve to be abstracted
@@ -20,6 +21,11 @@ abstract class WizOrPath extends Tile {
     public WizOrPath(int x, int y, Map map)
     {
         super(x, y, map);
+    }
+
+    public Direction getTerminal()
+    {
+        return this.terminal;
     }
 
     /**

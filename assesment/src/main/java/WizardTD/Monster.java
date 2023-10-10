@@ -34,10 +34,13 @@ public class Monster {
     private int tileX;
     private int tileY;
 
+    private boolean firstTimeSpawning = true;
+
     public Monster(
         int tileX, int tileY, double pixSpeed, double maxHealth, 
         double armour, ArrayList<Direction> route, App app, double manaOnKill
-        ){
+        )
+        {
         for(Direction dir: route){
             this.route.add(dir);
         } // copy route as to not edit reference
@@ -54,7 +57,7 @@ public class Monster {
         this.pixelY = tileY * CELLSIZE + ghostShiftY + TOPBAR;
         this.sprite = app.loadImage("src/main/resources/WizardTD/gremlin.png");
 
-        this.route.add(0, this.route.get(0)); // duplicate the first element
+        
         this.spawnShift();
 
         System.out.println("Created " + this);
@@ -73,23 +76,36 @@ public class Monster {
     }
 
     public void spawnShift(){ // shift mosnter so it spawns off screen
-        switch(this.route.get(0)){
+        switch(((WizOrPath)this.app.map.getLand()[this.tileX][this.tileY]).getTerminal()){
             case UP:
-                this.pixelY += CELLSIZE;
+                this.pixelY -= CELLSIZE;
+                if(this.firstTimeSpawning){
+                this.route.add(0, Direction.DOWN);
+                }
                 break;
             case DOWN:
-                this.pixelY -= CELLSIZE;
+                this.pixelY += CELLSIZE;
+                if(this.firstTimeSpawning){
+                this.route.add(0, Direction.UP);
+                }
                 break;
             case LEFT:
-                this.pixelX += CELLSIZE;
+                this.pixelX -= CELLSIZE;
+                if(this.firstTimeSpawning){
+                this.route.add(0, Direction.RIGHT);
+                }
                 break;
             case RIGHT:
-                this.pixelX -= CELLSIZE;
+                this.pixelX += CELLSIZE;
+                if(this.firstTimeSpawning){
+                this.route.add(0, Direction.LEFT);
+                }
                 break;
             case NONE:
-                // do nothing
+                System.out.println("Monster spawned on non terminal path!");
                 break;
         } 
+        this.firstTimeSpawning = false;
     }
 
     public void takeDamage(double damage){ // remember armour

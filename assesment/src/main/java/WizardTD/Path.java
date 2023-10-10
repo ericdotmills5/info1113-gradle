@@ -38,16 +38,24 @@ public class Path extends WizOrPath {
         boolean up = false;
         boolean down = false;
 
-        if(this.adj.get(Direction.LEFT) instanceof WizOrPath){
+        if(
+            this.terminal == Direction.LEFT || this.adj.get(Direction.LEFT) instanceof WizOrPath
+        ){
             left = true;
         }
-        if(this.adj.get(Direction.RIGHT) instanceof WizOrPath){
+        if(
+            this.terminal == Direction.RIGHT || this.adj.get(Direction.RIGHT) instanceof WizOrPath
+        ){
             right = true;
         }
-        if(this.adj.get(Direction.UP) instanceof WizOrPath){
+        if(
+            this.terminal == Direction.UP || this.adj.get(Direction.UP) instanceof WizOrPath
+        ){
             up = true;
         }
-        if(this.adj.get(Direction.DOWN) instanceof WizOrPath){
+        if(
+            this.terminal == Direction.DOWN || this.adj.get(Direction.DOWN) instanceof WizOrPath
+        ){
             down = true;
         }
 
@@ -93,22 +101,6 @@ public class Path extends WizOrPath {
             return;
         } else if(right && down){
             this.pathType = 1;
-            this.rotates = 1;
-            return;
-        } else if(left){
-            this.pathType = 0;
-            this.rotates = 0;
-            return;
-        } else if(right){
-            this.pathType = 0;
-            this.rotates = 0;
-            return;
-        } else if(up){
-            this.pathType = 0;
-            this.rotates = 1;
-            return;
-        } else if(down){
-            this.pathType = 0;
             this.rotates = 1;
             return;
         } else{
