@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>App.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">assesment</a> &gt; <a href="index.source.html" class="el_package">WizardTD</a> &gt; <span class="el_source">App.java</span></div><h1>App.java</h1><pre class="source lang-java linenums">package WizardTD;
+
+import processing.core.PApplet;
+import processing.core.PImage;
+import processing.data.JSONObject;
+//import processing.data.JSONArray;
+//import processing.data.JSONObject;
+import processing.event.MouseEvent;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
+import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+
+import java.io.*;
+import java.util.*;
+
+public class App extends PApplet {
+
+    public static final int CELLSIZE = 32;
+    public static final int SIDEBAR = 120;
+    public static final int TOPBAR = 40;
+    public static final int BOARD_WIDTH = 20;
+    public static final int wizShiftX = -8; // 8 pixels left
+    public static final int wizShiftY = -5; // 5 pixels up
+    public static final int ghostShiftX = 5; // 5 pixels right
+    public static final int ghostShiftY = 5; // 5 pixels down
+    public static final int healthShiftX = -5; // 5 pixels left
+    public static final int healthShiftY = -5; // 6 pixels up
+    public static final int healthLength = 30; // 30 pixels long
+    public static final int healthWidth = 2; // 5 pixels tall
+    public static final int MANAX = 375;
+    public static final int MANAY = 10;
+    public static final int MANALENGTH = 320;
+    public static final int MANAWIDTH = 18;
+    public static final int MANATEXTX = MANAX - 60;
+    public static final int MANATEXTY = MANAY + 16;
+    public static final int MANACURRSHIFT = 173;
+    public static final int LOSTX = 240;
+    public static final int LOSTY = 227;
+    public static final int BUTTONX = CELLSIZE * BOARD_WIDTH + 6;
+    public static final int BUTTONSIZE = 42; // square
+    public static final int BUTTONSPACING = 10;
+    public static final int BUTTONTEXT0SIZE = 25;
+    public static final int BUTTONTEXT12SIZE = 12;
+    public static final int BUTTONTEXTSHIFTX = 5;
+    public static final int BUTTONTEXT0SHIFTY = 30;
+    public static final int BUTTONTEXT1SHIFTY = 15;
+    public static final int BUTTONTEXT2SHIFTY = BUTTONTEXT1SHIFTY + 20;
+    public static final int BUTTONHOVERLENGTH = 72; // assume 4 digit price max
+    public static final int BUTTONHOVERHEIGHT = 20;
+    public static final int BUTTONHOVERX = CELLSIZE * BOARD_WIDTH - BUTTONHOVERLENGTH - 7;
+    public static final int BUTTONHOVERTEXTX = BUTTONHOVERX + 4;
+    public static final int BUTTONHOVERTEXTSIZE = BUTTONTEXT12SIZE;
+    public static final int BUTTONHOVERTEXTSHIFTY = BUTTONTEXT1SHIFTY;
+    public static final int TOWERFIRSTUPGRADESHIFTX = 5;
+    public static final int TOWERFIRSTUPGRADESHIFTY = 2;
+    public static final int RANGEUPGRADEDIAMETER = 6;
+    public static final int TOWERFIRSTUPGRADEDMGSHIFTY = 25;
+    public static final int TOWERUPGRADECIRCLEDIST = 2;
+    public static final int TOWERUPGRADECROSSDIST = 5;
+    public static final int TOWERDAMAGECROSSLENGTHX = RANGEUPGRADEDIAMETER - 3;
+    public static final int TOWERDAMAGECROSSLENGTHY = RANGEUPGRADEDIAMETER;
+    public static final int TOWERSPEEDSQUARESHIFT = 5;
+    public static final int TOWERSPEEDSQUARELENGTH = 20;
+    public static final int UPGRADEBUBBLEX = CELLSIZE * BOARD_WIDTH + 10;
+    public static final int UPGRADEBUBBLEY = 16 * CELLSIZE + TOPBAR;
+    public static final int UPGRADEBUBBLELENGTH = BUTTONSIZE * 2;
+    public static final int UPGRADEBUBBLEHEIGHT = BUTTONSIZE / 2;
+    public static final int UPGRADEBUBBLETEXTSIZE = 12;
+    public static final int UPGRADEBUBBLETEXTSHIFTX = 3;
+    public static final int UPGRADEBUBBLETEXTSHIFTY = UPGRADEBUBBLEHEIGHT / 2 + 5;
+    public static final int SPRITESHIFT = ghostShiftX + 10; // sprite is 20x20 pixels
+    public static final int PROJSPEED = 5;
+    public static final int MONSTERRADIUS = 20 / 2; // monster is 20x20 pixels
+    public static final int FIREBALLRADIUS = 6 / 3; // fireball is 6x6 pixels
+<span class="fc" id="L78">    public static final char[] buttons = {' ', 'F', 'P', 'T', '1', '2', '3', 'M', '4'};</span>
+<span class="fc" id="L79">    public static final int NUMBEROFBUTTONS = buttons.length - 1; // exclude 1st space bar</span>
+
+
+<span class="fc" id="L82">    public static int WIDTH = CELLSIZE*BOARD_WIDTH+SIDEBAR;</span>
+<span class="fc" id="L83">    public static int HEIGHT = BOARD_WIDTH*CELLSIZE+TOPBAR;</span>
+
+    public static final int FPS = 60;
+<span class="fc" id="L86">    public int doubleRate = 1; // 2 or 1</span>
+<span class="fc" id="L87">    public int pauseRate = 1; // 1 or 0</span>
+<span class="fc" id="L88">    public int rate = doubleRate * pauseRate;</span>
+<span class="fc" id="L89">    public boolean onWinScreen = false;</span>
+<span class="fc" id="L90">    public boolean onLossScreen = false;</span>
+
+    public String configPath;
+    public JSONObject config;
+    public static String lvlLoc;
+    public Map map;
+    public Ui ui;
+    public Iterable&lt;String&gt; mapIterable;
+
+    public double poisonCost;
+    public double poisonFrames;
+    public double poisonDamage;
+    public boolean testing;
+    
+    public Monster monster; // testing
+
+<span class="fc" id="L106">    public Random random = new Random();</span>
+	
+    // Feel free to add any additional methods or attributes you want. Please put classes in different files.
+
+
+<span class="fc" id="L111">    public App() {</span>
+        
+<span class="fc" id="L113">    }</span>
+
+    /**
+     * Initialise the setting of the window size.
+     */
+	@Override
+    public void settings() {
+<span class="nc" id="L120">        size(WIDTH, HEIGHT); </span>
+        // glitched, probably due to window decorations on windows
+<span class="nc" id="L122">    }</span>
+
+    /**
+     * Load all resources such as images. Initialise the elements such as the player, enemies and map elements.
+     */
+	@Override
+    public void setup() 
+    {
+<span class="nc" id="L130">        frameRate(FPS);</span>
+<span class="nc" id="L131">        this.configPath = &quot;config.json&quot;;</span>
+<span class="nc" id="L132">        this.config = readJSON(configPath);</span>
+<span class="nc" id="L133">        this.testing = false;</span>
+<span class="nc" id="L134">        this.createStuff();</span>
+<span class="nc" id="L135">    }</span>
+
+    public void createStuff()
+    { 
+<span class="fc" id="L139">        this.poisonCost = this.config.getDouble(&quot;poison_cost&quot;);</span>
+<span class="fc" id="L140">        this.poisonFrames = this.config.getDouble(&quot;poison_time&quot;) * FPS;</span>
+<span class="fc" id="L141">        this.poisonDamage = this.config.getDouble(&quot;poison_damage_per_second&quot;);</span>
+
+        // read map
+<span class="fc" id="L144">        Scanner scan = fileIO(this.config.getString(&quot;layout&quot;));</span>
+<span class="fc" id="L145">        this.mapIterable = scan2Iterable(scan);</span>
+<span class="fc" id="L146">        scan.close();</span>
+
+        // initialise map and ui classes
+<span class="fc" id="L149">        this.map = new Map(this.mapIterable, this, this.config);</span>
+<span class="fc" id="L150">        this.ui = new Ui(this.map);</span>
+<span class="fc" id="L151">    }</span>
+
+    /**
+     * Read file into scanner object. Used to read map file.
+     * @param loc String of file location.
+     * @return Scanner object of file.
+     */
+    static Scanner fileIO(String loc)
+    { 
+<span class="fc" id="L160">        File f = new File(loc);</span>
+        Scanner scan;
+        try{
+<span class="fc" id="L163">            scan = new Scanner(f);</span>
+<span class="nc" id="L164">        } catch (FileNotFoundException e){</span>
+<span class="nc" id="L165">            System.out.println(&quot;File not found!&quot;);</span>
+<span class="nc" id="L166">            return null;</span>
+<span class="fc" id="L167">        }</span>
+<span class="fc" id="L168">        return scan;</span>
+    }
+
+    static JSONObject readJSON(String path){
+<span class="fc" id="L172">        String json = &quot;&quot;;</span>
+        try{
+<span class="fc" id="L174">            json = new String(Files.readAllBytes(Paths.get(path)));</span>
+<span class="nc" id="L175">        } catch (IOException e){</span>
+<span class="nc" id="L176">            System.out.println(&quot;File not found!&quot;);</span>
+<span class="nc" id="L177">            return null;</span>
+<span class="fc" id="L178">        }</span>
+<span class="fc" id="L179">        return JSONObject.parse(json);</span>
+    }
+
+    /**
+     * Read scanner object into iterable object. Used to read map file.
+     * @param scan Scanner object of file, use fileIO() to get.
+     * @return Iterable object of file of read scanner.
+     */
+    static Iterable&lt;String&gt; scan2Iterable(Scanner scan){
+<span class="fc" id="L188">        ArrayList&lt;String&gt; lines = new ArrayList&lt;String&gt;();</span>
+<span class="fc bfc" id="L189" title="All 2 branches covered.">        while(scan.hasNextLine()){</span>
+<span class="fc" id="L190">            lines.add(scan.nextLine());</span>
+        }
+<span class="fc" id="L192">        return lines;</span>
+    }
+
+    /**
+     * Calculate distance between two points.
+     * @param x1 x coordinate of first point.
+     * @param y1 y coordinate of first point.
+     * @param x2 x coordinate of second point.
+     * @param y2 y coordinate of second point.
+     * @return double distance between two points.
+     */
+    static double scalarDistance(double x1, double y1, double x2, double y2){
+<span class="nc" id="L204">        return Math.sqrt(Math.pow(x1-x2, 2) + Math.pow(y1-y2, 2));</span>
+    }
+
+    /**
+     * Receive key pressed signal from the keyboard.
+     */
+	@Override
+    public void keyPressed(){
+
+<span class="nc bnc" id="L213" title="All 2 branches missed.">        if(this.onLossScreen){</span>
+<span class="nc bnc" id="L214" title="All 2 branches missed.">            if(keyCode == 'R'){</span>
+<span class="nc" id="L215">                this.onLossScreen = false;</span>
+<span class="nc" id="L216">                this.doubleRate = 1;</span>
+<span class="nc" id="L217">                this.pauseRate = 1;</span>
+<span class="nc" id="L218">                this.rate = doubleRate * pauseRate;</span>
+<span class="nc" id="L219">                this.map = new Map(this.mapIterable, this, this.config);</span>
+<span class="nc" id="L220">                this.ui = new Ui(this.map);</span>
+                
+            }
+<span class="nc bnc" id="L223" title="All 2 branches missed.">        } else if(this.onWinScreen){</span>
+            // not allowed to press bellow buttons
+        } else {
+<span class="nc bnc" id="L226" title="All 2 branches missed.">            for(int i = 1; i &lt; App.buttons.length; i++){</span>
+<span class="nc bnc" id="L227" title="All 2 branches missed.">                if(keyCode == App.buttons[i]){</span>
+<span class="nc" id="L228">                    this.ui.toggleSwitch(this, i);</span>
+                }
+            }
+        }
+<span class="nc" id="L232">    }</span>
+
+    /**
+     * Receive key released signal from the keyboard.
+     */
+	@Override
+    public void keyReleased(){
+
+<span class="nc" id="L240">    }</span>
+
+    /**
+     * Receive mouse pressed signal from the mouse.
+     * Used to indicate clicking to ui class.
+     */
+    @Override
+    public void mousePressed(MouseEvent e) 
+    { // hover over grey + cost
+<span class="nc bnc" id="L249" title="All 2 branches missed.">        for (int buttonNO = 1; buttonNO &lt;= App.NUMBEROFBUTTONS; buttonNO++)</span>
+        {
+<span class="nc bnc" id="L251" title="All 2 branches missed.">            if (isMouseOverButton(buttonNO))</span>
+            {
+<span class="nc" id="L253">                this.ui.toggleSwitch(this, buttonNO);</span>
+            }
+        }
+<span class="nc" id="L256">        this.ui.click(this);</span>
+<span class="nc" id="L257">    }</span>
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        
+<span class="nc" id="L262">    }</span>
+    
+    /**
+     * tells ui class which button is being hovered over
+     */
+    public void mouseHover() {
+<span class="nc bnc" id="L268" title="All 2 branches missed.">        for (int buttonNO = 1; buttonNO &lt;= App.NUMBEROFBUTTONS; buttonNO++){</span>
+<span class="nc bnc" id="L269" title="All 2 branches missed.">            if (isMouseOverButton(buttonNO))</span>
+            {
+<span class="nc" id="L271">                this.ui.setHoveredButton(buttonNO, true);</span>
+            } else
+            {
+<span class="nc" id="L274">                this.ui.setHoveredButton(buttonNO, false);</span>
+            }
+        }
+<span class="nc" id="L277">    }</span>
+
+    /**
+     * Check if mouse is over a button. Based on x and y coordinates of mouse.
+     * Assumes buttons are in a column with equally spaced entries.
+     * @param buttonNO int of button number.
+     * @return boolean of whether mouse is over button.
+     */
+    public boolean isMouseOverButton(int buttonNO){
+<span class="nc bnc" id="L286" title="All 8 branches missed.">        return (mouseX &gt; BUTTONX &amp;&amp;</span>
+                mouseX &lt; BUTTONX + BUTTONSIZE &amp;&amp;
+                mouseY &gt; TOPBAR + buttonNO * BUTTONSPACING + (buttonNO-1)*BUTTONSIZE &amp;&amp;
+                mouseY &lt; buttonNO * (BUTTONSPACING + BUTTONSIZE) + TOPBAR);
+    }
+
+    /**
+     * Draw all elements in the game by current frame.
+     */
+	@Override
+    public void draw() {
+<span class="nc bnc" id="L297" title="All 4 branches missed.">        if(!this.onLossScreen &amp;&amp; !this.onWinScreen){</span>
+            // tick
+<span class="nc" id="L299">            this.map.tick();</span>
+<span class="nc" id="L300">            this.ui.tick();</span>
+<span class="nc" id="L301">            this.mouseHover();</span>
+
+            // draw
+            // map
+<span class="nc" id="L305">            this.map.draw(this);</span>
+
+            // background
+<span class="nc" id="L308">            this.noStroke();</span>
+<span class="nc" id="L309">            this.fill(131, 111, 75); // brown background</span>
+<span class="nc" id="L310">            this.rect(0, 0, WIDTH, TOPBAR); // top bar</span>
+<span class="nc" id="L311">            this.rect(CELLSIZE*BOARD_WIDTH, 0, SIDEBAR, HEIGHT); // side bar</span>
+
+            // ui
+<span class="nc" id="L314">            this.ui.draw(this);</span>
+        } 
+<span class="nc bnc" id="L316" title="All 2 branches missed.">        if(this.onLossScreen) {</span>
+<span class="nc" id="L317">            this.fill(0, 255, 0);</span>
+<span class="nc" id="L318">            this.textSize(35);</span>
+<span class="nc" id="L319">            this.text(&quot;YOU LOST&quot;, LOSTX, LOSTY);</span>
+<span class="nc" id="L320">            this.textSize(20);</span>
+<span class="nc" id="L321">            this.text(&quot;Press 'r' to restart&quot;, LOSTX - 7, LOSTY + 30);</span>
+        } 
+<span class="nc bnc" id="L323" title="All 2 branches missed.">        if (this.onWinScreen) {</span>
+<span class="nc" id="L324">            this.fill(255, 0, 255);</span>
+<span class="nc" id="L325">            this.textSize(35);</span>
+<span class="nc" id="L326">            this.text(&quot;YOU WIN&quot;, LOSTX, LOSTY);</span>
+        }
+<span class="nc" id="L328">    }</span>
+
+    public static void main(String[] args) {
+<span class="nc" id="L331">        PApplet.main(&quot;WizardTD.App&quot;);</span>
+<span class="nc" id="L332">    }</span>
+
+    /**
+     * Source: https://stackoverflow.com/questions/37758061/rotate-a-buffered-image-in-java
+     * @param pimg The image to be rotated
+     * @param angle between 0 and 360 degrees
+     * @return the new rotated image 
+     */
+    public PImage rotateImageByDegrees(PImage pimg, double angle) { // rotates clockwise
+<span class="nc" id="L341">        BufferedImage img = (BufferedImage) pimg.getNative();</span>
+<span class="nc" id="L342">        double rads = Math.toRadians(angle);</span>
+<span class="nc" id="L343">        double sin = Math.abs(Math.sin(rads)), cos = Math.abs(Math.cos(rads));</span>
+<span class="nc" id="L344">        int w = img.getWidth();</span>
+<span class="nc" id="L345">        int h = img.getHeight();</span>
+<span class="nc" id="L346">        int newWidth = (int) Math.floor(w * cos + h * sin);</span>
+<span class="nc" id="L347">        int newHeight = (int) Math.floor(h * cos + w * sin);</span>
+
+<span class="nc" id="L349">        PImage result = this.createImage(newWidth, newHeight, RGB);</span>
+        //BufferedImage rotated = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_ARGB);
+<span class="nc" id="L351">        BufferedImage rotated = (BufferedImage) result.getNative();</span>
+<span class="nc" id="L352">        Graphics2D g2d = rotated.createGraphics();</span>
+<span class="nc" id="L353">        AffineTransform at = new AffineTransform();</span>
+<span class="nc" id="L354">        at.translate((newWidth - w) / 2, (newHeight - h) / 2);</span>
+
+<span class="nc" id="L356">        int x = w / 2;</span>
+<span class="nc" id="L357">        int y = h / 2;</span>
+
+<span class="nc" id="L359">        at.rotate(rads, x, y);</span>
+<span class="nc" id="L360">        g2d.setTransform(at);</span>
+<span class="nc" id="L361">        g2d.drawImage(img, 0, 0, null);</span>
+<span class="nc" id="L362">        g2d.dispose();</span>
+<span class="nc bnc" id="L363" title="All 2 branches missed.">        for (int i = 0; i &lt; newWidth; i++) {</span>
+<span class="nc bnc" id="L364" title="All 2 branches missed.">            for (int j = 0; j &lt; newHeight; j++) {</span>
+<span class="nc" id="L365">                result.set(i, j, rotated.getRGB(i, j));</span>
+            }
+        }
+
+<span class="nc" id="L369">        return result;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

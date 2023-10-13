@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Path.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">assesment</a> &gt; <a href="index.source.html" class="el_package">WizardTD</a> &gt; <span class="el_source">Path.java</span></div><h1>Path.java</h1><pre class="source lang-java linenums">package WizardTD;
+
+import processing.core.PImage;
+
+public class Path extends WizOrPath {
+    private int pathType; // 0 straight, 1 rAngle, 2 T, 3 cross
+    private int rotates; // how many 90 degree anticlockwise rotations?
+    private static final String spritePathToBeOverriden = &quot;src/main/resources/WizardTD/path0.png&quot;;
+
+    /**
+     * Generic constructor for path
+     * @param x x cordinate of path [0,19]
+     * @param y y cordinate of path [0,19]
+     * @param map map it is generated from
+     */
+    public Path(int x, int y, Map map)
+    {
+<span class="fc" id="L18">        super(x, y, map, Path.spritePathToBeOverriden);</span>
+<span class="fc" id="L19">    }</span>
+
+    /**
+     * Calls pathTypeRotate() and creates sprite based on diagnosis
+     */
+    public void updatePath(){ 
+<span class="fc" id="L25">        this.pathTypeRotate();</span>
+<span class="pc bpc" id="L26" title="1 of 2 branches missed.">        if(!this.map.getApp().testing){</span>
+<span class="nc" id="L27">            this.createImage();</span>
+        }
+<span class="fc" id="L29">    }</span>
+
+    /**
+     * Based on adjecent paths: diagnoses path rotation and type.
+     * Path type 0 = straight, 1 = rAngle, 2 = T, 3 = cross.
+     * Rotates is how many 90 degree anticlockwise rotations the source sprite needs.
+     * Originally used modular arithmetic to create diagnosis, but this is easier to understand.
+     */
+    public void pathTypeRotate()
+    {
+<span class="fc" id="L39">        boolean left = false;</span>
+<span class="fc" id="L40">        boolean right = false;</span>
+<span class="fc" id="L41">        boolean up = false;</span>
+<span class="fc" id="L42">        boolean down = false;</span>
+
+<span class="fc bfc" id="L44" title="All 2 branches covered.">        if(</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">            this.terminal == Direction.LEFT || this.adj.get(Direction.LEFT) instanceof WizOrPath</span>
+        ){
+<span class="fc" id="L47">            left = true;</span>
+        }
+<span class="fc bfc" id="L49" title="All 2 branches covered.">        if(</span>
+<span class="fc bfc" id="L50" title="All 2 branches covered.">            this.terminal == Direction.RIGHT || this.adj.get(Direction.RIGHT) instanceof WizOrPath</span>
+        ){
+<span class="fc" id="L52">            right = true;</span>
+        }
+<span class="fc bfc" id="L54" title="All 2 branches covered.">        if(</span>
+<span class="fc bfc" id="L55" title="All 2 branches covered.">            this.terminal == Direction.UP || this.adj.get(Direction.UP) instanceof WizOrPath</span>
+        ){
+<span class="fc" id="L57">            up = true;</span>
+        }
+<span class="fc bfc" id="L59" title="All 2 branches covered.">        if(</span>
+<span class="fc bfc" id="L60" title="All 2 branches covered.">            this.terminal == Direction.DOWN || this.adj.get(Direction.DOWN) instanceof WizOrPath</span>
+        ){
+<span class="fc" id="L62">            down = true;</span>
+        }
+
+<span class="fc bfc" id="L65" title="All 8 branches covered.">        if(left &amp;&amp; right &amp;&amp; up &amp;&amp; down){</span>
+<span class="fc" id="L66">            this.pathType = 3;</span>
+<span class="fc" id="L67">            this.rotates = 0;</span>
+<span class="fc" id="L68">            return;</span>
+<span class="fc bfc" id="L69" title="All 6 branches covered.">        } else if(left &amp;&amp; right &amp;&amp; up){</span>
+<span class="fc" id="L70">            this.pathType = 2;</span>
+<span class="fc" id="L71">            this.rotates = 2;</span>
+<span class="fc" id="L72">            return;</span>
+<span class="fc bfc" id="L73" title="All 6 branches covered.">        } else if(left &amp;&amp; right &amp;&amp; down){</span>
+<span class="fc" id="L74">            this.pathType = 2;</span>
+<span class="fc" id="L75">            this.rotates = 0;</span>
+<span class="fc" id="L76">            return;</span>
+<span class="fc bfc" id="L77" title="All 6 branches covered.">        } else if(left &amp;&amp; up &amp;&amp; down){</span>
+<span class="fc" id="L78">            this.pathType = 2;</span>
+<span class="fc" id="L79">            this.rotates = 3;</span>
+<span class="fc" id="L80">            return;</span>
+<span class="fc bfc" id="L81" title="All 6 branches covered.">        } else if(right &amp;&amp; up &amp;&amp; down){</span>
+<span class="fc" id="L82">            this.pathType = 2;</span>
+<span class="fc" id="L83">            this.rotates = 1;</span>
+<span class="fc" id="L84">            return;</span>
+<span class="fc bfc" id="L85" title="All 4 branches covered.">        } else if(left &amp;&amp; right){</span>
+<span class="fc" id="L86">            this.pathType = 0;</span>
+<span class="fc" id="L87">            this.rotates = 0;</span>
+<span class="fc" id="L88">            return;</span>
+<span class="fc bfc" id="L89" title="All 4 branches covered.">        } else if(up &amp;&amp; down){</span>
+<span class="fc" id="L90">            this.pathType = 0;</span>
+<span class="fc" id="L91">            this.rotates = 1;</span>
+<span class="fc" id="L92">            return;</span>
+<span class="fc bfc" id="L93" title="All 4 branches covered.">        } else if(left &amp;&amp; up){</span>
+<span class="fc" id="L94">            this.pathType = 1;</span>
+<span class="fc" id="L95">            this.rotates = 3;</span>
+<span class="fc" id="L96">            return;</span>
+<span class="pc bpc" id="L97" title="1 of 4 branches missed.">        } else if(left &amp;&amp; down){</span>
+<span class="fc" id="L98">            this.pathType = 1;</span>
+<span class="fc" id="L99">            this.rotates = 0;</span>
+<span class="fc" id="L100">            return;</span>
+<span class="pc bpc" id="L101" title="1 of 4 branches missed.">        } else if(right &amp;&amp; up){</span>
+<span class="fc" id="L102">            this.pathType = 1;</span>
+<span class="fc" id="L103">            this.rotates = 2;</span>
+<span class="fc" id="L104">            return;</span>
+<span class="pc bpc" id="L105" title="2 of 4 branches missed.">        } else if(right &amp;&amp; down){</span>
+<span class="fc" id="L106">            this.pathType = 1;</span>
+<span class="fc" id="L107">            this.rotates = 1;</span>
+<span class="fc" id="L108">            return;</span>
+        } else{
+<span class="nc" id="L110">            System.out.println(&quot;Error diagnosing path type &quot; + this);</span>
+<span class="nc" id="L111">            return;</span>
+        }
+    }
+
+    /**
+     * Creates sprite based on pathType and rotates
+     */
+    public void createImage()
+    {
+        PImage noRotate;
+
+<span class="nc" id="L122">        noRotate = this.map.getApp().loadImage( // assume string int concacenation</span>
+            &quot;src/main/resources/WizardTD/path&quot; + this.pathType + &quot;.png&quot;
+        );
+        
+<span class="nc" id="L126">        this.sprite = this.map.getApp().rotateImageByDegrees(noRotate, this.rotates * -90);</span>
+        
+<span class="nc" id="L128">    }</span>
+        
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

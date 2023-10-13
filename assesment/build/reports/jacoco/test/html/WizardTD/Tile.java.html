@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Tile.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">assesment</a> &gt; <a href="index.source.html" class="el_package">WizardTD</a> &gt; <span class="el_source">Tile.java</span></div><h1>Tile.java</h1><pre class="source lang-java linenums">package WizardTD;
+
+import processing.core.PApplet;
+import processing.core.PImage;
+
+abstract class Tile {
+    public static final int CELLSIZE = App.CELLSIZE;
+    public static final int wizShiftX = App.wizShiftX; // 8 pixels left
+    public static final int wizShiftY = App.wizShiftY; // 5 pixels up
+    public static final int TOPBAR = App.TOPBAR; // 40 pixels down
+
+    protected int x; // tile coordinates
+    protected int y;
+    protected Map map;
+    protected PImage sprite;
+
+    /**
+     * Constructor for abstract tile class
+     * @param x x tile cordinates [0, 19]
+     * @param y y tile cordinates [0, 19]
+     * @param map map class it is generated from
+     */
+<span class="fc" id="L23">    public Tile(int x, int y, Map map, String spritePath){</span>
+<span class="fc" id="L24">        this.x = x;</span>
+<span class="fc" id="L25">        this.y = y;</span>
+<span class="fc" id="L26">        this.map = map;</span>
+
+<span class="pc bpc" id="L28" title="1 of 2 branches missed.">        if(!map.getApp().testing){</span>
+<span class="nc" id="L29">            this.sprite = map.getApp().loadImage(spritePath);</span>
+        }
+<span class="fc" id="L31">    }</span>
+
+    public int getX(){
+<span class="nc" id="L34">        return this.x;</span>
+    }
+
+    public int getY(){
+<span class="nc" id="L38">        return this.y;</span>
+    }
+
+    /**
+     * @return String representation of tile (x, y) for debugging
+     */
+    public String toString(){
+<span class="fc" id="L45">        return this.getClass().getName() + &quot; @ x=&quot; + this.x + &quot;, y=&quot; + this.y;</span>
+    }
+
+    /**
+     * Draws tile to screen, converting tile coordinates to pixel coordinates
+     * @param app need app to draw with
+     */
+    public void draw(PApplet app){
+<span class="nc" id="L53">        app.image(this.sprite, this.x * CELLSIZE, this.y * CELLSIZE + TOPBAR);</span>
+<span class="nc" id="L54">    }</span>
+}
+
+class Shrub extends Tile {
+    private static final String spritePath = &quot;src/main/resources/WizardTD/shrub.png&quot;;
+    /**
+     * Only unique thing about shrub is its sprite.
+     * @param x x tile cordinates [0, 19]
+     * @param y y tile cordinates [0, 19]
+     * @param map map class it is generated from
+     */
+    public Shrub(int x, int y, Map map){
+<span class="fc" id="L66">        super(x, y, map, Shrub.spritePath);</span>
+<span class="fc" id="L67">    }</span>
+}
+
+class Grass extends Tile{
+    private static final String spritePath = &quot;src/main/resources/WizardTD/grass.png&quot;;
+    /**
+     * Only unique thing about grass is its sprite.
+     * @param x x tile cordinates [0, 19]
+     * @param y y tile cordinates [0, 19]
+     * @param map map class it is generated from
+     */
+    public Grass(int x, int y, Map map){
+<span class="fc" id="L79">        super(x, y, map, Grass.spritePath);</span>
+<span class="fc" id="L80">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

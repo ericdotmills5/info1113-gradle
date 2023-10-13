@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Mana.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">assesment</a> &gt; <a href="index.source.html" class="el_package">WizardTD</a> &gt; <span class="el_source">Mana.java</span></div><h1>Mana.java</h1><pre class="source lang-java linenums">package WizardTD;
+
+public class Mana {
+    double currMana;
+    double cap;
+    double regenRate;
+    double poolCost;
+    double poolCostIncrease;
+    double capMultiplier;
+    double manaMultiplier;
+    double initialRegenRate;
+<span class="fc" id="L12">    int counterOfFrames = 0;</span>
+
+<span class="fc" id="L14">    public Mana(double initial, double cap, double regenRate, double poolCost, double poolCostIncrease, double capMultiplier, double manaMultiplier){</span>
+<span class="pc bpc" id="L15" title="1 of 2 branches missed.">        this.currMana = initial &gt; cap ? cap : initial;</span>
+<span class="fc" id="L16">        this.cap = cap;</span>
+<span class="fc" id="L17">        this.regenRate = regenRate;</span>
+<span class="fc" id="L18">        this.initialRegenRate = regenRate;</span>
+<span class="fc" id="L19">        this.poolCost = poolCost;</span>
+<span class="fc" id="L20">        this.poolCostIncrease = poolCostIncrease;</span>
+<span class="fc" id="L21">        this.capMultiplier = capMultiplier;</span>
+<span class="fc" id="L22">        this.manaMultiplier = manaMultiplier;</span>
+<span class="fc" id="L23">    }</span>
+
+    public double getCurrMana(){
+<span class="nc" id="L26">        return this.currMana;</span>
+    }
+
+    public double getCap(){
+<span class="nc" id="L30">        return this.cap;</span>
+    }
+
+    public double getPoolCost(){
+<span class="nc" id="L34">        return this.poolCost;</span>
+    }
+
+    public void clickPoolSpell(){
+<span class="nc bnc" id="L38" title="All 2 branches missed.">        if(updateMana(-1 * poolCost)){</span>
+        // checks if mana is enough, and if so, deducts mana
+<span class="nc" id="L40">            this.cap *= this.capMultiplier;</span>
+<span class="nc" id="L41">            this.regenRate += this.manaMultiplier * this.initialRegenRate;</span>
+<span class="nc" id="L42">            this.poolCost += this.poolCostIncrease;</span>
+        }
+<span class="nc" id="L44">    }</span>
+        
+    public boolean updateMana(double add){
+<span class="nc bnc" id="L47" title="All 2 branches missed.">        if(this.currMana + add &lt;= 0){</span>
+<span class="nc" id="L48">            return false;</span>
+        // either building is too expensive and won't be placed
+        // or ghost kills player
+
+<span class="nc bnc" id="L52" title="All 2 branches missed.">        } else if(this.currMana + add &gt; this.cap){</span>
+<span class="nc" id="L53">            this.currMana = this.cap;</span>
+<span class="nc" id="L54">            return true;</span>
+        } else{
+<span class="nc" id="L56">            this.currMana += add;</span>
+<span class="nc" id="L57">            return true;</span>
+        }
+    }
+
+    public void makeManaZero(){
+<span class="nc" id="L62">        this.currMana = 0;</span>
+<span class="nc" id="L63">    }</span>
+
+    public void tick(App app){
+<span class="nc" id="L66">        this.counterOfFrames += app.rate;</span>
+
+<span class="nc bnc" id="L68" title="All 2 branches missed.">        if(this.counterOfFrames &gt;= App.FPS){</span>
+<span class="nc" id="L69">            this.updateMana(this.regenRate);</span>
+<span class="nc" id="L70">            this.counterOfFrames = 0;</span>
+        } // update mana every second
+<span class="nc" id="L72">    }</span>
+        
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>
