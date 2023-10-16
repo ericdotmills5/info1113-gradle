@@ -1,5 +1,5 @@
 S   S    X   S    SS
- SS S S  X S   S SSS
+ SS S S  X S   S SSS 
  S   S  SX S S   SSS
 XXXXX S  X S SS   SS
  S  X X  X   S    SS
@@ -8,9 +8,9 @@ XXXXX S  X S SS   SS
    S  XS  S    XXS
       S   XXXXXXX   
     S  S  X S       
- S        X  S  S SS
-      S   X  S   S S
-          X    S    
+X S       X  S  S SS
+      S    X  S   S SX
+       X  X    S    
           XS        
    WXXXXXXX      S  
               S  S  
@@ -18,3 +18,4 @@ XXXXX S  X S SS   SS
   S      S S    S   
      S  SS  S  S S S
                  SS 
+

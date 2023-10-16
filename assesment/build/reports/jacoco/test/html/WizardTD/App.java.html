@@ -22,76 +22,73 @@ public class App extends PApplet {
     public static final int SIDEBAR = 120;
     public static final int TOPBAR = 40;
     public static final int BOARD_WIDTH = 20;
-    public static final int wizShiftX = -8; // 8 pixels left
-    public static final int wizShiftY = -5; // 5 pixels up
-    public static final int ghostShiftX = 5; // 5 pixels right
-    public static final int ghostShiftY = 5; // 5 pixels down
-    public static final int healthShiftX = -5; // 5 pixels left
-    public static final int healthShiftY = -5; // 6 pixels up
-    public static final int healthLength = 30; // 30 pixels long
-    public static final int healthWidth = 2; // 5 pixels tall
-    public static final int MANAX = 375;
-    public static final int MANAY = 10;
-    public static final int MANALENGTH = 320;
-    public static final int MANAWIDTH = 18;
-    public static final int MANATEXTX = MANAX - 60;
-    public static final int MANATEXTY = MANAY + 16;
-    public static final int MANACURRSHIFT = 173;
-    public static final int LOSTX = 240;
-    public static final int LOSTY = 227;
-    public static final int BUTTONX = CELLSIZE * BOARD_WIDTH + 6;
-    public static final int BUTTONSIZE = 42; // square
-    public static final int BUTTONSPACING = 10;
-    public static final int BUTTONTEXT0SIZE = 25;
-    public static final int BUTTONTEXT12SIZE = 12;
-    public static final int BUTTONTEXTSHIFTX = 5;
-    public static final int BUTTONTEXT0SHIFTY = 30;
-    public static final int BUTTONTEXT1SHIFTY = 15;
-    public static final int BUTTONTEXT2SHIFTY = BUTTONTEXT1SHIFTY + 20;
-    public static final int BUTTONHOVERLENGTH = 72; // assume 4 digit price max
-    public static final int BUTTONHOVERHEIGHT = 20;
-    public static final int BUTTONHOVERX = CELLSIZE * BOARD_WIDTH - BUTTONHOVERLENGTH - 7;
-    public static final int BUTTONHOVERTEXTX = BUTTONHOVERX + 4;
-    public static final int BUTTONHOVERTEXTSIZE = BUTTONTEXT12SIZE;
-    public static final int BUTTONHOVERTEXTSHIFTY = BUTTONTEXT1SHIFTY;
-    public static final int TOWERFIRSTUPGRADESHIFTX = 5;
-    public static final int TOWERFIRSTUPGRADESHIFTY = 2;
-    public static final int RANGEUPGRADEDIAMETER = 6;
-    public static final int TOWERFIRSTUPGRADEDMGSHIFTY = 25;
-    public static final int TOWERUPGRADECIRCLEDIST = 2;
-    public static final int TOWERUPGRADECROSSDIST = 5;
-    public static final int TOWERDAMAGECROSSLENGTHX = RANGEUPGRADEDIAMETER - 3;
-    public static final int TOWERDAMAGECROSSLENGTHY = RANGEUPGRADEDIAMETER;
-    public static final int TOWERSPEEDSQUARESHIFT = 5;
-    public static final int TOWERSPEEDSQUARELENGTH = 20;
-    public static final int UPGRADEBUBBLEX = CELLSIZE * BOARD_WIDTH + 10;
-    public static final int UPGRADEBUBBLEY = 16 * CELLSIZE + TOPBAR;
-    public static final int UPGRADEBUBBLELENGTH = BUTTONSIZE * 2;
-    public static final int UPGRADEBUBBLEHEIGHT = BUTTONSIZE / 2;
-    public static final int UPGRADEBUBBLETEXTSIZE = 12;
-    public static final int UPGRADEBUBBLETEXTSHIFTX = 3;
-    public static final int UPGRADEBUBBLETEXTSHIFTY = UPGRADEBUBBLEHEIGHT / 2 + 5;
-    public static final int SPRITESHIFT = ghostShiftX + 10; // sprite is 20x20 pixels
-    public static final int PROJSPEED = 5;
-    public static final int MONSTERRADIUS = 20 / 2; // monster is 20x20 pixels
-    public static final int FIREBALLRADIUS = 6 / 3; // fireball is 6x6 pixels
-<span class="fc" id="L78">    public static final char[] buttons = {' ', 'F', 'P', 'T', '1', '2', '3', 'M', '4'};</span>
-<span class="fc" id="L79">    public static final int NUMBEROFBUTTONS = buttons.length - 1; // exclude 1st space bar</span>
-
+    public static final int WIZ_SHIFT_X = -8; // 8 pixels left
+    public static final int WIZ_SHIFT_Y = -5; // 5 pixels up
+    public static final int GHOST_SHIFT_X = 5; // 5 pixels right
+    public static final int GHOST_SHIFT_Y = 5; // 5 pixels down
+    public static final int HEALTH_SHIFT_X = -5; // 5 pixels left
+    public static final int HEALTH_SHIFT_Y = -5; // 6 pixels up
+    public static final int HEALTH_LENGTH = 30; // 30 pixels long
+    public static final int HEALTH_WIDTH = 2; // 5 pixels tall
+    public static final int MANA_X = 375;
+    public static final int MANA_Y = 10;
+    public static final int MANA_LENGTH = 320;
+    public static final int MANA_WIDTH = 18;
+    public static final int MANA_TEXT_X = MANA_X - 60;
+    public static final int MANA_TEXT_Y = MANA_Y + 16;
+    public static final int MANA_CURR_SHIFT = 173;
+    public static final int LOST_X = 240;
+    public static final int LOST_Y = 227;
+    public static final int BUTTON_X = CELLSIZE * BOARD_WIDTH + 6;
+    public static final int BUTTON_SIZE = 42; // square
+    public static final int BUTTON_SPACING = 10;
+    public static final int BUTTON_TEXT_0_SIZE = 25;
+    public static final int BUTTON_TEXT_12_SIZE = 12;
+    public static final int BUTTON_TEXT_SHIFT_X = 5;
+    public static final int BUTTON_TEXT_0_SHIFT_Y = 30;
+    public static final int BUTTON_TEXT_1_SHIFT_Y = 15;
+    public static final int BUTTON_TEXT_2_SHIFT_Y = BUTTON_TEXT_1_SHIFT_Y + 20;
+    public static final int BUTTON_HOVER_LENGTH = 72; // assume 4 digit price max
+    public static final int BUTTON_HOVER_HEIGHT = 20;
+    public static final int BUTTON_HOVER_X = CELLSIZE * BOARD_WIDTH - BUTTON_HOVER_LENGTH - 7;
+    public static final int BUTTON_HOVER_TEXT_X = BUTTON_HOVER_X + 4;
+    public static final int BUTTON_HOVER_TEXT_SIZE = BUTTON_TEXT_12_SIZE;
+    public static final int BUTTON_HOVER_TEXT_SHIFT_Y = BUTTON_TEXT_1_SHIFT_Y;
+    public static final int TOWER_FIRST_UPGRADE_SHIFT_X = 5;
+    public static final int TOWER_FIRST_UPGRADE_SHIFT_Y = 2;
+    public static final int RANGE_UPGRADE_DIAMETER = 6;
+    public static final int TOWER_FIRST_UPGRADE_DMG_SHIFT_Y = 25;
+    public static final int TOWER_UPGRADE_CIRCLE_DIST = 2;
+    public static final int TOWER_UPGRADE_CROSS_DIST = 5;
+    public static final int TOWER_DAMAGE_CROSS_LENGTH_X = RANGE_UPGRADE_DIAMETER - 3;
+    public static final int TOWER_DAMAGE_CROSS_LENGTH_Y = RANGE_UPGRADE_DIAMETER;
+    public static final int TOWER_SPEED_SQUARE_SHIFT = 5;
+    public static final int TOWER_SPEED_SQUARE_LENGTH = 20;
+    public static final int UPGRADE_BUBBLE_X = CELLSIZE * BOARD_WIDTH + 10;
+    public static final int UPGRADE_BUBBLE_Y = 16 * CELLSIZE + TOPBAR;
+    public static final int UPGRADE_BUBBLE_LENGTH = BUTTON_SIZE * 2;
+    public static final int UPGRADE_BUBBLE_HEIGHT = BUTTON_SIZE / 2;
+    public static final int UPGRADE_BUBBLE_TEXT_SIZE = 12;
+    public static final int UPGRADE_BUBBLE_TEXT_SHIFT_X = 3;
+    public static final int UPGRADE_BUBBLE_TEXT_SHIFT_Y = UPGRADE_BUBBLE_HEIGHT / 2 + 5;
+    public static final int SPRITE_SHIFT = GHOST_SHIFT_X + 10; // sprite is 20x20 pixels
+    public static final int PROJ_SPEED = 5;
+    public static final int MONSTER_RADIUS = 20 / 2; // monster is 20x20 pixels
+    public static final int FIREBALL_RADIUS = 6 / 3; // fireball is 6x6 pixels
+<span class="fc" id="L78">    public static final char[] BUTTONS = {' ', 'F', 'P', 'T', '1', '2', '3', 'M', '4'};</span>
+<span class="fc" id="L79">    public static final int NUMBER_OF_BUTTONS = BUTTONS.length - 1; // exclude 1st space bar</span>
+    public static final int FPS = 60;
 
 <span class="fc" id="L82">    public static int WIDTH = CELLSIZE*BOARD_WIDTH+SIDEBAR;</span>
 <span class="fc" id="L83">    public static int HEIGHT = BOARD_WIDTH*CELLSIZE+TOPBAR;</span>
 
-    public static final int FPS = 60;
-<span class="fc" id="L86">    public int doubleRate = 1; // 2 or 1</span>
-<span class="fc" id="L87">    public int pauseRate = 1; // 1 or 0</span>
-<span class="fc" id="L88">    public int rate = doubleRate * pauseRate;</span>
-<span class="fc" id="L89">    public boolean onWinScreen = false;</span>
-<span class="fc" id="L90">    public boolean onLossScreen = false;</span>
-
+<span class="fc" id="L85">    public int doubleRate = 1; // 2 or 1</span>
+<span class="fc" id="L86">    public int pauseRate = 1; // 1 or 0</span>
+<span class="fc" id="L87">    public int rate = doubleRate * pauseRate;</span>
+<span class="fc" id="L88">    public boolean onWinScreen = false;</span>
+<span class="fc" id="L89">    public boolean onLossScreen = false;</span>
     public String configPath;
     public JSONObject config;
-    public static String lvlLoc;
     public Map map;
     public Ui ui;
     public Iterable&lt;String&gt; mapIterable;
@@ -102,79 +99,95 @@ public class App extends PApplet {
     
     public Monster monster; // testing
 
-<span class="fc" id="L105">    public Random random = new Random();</span>
-	
-    // Feel free to add any additional methods or attributes you want. Please put classes in different files.
+<span class="fc" id="L102">    public Random random = new Random();</span>
 
-
-<span class="fc" id="L110">    public App() {</span>
+<span class="fc" id="L104">    public App() {</span>
         
-<span class="fc" id="L112">    }</span>
+<span class="fc" id="L106">    }</span>
 
     /**
      * Initialise the setting of the window size.
      */
 	@Override
     public void settings() {
-<span class="nc" id="L119">        size(WIDTH, HEIGHT); </span>
+<span class="nc" id="L113">        size(WIDTH, HEIGHT); </span>
         // glitched, probably due to window decorations on windows
-<span class="nc" id="L121">    }</span>
+<span class="nc" id="L115">    }</span>
 
     /**
-     * Load all resources such as images. Initialise the elements such as the player, enemies and map elements.
+     * Load all resources such as images. 
+     * Initialise the elements such as the player, enemies and map elements.
      */
 	@Override
-    public void setup() 
-    {
-<span class="nc" id="L129">        frameRate(FPS);</span>
-<span class="nc" id="L130">        this.configPath = &quot;config.json&quot;;</span>
-<span class="nc" id="L131">        this.config = readJSON(configPath);</span>
-<span class="nc" id="L132">        this.createStuff();</span>
-<span class="nc" id="L133">    }</span>
+    public void setup() {
+<span class="nc" id="L123">        frameRate(FPS);</span>
+<span class="nc" id="L124">        this.configPath = &quot;config.json&quot;;</span>
+<span class="nc" id="L125">        this.config = readJSON(configPath);</span>
+<span class="nc" id="L126">        this.createStuff();</span>
+<span class="nc" id="L127">    }</span>
 
-    public void createStuff()
-    { 
-<span class="fc" id="L137">        this.poisonCost = this.config.getDouble(&quot;poison_cost&quot;);</span>
-<span class="fc" id="L138">        this.poisonFrames = this.config.getDouble(&quot;poison_time&quot;) * FPS;</span>
-<span class="fc" id="L139">        this.poisonDamage = this.config.getDouble(&quot;poison_damage_per_second&quot;);</span>
+    /**
+     * initialise map and ui classes.
+     */
+    public void createStuff() {
+<span class="pc bpc" id="L133" title="1 of 2 branches missed.">        if (this.config.hasKey(&quot;poison_cost&quot;)) {</span>
+<span class="fc" id="L134">            this.poisonCost = this.config.getDouble(&quot;poison_cost&quot;);</span>
+        } else {
+<span class="nc" id="L136">            this.poisonCost = 100;</span>
+        }
+<span class="pc bpc" id="L138" title="1 of 2 branches missed.">        if (this.config.hasKey(&quot;poison_time&quot;)) {</span>
+<span class="fc" id="L139">            this.poisonFrames = this.config.getDouble(&quot;poison_time&quot;) * FPS;</span>
+        } else {
+<span class="nc" id="L141">            this.poisonFrames = 5 * FPS;</span>
+        }
+<span class="pc bpc" id="L143" title="1 of 2 branches missed.">        if (this.config.hasKey(&quot;poison_damage_per_second&quot;)) {</span>
+<span class="fc" id="L144">            this.poisonDamage = this.config.getDouble(&quot;poison_damage_per_second&quot;);</span>
+        } else {
+<span class="nc" id="L146">            this.poisonDamage = 1;</span>
+        }
+        // default values in case these fields DNE
 
         // read map
-<span class="fc" id="L142">        Scanner scan = fileIO(this.config.getString(&quot;layout&quot;));</span>
-<span class="fc" id="L143">        this.mapIterable = scan2Iterable(scan);</span>
-<span class="fc" id="L144">        scan.close();</span>
+<span class="fc" id="L151">        Scanner scan = fileIO(this.config.getString(&quot;layout&quot;));</span>
+<span class="fc" id="L152">        this.mapIterable = scan2Iterable(scan);</span>
+<span class="fc" id="L153">        scan.close();</span>
 
         // initialise map and ui classes
-<span class="fc" id="L147">        this.map = new Map(this.mapIterable, this, this.config);</span>
-<span class="fc" id="L148">        this.ui = new Ui(this.map);</span>
-<span class="fc" id="L149">    }</span>
+<span class="fc" id="L156">        this.map = new Map(this.mapIterable, this, this.config);</span>
+<span class="fc" id="L157">        this.ui = new Ui(this.map);</span>
+<span class="fc" id="L158">    }</span>
 
     /**
      * Read file into scanner object. Used to read map file.
      * @param loc String of file location.
      * @return Scanner object of file.
      */
-    static Scanner fileIO(String loc)
-    { 
-<span class="fc" id="L158">        File f = new File(loc);</span>
+    static Scanner fileIO(String loc) { 
+<span class="fc" id="L166">        File f = new File(loc);</span>
         Scanner scan;
-        try{
-<span class="fc" id="L161">            scan = new Scanner(f);</span>
-<span class="nc" id="L162">        } catch (FileNotFoundException e){</span>
-<span class="nc" id="L163">            System.out.println(&quot;File not found!&quot;);</span>
-<span class="nc" id="L164">            return null;</span>
-<span class="fc" id="L165">        }</span>
-<span class="fc" id="L166">        return scan;</span>
+        try {
+<span class="fc" id="L169">            scan = new Scanner(f);</span>
+<span class="nc" id="L170">        } catch (FileNotFoundException e) {</span>
+<span class="nc" id="L171">            System.out.println(&quot;File not found!&quot;);</span>
+<span class="nc" id="L172">            return null;</span>
+<span class="fc" id="L173">        }</span>
+<span class="fc" id="L174">        return scan;</span>
     }
 
-    static JSONObject readJSON(String path){
-<span class="fc" id="L170">        String json = &quot;&quot;;</span>
-        try{
-<span class="fc" id="L172">            json = new String(Files.readAllBytes(Paths.get(path)));</span>
-<span class="nc" id="L173">        } catch (IOException e){</span>
-<span class="nc" id="L174">            System.out.println(&quot;File not found!&quot;);</span>
-<span class="nc" id="L175">            return null;</span>
-<span class="fc" id="L176">        }</span>
-<span class="fc" id="L177">        return JSONObject.parse(json);</span>
+    /**
+     * Read JSON file into JSONObject object.
+     * @param path String of file location.
+     * @return JSONObject object of file.
+     */
+    static JSONObject readJSON(String path) {
+<span class="fc" id="L183">        String json = &quot;&quot;;</span>
+        try {
+<span class="fc" id="L185">            json = new String(Files.readAllBytes(Paths.get(path)));</span>
+<span class="nc" id="L186">        } catch (IOException e) {</span>
+<span class="nc" id="L187">            System.out.println(&quot;File not found!&quot;);</span>
+<span class="nc" id="L188">            return null;</span>
+<span class="fc" id="L189">        }</span>
+<span class="fc" id="L190">        return JSONObject.parse(json);</span>
     }
 
     /**
@@ -182,12 +195,12 @@ public class App extends PApplet {
      * @param scan Scanner object of file, use fileIO() to get.
      * @return Iterable object of file of read scanner.
      */
-    static Iterable&lt;String&gt; scan2Iterable(Scanner scan){
-<span class="fc" id="L186">        ArrayList&lt;String&gt; lines = new ArrayList&lt;String&gt;();</span>
-<span class="fc bfc" id="L187" title="All 2 branches covered.">        while(scan.hasNextLine()){</span>
-<span class="fc" id="L188">            lines.add(scan.nextLine());</span>
+    static Iterable&lt;String&gt; scan2Iterable(Scanner scan) {
+<span class="fc" id="L199">        ArrayList&lt;String&gt; lines = new ArrayList&lt;String&gt;();</span>
+<span class="fc bfc" id="L200" title="All 2 branches covered.">        while (scan.hasNextLine()) {</span>
+<span class="fc" id="L201">            lines.add(scan.nextLine());</span>
         }
-<span class="fc" id="L190">        return lines;</span>
+<span class="fc" id="L203">        return lines;</span>
     }
 
     /**
@@ -198,44 +211,44 @@ public class App extends PApplet {
      * @param y2 y coordinate of second point.
      * @return double distance between two points.
      */
-    static double scalarDistance(double x1, double y1, double x2, double y2){
-<span class="fc" id="L202">        return Math.sqrt(Math.pow(x1-x2, 2) + Math.pow(y1-y2, 2));</span>
+    static double scalarDistance(double x1, double y1, double x2, double y2) {
+<span class="fc" id="L215">        return Math.sqrt(Math.pow(x1-x2, 2) + Math.pow(y1-y2, 2));</span>
     }
 
     /**
      * Receive key pressed signal from the keyboard.
      */
 	@Override
-    public void keyPressed(){
+    public void keyPressed() {
 
-<span class="nc bnc" id="L211" title="All 2 branches missed.">        if(this.onLossScreen){</span>
-<span class="nc bnc" id="L212" title="All 2 branches missed.">            if(keyCode == 'R'){</span>
-<span class="nc" id="L213">                this.onLossScreen = false;</span>
-<span class="nc" id="L214">                this.doubleRate = 1;</span>
-<span class="nc" id="L215">                this.pauseRate = 1;</span>
-<span class="nc" id="L216">                this.rate = doubleRate * pauseRate;</span>
-<span class="nc" id="L217">                this.map = new Map(this.mapIterable, this, this.config);</span>
-<span class="nc" id="L218">                this.ui = new Ui(this.map);</span>
+<span class="fc bfc" id="L224" title="All 2 branches covered.">        if (this.onLossScreen) {</span>
+<span class="pc bpc" id="L225" title="1 of 2 branches missed.">            if (this.keyCode == 'R') {</span>
+<span class="fc" id="L226">                this.onLossScreen = false;</span>
+<span class="fc" id="L227">                this.doubleRate = 1;</span>
+<span class="fc" id="L228">                this.pauseRate = 1;</span>
+<span class="fc" id="L229">                this.rate = doubleRate * pauseRate;</span>
+<span class="fc" id="L230">                this.map = new Map(this.mapIterable, this, this.config);</span>
+<span class="fc" id="L231">                this.ui = new Ui(this.map);</span>
                 
             }
-<span class="nc bnc" id="L221" title="All 2 branches missed.">        } else if(this.onWinScreen){</span>
-            // not allowed to press bellow buttons
+<span class="pc bpc" id="L234" title="1 of 2 branches missed.">        } else if (this.onWinScreen) {</span>
+            // not allowed to press bellow BUTTONS
         } else {
-<span class="nc bnc" id="L224" title="All 2 branches missed.">            for(int i = 1; i &lt; App.buttons.length; i++){</span>
-<span class="nc bnc" id="L225" title="All 2 branches missed.">                if(keyCode == App.buttons[i]){</span>
-<span class="nc" id="L226">                    this.ui.toggleSwitch(this, i);</span>
+<span class="fc bfc" id="L237" title="All 2 branches covered.">            for(int i = 1; i &lt; App.BUTTONS.length; i++) {</span>
+<span class="fc bfc" id="L238" title="All 2 branches covered.">                if (this.keyCode == App.BUTTONS[i]) {</span>
+<span class="fc" id="L239">                    this.ui.toggleSwitch(this, i);</span>
                 }
             }
         }
-<span class="nc" id="L230">    }</span>
+<span class="fc" id="L243">    }</span>
 
     /**
      * Receive key released signal from the keyboard.
      */
 	@Override
-    public void keyReleased(){
+    public void keyReleased() {
 
-<span class="nc" id="L238">    }</span>
+<span class="nc" id="L251">    }</span>
 
     /**
      * Receive mouse pressed signal from the mouse.
@@ -244,94 +257,94 @@ public class App extends PApplet {
     @Override
     public void mousePressed(MouseEvent e) 
     { // hover over grey + cost
-<span class="nc bnc" id="L247" title="All 2 branches missed.">        for (int buttonNO = 1; buttonNO &lt;= App.NUMBEROFBUTTONS; buttonNO++)</span>
+<span class="nc bnc" id="L260" title="All 2 branches missed.">        for (int buttonNO = 1; buttonNO &lt;= App.NUMBER_OF_BUTTONS; buttonNO++)</span>
         {
-<span class="nc bnc" id="L249" title="All 2 branches missed.">            if (isMouseOverButton(buttonNO))</span>
+<span class="nc bnc" id="L262" title="All 2 branches missed.">            if (isMouseOverButton(buttonNO))</span>
             {
-<span class="nc" id="L251">                this.ui.toggleSwitch(this, buttonNO);</span>
+<span class="nc" id="L264">                this.ui.toggleSwitch(this, buttonNO);</span>
             }
         }
-<span class="nc" id="L254">        this.ui.click(this);</span>
-<span class="nc" id="L255">    }</span>
+<span class="nc" id="L267">        this.ui.click(this);</span>
+<span class="nc" id="L268">    }</span>
 
     @Override
     public void mouseReleased(MouseEvent e) {
         
-<span class="nc" id="L260">    }</span>
+<span class="nc" id="L273">    }</span>
     
     /**
      * tells ui class which button is being hovered over
      */
     public void mouseHover() {
-<span class="fc bfc" id="L266" title="All 2 branches covered.">        for (int buttonNO = 1; buttonNO &lt;= App.NUMBEROFBUTTONS; buttonNO++){</span>
-<span class="pc bpc" id="L267" title="1 of 2 branches missed.">            if (isMouseOverButton(buttonNO))</span>
+<span class="fc bfc" id="L279" title="All 2 branches covered.">        for (int buttonNO = 1; buttonNO &lt;= App.NUMBER_OF_BUTTONS; buttonNO++) {</span>
+<span class="pc bpc" id="L280" title="1 of 2 branches missed.">            if (isMouseOverButton(buttonNO))</span>
             {
-<span class="nc" id="L269">                this.ui.setHoveredButton(buttonNO, true);</span>
+<span class="nc" id="L282">                this.ui.setHoveredButton(buttonNO, true);</span>
             } else
             {
-<span class="fc" id="L272">                this.ui.setHoveredButton(buttonNO, false);</span>
+<span class="fc" id="L285">                this.ui.setHoveredButton(buttonNO, false);</span>
             }
         }
-<span class="fc" id="L275">    }</span>
+<span class="fc" id="L288">    }</span>
 
     /**
      * Check if mouse is over a button. Based on x and y coordinates of mouse.
-     * Assumes buttons are in a column with equally spaced entries.
+     * Assumes BUTTONS are in a column with equally spaced entries.
      * @param buttonNO int of button number.
      * @return boolean of whether mouse is over button.
      */
-    public boolean isMouseOverButton(int buttonNO){
-<span class="pc bpc" id="L284" title="7 of 8 branches missed.">        return (this.mouseX &gt; BUTTONX &amp;&amp;</span>
-                this.mouseX &lt; BUTTONX + BUTTONSIZE &amp;&amp;
-                this.mouseY &gt; TOPBAR + buttonNO * BUTTONSPACING + (buttonNO-1)*BUTTONSIZE &amp;&amp;
-                this.mouseY &lt; buttonNO * (BUTTONSPACING + BUTTONSIZE) + TOPBAR);
+    public boolean isMouseOverButton(int buttonNO) {
+<span class="pc bpc" id="L297" title="7 of 8 branches missed.">        return (this.mouseX &gt; BUTTON_X &amp;&amp;</span>
+                this.mouseX &lt; BUTTON_X + BUTTON_SIZE &amp;&amp;
+                this.mouseY &gt; TOPBAR + buttonNO * BUTTON_SPACING + (buttonNO-1)*BUTTON_SIZE &amp;&amp;
+                this.mouseY &lt; buttonNO * (BUTTON_SPACING + BUTTON_SIZE) + TOPBAR);
     }
 
-    public void tick(){
-<span class="fc" id="L291">        this.map.tick();</span>
-<span class="fc" id="L292">        this.ui.tick();</span>
-<span class="fc" id="L293">        this.mouseHover();</span>
-<span class="fc" id="L294">    }</span>
+    public void tick() {
+<span class="fc" id="L304">        this.map.tick();</span>
+<span class="fc" id="L305">        this.ui.tick();</span>
+<span class="fc" id="L306">        this.mouseHover();</span>
+<span class="fc" id="L307">    }</span>
 
     /**
      * Draw all elements in the game by current frame.
      */
 	@Override
     public void draw() {
-<span class="pc bpc" id="L301" title="2 of 4 branches missed.">        if(!this.onLossScreen &amp;&amp; !this.onWinScreen){</span>
+<span class="pc bpc" id="L314" title="1 of 4 branches missed.">        if (!this.onLossScreen &amp;&amp; !this.onWinScreen) {</span>
             // tick
-<span class="fc" id="L303">            this.tick();</span>
+<span class="fc" id="L316">            this.tick();</span>
 
             // draw
             // map
-<span class="fc" id="L307">            this.map.draw(this);</span>
+<span class="fc" id="L320">            this.map.draw(this);</span>
 
             // background
-<span class="fc" id="L310">            this.noStroke();</span>
-<span class="fc" id="L311">            this.fill(131, 111, 75); // brown background</span>
-<span class="fc" id="L312">            this.rect(0, 0, WIDTH, TOPBAR); // top bar</span>
-<span class="fc" id="L313">            this.rect(CELLSIZE*BOARD_WIDTH, 0, SIDEBAR, HEIGHT); // side bar</span>
+<span class="fc" id="L323">            this.noStroke();</span>
+<span class="fc" id="L324">            this.fill(131, 111, 75); // brown background</span>
+<span class="fc" id="L325">            this.rect(0, 0, WIDTH, TOPBAR); // top bar</span>
+<span class="fc" id="L326">            this.rect(CELLSIZE*BOARD_WIDTH, 0, SIDEBAR, HEIGHT); // side bar</span>
 
             // ui
-<span class="fc" id="L316">            this.ui.draw(this);</span>
+<span class="fc" id="L329">            this.ui.draw(this);</span>
         } 
-<span class="pc bpc" id="L318" title="1 of 2 branches missed.">        if(this.onLossScreen) {</span>
-<span class="nc" id="L319">            this.fill(0, 255, 0);</span>
-<span class="nc" id="L320">            this.textSize(35);</span>
-<span class="nc" id="L321">            this.text(&quot;YOU LOST&quot;, LOSTX, LOSTY);</span>
-<span class="nc" id="L322">            this.textSize(20);</span>
-<span class="nc" id="L323">            this.text(&quot;Press 'r' to restart&quot;, LOSTX - 7, LOSTY + 30);</span>
+<span class="fc bfc" id="L331" title="All 2 branches covered.">        if (this.onLossScreen) {</span>
+<span class="fc" id="L332">            this.fill(0, 255, 0);</span>
+<span class="fc" id="L333">            this.textSize(35);</span>
+<span class="fc" id="L334">            this.text(&quot;YOU LOST&quot;, LOST_X, LOST_Y);</span>
+<span class="fc" id="L335">            this.textSize(20);</span>
+<span class="fc" id="L336">            this.text(&quot;Press 'r' to restart&quot;, LOST_X - 7, LOST_Y + 30);</span>
         } 
-<span class="pc bpc" id="L325" title="1 of 2 branches missed.">        if (this.onWinScreen) {</span>
-<span class="nc" id="L326">            this.fill(255, 0, 255);</span>
-<span class="nc" id="L327">            this.textSize(35);</span>
-<span class="nc" id="L328">            this.text(&quot;YOU WIN&quot;, LOSTX, LOSTY);</span>
+<span class="pc bpc" id="L338" title="1 of 2 branches missed.">        if (this.onWinScreen) {</span>
+<span class="nc" id="L339">            this.fill(255, 0, 255);</span>
+<span class="nc" id="L340">            this.textSize(35);</span>
+<span class="nc" id="L341">            this.text(&quot;YOU WIN&quot;, LOST_X, LOST_Y);</span>
         }
-<span class="fc" id="L330">    }</span>
+<span class="fc" id="L343">    }</span>
 
     public static void main(String[] args) {
-<span class="nc" id="L333">        PApplet.main(&quot;WizardTD.App&quot;);</span>
-<span class="nc" id="L334">    }</span>
+<span class="nc" id="L346">        PApplet.main(&quot;WizardTD.App&quot;);</span>
+<span class="nc" id="L347">    }</span>
 
     /**
      * Source: https://stackoverflow.com/questions/37758061/rotate-a-buffered-image-in-java
@@ -340,35 +353,35 @@ public class App extends PApplet {
      * @return the new rotated image 
      */
     public PImage rotateImageByDegrees(PImage pimg, double angle) { // rotates clockwise
-<span class="nc" id="L343">        BufferedImage img = (BufferedImage) pimg.getNative();</span>
-<span class="nc" id="L344">        double rads = Math.toRadians(angle);</span>
-<span class="nc" id="L345">        double sin = Math.abs(Math.sin(rads)), cos = Math.abs(Math.cos(rads));</span>
-<span class="nc" id="L346">        int w = img.getWidth();</span>
-<span class="nc" id="L347">        int h = img.getHeight();</span>
-<span class="nc" id="L348">        int newWidth = (int) Math.floor(w * cos + h * sin);</span>
-<span class="nc" id="L349">        int newHeight = (int) Math.floor(h * cos + w * sin);</span>
+<span class="nc" id="L356">        BufferedImage img = (BufferedImage) pimg.getNative();</span>
+<span class="nc" id="L357">        double rads = Math.toRadians(angle);</span>
+<span class="nc" id="L358">        double sin = Math.abs(Math.sin(rads)), cos = Math.abs(Math.cos(rads));</span>
+<span class="nc" id="L359">        int w = img.getWidth();</span>
+<span class="nc" id="L360">        int h = img.getHeight();</span>
+<span class="nc" id="L361">        int newWidth = (int) Math.floor(w * cos + h * sin);</span>
+<span class="nc" id="L362">        int newHeight = (int) Math.floor(h * cos + w * sin);</span>
 
-<span class="nc" id="L351">        PImage result = this.createImage(newWidth, newHeight, RGB);</span>
+<span class="nc" id="L364">        PImage result = this.createImage(newWidth, newHeight, RGB);</span>
         //BufferedImage rotated = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_ARGB);
-<span class="nc" id="L353">        BufferedImage rotated = (BufferedImage) result.getNative();</span>
-<span class="nc" id="L354">        Graphics2D g2d = rotated.createGraphics();</span>
-<span class="nc" id="L355">        AffineTransform at = new AffineTransform();</span>
-<span class="nc" id="L356">        at.translate((newWidth - w) / 2, (newHeight - h) / 2);</span>
+<span class="nc" id="L366">        BufferedImage rotated = (BufferedImage) result.getNative();</span>
+<span class="nc" id="L367">        Graphics2D g2d = rotated.createGraphics();</span>
+<span class="nc" id="L368">        AffineTransform at = new AffineTransform();</span>
+<span class="nc" id="L369">        at.translate((newWidth - w) / 2, (newHeight - h) / 2);</span>
 
-<span class="nc" id="L358">        int x = w / 2;</span>
-<span class="nc" id="L359">        int y = h / 2;</span>
+<span class="nc" id="L371">        int x = w / 2;</span>
+<span class="nc" id="L372">        int y = h / 2;</span>
 
-<span class="nc" id="L361">        at.rotate(rads, x, y);</span>
-<span class="nc" id="L362">        g2d.setTransform(at);</span>
-<span class="nc" id="L363">        g2d.drawImage(img, 0, 0, null);</span>
-<span class="nc" id="L364">        g2d.dispose();</span>
-<span class="nc bnc" id="L365" title="All 2 branches missed.">        for (int i = 0; i &lt; newWidth; i++) {</span>
-<span class="nc bnc" id="L366" title="All 2 branches missed.">            for (int j = 0; j &lt; newHeight; j++) {</span>
-<span class="nc" id="L367">                result.set(i, j, rotated.getRGB(i, j));</span>
+<span class="nc" id="L374">        at.rotate(rads, x, y);</span>
+<span class="nc" id="L375">        g2d.setTransform(at);</span>
+<span class="nc" id="L376">        g2d.drawImage(img, 0, 0, null);</span>
+<span class="nc" id="L377">        g2d.dispose();</span>
+<span class="nc bnc" id="L378" title="All 2 branches missed.">        for (int i = 0; i &lt; newWidth; i++) {</span>
+<span class="nc bnc" id="L379" title="All 2 branches missed.">            for (int j = 0; j &lt; newHeight; j++) {</span>
+<span class="nc" id="L380">                result.set(i, j, rotated.getRGB(i, j));</span>
             }
         }
 
-<span class="nc" id="L371">        return result;</span>
+<span class="nc" id="L384">        return result;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

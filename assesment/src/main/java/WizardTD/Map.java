@@ -6,21 +6,8 @@ import processing.data.JSONArray;
 
 import java.util.*;
 
-/*
- * Edge cases:
- *  sumarise long if else statements
- *  google java style guide * 
- *  clean up code with functions * 
- * 
- * check if integer config values can take floats
- * check pasue/ff doesnt mess stuff up (check logic)
- * check mana spell math on all calculations
-*/
-
-/**
-* Enum for directions
-*/
-enum Direction{
+// enum to for directions
+enum Direction {
     UP, DOWN, LEFT, RIGHT, NONE;
 }
 
@@ -189,6 +176,9 @@ public class Map {
                         break; // intentionally dont handle _ case easier bug fix
                 }
                 i++;
+                if (i >= BOARD_WIDTH) {
+                    break;
+                } // prevent out of bounds error (assume map is not square)
             }
             while(i < BOARD_WIDTH) { // fill trailing empty text with grass
                 matrix[i][j] = new Grass(i, j, this);
@@ -245,8 +235,7 @@ public class Map {
      * @param spawn spawn to create route from
      * @return list of optimal path directions to get to wizard
      */
-    public ArrayList<Direction> createRoute(Path spawn)
-    { 
+    public ArrayList<Direction> createRoute(Path spawn) { 
         ArrayList<Direction> route = new ArrayList<Direction>();
         WizOrPath current = spawn;
 
@@ -260,12 +249,17 @@ public class Map {
     }
 
     /**
-     * create routes for each spawn by calling createRoute on each terminal path
+     * create routes for each spawns by calling createRoute on each terminal path connected to wiz
      */
-    public void createRoutes() 
-    { 
-        for(Path spawn: this.routes.keySet()) {
-            this.routes.put(spawn, this.createRoute(spawn));
+    public void createRoutes() {
+        Iterator<Path> spawnIterator = this.routes.keySet().iterator();
+        while(spawnIterator.hasNext()) {
+            Path spawn = spawnIterator.next();
+            if (spawn.wizDist > 0){
+                this.routes.put(spawn, this.createRoute(spawn));
+            } else {
+                spawnIterator.remove(); // remove spawn if it is not connected to wizard
+            }
         }
     }
 
@@ -274,16 +268,16 @@ public class Map {
      * If its the last wave, set last wave to true.
      * Otherwise, set wave time to be the next wave time.
      */
-    public void nextWave()
-    {
+    public void nextWave() {
         this.waveNumber++;
         this.waveList.add(new Wave(
             this.data.getJSONArray("waves").getJSONObject(waveNumber), this.routes, this.app
         ));
 
-        if (this.waveNumber == this.data.getJSONArray("waves").size() - 1) { // if its the last wave
+        // if its the last wave, set last wave to true
+        if (this.waveNumber == this.data.getJSONArray("waves").size() - 1) { 
             this.lastWave = true;
-        } else{ // otherwise (if its not the last wave)
+        } else { // otherwise (if its not the last wave)
             this.waveTime = this.addWaveTimes();
         }
         
@@ -300,8 +294,8 @@ public class Map {
     static int[] mouse2Tile(int x, int y)
     {
         int[] tileCords = new int[2];
-        tileCords[0] = Math.floorDiv(x, Tile.CELLSIZE);
-        tileCords[1] = Math.floorDiv(y - Tile.TOPBAR, Tile.CELLSIZE);
+        tileCords[0] = Math.floorDiv(x, App.CELLSIZE);
+        tileCords[1] = Math.floorDiv(y - App.TOPBAR, App.CELLSIZE);
         return tileCords;
     }
 
@@ -393,7 +387,7 @@ public class Map {
                 range = true;
             } else if (initialFiringSpeedLevel) {
                 speed = true;
-            } else{
+            } else {
                 dmg = true;
             }
         } // else if noOfUpgrades == 0, leave everything false  
@@ -522,7 +516,7 @@ public class Map {
         if (Ui.isMouseInMap(x, y)) {
             int[] tileCords = mouse2Tile(x, y);
             return this.land[tileCords[0]][tileCords[1]];
-        } else{
+        } else {
             return null; // potential null pointer exception
         }
     }
@@ -557,7 +551,7 @@ public class Map {
             if (this.waveTime < 0 && !this.lastWave) {
                 this.nextWave();
             }   
-        } else{
+        } else {
             this.waveTime -= app.rate;
             System.out.println("Pre wave time: " + this.waveTime);
         }
@@ -574,7 +568,7 @@ public class Map {
         if (this.poison && this.poisonFrames <= 0) {
             this.poison = false;
             this.poisonFrames = this.app.poisonFrames;
-        } else{
+        } else {
             this.poisonFrames -= this.app.rate;
         }
     }
@@ -595,7 +589,7 @@ public class Map {
             for(Tile entry: row) {
                 if (!(entry instanceof Wizard)) { // draw it if its not a wizard house
                     entry.draw(app); 
-                } else{ // if it is a wizard house, draw grass under the wizard house
+                } else { // if it is a wizard house, draw grass under the wizard house
                     Tile wizGrass = new Grass(wizCordsXY[0], wizCordsXY[1], this); // change this
                     wizGrass.draw(app);
                 }

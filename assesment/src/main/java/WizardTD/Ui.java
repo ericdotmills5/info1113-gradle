@@ -18,22 +18,37 @@ public class Ui {
     public boolean manaPoolHov = false;
     public boolean poisonHov = false;
 
-    public Ui(Map map)
-    {
+    /**
+     * constructor for ui class
+     * @param map map class it is generated with
+     */
+    public Ui(Map map) {
         this.map = map;
     }
 
-    public int updateWaveSeconds()
-    {
+    /**
+     * finds out the wave frames and converts to wave seconds
+     * @return new waves per second
+     */
+    public int updateWaveSeconds() {
         return (int) Math.floorDiv((int)this.map.getWaveTime(), App.FPS);
     }
 
+    /**
+     * checks if mouse is within confides of map
+     * @param x x pixel of mouse
+     * @param y y pixel of mouse
+     * @return true if mouse is in map, false otherwise
+     */
     static public boolean isMouseInMap(int x, int y) {
         return x > 0 && x < App.CELLSIZE * App.BOARD_WIDTH && y > App.TOPBAR && y < App.HEIGHT;
     }
 
-    public void waveCountdown(App app)
-    {
+    /**
+     * draws wave countdown to top left as well as wave number
+     * @param app app to draw with
+     */
+    public void waveCountdown(App app) {
         if (!this.map.getLastWave()) { // if not last wave
             app.fill(0, 0, 0);
             app.textSize(25);
@@ -44,8 +59,11 @@ public class Ui {
         }
     }
 
-    public void manaBar(App app)
-    {
+    /**
+     * draws mana bar to screen
+     * @param app app to draw with
+     */
+    public void manaBar(App app) {
         float manaProp = (float)(this.map.getMana().getCurrMana() / this.map.getMana().getCap());
 
         // blue bit
@@ -63,17 +81,24 @@ public class Ui {
             App.MANA_WIDTH);
     }
 
-    public void manaText(App app)
-    {
+    /**
+     * draws mana text to screen
+     * @param app app to draw with
+     */
+    public void manaText(App app) {
         app.fill(0, 0, 0);
         app.textSize(17);
         app.text("MANA:", App.MANA_TEXT_X, App.MANA_TEXT_Y);
         app.text((int)this.map.getMana().getCurrMana() + " / " + (int)this.map.getMana().getCap(), 
-                 App.MANA_TEXT_X + App.MANA_CURR_SHIFT, App.MANA_TEXT_Y);
+                App.MANA_TEXT_X + App.MANA_CURR_SHIFT, App.MANA_TEXT_Y);
     }
 
-    public void toggleSwitch(App app, int buttonNO)
-    {
+    /**
+     * toggles buttons on and off and controls some logic
+     * @param app app it was called by
+     * @param buttonNO which button was activated
+     */
+    public void toggleSwitch(App app, int buttonNO) {
         switch(buttonNO) {
             case 1: // fast forward
                 this.ff = !this.ff;
@@ -105,8 +130,12 @@ public class Ui {
         }
     }
 
-    public void setHoveredButton(int buttonNO, boolean hover)
-    {
+    /**
+     * indicates to class that mouse is hovering over button
+     * @param buttonNO which button is being hovered over
+     * @param hover whether mouse is hovering over button
+     */
+    public void setHoveredButton(int buttonNO, boolean hover) {
         switch(buttonNO) {
             case 1: // fast forward
                 this.ffHov = hover;
@@ -134,8 +163,12 @@ public class Ui {
         }
     }
     
-    public void buttonDraw(App app, int buttonNO)
-    {
+    /**
+     * draws all buttons to screen as well as whether they light up or are hovered over
+     * @param app app to draw with
+     * @param buttonNO which button to draw
+     */
+    public void buttonDraw(App app, int buttonNO) {
         Boolean light = null; // whether button is lit up
         Boolean hover = null; // whether mouse is hovering over button
         Boolean hasHoverText = null; // whether button has hover text
@@ -225,7 +258,7 @@ public class Ui {
             app.fill(255, 255, 0); // yellow
         } else if (hover) { 
             app.fill(200, 200, 200); // grey
-        }else {
+        } else {
             app.noFill(); // hollow
         }
         int y = App.TOPBAR + buttonNO * App.BUTTON_SPACING + (buttonNO-1)*App.BUTTON_SIZE;
@@ -242,17 +275,18 @@ public class Ui {
         // text1
         app.textSize(App.BUTTON_TEXT_12_SIZE);
         app.text(
-            text1, App.BUTTON_X + App.BUTTON_SIZE + App.BUTTON_TEXT_SHIFT_X, y + App.BUTTON_TEXT_1_SHIFT_Y
+            text1, App.BUTTON_X + App.BUTTON_SIZE + App.BUTTON_TEXT_SHIFT_X, 
+            y + App.BUTTON_TEXT_1_SHIFT_Y
         );
 
         // text 2
         app.text(
-            text2, App.BUTTON_X + App.BUTTON_SIZE + App.BUTTON_TEXT_SHIFT_X, y + App.BUTTON_TEXT_2_SHIFT_Y
+            text2, App.BUTTON_X + App.BUTTON_SIZE + App.BUTTON_TEXT_SHIFT_X, 
+            y + App.BUTTON_TEXT_2_SHIFT_Y
         );
 
         // hover
-        if (hasHoverText && hover)
-        {
+        if (hasHoverText && hover) {
             // hover box
             app.fill(255, 255, 255); // white
             app.rect(App.BUTTON_HOVER_X, y, App.BUTTON_HOVER_LENGTH, App.BUTTON_HOVER_HEIGHT);
@@ -265,12 +299,16 @@ public class Ui {
         }
     }
 
+    /**
+     * handles mouse click to specifically place towers and/or upgrade towers
+     * @param app app it was called by
+     */
     public void click(App app) {
         if (isMouseInMap(app.mouseX, app.mouseY)) {
-            if (this.placeTower)
-            {
+            if (this.placeTower) {
                 this.map.place(
-                    app.mouseX, app.mouseY, this.upgradeRange, this.upgradeSpeed, this.upgradeDamage
+                    app.mouseX, app.mouseY, this.upgradeRange, 
+                    this.upgradeSpeed, this.upgradeDamage
                 );
             } 
             // upgrade even if in tower mode
@@ -280,6 +318,11 @@ public class Ui {
         }
     }
 
+    /**
+     * handles drawing of cursor based on what mode ui is in 
+     * eg. if in place tower mode, draws greyscale tower to indicate where it will be placed
+     * @param app app to draw with
+     */
     public void hoverPlace(App app) {
         app.noFill();
         app.stroke(0, 0, 0); // black
@@ -301,7 +344,9 @@ public class Ui {
             app.rect(x1, y1, App.CELLSIZE, App.CELLSIZE);
         }
         if (this.upgradeRange) {
-            app.ellipse(app.mouseX, app.mouseY, App.CELLSIZE + circleGrow, App.CELLSIZE + circleGrow);
+            app.ellipse(app.mouseX, app.mouseY, 
+            App.CELLSIZE + circleGrow, App.CELLSIZE + circleGrow
+            );
         } // + 5 makes it distinguishable from square
         if (this.upgradeDamage) {
             app.line(x1 - crossGrow, y1 - crossGrow, x2 + crossGrow, y2 + crossGrow);
@@ -309,6 +354,11 @@ public class Ui {
         }// +- 5 makes it distinguishable from square
     }
 
+    /**
+     * draws upgrade bubble in bottom right
+     * @param app app to draw with
+     * @param tower tower hovering over
+     */
     public void upgradeBubble(App app, Tower tower) {
         // bubble
         boolean wantAffordRange = this.upgradeRange 
@@ -350,7 +400,8 @@ public class Ui {
 
         // total cost rectangle
         app.rect(
-            App.UPGRADE_BUBBLE_X, App.UPGRADE_BUBBLE_Y + App.UPGRADE_BUBBLE_HEIGHT * (upgrades + 1), 
+            App.UPGRADE_BUBBLE_X, 
+            App.UPGRADE_BUBBLE_Y + App.UPGRADE_BUBBLE_HEIGHT * (upgrades + 1),
             App.UPGRADE_BUBBLE_LENGTH, App.UPGRADE_BUBBLE_HEIGHT
         );
 
@@ -359,7 +410,8 @@ public class Ui {
         app.textSize(App.UPGRADE_BUBBLE_TEXT_SIZE);
         app.text(
             "Upgrade cost", App.UPGRADE_BUBBLE_X + App.UPGRADE_BUBBLE_TEXT_SHIFT_X, 
-            App.UPGRADE_BUBBLE_Y + App.UPGRADE_BUBBLE_TEXT_SHIFT_Y + textTally * (App.UPGRADE_BUBBLE_HEIGHT)
+            App.UPGRADE_BUBBLE_Y + App.UPGRADE_BUBBLE_TEXT_SHIFT_Y + 
+            textTally * (App.UPGRADE_BUBBLE_HEIGHT)
         );
         textTally++;
 
@@ -399,13 +451,23 @@ public class Ui {
         );
     }
 
-    public void tick()
-    {
+    /**
+     * tick method only needs to update the wave seconds for top right counter
+     */
+    public void tick() {
         this.waveSeconds = this.updateWaveSeconds(); // convert wave time to seconds
     }
 
-    public void draw(App app)
-    {
+    /**
+     * draws: 
+     * 1. wave countdown + wave number
+     * 2. mana bar + mana text
+     * 3. buttons and their logic (yellow/grey)
+     * 4. tower mode aka cursor logic
+     * 5. upgrade bubble in bottom right
+     * @param app
+     */
+    public void draw(App app) {
         this.waveCountdown(app); // wave timer
 
         // mana

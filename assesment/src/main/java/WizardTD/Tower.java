@@ -21,74 +21,103 @@ public class Tower extends Tile {
     private ArrayList<Fireball> projectiles = new ArrayList<Fireball>();
     private static final String spritePathToBeOveriden = "src/main/resources/WizardTD/tower0.png";
 
+    /**
+     * Constructor for Tower
+     * @param x x tile coordinate [0, 19]
+     * @param y y tile coordinate [0, 19]
+     * @param initialRange initial pixel radius of tower
+     * @param initialFiringSpeed initial fireballs per second
+     * @param initialDamage initial damage per fireball
+     * @param initialRangeLevel initial range level of tower as it was placed
+     * @param initialFiringSpeedLevel initial firing speed level of tower as it was placed
+     * @param initialDamageLevel initial damage level of tower as it was placed
+     * @param map map it is generated from
+     */
     Tower(int x, int y, double initialRange, 
           double initialFiringSpeed, double initialDamage, 
           boolean initialRangeLevel, boolean initialFiringSpeedLevel,
-          boolean initialDamageLevel, Map map)
-    {
+          boolean initialDamageLevel, Map map
+    ) {
         super(x, y, map, Tower.spritePathToBeOveriden);
-        this.centerX = x * CELLSIZE + CELLSIZE / 2;
-        this.centerY = y * CELLSIZE + CELLSIZE / 2 + TOPBAR;
+        this.centerX = x * App.CELLSIZE + App.CELLSIZE / 2;
+        this.centerY = y * App.CELLSIZE + App.CELLSIZE / 2 + App.TOPBAR;
         this.range = initialRange;
         this.firingSpeed = initialFiringSpeed;
         // convert to fireballs per second to fireballs per frame
         this.damage = initialDamage;
         this.initialTowerDamage = initialDamage;
 
-        if (initialRangeLevel)
-        {
+        if (initialRangeLevel) {
             this.upgradeRange();
         }
-        if (initialFiringSpeedLevel)
-        {
+        if (initialFiringSpeedLevel) {
             this.upgradeFiringSpeed();
         }
-        if (initialDamageLevel)
-        {
+        if (initialDamageLevel) {
             this.upgradeDamage();
         }
         System.out.println("Created: " + this);
     }
 
-    public double getRangeCost()
-    {
+    /**
+     * getter for range upgrade cost
+     * @return cost of range upgrade
+     */
+    public double getRangeCost() {
         return 20 + 10 * this.rangeLevel;
     }
 
-    public double getFiringSpeedCost()
-    {
+    /**
+     * getter for firing speed upgrade cost
+     * @return cost of firing speed upgrade
+     */
+    public double getFiringSpeedCost() {
         return 20 + 10 * this.firingSpeedLevel;
     }
 
-    public double getDamageCost()
-    {
+    /**
+     * getter for damage upgrade cost
+     * @return cost of damage upgrade
+     */
+    public double getDamageCost() {
         return 20 + 10 * this.damageLevel;
     }
 
-    public double getRange()
-    {
+    /**
+     * getter for range in pixels
+     * @return range in pixels
+     */
+    public double getRange() {
         return this.range;
     }
 
-    public ArrayList<Fireball> getProjectiles()
-    {
+    /**
+     * getter for firing speed in fireballs per second
+     * @return firing speed in fireballs per second
+     */
+    public ArrayList<Fireball> getProjectiles() {
         return this.projectiles;
     }
 
-    public void setFramesCounter(int framesCounter)
-    {
+    /**
+     * used for testing to force tower to shoot by manipulating the fire rate counter
+     * @param framesCounter new value for the fire rate delay counter
+     */
+    public void setFramesCounter(int framesCounter) {
         this.framesCounter = framesCounter;
     }
 
-    public void findLowestLevel()
-    {
+    /**
+     * loads appropriate sprite if the lowest level has changed
+     */
+    public void findLowestLevel() {
         if (this.rangeLevel <= this.firingSpeedLevel && this.rangeLevel <= this.damageLevel) {
             this.lowestLevel = this.rangeLevel;
         } else if (
             this.firingSpeedLevel <= this.rangeLevel && this.firingSpeedLevel <= this.damageLevel
         ) {
             this.lowestLevel = this.firingSpeedLevel;
-        } else{
+        } else {
             this.lowestLevel = this.damageLevel;
         }
         if (this.lowestLevel > 2) {
@@ -100,27 +129,39 @@ public class Tower extends Tile {
         );
     }   
 
-    public void upgradeRange()
-    {
+    /**
+     * upgrades range by 1 level
+     */
+    public void upgradeRange() {
         this.rangeLevel++;
         this.range += 32;
         System.out.println("upgraded range to " + this);
     }
 
-    public void upgradeFiringSpeed()
-    {
+    /**
+     * upgrades firing speed by 1 level
+     */
+    public void upgradeFiringSpeed() {
         this.firingSpeedLevel++;
         this.firingSpeed += 0.5;
         System.out.println("upgraded speed to " + this);
     }
 
-    public void upgradeDamage()
-    {
+    /**
+     * upgrades damage by 1 level
+     */
+    public void upgradeDamage() {
         this.damageLevel++;
         this.damage += this.initialTowerDamage / 2;
         System.out.println("upgraded damage to " + this);
     }
 
+    /**
+     * shoots a fireball at a random enemy in range in 3 steps:  
+     * 1. creating a list of enemies in range
+     * 2. randomly selecting one
+     * 3. creating a fireball object targeting the random enemy
+     */
     public void shoot() {
         // create list of enemies in range
         ArrayList<Monster> enemiesInRange = new ArrayList<Monster>();
@@ -153,14 +194,20 @@ public class Tower extends Tile {
         }
     }
 
-    public String toString()
-    {
+    /**
+     * collates all data about tower into a string for debugging
+     * @return string of useful data about tower
+     */
+    @Override
+    public String toString() {
         return this.rangeLevel + " " + this.firingSpeedLevel + " " + 
                this.damageLevel + " tower at (" + this.x + ", " + this.y + ")";
     }
 
-    public void tick()
-    {
+    /**
+     * tower shoots after delay, ticks all fireballs and removes fireball objects if theyve hit
+     */
+    public void tick() {
         // shoot if enough frames have passed
         double framesPerFireball = App.FPS / this.firingSpeed;
         if (this.framesCounter > framesPerFireball) {
@@ -181,14 +228,16 @@ public class Tower extends Tile {
         }
     }
 
+    /**
+     * draws tower onto the screen and upgrade indicators
+     */
     @Override
-    public void draw(PApplet app)
-    {
+    public void draw(PApplet app) {
         this.findLowestLevel(); // and figure out which sprite to use
-        app.image(this.sprite, this.x * CELLSIZE, this.y * CELLSIZE + TOPBAR);
+        app.image(this.sprite, this.x * App.CELLSIZE, this.y * App.CELLSIZE + App.TOPBAR);
 
-        int tileX = this.x * CELLSIZE;
-        int tileY = this.y * CELLSIZE + TOPBAR;
+        int tileX = this.x * App.CELLSIZE;
+        int tileY = this.y * App.CELLSIZE + App.TOPBAR;
         app.noFill();
 
         // fire rate square

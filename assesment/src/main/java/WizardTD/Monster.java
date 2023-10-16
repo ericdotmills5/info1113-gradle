@@ -7,7 +7,6 @@ import processing.core.PImage;
 public class Monster {
     private double pixelX;
     private double pixelY;
-    
     private double pixSpeed;
     private double maxHealth; // double
     private double currHealth; // double
@@ -24,14 +23,23 @@ public class Monster {
     private double manaOnKill;
     private int tileX;
     private int tileY;
-
     private boolean firstTimeSpawning = true;
 
+    /**
+     * monster constructer
+     * @param tileX x tile coordinate spawn
+     * @param tileY y tile coordinate spawn
+     * @param pixSpeed speed in pixels per frame
+     * @param maxHealth initial health
+     * @param armour armour multipler which resists damage
+     * @param route list of directions to follow to wizard hut
+     * @param app app object
+     * @param manaOnKill mana to give player on kill
+     */
     public Monster(
         int tileX, int tileY, double pixSpeed, double maxHealth, 
         double armour, ArrayList<Direction> route, App app, double manaOnKill
-        )
-        {
+    ) {
         for(Direction dir: route) {
             this.route.add(dir);
         } // copy route as to not edit reference
@@ -48,24 +56,38 @@ public class Monster {
         this.pixelY = tileY * App.CELLSIZE + App.GHOST_SHIFT_Y + App.TOPBAR;
         this.sprite = app.loadImage("src/main/resources/WizardTD/gremlin.png");
 
-        
         this.spawnShift();
 
         System.out.println("Created " + this);
     }
 
+    /**
+     * used to check if monster object should be removed after death animation
+     * @return false if monster should be removed
+     */
     public boolean getExists() {
         return this.exists;
     }
 
+    /**
+     * get x cordinate of monster in pixels
+     * @return x cordinate of monster in pixels
+     */
     public double getPixelX() {
         return this.pixelX;
     }
 
+    /**
+     * get y cordinate of monster in pixels
+     * @return y cordinate of monster in pixels
+     */
     public double getPixelY() {
         return this.pixelY;
     }
 
+    /**
+     * shift the monster off the screen when spawned
+     */
     public void spawnShift() { // shift mosnter so it spawns off screen
         switch(((WizOrPath)this.app.map.getLand()[this.tileX][this.tileY]).getTerminals()[0]) {
             case UP:
@@ -99,11 +121,21 @@ public class Monster {
         this.firstTimeSpawning = false;
     }
 
+    /**
+     * deduct health from monster according to armour
+     * @param damage damage to deal to monster before armour
+     */
     public void takeDamage(double damage) { // remember armour
         this.currHealth -= damage * this.armour;
         System.out.println("Did " + damage + " damage to " + this);
     }
 
+    /**
+     * Does 3 things: 
+     * 1. Move monster according to speed and direction in list
+     * 2. round monster to nearest tile 
+     * 3. check if monster has reached wizard hut and deduct mana/lose game
+     */
     public void move() {
         if (this.tileNo < this.route.size() && this.alive) { // if directions are not empty
             switch(this.route.get(tileNo)) { // follow next direction
@@ -163,11 +195,43 @@ public class Monster {
         }
     }
 
+    /**
+     * change sprite throughout kill animation
+     */
+    public void changeSpriteDuringKillAnimation() {
+        this.deathTick += app.rate; // kill animation twice as fast if ff, stops if pasued
+            if (this.deathTick > 20) {
+                this.exists = false; // will be deleted from spawn array
+            } else if (this.deathTick > 16) {
+                this.sprite = app.loadImage("src/main/resources/WizardTD/gremlin5.png");
+            } else if (this.deathTick > 12) {
+                this.sprite = app.loadImage("src/main/resources/WizardTD/gremlin4.png");
+            } else if (this.deathTick > 8) {
+                this.sprite = app.loadImage("src/main/resources/WizardTD/gremlin3.png");
+            } else if (this.deathTick > 4) {
+                this.sprite = app.loadImage("src/main/resources/WizardTD/gremlin2.png");
+            } else if (this.deathTick > 0) {
+                this.sprite = app.loadImage("src/main/resources/WizardTD/gremlin1.png");
+            }     
+    }
+
+    /**
+     * collates details of monster for debugging
+     * @return details of monster as a string
+     */
     @Override
     public String toString() {
         return this.currHealth + " hp monster at (" + this.tileX + ", " + this.tileY + ")";
     }
 
+    /**
+     * tick function for monster: 
+     * 1. damage monster if poisoned
+     * 2. update health proportion for draw method
+     * 3. move monster
+     * 4. kill monster if health is 0
+     * 5. update sprite throughout kill animation
+     */
     public void tick()
     {
         // poison
@@ -187,26 +251,16 @@ public class Monster {
             this.move();
         } // move monster based on rate
         
-
         // kill animation
         if (!this.alive) {
-            this.deathTick += app.rate; // kill animation twice as fast
-            if (this.deathTick > 20) {
-                this.exists = false; // will be deleted from spawn array
-            } else if (this.deathTick > 16) {
-                this.sprite = app.loadImage("src/main/resources/WizardTD/gremlin5.png");
-            } else if (this.deathTick > 12) {
-                this.sprite = app.loadImage("src/main/resources/WizardTD/gremlin4.png");
-            } else if (this.deathTick > 8) {
-                this.sprite = app.loadImage("src/main/resources/WizardTD/gremlin3.png");
-            } else if (this.deathTick > 4) {
-                this.sprite = app.loadImage("src/main/resources/WizardTD/gremlin2.png");
-            } else if (this.deathTick > 0) {
-                this.sprite = app.loadImage("src/main/resources/WizardTD/gremlin1.png");
-            }            
+            this.changeSpriteDuringKillAnimation();   
         }
     }
     
+    /**
+     * draw monster sprite and health bar
+     * @param app
+     */
     public void draw(PApplet app) {
         // monster sprite
         app.image(this.sprite, (float)this.pixelX, (float)this.pixelY);
@@ -216,13 +270,13 @@ public class Monster {
             app.noStroke(); // no border
             app.fill(0, 255, 0); // green bit
             app.rect(
-                (float)this.pixelX + App.HEALTH_SHIFT_X, (float)this.pixelY + App.HEALTH_SHIFT_Y, 
+                (float)this.pixelX + App.HEALTH_SHIFT_X, (float)this.pixelY + App.HEALTH_SHIFT_Y,
                 (int) (App.HEALTH_LENGTH * healthProp), App.HEALTH_WIDTH
             );
             
             app.fill(255, 0, 0); // red bit
             app.rect(
-                (float)(this.pixelX + App.HEALTH_SHIFT_X + (App.HEALTH_LENGTH * healthProp)), 
+                (float)(this.pixelX + App.HEALTH_SHIFT_X + (App.HEALTH_LENGTH * healthProp)),
                 (float)(this.pixelY + App.HEALTH_SHIFT_Y), 
                 (float) (App.HEALTH_LENGTH * (1 - healthProp)), 
                 App.HEALTH_WIDTH

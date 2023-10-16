@@ -174,6 +174,11 @@ public class App extends PApplet {
         return scan;
     }
 
+    /**
+     * Read JSON file into JSONObject object.
+     * @param path String of file location.
+     * @return JSONObject object of file.
+     */
     static JSONObject readJSON(String path) {
         String json = "";
         try {
@@ -217,7 +222,7 @@ public class App extends PApplet {
     public void keyPressed() {
 
         if (this.onLossScreen) {
-            if (keyCode == 'R') {
+            if (this.keyCode == 'R') {
                 this.onLossScreen = false;
                 this.doubleRate = 1;
                 this.pauseRate = 1;
@@ -230,7 +235,7 @@ public class App extends PApplet {
             // not allowed to press bellow BUTTONS
         } else {
             for(int i = 1; i < App.BUTTONS.length; i++) {
-                if (keyCode == App.BUTTONS[i]) {
+                if (this.keyCode == App.BUTTONS[i]) {
                     this.ui.toggleSwitch(this, i);
                 }
             }
@@ -357,7 +362,7 @@ public class App extends PApplet {
         int newHeight = (int) Math.floor(h * cos + w * sin);
 
         PImage result = this.createImage(newWidth, newHeight, RGB);
-        //BufferedImage rotated = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_ARGB);
+
         BufferedImage rotated = (BufferedImage) result.getNative();
         Graphics2D g2d = rotated.createGraphics();
         AffineTransform at = new AffineTransform();

@@ -1,6 +1,5 @@
 package WizardTD;
 
-import processing.core.PApplet;
 import java.util.HashMap;
 
 abstract class WizOrPath extends Tile {
@@ -10,7 +9,8 @@ abstract class WizOrPath extends Tile {
     protected HashMap<Direction, Tile> adj = new HashMap<Direction, Tile>();
     //protected Direction terminal; // direction of terminality
     protected Direction optimal; // from wiz dist
-    protected Direction[] termArray = new Direction[2]; // {left, NONE}, just left is off screen
+    protected Direction[] termArray = new Direction[2]; // array indicating terminal directions
+    // eg. {left, NONE}: just left is off screen; {up, right}: tile is in the top right corner
 
     /**
      * Wizard and paths have similarities that deserve to be abstracted
@@ -18,13 +18,15 @@ abstract class WizOrPath extends Tile {
      * @param y y tile cordinates [0, 19]
      * @param map map class it is generated from
      */
-    public WizOrPath(int x, int y, Map map, String spritePath)
-    {
+    public WizOrPath(int x, int y, Map map, String spritePath) {
         super(x, y, map, spritePath);
     }
 
-    public Direction[] getTerminals()
-    {
+    /**
+     * returns array of terminal directions
+     * @return array of terminal directions
+     */
+    public Direction[] getTerminals() {
         return this.termArray;
     }
 
@@ -33,8 +35,7 @@ abstract class WizOrPath extends Tile {
      * 1. Whether it's a terminal tile
      * 2. Adjacent tiles
      */
-    public void assignProperties()
-    {
+    public void assignProperties() {
         this.termArray = this.findTerminality();
         this.adj = this.buildAdj();
     }
@@ -45,8 +46,7 @@ abstract class WizOrPath extends Tile {
      * 2. If it is, return the direction the edge of the screen is in
      * @return the direction the edge of the screen is in
      */
-    public Direction[] findTerminality()
-    {
+    public Direction[] findTerminality() {
         Direction[] termArray = new Direction[2];
         int index = 0;
 
@@ -77,6 +77,11 @@ abstract class WizOrPath extends Tile {
         return termArray;
     }
 
+    /**
+     * from terminal paths, returns a boolean array of directions that exist (not terminal) 
+     * indexes in the array correspond to: {RIGHT EXISTS?, UP EXISTS?, LEFT EXISTS?, DOWN EXISTS?}
+     * @return
+     */
     public boolean[] findDirectionsThatExist() {
         boolean[] directionsThatExist = new boolean[4];
         // {RIGHT EXISTS?, UP EXISTS?, LEFT EXISTS?, DOWN EXISTS?}
@@ -105,8 +110,7 @@ abstract class WizOrPath extends Tile {
      * Called by each terminal tile to create hash map of optimal path
      * @return hash map with directions as keys and current tile as value
      */
-    public HashMap<Direction, Tile> buildAdj()
-    {
+    public HashMap<Direction, Tile> buildAdj() {
         HashMap<Direction, Tile> adj = new HashMap<Direction, Tile>();
 
         // determine where terminalities are
@@ -115,22 +119,22 @@ abstract class WizOrPath extends Tile {
         
         if (directionsThatExist[0]) { // enter tile to the right
             adj.put(Direction.RIGHT, this.map.getLand()[this.x + 1][this.y]);
-        } else{ // otherwise, enter null
+        } else { // otherwise, enter null
             adj.put(Direction.RIGHT, null);
         }
         if (directionsThatExist[1]) { // enter tile above
             adj.put(Direction.UP, this.map.getLand()[this.x][this.y - 1]);
-        } else{
+        } else {
             adj.put(Direction.UP, null);
         }
         if (directionsThatExist[2]) { // enter left
             adj.put(Direction.LEFT, this.map.getLand()[this.x - 1][this.y]); 
-        } else{
+        } else {
             adj.put(Direction.LEFT, null);
         }
         if (directionsThatExist[3]) { // enter bellow
             adj.put(Direction.DOWN, this.map.getLand()[this.x][this.y + 1]); 
-        } else{
+        } else {
             adj.put(Direction.DOWN, null);
         }
         
@@ -141,8 +145,7 @@ abstract class WizOrPath extends Tile {
      * Method to determine directions to wizard, recursivly calling adjacent tiles.
      * This allows each path to know the optimal direction to the wizard.
      */
-    public void determineWizDists()
-    {
+    public void determineWizDists() {
         for(Tile i: this.adj.values()) { // for everyone around me
             if (
                 i instanceof Path // if the adjacent tile is a path
@@ -166,29 +169,4 @@ abstract class WizOrPath extends Tile {
     }
 }
 
-class Wizard extends WizOrPath {
-    private static final String spritePath = "src/main/resources/WizardTD/wizard_house.png";
-    /**
-     * Wizard is special case of WizOrPath because:
-     * 1. It has a wizard distance of 0 (thus not optimal direction)
-     * 2. It has a cool sprite
-     * @param x tile x coordinate [0, 19]
-     * @param y tile y coordinate [0, 19]
-     * @param map map it is generated from
-     */
-    public Wizard(int x, int y, Map map)
-    {
-        super(x, y, map, Wizard.spritePath);
-        this.wizDist = 0;
-        this.optimal = Direction.NONE;
-    }
-    /**
-     * Draw function needs to be overriden because wizard house needs to be shifted
-     */
-    @Override
-    public void draw(PApplet app) {
-        app.image(
-            this.sprite, this.x * CELLSIZE + WIZ_SHIFT_X, this.y * CELLSIZE + WIZ_SHIFT_Y + TOPBAR
-        ); // wizard house needs to be shifted
-    }
-}
+

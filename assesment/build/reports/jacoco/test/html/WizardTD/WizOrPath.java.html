@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>WizOrPath.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">assesment</a> &gt; <a href="index.source.html" class="el_package">WizardTD</a> &gt; <span class="el_source">WizOrPath.java</span></div><h1>WizOrPath.java</h1><pre class="source lang-java linenums">package WizardTD;
 
-import processing.core.PApplet;
 import java.util.HashMap;
 
 abstract class WizOrPath extends Tile {
     public static final int CELLSIZE = App.CELLSIZE;
 
-<span class="fc" id="L9">    protected int wizDist = 0;</span>
-<span class="fc" id="L10">    protected HashMap&lt;Direction, Tile&gt; adj = new HashMap&lt;Direction, Tile&gt;();</span>
-    protected Direction terminal; // direction of terminality
+<span class="fc" id="L8">    protected int wizDist = 0;</span>
+<span class="fc" id="L9">    protected HashMap&lt;Direction, Tile&gt; adj = new HashMap&lt;Direction, Tile&gt;();</span>
+    //protected Direction terminal; // direction of terminality
     protected Direction optimal; // from wiz dist
-<span class="fc" id="L13">    protected Direction[] termArray = new Direction[3]; // {left, NONE}, left is off the screen</span>
+<span class="fc" id="L12">    protected Direction[] termArray = new Direction[2]; // array indicating terminal directions</span>
+    // eg. {left, NONE}: just left is off screen; {up, right}: tile is in the top right corner
 
     /**
      * Wizard and paths have similarities that deserve to be abstracted
@@ -18,14 +18,16 @@ abstract class WizOrPath extends Tile {
      * @param y y tile cordinates [0, 19]
      * @param map map class it is generated from
      */
-    public WizOrPath(int x, int y, Map map, String spritePath)
-    {
-<span class="fc" id="L23">        super(x, y, map, spritePath);</span>
-<span class="fc" id="L24">    }</span>
+    public WizOrPath(int x, int y, Map map, String spritePath) {
+<span class="fc" id="L22">        super(x, y, map, spritePath);</span>
+<span class="fc" id="L23">    }</span>
 
-    public Direction getTerminal()
-    {
-<span class="fc" id="L28">        return this.terminal;</span>
+    /**
+     * returns array of terminal directions
+     * @return array of terminal directions
+     */
+    public Direction[] getTerminals() {
+<span class="fc" id="L30">        return this.termArray;</span>
     }
 
     /**
@@ -33,37 +35,10 @@ abstract class WizOrPath extends Tile {
      * 1. Whether it's a terminal tile
      * 2. Adjacent tiles
      */
-    public void assignProperties()
-    {
-<span class="fc" id="L38">        this.terminal = this.findTerminality();</span>
-<span class="fc" id="L39">        this.adj = this.buildAdj();</span>
-<span class="fc" id="L40">    }</span>
-
-    /**
-     * Method to determine directions to wizard, recursivly calling adjacent tiles.
-     * This allows each path to know the optimal direction to the wizard.
-     */
-    public void determineWizDists()
-    {
-<span class="fc bfc" id="L48" title="All 2 branches covered.">        for(Tile i: this.adj.values()){ // for everyone around me</span>
-<span class="pc bpc" id="L49" title="1 of 6 branches missed.">            if(</span>
-                i instanceof Path // if the adjacent tile is a path
-                &amp;&amp; (((Path)i).wizDist == 0 // and it either has no distance
-                || ((Path)i).wizDist &gt; this.wizDist + 1) // or it has a bigger distance
-                ){ 
-<span class="fc" id="L54">                ((Path)i).wizDist = this.wizDist + 1; // give it my better distance + 1</span>
-<span class="fc" id="L55">                System.out.println(i + &quot; Distance: &quot; + ((Path)i).wizDist);</span>
-                
-<span class="fc bfc" id="L57" title="All 2 branches covered.">                for(Direction j: ((Path)i).adj.keySet()){ // determine his optimal direction</span>
-<span class="fc bfc" id="L58" title="All 2 branches covered.">                    if(((Path)i).adj.get(j) == this){ // if your currently iterating over me</span>
-<span class="fc" id="L59">                        ((Path)i).optimal = j; // then im the optimal direction</span>
-<span class="fc" id="L60">                        System.out.println(i + &quot; optimal path direction &quot; + j);</span>
-                    }
-<span class="fc" id="L62">                }</span>
-<span class="fc" id="L63">                ((Path)i).determineWizDists(); // ask his friends to do it</span>
-            }
-<span class="fc" id="L65">        }</span>
-<span class="fc" id="L66">    }</span>
+    public void assignProperties() {
+<span class="fc" id="L39">        this.termArray = this.findTerminality();</span>
+<span class="fc" id="L40">        this.adj = this.buildAdj();</span>
+<span class="fc" id="L41">    }</span>
 
     /**
      * Based on a tile's position:
@@ -71,80 +46,128 @@ abstract class WizOrPath extends Tile {
      * 2. If it is, return the direction the edge of the screen is in
      * @return the direction the edge of the screen is in
      */
-    public Direction findTerminality()
-    {
-<span class="fc bfc" id="L76" title="All 3 branches covered.">        switch(this.x){ // assume no paths on corners, for now</span>
+    public Direction[] findTerminality() {
+<span class="fc" id="L50">        Direction[] termArray = new Direction[2];</span>
+<span class="fc" id="L51">        int index = 0;</span>
+
+<span class="fc bfc" id="L53" title="All 3 branches covered.">        switch(this.x) { // add directions to array if terminal</span>
             case 19:
-<span class="fc" id="L78">                return Direction.RIGHT;</span>
+<span class="fc" id="L55">                termArray[index] = Direction.RIGHT;</span>
+<span class="fc" id="L56">                index++;</span>
+<span class="fc" id="L57">                break; // cant be both left and right</span>
             case 0:
-<span class="fc" id="L80">                return Direction.LEFT;</span>
+<span class="fc" id="L59">                termArray[index] = Direction.LEFT;</span>
+<span class="fc" id="L60">                index++;</span>
         }
-<span class="fc bfc" id="L82" title="All 3 branches covered.">        switch(this.y){</span>
+<span class="fc bfc" id="L62" title="All 3 branches covered.">        switch(this.y) {</span>
             case 0:
-<span class="fc" id="L84">                return Direction.UP;</span>
+<span class="fc" id="L64">                termArray[index] = Direction.UP;</span>
+<span class="fc" id="L65">                index++;</span>
+<span class="fc" id="L66">                break; // cant be both up and down</span>
             case 19:
-<span class="fc" id="L86">                return Direction.DOWN;</span>
+<span class="fc" id="L68">                termArray[index] = Direction.DOWN;</span>
+<span class="fc" id="L69">                index++;</span>
+        } // assume max 2 terminals
+        
+<span class="fc bfc" id="L72" title="All 2 branches covered.">        for(int i = index; i &lt; 2; i++) { // fill rest of array with NONE</span>
+<span class="fc" id="L73">            termArray[i] = Direction.NONE;</span>
         }
-<span class="fc" id="L88">        return Direction.NONE;</span>
+<span class="fc" id="L75">        System.out.println(this + &quot; terminals: &quot; + termArray[0] + &quot; &quot; + termArray[1]);</span>
+
+<span class="fc" id="L77">        return termArray;</span>
+    }
+
+    /**
+     * from terminal paths, returns a boolean array of directions that exist (not terminal) 
+     * indexes in the array correspond to: {RIGHT EXISTS?, UP EXISTS?, LEFT EXISTS?, DOWN EXISTS?}
+     * @return
+     */
+    public boolean[] findDirectionsThatExist() {
+<span class="fc" id="L86">        boolean[] directionsThatExist = new boolean[4];</span>
+        // {RIGHT EXISTS?, UP EXISTS?, LEFT EXISTS?, DOWN EXISTS?}
+
+        // fill with true
+<span class="fc bfc" id="L90" title="All 2 branches covered.">        for(int i = 0; i &lt; 4; i++) {</span>
+<span class="fc" id="L91">            directionsThatExist[i] = true;</span>
+        }
+
+        // check if terminal, ie DNE
+<span class="fc bfc" id="L95" title="All 2 branches covered.">        for(Direction dir: this.termArray) {</span>
+<span class="fc bfc" id="L96" title="All 2 branches covered.">            if (dir == Direction.RIGHT) {</span>
+<span class="fc" id="L97">                directionsThatExist[0] = false;</span>
+<span class="fc bfc" id="L98" title="All 2 branches covered.">            } else if (dir == Direction.UP) {</span>
+<span class="fc" id="L99">                directionsThatExist[1] = false;</span>
+<span class="fc bfc" id="L100" title="All 2 branches covered.">            } else if (dir == Direction.LEFT) {</span>
+<span class="fc" id="L101">                directionsThatExist[2] = false;</span>
+<span class="fc bfc" id="L102" title="All 2 branches covered.">            } else if (dir == Direction.DOWN) {</span>
+<span class="fc" id="L103">                directionsThatExist[3] = false;</span>
+            }
+        }
+<span class="fc" id="L106">        return directionsThatExist;</span>
     }
 
     /**
      * Called by each terminal tile to create hash map of optimal path
      * @return hash map with directions as keys and current tile as value
      */
-    public HashMap&lt;Direction, Tile&gt; buildAdj()
-    {
-<span class="fc" id="L97">        HashMap&lt;Direction, Tile&gt; adj = new HashMap&lt;Direction, Tile&gt;();</span>
+    public HashMap&lt;Direction, Tile&gt; buildAdj() {
+<span class="fc" id="L114">        HashMap&lt;Direction, Tile&gt; adj = new HashMap&lt;Direction, Tile&gt;();</span>
+
+        // determine where terminalities are
+<span class="fc" id="L117">        boolean[] directionsThatExist = this.findDirectionsThatExist();</span>
+        // {RIGHT EXISTS?, UP EXISTS?, LEFT EXISTS?, DOWN EXISTS?}
         
-<span class="fc bfc" id="L99" title="All 2 branches covered.">        if(this.terminal != Direction.RIGHT){ // enter tile to the right</span>
-<span class="fc" id="L100">            adj.put(Direction.RIGHT, this.map.getLand()[this.x + 1][this.y]);</span>
-        } else{ // otherwise, enter null
-<span class="fc" id="L102">            adj.put(Direction.RIGHT, null);</span>
+<span class="fc bfc" id="L120" title="All 2 branches covered.">        if (directionsThatExist[0]) { // enter tile to the right</span>
+<span class="fc" id="L121">            adj.put(Direction.RIGHT, this.map.getLand()[this.x + 1][this.y]);</span>
+        } else { // otherwise, enter null
+<span class="fc" id="L123">            adj.put(Direction.RIGHT, null);</span>
         }
-<span class="fc bfc" id="L104" title="All 2 branches covered.">        if(this.terminal != Direction.UP){ // enter tile above</span>
-<span class="fc" id="L105">            adj.put(Direction.UP, this.map.getLand()[this.x][this.y - 1]);</span>
-        } else{
-<span class="fc" id="L107">            adj.put(Direction.UP, null);</span>
+<span class="fc bfc" id="L125" title="All 2 branches covered.">        if (directionsThatExist[1]) { // enter tile above</span>
+<span class="fc" id="L126">            adj.put(Direction.UP, this.map.getLand()[this.x][this.y - 1]);</span>
+        } else {
+<span class="fc" id="L128">            adj.put(Direction.UP, null);</span>
         }
-<span class="fc bfc" id="L109" title="All 2 branches covered.">        if(this.terminal != Direction.LEFT){ // enter left</span>
-<span class="fc" id="L110">            adj.put(Direction.LEFT, this.map.getLand()[this.x - 1][this.y]); </span>
-        } else{
-<span class="fc" id="L112">            adj.put(Direction.LEFT, null);</span>
+<span class="fc bfc" id="L130" title="All 2 branches covered.">        if (directionsThatExist[2]) { // enter left</span>
+<span class="fc" id="L131">            adj.put(Direction.LEFT, this.map.getLand()[this.x - 1][this.y]); </span>
+        } else {
+<span class="fc" id="L133">            adj.put(Direction.LEFT, null);</span>
         }
-<span class="fc bfc" id="L114" title="All 2 branches covered.">        if(this.terminal != Direction.DOWN){ // enter bellow</span>
-<span class="fc" id="L115">            adj.put(Direction.DOWN, this.map.getLand()[this.x][this.y + 1]); </span>
-        } else{
-<span class="fc" id="L117">            adj.put(Direction.DOWN, null);</span>
+<span class="fc bfc" id="L135" title="All 2 branches covered.">        if (directionsThatExist[3]) { // enter bellow</span>
+<span class="fc" id="L136">            adj.put(Direction.DOWN, this.map.getLand()[this.x][this.y + 1]); </span>
+        } else {
+<span class="fc" id="L138">            adj.put(Direction.DOWN, null);</span>
         }
         
-<span class="fc" id="L120">        return adj;</span>
+<span class="fc" id="L141">        return adj;</span>
     }
+
+    /**
+     * Method to determine directions to wizard, recursivly calling adjacent tiles.
+     * This allows each path to know the optimal direction to the wizard.
+     */
+    public void determineWizDists() {
+<span class="fc bfc" id="L149" title="All 2 branches covered.">        for(Tile i: this.adj.values()) { // for everyone around me</span>
+<span class="fc bfc" id="L150" title="All 6 branches covered.">            if (</span>
+                i instanceof Path // if the adjacent tile is a path
+                &amp;&amp; (((Path)i).wizDist == 0 // and it either has no distance
+                || ((Path)i).wizDist &gt; this.wizDist + 1) // or it has a bigger distance
+                ) { 
+<span class="fc" id="L155">                ((Path)i).wizDist = this.wizDist + 1; // give it my better distance + 1</span>
+<span class="fc" id="L156">                System.out.println(i + &quot; Distance: &quot; + ((Path)i).wizDist);</span>
+                
+                // find the direction that leads to me and name it optimal
+<span class="fc" id="L159">                System.out.println(((Path)i).adj.values());</span>
+<span class="fc bfc" id="L160" title="All 2 branches covered.">                for(Direction j: ((Path)i).adj.keySet()) {</span>
+<span class="fc bfc" id="L161" title="All 2 branches covered.">                    if (((Path)i).adj.get(j) == this) { // if your currently iterating over me</span>
+<span class="fc" id="L162">                        ((Path)i).optimal = j; // then im the optimal direction</span>
+<span class="fc" id="L163">                        System.out.println(i + &quot; optimal path direction &quot; + j);</span>
+                    }
+<span class="fc" id="L165">                }</span>
+<span class="fc" id="L166">                ((Path)i).determineWizDists(); // ask his friends to do it</span>
+            }
+<span class="fc" id="L168">        }</span>
+<span class="fc" id="L169">    }</span>
 }
 
-class Wizard extends WizOrPath {
-    private static final String spritePath = &quot;src/main/resources/WizardTD/wizard_house.png&quot;;
-    /**
-     * Wizard is special case of WizOrPath because:
-     * 1. It has a wizard distance of 0 (thus not optimal direction)
-     * 2. It has a cool sprite
-     * @param x tile x coordinate [0, 19]
-     * @param y tile y coordinate [0, 19]
-     * @param map map it is generated from
-     */
-    public Wizard(int x, int y, Map map)
-    {
-<span class="fc" id="L136">        super(x, y, map, Wizard.spritePath);</span>
-<span class="fc" id="L137">        this.wizDist = 0;</span>
-<span class="fc" id="L138">        this.optimal = Direction.NONE;</span>
-<span class="fc" id="L139">    }</span>
-    /**
-     * Draw function needs to be overriden because wizard house needs to be shifted
-     */
-    @Override
-    public void draw(PApplet app){
-<span class="fc" id="L145">        app.image(</span>
-            this.sprite, this.x * CELLSIZE + wizShiftX, this.y * CELLSIZE + wizShiftY + TOPBAR
-            ); // wizard house needs to be shifted
-<span class="fc" id="L148">    }</span>
-}
+
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

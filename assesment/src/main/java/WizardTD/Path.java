@@ -13,8 +13,7 @@ public class Path extends WizOrPath {
      * @param y y cordinate of path [0,19]
      * @param map map it is generated from
      */
-    public Path(int x, int y, Map map)
-    {
+    public Path(int x, int y, Map map) {
         super(x, y, map, Path.spritePathToBeOverriden);
     }
 
@@ -32,8 +31,7 @@ public class Path extends WizOrPath {
      * Rotates is how many 90 degree anticlockwise rotations the source sprite needs.
      * Originally used modular arithmetic to create diagnosis, but this is easier to understand.
      */
-    public void pathTypeRotate()
-    {
+    public void pathTypeRotate() {
         // check if adjecent paths exist
         boolean left = false;
         boolean right = false;
@@ -113,17 +111,18 @@ public class Path extends WizOrPath {
         } else if (up || down) {
             this.pathType = 0;
             this.rotates = 1;
-        } else{
-            System.out.println("Error diagnosing path type " + this);
+        } else {
+            System.out.println("Lone path: " + this);
+            this.pathType = 3;
+            this.rotates = 0;
             return;
-        }
+        } // 2^4 = 16 cases; this is exhasutive
     }
 
     /**
      * Creates sprite based on pathType and rotates
      */
-    public void createImage()
-    {
+    public void createImage() {
         PImage noRotate;
 
         noRotate = this.map.getApp().loadImage( // assume string int concacenation
@@ -133,5 +132,4 @@ public class Path extends WizOrPath {
         this.sprite = this.map.getApp().rotateImageByDegrees(noRotate, this.rotates * -90);
         
     }
-        
 }

@@ -18,14 +18,18 @@ public class Wave {
     private int monstersRemaining = 0;
     private Path[] spawnPaths;
     private boolean waveComplete = false;
-    
-    public static final int FPS = App.FPS;
 
+    /**
+     * constructer for each wave
+     * @param waveData JSON object containing wave data
+     * @param rotes HashMap of spawns and their rotes to wizard tower
+     * @param app App object to draw with
+     */
     public Wave(JSONObject waveData, HashMap<Path, ArrayList<Direction>> rotes, App app) {
         this.rotes = rotes;
         this.waveData = waveData;
         this.app = app;
-        this.waveFrames = waveData.getInt("duration") * FPS;
+        this.waveFrames = (int)(waveData.getDouble("duration") * App.FPS);
         this.spawnPaths = rotes.keySet().toArray(new Path[rotes.size()]);
 
         for(int i = 0; i < waveData.getJSONArray("monsters").size(); i++) {
@@ -37,25 +41,41 @@ public class Wave {
 
         if (this.monstersRemaining == 0) {
             this.framesPerSpawn = 0; // prevent division by 0 error
-        } else{
+        } else {
         this.framesPerSpawn = this.waveFrames / this.monstersRemaining;
         }
 
         System.out.println("Wave created");
     }
 
+    /**
+     * getter for wave data
+     * @return JSONObject of wave data
+     */
     public JSONObject getData() {
         return this.waveData;
     }
 
+    /**
+     * getter for wave complete
+     * @return true if wave is complete
+     */
     public boolean getWaveComplete() {
         return this.waveComplete;
     }
 
+    /**
+     * getter for monsters array of all monsters spawned by wave
+     * @return ArrayList of all monsters spawned by wave
+     */
     public ArrayList<Monster> getMonsters() {
         return this.monsters;
     }
 
+    /**
+     * iterates through all monsters in array and ticks them by creating an iterator.
+     * removes post death animation monsters from array (deleting them)
+     */
     public void iterateThroughMonsters() {
         Iterator<Monster> monsterIterator = this.monsters.iterator(); 
         // used since updating elements as we iterate
@@ -69,6 +89,10 @@ public class Wave {
         }
     }
 
+    /**
+     * creates a random monster of a random type based on how many monsters 
+     * it has left to spawn and spawns it on a random path
+     */
     public void createRandomMonster() {
         Random rand = new Random();
         int randMonsterType = rand.nextInt(this.monsterTypeCounts.size()); // choose random monster
@@ -93,13 +117,26 @@ public class Wave {
         }
     }
 
+    /**
+     * ticks wave by:
+     * 1. iterating through all monsters in array
+     * 2. generating new random monster type with random spawn path after spawn cooldown is up
+     * 3. checking if wave is complete by searching for any monsters in array
+     */
     public void tick() {
         this.currentFrame += app.rate;
 
         this.iterateThroughMonsters();
 
-        // generate new random monster type with random spawn path
-        if (this.monstersRemaining > 0 && this.currentFrame >= this.framesPerSpawn) {
+        // generate new random monster type with random spawn path if:
+        // 1. there are still monsters left
+        // 2. spawn cooldown is up
+        // 3. there are paths to spawn on
+        if (
+            this.monstersRemaining > 0 && 
+            this.currentFrame >= this.framesPerSpawn && 
+            this.spawnPaths.length > 0
+        ) {
             this.createRandomMonster();
             this.currentFrame = 0; // reset frame counter
         } 
@@ -109,6 +146,9 @@ public class Wave {
         } // if all monsters have been spawned and killed, wave will be removed from map array
     }
 
+    /**
+     * draws all monsters spawned by wave
+     */
     public void draw() {
         for(Monster monster : this.monsters) {
             monster.draw(this.app); // draw all monsters in array
