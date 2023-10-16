@@ -23,10 +23,8 @@ public class Path extends WizOrPath {
      */
     public void updatePath(){ 
 <span class="fc" id="L25">        this.pathTypeRotate();</span>
-<span class="pc bpc" id="L26" title="1 of 2 branches missed.">        if(!this.map.getApp().testing){</span>
-<span class="nc" id="L27">            this.createImage();</span>
-        }
-<span class="fc" id="L29">    }</span>
+<span class="fc" id="L26">        this.createImage();</span>
+<span class="fc" id="L27">    }</span>
 
     /**
      * Based on adjecent paths: diagnoses path rotation and type.
@@ -36,81 +34,87 @@ public class Path extends WizOrPath {
      */
     public void pathTypeRotate()
     {
-<span class="fc" id="L39">        boolean left = false;</span>
-<span class="fc" id="L40">        boolean right = false;</span>
-<span class="fc" id="L41">        boolean up = false;</span>
-<span class="fc" id="L42">        boolean down = false;</span>
+<span class="fc" id="L37">        boolean left = false;</span>
+<span class="fc" id="L38">        boolean right = false;</span>
+<span class="fc" id="L39">        boolean up = false;</span>
+<span class="fc" id="L40">        boolean down = false;</span>
 
-<span class="fc bfc" id="L44" title="All 2 branches covered.">        if(</span>
-<span class="fc bfc" id="L45" title="All 2 branches covered.">            this.terminal == Direction.LEFT || this.adj.get(Direction.LEFT) instanceof WizOrPath</span>
+<span class="fc bfc" id="L42" title="All 2 branches covered.">        if(</span>
+<span class="fc bfc" id="L43" title="All 2 branches covered.">            this.terminal == Direction.LEFT || this.adj.get(Direction.LEFT) instanceof WizOrPath</span>
         ){
-<span class="fc" id="L47">            left = true;</span>
+<span class="fc" id="L45">            left = true;</span>
         }
-<span class="fc bfc" id="L49" title="All 2 branches covered.">        if(</span>
-<span class="fc bfc" id="L50" title="All 2 branches covered.">            this.terminal == Direction.RIGHT || this.adj.get(Direction.RIGHT) instanceof WizOrPath</span>
+<span class="fc bfc" id="L47" title="All 2 branches covered.">        if(</span>
+<span class="fc bfc" id="L48" title="All 2 branches covered.">            this.terminal == Direction.RIGHT || this.adj.get(Direction.RIGHT) instanceof WizOrPath</span>
         ){
-<span class="fc" id="L52">            right = true;</span>
+<span class="fc" id="L50">            right = true;</span>
         }
-<span class="fc bfc" id="L54" title="All 2 branches covered.">        if(</span>
-<span class="fc bfc" id="L55" title="All 2 branches covered.">            this.terminal == Direction.UP || this.adj.get(Direction.UP) instanceof WizOrPath</span>
+<span class="fc bfc" id="L52" title="All 2 branches covered.">        if(</span>
+<span class="fc bfc" id="L53" title="All 2 branches covered.">            this.terminal == Direction.UP || this.adj.get(Direction.UP) instanceof WizOrPath</span>
         ){
-<span class="fc" id="L57">            up = true;</span>
+<span class="fc" id="L55">            up = true;</span>
         }
-<span class="fc bfc" id="L59" title="All 2 branches covered.">        if(</span>
-<span class="fc bfc" id="L60" title="All 2 branches covered.">            this.terminal == Direction.DOWN || this.adj.get(Direction.DOWN) instanceof WizOrPath</span>
+<span class="fc bfc" id="L57" title="All 2 branches covered.">        if(</span>
+<span class="fc bfc" id="L58" title="All 2 branches covered.">            this.terminal == Direction.DOWN || this.adj.get(Direction.DOWN) instanceof WizOrPath</span>
         ){
-<span class="fc" id="L62">            down = true;</span>
+<span class="fc" id="L60">            down = true;</span>
         }
 
-<span class="fc bfc" id="L65" title="All 8 branches covered.">        if(left &amp;&amp; right &amp;&amp; up &amp;&amp; down){</span>
-<span class="fc" id="L66">            this.pathType = 3;</span>
-<span class="fc" id="L67">            this.rotates = 0;</span>
-<span class="fc" id="L68">            return;</span>
-<span class="fc bfc" id="L69" title="All 6 branches covered.">        } else if(left &amp;&amp; right &amp;&amp; up){</span>
-<span class="fc" id="L70">            this.pathType = 2;</span>
-<span class="fc" id="L71">            this.rotates = 2;</span>
-<span class="fc" id="L72">            return;</span>
-<span class="fc bfc" id="L73" title="All 6 branches covered.">        } else if(left &amp;&amp; right &amp;&amp; down){</span>
-<span class="fc" id="L74">            this.pathType = 2;</span>
-<span class="fc" id="L75">            this.rotates = 0;</span>
-<span class="fc" id="L76">            return;</span>
-<span class="fc bfc" id="L77" title="All 6 branches covered.">        } else if(left &amp;&amp; up &amp;&amp; down){</span>
-<span class="fc" id="L78">            this.pathType = 2;</span>
-<span class="fc" id="L79">            this.rotates = 3;</span>
-<span class="fc" id="L80">            return;</span>
-<span class="fc bfc" id="L81" title="All 6 branches covered.">        } else if(right &amp;&amp; up &amp;&amp; down){</span>
-<span class="fc" id="L82">            this.pathType = 2;</span>
-<span class="fc" id="L83">            this.rotates = 1;</span>
-<span class="fc" id="L84">            return;</span>
-<span class="fc bfc" id="L85" title="All 4 branches covered.">        } else if(left &amp;&amp; right){</span>
-<span class="fc" id="L86">            this.pathType = 0;</span>
-<span class="fc" id="L87">            this.rotates = 0;</span>
-<span class="fc" id="L88">            return;</span>
-<span class="fc bfc" id="L89" title="All 4 branches covered.">        } else if(up &amp;&amp; down){</span>
-<span class="fc" id="L90">            this.pathType = 0;</span>
-<span class="fc" id="L91">            this.rotates = 1;</span>
-<span class="fc" id="L92">            return;</span>
-<span class="fc bfc" id="L93" title="All 4 branches covered.">        } else if(left &amp;&amp; up){</span>
-<span class="fc" id="L94">            this.pathType = 1;</span>
-<span class="fc" id="L95">            this.rotates = 3;</span>
-<span class="fc" id="L96">            return;</span>
-<span class="pc bpc" id="L97" title="1 of 4 branches missed.">        } else if(left &amp;&amp; down){</span>
-<span class="fc" id="L98">            this.pathType = 1;</span>
-<span class="fc" id="L99">            this.rotates = 0;</span>
-<span class="fc" id="L100">            return;</span>
-<span class="pc bpc" id="L101" title="1 of 4 branches missed.">        } else if(right &amp;&amp; up){</span>
-<span class="fc" id="L102">            this.pathType = 1;</span>
-<span class="fc" id="L103">            this.rotates = 2;</span>
-<span class="fc" id="L104">            return;</span>
-<span class="pc bpc" id="L105" title="2 of 4 branches missed.">        } else if(right &amp;&amp; down){</span>
-<span class="fc" id="L106">            this.pathType = 1;</span>
-<span class="fc" id="L107">            this.rotates = 1;</span>
-<span class="fc" id="L108">            return;</span>
+<span class="fc bfc" id="L63" title="All 8 branches covered.">        if(left &amp;&amp; right &amp;&amp; up &amp;&amp; down){</span>
+<span class="fc" id="L64">            this.pathType = 3;</span>
+<span class="fc" id="L65">            this.rotates = 0;</span>
+<span class="fc" id="L66">            return;</span>
+<span class="fc bfc" id="L67" title="All 6 branches covered.">        } else if(left &amp;&amp; right &amp;&amp; up){</span>
+<span class="fc" id="L68">            this.pathType = 2;</span>
+<span class="fc" id="L69">            this.rotates = 2;</span>
+<span class="fc" id="L70">            return;</span>
+<span class="fc bfc" id="L71" title="All 6 branches covered.">        } else if(left &amp;&amp; right &amp;&amp; down){</span>
+<span class="fc" id="L72">            this.pathType = 2;</span>
+<span class="fc" id="L73">            this.rotates = 0;</span>
+<span class="fc" id="L74">            return;</span>
+<span class="fc bfc" id="L75" title="All 6 branches covered.">        } else if(left &amp;&amp; up &amp;&amp; down){</span>
+<span class="fc" id="L76">            this.pathType = 2;</span>
+<span class="fc" id="L77">            this.rotates = 3;</span>
+<span class="fc" id="L78">            return;</span>
+<span class="fc bfc" id="L79" title="All 6 branches covered.">        } else if(right &amp;&amp; up &amp;&amp; down){</span>
+<span class="fc" id="L80">            this.pathType = 2;</span>
+<span class="fc" id="L81">            this.rotates = 1;</span>
+<span class="fc" id="L82">            return;</span>
+<span class="fc bfc" id="L83" title="All 4 branches covered.">        } else if(left &amp;&amp; right){</span>
+<span class="fc" id="L84">            this.pathType = 0;</span>
+<span class="fc" id="L85">            this.rotates = 0;</span>
+<span class="fc" id="L86">            return;</span>
+<span class="fc bfc" id="L87" title="All 4 branches covered.">        } else if(up &amp;&amp; down){</span>
+<span class="fc" id="L88">            this.pathType = 0;</span>
+<span class="fc" id="L89">            this.rotates = 1;</span>
+<span class="fc" id="L90">            return;</span>
+<span class="fc bfc" id="L91" title="All 4 branches covered.">        } else if(left &amp;&amp; up){</span>
+<span class="fc" id="L92">            this.pathType = 1;</span>
+<span class="fc" id="L93">            this.rotates = 3;</span>
+<span class="fc" id="L94">            return;</span>
+<span class="pc bpc" id="L95" title="1 of 4 branches missed.">        } else if(left &amp;&amp; down){</span>
+<span class="fc" id="L96">            this.pathType = 1;</span>
+<span class="fc" id="L97">            this.rotates = 0;</span>
+<span class="fc" id="L98">            return;</span>
+<span class="pc bpc" id="L99" title="1 of 4 branches missed.">        } else if(right &amp;&amp; up){</span>
+<span class="fc" id="L100">            this.pathType = 1;</span>
+<span class="fc" id="L101">            this.rotates = 2;</span>
+<span class="fc" id="L102">            return;</span>
+<span class="pc bpc" id="L103" title="2 of 4 branches missed.">        } else if(right &amp;&amp; down){</span>
+<span class="fc" id="L104">            this.pathType = 1;</span>
+<span class="fc" id="L105">            this.rotates = 1;</span>
+<span class="fc" id="L106">            return;</span>
+<span class="nc bnc" id="L107" title="All 4 branches missed.">        } else if(left || right){</span>
+<span class="nc" id="L108">            this.pathType = 0;</span>
+<span class="nc" id="L109">            this.rotates = 0;</span>
+<span class="nc bnc" id="L110" title="All 4 branches missed.">        } else if(up || down){</span>
+<span class="nc" id="L111">            this.pathType = 0;</span>
+<span class="nc" id="L112">            this.rotates = 1;</span>
         } else{
-<span class="nc" id="L110">            System.out.println(&quot;Error diagnosing path type &quot; + this);</span>
-<span class="nc" id="L111">            return;</span>
+<span class="nc" id="L114">            System.out.println(&quot;Error diagnosing path type &quot; + this);</span>
+<span class="nc" id="L115">            return;</span>
         }
-    }
+<span class="nc" id="L117">    }</span>
 
     /**
      * Creates sprite based on pathType and rotates
@@ -119,13 +123,13 @@ public class Path extends WizOrPath {
     {
         PImage noRotate;
 
-<span class="nc" id="L122">        noRotate = this.map.getApp().loadImage( // assume string int concacenation</span>
+<span class="fc" id="L126">        noRotate = this.map.getApp().loadImage( // assume string int concacenation</span>
             &quot;src/main/resources/WizardTD/path&quot; + this.pathType + &quot;.png&quot;
         );
         
-<span class="nc" id="L126">        this.sprite = this.map.getApp().rotateImageByDegrees(noRotate, this.rotates * -90);</span>
+<span class="fc" id="L130">        this.sprite = this.map.getApp().rotateImageByDegrees(noRotate, this.rotates * -90);</span>
         
-<span class="nc" id="L128">    }</span>
+<span class="fc" id="L132">    }</span>
         
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

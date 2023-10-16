@@ -8,18 +8,11 @@ import java.util.*;
 
 /*
  * Edge cases:
- *  Path on terminal corner * 
- *  Wizard hut on side * 
- *  Wizard hut on corner * 
  *  sumarise long if else statements
- *  bottom right upgrade bubble should only show upgrades player can afford (source?)
  *  google java style guide * 
- *  90%+ test coverage
  *  clean up code with functions * 
  * 
- * check ghost speeds are actually correct
  * check if integer config values can take floats
- * check if your passing any lists in by reference
  * check pasue/ff doesnt mess stuff up (check logic)
  * check mana spell math on all calculations
 */
@@ -56,7 +49,7 @@ public class Map {
      * @param mapIterable iterable of strings representing map
      * @param app app object
      */
-    public Map(Iterable<String> mapIterable, App app)
+    public Map(Iterable<String> mapIterable, App app, JSONObject data)
     {
         this.poisonFrames = app.poisonFrames;
         this.app = app;
@@ -71,13 +64,13 @@ public class Map {
 
         this.createRoutes();
 
-        this.data = app.loadJSONObject(app.configPath);
+        this.data = data;
 
+        JSONObject tempWave = this.data.getJSONArray("waves").getJSONObject(this.waveNumber);
         this.waveList.add(new Wave(
-            this.data.getJSONArray("waves").getJSONObject(waveNumber), this.routes, this.app
+            tempWave, this.routes, this.app
         )); // add pre wave pause for 1st wave
-        this.waveTime = this.addWaveTimes() + 
-            this.data.getJSONArray("waves").getJSONObject(this.waveNumber).getDouble("pre_wave_pause") * FPS;
+        this.waveTime = this.addWaveTimes() + tempWave.getDouble("pre_wave_pause") * FPS;
 
         this.mana = new Mana(
             this.data.getDouble("initial_mana"), 
@@ -94,6 +87,10 @@ public class Map {
 
     public Tile[][] getLand(){
         return this.land;
+    }
+
+    public ArrayList<Tower> getTowerList(){
+        return this.towerList;
     }
 
     public App getApp(){
@@ -146,6 +143,11 @@ public class Map {
     public HashMap<Path, ArrayList<Direction>> getRoutes()
     {
         return this.routes;
+    }
+
+    public JSONObject getData()
+    {
+        return this.data;
     }
 
     /**
@@ -207,10 +209,10 @@ public class Map {
         JSONArray waves = this.data.getJSONArray("waves");
         if(waves.size() == 1){ // force wave to be negative (endless)
             this.lastWave = true;
-            return -1 * (this.data.getJSONArray("waves").getJSONObject(this.waveNumber).getDouble("pre_wave_pause") * FPS + 1);
+            return -1 * (waves.getJSONObject(this.waveNumber).getDouble("pre_wave_pause")*FPS +1);
         }
-        return (this.data.getJSONArray("waves").getJSONObject(this.waveNumber).getDouble("duration") 
-        + data.getJSONArray("waves").getJSONObject(this.waveNumber + 1).getDouble("pre_wave_pause")) * FPS;
+        return (waves.getJSONObject(this.waveNumber).getDouble("duration") 
+        + waves.getJSONObject(this.waveNumber + 1).getDouble("pre_wave_pause")) * FPS;
     }
 
     /**
@@ -223,8 +225,10 @@ public class Map {
                 if(entry instanceof WizOrPath){
                     ((WizOrPath)entry).assignProperties(); // type cast into path type
 
-                    if(((WizOrPath)entry).terminal != Direction.NONE){ // if its a spawn
-                        this.routes.put((Path)entry, null); // add it to the spawn list, no route yet
+                    // if it is a terminal path (and not a wizard hut), it is now a spawn
+                    if(entry instanceof Path && ((Path)entry).termArray[0] != Direction.NONE){
+                        this.routes.put((Path)entry, null); 
+                        // add it to the spawn list, no route yet
                         System.out.println(entry + " is a spawn");
                     }
                 }
@@ -247,6 +251,7 @@ public class Map {
         WizOrPath current = spawn;
 
         while(!(current instanceof Wizard)){
+            System.out.println(current + " optimal direction: " + ((Path)current).optimal);
             Direction currentDirection = ((Path)current).optimal;
             route.add(currentDirection); // add optimal direction to route
             current = (WizOrPath)current.adj.get(currentDirection); // move to next path
@@ -314,7 +319,9 @@ public class Map {
         int x, int y, boolean initialRangeLevel, 
         boolean initialFiringSpeedLevel, boolean initialDamageLevel)
     {
-        int noOfUpgrades = (initialRangeLevel ? 1 : 0) + (initialFiringSpeedLevel ? 1 : 0) + (initialDamageLevel ? 1 : 0);
+        int noOfUpgrades = (initialRangeLevel ? 1 : 0) + 
+                           (initialFiringSpeedLevel ? 1 : 0) + 
+                           (initialDamageLevel ? 1 : 0);
         int[] tileCords = mouse2Tile(x, y);
 
         if(this.land[tileCords[0]][tileCords[1]] instanceof Grass)
@@ -614,11 +621,3 @@ public class Map {
         }
     }
 }
-
-
-
-
-
-
-
-

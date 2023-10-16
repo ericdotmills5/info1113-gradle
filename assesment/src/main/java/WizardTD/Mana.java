@@ -11,7 +11,10 @@ public class Mana {
     double initialRegenRate;
     int counterOfFrames = 0;
 
-    public Mana(double initial, double cap, double regenRate, double poolCost, double poolCostIncrease, double capMultiplier, double manaMultiplier){
+    public Mana(
+        double initial, double cap, double regenRate, double poolCost, 
+        double poolCostIncrease, double capMultiplier, double manaMultiplier
+    ) {
         this.currMana = initial > cap ? cap : initial;
         this.cap = cap;
         this.regenRate = regenRate;
@@ -22,19 +25,19 @@ public class Mana {
         this.manaMultiplier = manaMultiplier;
     }
 
-    public double getCurrMana(){
+    public double getCurrMana() {
         return this.currMana;
     }
 
-    public double getCap(){
+    public double getCap() {
         return this.cap;
     }
 
-    public double getPoolCost(){
+    public double getPoolCost() {
         return this.poolCost;
     }
 
-    public void clickPoolSpell(){
+    public void clickPoolSpell() {
         if(updateMana(-1 * poolCost)){
         // checks if mana is enough, and if so, deducts mana
             this.cap *= this.capMultiplier;
@@ -43,7 +46,7 @@ public class Mana {
         }
     }
         
-    public boolean updateMana(double add){
+    public boolean updateMana(double add) {
         if(this.currMana + add <= 0){
             return false;
         // either building is too expensive and won't be placed
@@ -58,11 +61,11 @@ public class Mana {
         }
     }
 
-    public void makeManaZero(){
+    public void makeManaZero() {
         this.currMana = 0;
     }
 
-    public void tick(App app){
+    public void tick(App app) {
         this.counterOfFrames += app.rate;
 
         if(this.counterOfFrames >= App.FPS){
@@ -70,6 +73,4 @@ public class Mana {
             this.counterOfFrames = 0;
         } // update mana every second
     }
-        
-    
 }

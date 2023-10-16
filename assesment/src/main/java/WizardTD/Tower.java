@@ -19,13 +19,14 @@ public class Tower extends Tile {
     private int centerX;
     private int centerY;
     private ArrayList<Fireball> projectiles = new ArrayList<Fireball>();
+    private static final String spritePathToBeOveriden = "src/main/resources/WizardTD/tower0.png";
 
     Tower(int x, int y, double initialRange, 
           double initialFiringSpeed, double initialDamage, 
           boolean initialRangeLevel, boolean initialFiringSpeedLevel,
           boolean initialDamageLevel, Map map)
     {
-        super(x, y, map);
+        super(x, y, map, Tower.spritePathToBeOveriden);
         this.centerX = x * CELLSIZE + CELLSIZE / 2;
         this.centerY = y * CELLSIZE + CELLSIZE / 2 + TOPBAR;
         this.range = initialRange;
@@ -74,11 +75,18 @@ public class Tower extends Tile {
         return this.projectiles;
     }
 
+    public void setFramesCounter(int framesCounter)
+    {
+        this.framesCounter = framesCounter;
+    }
+
     public void findLowestLevel()
     {
         if(this.rangeLevel <= this.firingSpeedLevel && this.rangeLevel <= this.damageLevel){
             this.lowestLevel = this.rangeLevel;
-        } else if(this.firingSpeedLevel <= this.rangeLevel && this.firingSpeedLevel <= this.damageLevel){
+        } else if(
+            this.firingSpeedLevel <= this.rangeLevel && this.firingSpeedLevel <= this.damageLevel
+        ){
             this.lowestLevel = this.firingSpeedLevel;
         } else{
             this.lowestLevel = this.damageLevel;
@@ -87,9 +95,10 @@ public class Tower extends Tile {
             this.lowestLevel = 2;
         } // level 2 sprite is the lowest level sprite
         
-        this.sprite = 
-        this.map.getApp().loadImage("src/main/resources/WizardTD/tower" + this.lowestLevel + ".png");
-    }
+        this.sprite = this.map.getApp().loadImage(
+            "src/main/resources/WizardTD/tower" + this.lowestLevel + ".png"
+        );
+    }   
 
     public void upgradeRange()
     {
@@ -129,7 +138,7 @@ public class Tower extends Tile {
             }
         }
 
-        // only shoot if enemies in range
+        // only shoot if enemies in range exist
         if(enemiesInRange.size() > 0){
             // randomly select one
             Random rand = new Random();
@@ -186,7 +195,8 @@ public class Tower extends Tile {
         if(this.firingSpeedLevel - this.lowestLevel >= 1)
         { // only draw if upgraded past sprite
             app.stroke(120, 180, 255); // light blue
-            app.strokeWeight((this.firingSpeedLevel - this.lowestLevel)* 2); // stroke weight increases with level
+            app.strokeWeight((this.firingSpeedLevel - this.lowestLevel)* 2); 
+            // stroke weight increases with level
             app.rect(
                 tileX + App.TOWERSPEEDSQUARESHIFT, tileY + App.TOWERSPEEDSQUARESHIFT,
                 App.TOWERSPEEDSQUARELENGTH, App.TOWERSPEEDSQUARELENGTH

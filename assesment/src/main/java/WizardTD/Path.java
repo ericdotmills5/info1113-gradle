@@ -5,6 +5,7 @@ import processing.core.PImage;
 public class Path extends WizOrPath {
     private int pathType; // 0 straight, 1 rAngle, 2 T, 3 cross
     private int rotates; // how many 90 degree anticlockwise rotations?
+    private static final String spritePathToBeOverriden = "src/main/resources/WizardTD/path0.png";
 
     /**
      * Generic constructor for path
@@ -14,7 +15,7 @@ public class Path extends WizOrPath {
      */
     public Path(int x, int y, Map map)
     {
-        super(x, y, map);
+        super(x, y, map, Path.spritePathToBeOverriden);
     }
 
     /**
@@ -33,28 +34,31 @@ public class Path extends WizOrPath {
      */
     public void pathTypeRotate()
     {
+        // check if adjecent paths exist
         boolean left = false;
         boolean right = false;
         boolean up = false;
         boolean down = false;
+        boolean[] directionsThatArentTerminal = this.findDirectionsThatExist();
+        // {RIGHT NOT TERMINAL?, UP NOT TERMINAL?, LEFT NOT TERMINAL?, DOWN NOT TERMINAL?}
 
-        if(
-            this.terminal == Direction.LEFT || this.adj.get(Direction.LEFT) instanceof WizOrPath
-        ){
-            left = true;
-        }
-        if(
-            this.terminal == Direction.RIGHT || this.adj.get(Direction.RIGHT) instanceof WizOrPath
+        if( // if theres a path to the left of me, or the left is terminal, then left is true
+            !directionsThatArentTerminal[0] || this.adj.get(Direction.RIGHT) instanceof WizOrPath
         ){
             right = true;
         }
         if(
-            this.terminal == Direction.UP || this.adj.get(Direction.UP) instanceof WizOrPath
+            !directionsThatArentTerminal[1] || this.adj.get(Direction.UP) instanceof WizOrPath
         ){
             up = true;
         }
         if(
-            this.terminal == Direction.DOWN || this.adj.get(Direction.DOWN) instanceof WizOrPath
+            !directionsThatArentTerminal[2] || this.adj.get(Direction.LEFT) instanceof WizOrPath
+        ){
+            left = true;
+        }
+        if(
+            !directionsThatArentTerminal[3] || this.adj.get(Direction.DOWN) instanceof WizOrPath
         ){
             down = true;
         }
@@ -103,6 +107,12 @@ public class Path extends WizOrPath {
             this.pathType = 1;
             this.rotates = 1;
             return;
+        } else if(left || right){
+            this.pathType = 0;
+            this.rotates = 0;
+        } else if(up || down){
+            this.pathType = 0;
+            this.rotates = 1;
         } else{
             System.out.println("Error diagnosing path type " + this);
             return;
@@ -119,6 +129,9 @@ public class Path extends WizOrPath {
         noRotate = this.map.getApp().loadImage( // assume string int concacenation
             "src/main/resources/WizardTD/path" + this.pathType + ".png"
         );
+        
         this.sprite = this.map.getApp().rotateImageByDegrees(noRotate, this.rotates * -90);
+        
     }
+        
 }

@@ -5,15 +5,6 @@ import processing.core.PApplet;
 import processing.core.PImage;
 
 public class Monster {
-    public static final int CELLSIZE = App.CELLSIZE;
-    public static final int ghostShiftX = App.ghostShiftX; // 5 pixels right
-    public static final int ghostShiftY = App.ghostShiftY; // 5 pixels down
-    public static final int healthShiftX = App.healthShiftX; // 5 pixels left
-    public static final int healthShiftY = App.healthShiftY; // 6 pixels up
-    public static final int healthLength = App.healthLength; // 30 pixels long
-    public static final int healthWidth = App.healthWidth; // 5 pixels wide
-    public static final int TOPBAR = App.TOPBAR; // 40 pixels down
-
     private double pixelX;
     private double pixelY;
     
@@ -53,8 +44,8 @@ public class Monster {
         this.armour = armour;
         this.app = app;
         this.manaOnKill = manaOnKill;
-        this.pixelX = tileX * CELLSIZE + ghostShiftX;
-        this.pixelY = tileY * CELLSIZE + ghostShiftY + TOPBAR;
+        this.pixelX = tileX * App.CELLSIZE + App.ghostShiftX;
+        this.pixelY = tileY * App.CELLSIZE + App.ghostShiftY + App.TOPBAR;
         this.sprite = app.loadImage("src/main/resources/WizardTD/gremlin.png");
 
         
@@ -76,27 +67,27 @@ public class Monster {
     }
 
     public void spawnShift(){ // shift mosnter so it spawns off screen
-        switch(((WizOrPath)this.app.map.getLand()[this.tileX][this.tileY]).getTerminal()){
+        switch(((WizOrPath)this.app.map.getLand()[this.tileX][this.tileY]).getTerminals()[0]){
             case UP:
-                this.pixelY -= CELLSIZE;
+                this.pixelY -= App.CELLSIZE;
                 if(this.firstTimeSpawning){
                 this.route.add(0, Direction.DOWN);
                 }
                 break;
             case DOWN:
-                this.pixelY += CELLSIZE;
+                this.pixelY += App.CELLSIZE;
                 if(this.firstTimeSpawning){
                 this.route.add(0, Direction.UP);
                 }
                 break;
             case LEFT:
-                this.pixelX -= CELLSIZE;
+                this.pixelX -= App.CELLSIZE;
                 if(this.firstTimeSpawning){
                 this.route.add(0, Direction.RIGHT);
                 }
                 break;
             case RIGHT:
-                this.pixelX += CELLSIZE;
+                this.pixelX += App.CELLSIZE;
                 if(this.firstTimeSpawning){
                 this.route.add(0, Direction.LEFT);
                 }
@@ -133,7 +124,7 @@ public class Monster {
                     break;
             } 
             this.moves += 1;
-            double difference = this.pixSpeed * this.moves - CELLSIZE;
+            double difference = this.pixSpeed * this.moves - App.CELLSIZE;
 
             if(difference >= 0){
                 switch(this.route.get(tileNo)){ // take off difference based on direction
@@ -158,8 +149,8 @@ public class Monster {
         } else if(this.tileNo >= this.route.size() && this.alive){
 
             // take me back to the beginning
-            this.pixelX = tileX * CELLSIZE + ghostShiftX;
-            this.pixelY = tileY * CELLSIZE + ghostShiftY + TOPBAR;
+            this.pixelX = tileX * App.CELLSIZE + App.ghostShiftX;
+            this.pixelY = tileY * App.CELLSIZE + App.ghostShiftY + App.TOPBAR;
             this.spawnShift();
             this.tileNo = 0;
             this.moves = 0;
@@ -203,7 +194,7 @@ public class Monster {
             if(this.deathTick > 20){
                 this.exists = false; // will be deleted from spawn array
             } else if(this.deathTick > 16){
-                this.sprite = app.loadImage("src/main/resources/WizardTD/gremlin5.png"); 
+                this.sprite = app.loadImage("src/main/resources/WizardTD/gremlin5.png");
             } else if(this.deathTick > 12){
                 this.sprite = app.loadImage("src/main/resources/WizardTD/gremlin4.png");
             } else if(this.deathTick > 8){
@@ -224,14 +215,18 @@ public class Monster {
         if(this.alive){ // health bar only displays if alive
             app.noStroke(); // no border
             app.fill(0, 255, 0); // green bit
-            app.rect((float)this.pixelX + healthShiftX, (float)this.pixelY + healthShiftY, (int) (healthLength * healthProp), healthWidth);
+            app.rect(
+                (float)this.pixelX + App.healthShiftX, (float)this.pixelY + App.healthShiftY, 
+                (int) (App.healthLength * healthProp), App.healthWidth
+            );
             
             app.fill(255, 0, 0); // red bit
             app.rect(
-                (float)(this.pixelX + healthShiftX + (healthLength * healthProp)), 
-                (float)(this.pixelY + healthShiftY), 
-                (float) (healthLength * (1 - healthProp)), 
-                healthWidth);
+                (float)(this.pixelX + App.healthShiftX + (App.healthLength * healthProp)), 
+                (float)(this.pixelY + App.healthShiftY), 
+                (float) (App.healthLength * (1 - healthProp)), 
+                App.healthWidth
+            );
     
         }
     }

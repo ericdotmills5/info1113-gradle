@@ -6,6 +6,8 @@ import processing.data.JSONObject;
 //import processing.data.JSONArray;
 //import processing.data.JSONObject;
 import processing.event.MouseEvent;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
@@ -124,21 +126,38 @@ public class App extends PApplet {
 	@Override
     public void setup() 
     {
-        // read config
+        frameRate(FPS);
         this.configPath = "config.json";
-        this.config = loadJSONObject(this.configPath);
-        this.poisonCost = this.config.getDouble("poison_cost");
-        this.poisonFrames = this.config.getDouble("poison_time") * FPS;
-        this.poisonDamage = this.config.getDouble("poison_damage_per_second");
+        this.config = readJSON(configPath);
+        this.createStuff();
+    }
+
+    public void createStuff()
+    {
+        if (this.config.hasKey("poison_cost")) {
+            this.poisonCost = this.config.getDouble("poison_cost");
+        } else {
+            this.poisonCost = 100;
+        }
+        if (this.config.hasKey("poison_time")) {
+            this.poisonFrames = this.config.getDouble("poison_time") * FPS;
+        } else {
+            this.poisonFrames = 5 * FPS;
+        }
+        if (this.config.hasKey("poison_damage_per_second")) {
+            this.poisonDamage = this.config.getDouble("poison_damage_per_second");
+        } else {
+            this.poisonDamage = 1;
+        }
+        // default values in case these fields DNE
 
         // read map
-        frameRate(FPS);
         Scanner scan = fileIO(this.config.getString("layout"));
         this.mapIterable = scan2Iterable(scan);
         scan.close();
 
         // initialise map and ui classes
-        this.map = new Map(this.mapIterable, this);
+        this.map = new Map(this.mapIterable, this, this.config);
         this.ui = new Ui(this.map);
     }
 
@@ -158,6 +177,17 @@ public class App extends PApplet {
             return null;
         }
         return scan;
+    }
+
+    static JSONObject readJSON(String path){
+        String json = "";
+        try{
+            json = new String(Files.readAllBytes(Paths.get(path)));
+        } catch (IOException e){
+            System.out.println("File not found!");
+            return null;
+        }
+        return JSONObject.parse(json);
     }
 
     /**
@@ -197,7 +227,7 @@ public class App extends PApplet {
                 this.doubleRate = 1;
                 this.pauseRate = 1;
                 this.rate = doubleRate * pauseRate;
-                this.map = new Map(this.mapIterable, this);
+                this.map = new Map(this.mapIterable, this, this.config);
                 this.ui = new Ui(this.map);
                 
             }
@@ -264,10 +294,16 @@ public class App extends PApplet {
      * @return boolean of whether mouse is over button.
      */
     public boolean isMouseOverButton(int buttonNO){
-        return (mouseX > BUTTONX &&
-                mouseX < BUTTONX + BUTTONSIZE &&
-                mouseY > TOPBAR + buttonNO * BUTTONSPACING + (buttonNO-1)*BUTTONSIZE &&
-                mouseY < buttonNO * (BUTTONSPACING + BUTTONSIZE) + TOPBAR);
+        return (this.mouseX > BUTTONX &&
+                this.mouseX < BUTTONX + BUTTONSIZE &&
+                this.mouseY > TOPBAR + buttonNO * BUTTONSPACING + (buttonNO-1)*BUTTONSIZE &&
+                this.mouseY < buttonNO * (BUTTONSPACING + BUTTONSIZE) + TOPBAR);
+    }
+
+    public void tick(){
+        this.map.tick();
+        this.ui.tick();
+        this.mouseHover();
     }
 
     /**
@@ -277,9 +313,7 @@ public class App extends PApplet {
     public void draw() {
         if(!this.onLossScreen && !this.onWinScreen){
             // tick
-            this.map.tick();
-            this.ui.tick();
-            this.mouseHover();
+            this.tick();
 
             // draw
             // map

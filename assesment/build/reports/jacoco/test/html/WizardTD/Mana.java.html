@@ -23,38 +23,38 @@ public class Mana {
 <span class="fc" id="L23">    }</span>
 
     public double getCurrMana(){
-<span class="nc" id="L26">        return this.currMana;</span>
+<span class="fc" id="L26">        return this.currMana;</span>
     }
 
     public double getCap(){
-<span class="nc" id="L30">        return this.cap;</span>
+<span class="fc" id="L30">        return this.cap;</span>
     }
 
     public double getPoolCost(){
-<span class="nc" id="L34">        return this.poolCost;</span>
+<span class="fc" id="L34">        return this.poolCost;</span>
     }
 
     public void clickPoolSpell(){
-<span class="nc bnc" id="L38" title="All 2 branches missed.">        if(updateMana(-1 * poolCost)){</span>
+<span class="pc bpc" id="L38" title="1 of 2 branches missed.">        if(updateMana(-1 * poolCost)){</span>
         // checks if mana is enough, and if so, deducts mana
-<span class="nc" id="L40">            this.cap *= this.capMultiplier;</span>
-<span class="nc" id="L41">            this.regenRate += this.manaMultiplier * this.initialRegenRate;</span>
-<span class="nc" id="L42">            this.poolCost += this.poolCostIncrease;</span>
+<span class="fc" id="L40">            this.cap *= this.capMultiplier;</span>
+<span class="fc" id="L41">            this.regenRate += this.manaMultiplier * this.initialRegenRate;</span>
+<span class="fc" id="L42">            this.poolCost += this.poolCostIncrease;</span>
         }
-<span class="nc" id="L44">    }</span>
+<span class="fc" id="L44">    }</span>
         
     public boolean updateMana(double add){
-<span class="nc bnc" id="L47" title="All 2 branches missed.">        if(this.currMana + add &lt;= 0){</span>
+<span class="pc bpc" id="L47" title="1 of 2 branches missed.">        if(this.currMana + add &lt;= 0){</span>
 <span class="nc" id="L48">            return false;</span>
         // either building is too expensive and won't be placed
         // or ghost kills player
 
-<span class="nc bnc" id="L52" title="All 2 branches missed.">        } else if(this.currMana + add &gt; this.cap){</span>
+<span class="pc bpc" id="L52" title="1 of 2 branches missed.">        } else if(this.currMana + add &gt; this.cap){</span>
 <span class="nc" id="L53">            this.currMana = this.cap;</span>
 <span class="nc" id="L54">            return true;</span>
         } else{
-<span class="nc" id="L56">            this.currMana += add;</span>
-<span class="nc" id="L57">            return true;</span>
+<span class="fc" id="L56">            this.currMana += add;</span>
+<span class="fc" id="L57">            return true;</span>
         }
     }
 
@@ -63,13 +63,13 @@ public class Mana {
 <span class="nc" id="L63">    }</span>
 
     public void tick(App app){
-<span class="nc" id="L66">        this.counterOfFrames += app.rate;</span>
+<span class="fc" id="L66">        this.counterOfFrames += app.rate;</span>
 
-<span class="nc bnc" id="L68" title="All 2 branches missed.">        if(this.counterOfFrames &gt;= App.FPS){</span>
+<span class="pc bpc" id="L68" title="1 of 2 branches missed.">        if(this.counterOfFrames &gt;= App.FPS){</span>
 <span class="nc" id="L69">            this.updateMana(this.regenRate);</span>
 <span class="nc" id="L70">            this.counterOfFrames = 0;</span>
         } // update mana every second
-<span class="nc" id="L72">    }</span>
+<span class="fc" id="L72">    }</span>
         
     
 }

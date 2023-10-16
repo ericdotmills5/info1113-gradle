@@ -23,13 +23,13 @@
 <tr>
 <td>
 <div class="infoBox" id="tests">
-<div class="counter">1</div>
+<div class="counter">7</div>
 <p>tests</p>
 </div>
 </td>
 <td>
 <div class="infoBox" id="failures">
-<div class="counter">1</div>
+<div class="counter">0</div>
 <p>failures</p>
 </div>
 </td>
@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.008s</div>
+<div class="counter">0.380s</div>
 <p>duration</p>
 </div>
 </td>
@@ -50,8 +50,8 @@
 </div>
 </td>
 <td>
-<div class="infoBox failures" id="successRate">
-<div class="percent">0%</div>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
 <p>successful</p>
 </div>
 </td>
@@ -61,107 +61,13 @@
 <div id="tabs">
 <ul class="tabLinks">
 <li>
-<a href="#tab0">Failed tests</a>
+<a href="#tab0">Tests</a>
 </li>
 <li>
-<a href="#tab1">Tests</a>
-</li>
-<li>
-<a href="#tab2">Standard error</a>
+<a href="#tab1">Standard output</a>
 </li>
 </ul>
 <div id="tab0" class="tab">
-<h2>Failed tests</h2>
-<div class="test">
-<a name="initializationError"></a>
-<h3 class="failures">initializationError</h3>
-<span class="code">
-<pre>java.lang.RuntimeException: Files must be loaded inside setup() or after it has been called.
-	at processing.core.PApplet.createInputRaw(PApplet.java:7030)
-	at processing.core.PApplet.createInput(PApplet.java:7002)
-	at processing.core.PApplet.createReader(PApplet.java:6808)
-	at processing.core.PApplet.loadJSONObject(PApplet.java:6005)
-	at WizardTD.App.setup(App.java:129)
-	at WizardTD.Testing.setUp(Testing.java:21)
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:498)
-	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:686)
-	at org.junit.jupiter.engine.execution.MethodInvocation.proceed(MethodInvocation.java:60)
-	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$ValidatingInvocation.proceed(InvocationInterceptorChain.java:131)
-	at org.junit.jupiter.engine.extension.TimeoutExtension.intercept(TimeoutExtension.java:149)
-	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptLifecycleMethod(TimeoutExtension.java:126)
-	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptBeforeAllMethod(TimeoutExtension.java:68)
-	at org.junit.jupiter.engine.execution.ExecutableInvoker$ReflectiveInterceptorCall.lambda$ofVoidMethod$0(ExecutableInvoker.java:115)
-	at org.junit.jupiter.engine.execution.ExecutableInvoker.lambda$invoke$0(ExecutableInvoker.java:105)
-	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$InterceptedInvocation.proceed(InvocationInterceptorChain.java:106)
-	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.proceed(InvocationInterceptorChain.java:64)
-	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.chainAndInvoke(InvocationInterceptorChain.java:45)
-	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.invoke(InvocationInterceptorChain.java:37)
-	at org.junit.jupiter.engine.execution.ExecutableInvoker.invoke(ExecutableInvoker.java:104)
-	at org.junit.jupiter.engine.execution.ExecutableInvoker.invoke(ExecutableInvoker.java:98)
-	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$invokeBeforeAllMethods$8(ClassBasedTestDescriptor.java:375)
-	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.invokeBeforeAllMethods(ClassBasedTestDescriptor.java:373)
-	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.before(ClassBasedTestDescriptor.java:193)
-	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.before(ClassBasedTestDescriptor.java:78)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$5(NodeTestTask.java:132)
-	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$7(NodeTestTask.java:125)
-	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:135)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:123)
-	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:122)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:80)
-	at java.util.ArrayList.forEach(ArrayList.java:1259)
-	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:38)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$5(NodeTestTask.java:139)
-	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$7(NodeTestTask.java:125)
-	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:135)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:123)
-	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:122)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:80)
-	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:32)
-	at org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57)
-	at org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:51)
-	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:107)
-	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:88)
-	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:54)
-	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:67)
-	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:52)
-	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:114)
-	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:86)
-	at org.junit.platform.launcher.core.DefaultLauncherSession$DelegatingLauncher.execute(DefaultLauncherSession.java:86)
-	at org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestClassProcessor$CollectAllTestClassesExecutor.processAllTestClasses(JUnitPlatformTestClassProcessor.java:118)
-	at org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestClassProcessor$CollectAllTestClassesExecutor.access$000(JUnitPlatformTestClassProcessor.java:93)
-	at org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestClassProcessor.stop(JUnitPlatformTestClassProcessor.java:88)
-	at org.gradle.api.internal.tasks.testing.SuiteTestClassProcessor.stop(SuiteTestClassProcessor.java:62)
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:498)
-	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:36)
-	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
-	at org.gradle.internal.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:33)
-	at org.gradle.internal.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:94)
-	at com.sun.proxy.$Proxy2.stop(Unknown Source)
-	at org.gradle.api.internal.tasks.testing.worker.TestWorker$3.run(TestWorker.java:193)
-	at org.gradle.api.internal.tasks.testing.worker.TestWorker.executeAndMaintainThreadName(TestWorker.java:129)
-	at org.gradle.api.internal.tasks.testing.worker.TestWorker.execute(TestWorker.java:100)
-	at org.gradle.api.internal.tasks.testing.worker.TestWorker.execute(TestWorker.java:60)
-	at org.gradle.process.internal.worker.child.ActionExecutionWorker.execute(ActionExecutionWorker.java:56)
-	at org.gradle.process.internal.worker.child.SystemApplicationClassLoaderWorker.call(SystemApplicationClassLoaderWorker.java:113)
-	at org.gradle.process.internal.worker.child.SystemApplicationClassLoaderWorker.call(SystemApplicationClassLoaderWorker.java:65)
-	at worker.org.gradle.process.internal.worker.GradleWorkerMain.run(GradleWorkerMain.java:69)
-	at worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74)
-</pre>
-</span>
-</div>
-</div>
-<div id="tab1" class="tab">
 <h2>Tests</h2>
 <table>
 <thead>
@@ -172,16 +78,2998 @@
 </tr>
 </thead>
 <tr>
-<td class="failures">initializationError</td>
-<td class="failures">0.008s</td>
-<td class="failures">failed</td>
+<td class="success">createWave()</td>
+<td class="success">0.010s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">drawMap()</td>
+<td class="success">0.010s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">placeTower()</td>
+<td class="success">0.010s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">spawnMonsterAndShoot()</td>
+<td class="success">0.310s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">spawnRandomMonster()</td>
+<td class="success">0.017s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">switchMana()</td>
+<td class="success">0.013s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">tickCheck()</td>
+<td class="success">0.010s</td>
+<td class="success">passed</td>
 </tr>
 </table>
 </div>
-<div id="tab2" class="tab">
-<h2>Standard error</h2>
+<div id="tab1" class="tab">
+<h2>Standard output</h2>
 <span class="code">
-<pre>The sketch path is not set.
+<pre>row 0 read
+row 1 read
+row 2 read
+row 3 read
+row 4 read
+row 5 read
+row 6 read
+row 7 read
+row 8 read
+row 9 read
+row 10 read
+row 11 read
+row 12 read
+row 13 read
+row 14 read
+row 15 read
+row 16 read
+row 17 read
+row 18 read
+row 19 read
+matrix made
+WizardTD.Path @ x=0, y=1 is a spawn
+WizardTD.Path @ x=0, y=1 assigned rotation
+WizardTD.Path @ x=0, y=2 is a spawn
+WizardTD.Path @ x=0, y=2 assigned rotation
+WizardTD.Path @ x=0, y=3 is a spawn
+WizardTD.Path @ x=0, y=3 assigned rotation
+WizardTD.Path @ x=0, y=4 is a spawn
+WizardTD.Path @ x=0, y=4 assigned rotation
+WizardTD.Path @ x=0, y=5 is a spawn
+WizardTD.Path @ x=0, y=5 assigned rotation
+WizardTD.Path @ x=0, y=6 is a spawn
+WizardTD.Path @ x=0, y=6 assigned rotation
+WizardTD.Path @ x=0, y=7 is a spawn
+WizardTD.Path @ x=0, y=7 assigned rotation
+WizardTD.Path @ x=0, y=8 is a spawn
+WizardTD.Path @ x=0, y=8 assigned rotation
+WizardTD.Path @ x=0, y=9 is a spawn
+WizardTD.Path @ x=0, y=9 assigned rotation
+WizardTD.Path @ x=0, y=10 is a spawn
+WizardTD.Path @ x=0, y=10 assigned rotation
+WizardTD.Path @ x=0, y=11 is a spawn
+WizardTD.Path @ x=0, y=11 assigned rotation
+WizardTD.Path @ x=0, y=12 is a spawn
+WizardTD.Path @ x=0, y=12 assigned rotation
+WizardTD.Path @ x=0, y=13 is a spawn
+WizardTD.Path @ x=0, y=13 assigned rotation
+WizardTD.Path @ x=0, y=14 is a spawn
+WizardTD.Path @ x=0, y=14 assigned rotation
+WizardTD.Path @ x=0, y=15 is a spawn
+WizardTD.Path @ x=0, y=15 assigned rotation
+WizardTD.Path @ x=0, y=16 is a spawn
+WizardTD.Path @ x=0, y=16 assigned rotation
+WizardTD.Path @ x=0, y=17 is a spawn
+WizardTD.Path @ x=0, y=17 assigned rotation
+WizardTD.Path @ x=0, y=18 is a spawn
+WizardTD.Path @ x=0, y=18 assigned rotation
+WizardTD.Path @ x=1, y=0 is a spawn
+WizardTD.Path @ x=1, y=0 assigned rotation
+WizardTD.Path @ x=1, y=10 assigned rotation
+WizardTD.Path @ x=1, y=19 is a spawn
+WizardTD.Path @ x=1, y=19 assigned rotation
+WizardTD.Path @ x=2, y=0 is a spawn
+WizardTD.Path @ x=2, y=0 assigned rotation
+WizardTD.Path @ x=2, y=10 assigned rotation
+WizardTD.Path @ x=2, y=19 is a spawn
+WizardTD.Path @ x=2, y=19 assigned rotation
+WizardTD.Path @ x=3, y=0 is a spawn
+WizardTD.Path @ x=3, y=0 assigned rotation
+WizardTD.Path @ x=3, y=10 assigned rotation
+WizardTD.Path @ x=3, y=19 is a spawn
+WizardTD.Path @ x=3, y=19 assigned rotation
+WizardTD.Path @ x=4, y=0 is a spawn
+WizardTD.Path @ x=4, y=0 assigned rotation
+WizardTD.Path @ x=4, y=10 assigned rotation
+WizardTD.Path @ x=4, y=19 is a spawn
+WizardTD.Path @ x=4, y=19 assigned rotation
+WizardTD.Path @ x=5, y=0 is a spawn
+WizardTD.Path @ x=5, y=0 assigned rotation
+WizardTD.Path @ x=5, y=10 assigned rotation
+WizardTD.Path @ x=5, y=19 is a spawn
+WizardTD.Path @ x=5, y=19 assigned rotation
+WizardTD.Path @ x=6, y=0 is a spawn
+WizardTD.Path @ x=6, y=0 assigned rotation
+WizardTD.Path @ x=6, y=10 assigned rotation
+WizardTD.Path @ x=6, y=19 is a spawn
+WizardTD.Path @ x=6, y=19 assigned rotation
+WizardTD.Path @ x=7, y=0 is a spawn
+WizardTD.Path @ x=7, y=0 assigned rotation
+WizardTD.Path @ x=7, y=10 assigned rotation
+WizardTD.Path @ x=7, y=19 is a spawn
+WizardTD.Path @ x=7, y=19 assigned rotation
+WizardTD.Path @ x=8, y=0 is a spawn
+WizardTD.Path @ x=8, y=0 assigned rotation
+WizardTD.Path @ x=8, y=10 assigned rotation
+WizardTD.Path @ x=8, y=19 is a spawn
+WizardTD.Path @ x=8, y=19 assigned rotation
+WizardTD.Path @ x=9, y=0 is a spawn
+WizardTD.Path @ x=9, y=0 assigned rotation
+WizardTD.Path @ x=9, y=1 assigned rotation
+WizardTD.Path @ x=9, y=2 assigned rotation
+WizardTD.Path @ x=9, y=3 assigned rotation
+WizardTD.Path @ x=9, y=4 assigned rotation
+WizardTD.Path @ x=9, y=5 assigned rotation
+WizardTD.Path @ x=9, y=6 assigned rotation
+WizardTD.Path @ x=9, y=7 assigned rotation
+WizardTD.Path @ x=9, y=8 assigned rotation
+WizardTD.Path @ x=9, y=9 assigned rotation
+WizardTD.Path @ x=9, y=11 assigned rotation
+WizardTD.Path @ x=9, y=12 assigned rotation
+WizardTD.Path @ x=9, y=13 assigned rotation
+WizardTD.Path @ x=9, y=14 assigned rotation
+WizardTD.Path @ x=9, y=15 assigned rotation
+WizardTD.Path @ x=9, y=16 assigned rotation
+WizardTD.Path @ x=9, y=17 assigned rotation
+WizardTD.Path @ x=9, y=18 assigned rotation
+WizardTD.Path @ x=9, y=19 is a spawn
+WizardTD.Path @ x=9, y=19 assigned rotation
+WizardTD.Path @ x=10, y=0 is a spawn
+WizardTD.Path @ x=10, y=0 assigned rotation
+WizardTD.Path @ x=10, y=10 assigned rotation
+WizardTD.Path @ x=10, y=19 is a spawn
+WizardTD.Path @ x=10, y=19 assigned rotation
+WizardTD.Path @ x=11, y=0 is a spawn
+WizardTD.Path @ x=11, y=0 assigned rotation
+WizardTD.Path @ x=11, y=10 assigned rotation
+WizardTD.Path @ x=11, y=19 is a spawn
+WizardTD.Path @ x=11, y=19 assigned rotation
+WizardTD.Path @ x=12, y=0 is a spawn
+WizardTD.Path @ x=12, y=0 assigned rotation
+WizardTD.Path @ x=12, y=10 assigned rotation
+WizardTD.Path @ x=12, y=19 is a spawn
+WizardTD.Path @ x=12, y=19 assigned rotation
+WizardTD.Path @ x=13, y=0 is a spawn
+WizardTD.Path @ x=13, y=0 assigned rotation
+WizardTD.Path @ x=13, y=10 assigned rotation
+WizardTD.Path @ x=13, y=19 is a spawn
+WizardTD.Path @ x=13, y=19 assigned rotation
+WizardTD.Path @ x=14, y=0 is a spawn
+WizardTD.Path @ x=14, y=0 assigned rotation
+WizardTD.Path @ x=14, y=10 assigned rotation
+WizardTD.Path @ x=14, y=19 is a spawn
+WizardTD.Path @ x=14, y=19 assigned rotation
+WizardTD.Path @ x=15, y=0 is a spawn
+WizardTD.Path @ x=15, y=0 assigned rotation
+WizardTD.Path @ x=15, y=10 assigned rotation
+WizardTD.Path @ x=15, y=19 is a spawn
+WizardTD.Path @ x=15, y=19 assigned rotation
+WizardTD.Path @ x=16, y=0 is a spawn
+WizardTD.Path @ x=16, y=0 assigned rotation
+WizardTD.Path @ x=16, y=10 assigned rotation
+WizardTD.Path @ x=16, y=19 is a spawn
+WizardTD.Path @ x=16, y=19 assigned rotation
+WizardTD.Path @ x=17, y=0 is a spawn
+WizardTD.Path @ x=17, y=0 assigned rotation
+WizardTD.Path @ x=17, y=10 assigned rotation
+WizardTD.Path @ x=17, y=19 is a spawn
+WizardTD.Path @ x=17, y=19 assigned rotation
+WizardTD.Path @ x=18, y=0 is a spawn
+WizardTD.Path @ x=18, y=0 assigned rotation
+WizardTD.Path @ x=18, y=10 assigned rotation
+WizardTD.Path @ x=18, y=19 is a spawn
+WizardTD.Path @ x=18, y=19 assigned rotation
+WizardTD.Path @ x=19, y=1 is a spawn
+WizardTD.Path @ x=19, y=1 assigned rotation
+WizardTD.Path @ x=19, y=2 is a spawn
+WizardTD.Path @ x=19, y=2 assigned rotation
+WizardTD.Path @ x=19, y=3 is a spawn
+WizardTD.Path @ x=19, y=3 assigned rotation
+WizardTD.Path @ x=19, y=4 is a spawn
+WizardTD.Path @ x=19, y=4 assigned rotation
+WizardTD.Path @ x=19, y=5 is a spawn
+WizardTD.Path @ x=19, y=5 assigned rotation
+WizardTD.Path @ x=19, y=6 is a spawn
+WizardTD.Path @ x=19, y=6 assigned rotation
+WizardTD.Path @ x=19, y=7 is a spawn
+WizardTD.Path @ x=19, y=7 assigned rotation
+WizardTD.Path @ x=19, y=8 is a spawn
+WizardTD.Path @ x=19, y=8 assigned rotation
+WizardTD.Path @ x=19, y=9 is a spawn
+WizardTD.Path @ x=19, y=9 assigned rotation
+WizardTD.Path @ x=19, y=10 is a spawn
+WizardTD.Path @ x=19, y=10 assigned rotation
+WizardTD.Path @ x=19, y=11 is a spawn
+WizardTD.Path @ x=19, y=11 assigned rotation
+WizardTD.Path @ x=19, y=12 is a spawn
+WizardTD.Path @ x=19, y=12 assigned rotation
+WizardTD.Path @ x=19, y=13 is a spawn
+WizardTD.Path @ x=19, y=13 assigned rotation
+WizardTD.Path @ x=19, y=14 is a spawn
+WizardTD.Path @ x=19, y=14 assigned rotation
+WizardTD.Path @ x=19, y=15 is a spawn
+WizardTD.Path @ x=19, y=15 assigned rotation
+WizardTD.Path @ x=19, y=16 is a spawn
+WizardTD.Path @ x=19, y=16 assigned rotation
+WizardTD.Path @ x=19, y=17 is a spawn
+WizardTD.Path @ x=19, y=17 assigned rotation
+WizardTD.Path @ x=19, y=18 is a spawn
+WizardTD.Path @ x=19, y=18 assigned rotation
+Paths rotated
+WizardTD.Path @ x=9, y=11 Distance: 1
+WizardTD.Path @ x=9, y=11 optimal path direction UP
+WizardTD.Path @ x=9, y=12 Distance: 2
+WizardTD.Path @ x=9, y=12 optimal path direction UP
+WizardTD.Path @ x=9, y=13 Distance: 3
+WizardTD.Path @ x=9, y=13 optimal path direction UP
+WizardTD.Path @ x=9, y=14 Distance: 4
+WizardTD.Path @ x=9, y=14 optimal path direction UP
+WizardTD.Path @ x=9, y=15 Distance: 5
+WizardTD.Path @ x=9, y=15 optimal path direction UP
+WizardTD.Path @ x=9, y=16 Distance: 6
+WizardTD.Path @ x=9, y=16 optimal path direction UP
+WizardTD.Path @ x=9, y=17 Distance: 7
+WizardTD.Path @ x=9, y=17 optimal path direction UP
+WizardTD.Path @ x=9, y=18 Distance: 8
+WizardTD.Path @ x=9, y=18 optimal path direction UP
+WizardTD.Path @ x=9, y=19 Distance: 9
+WizardTD.Path @ x=9, y=19 optimal path direction UP
+WizardTD.Path @ x=10, y=19 Distance: 10
+WizardTD.Path @ x=10, y=19 optimal path direction LEFT
+WizardTD.Path @ x=11, y=19 Distance: 11
+WizardTD.Path @ x=11, y=19 optimal path direction LEFT
+WizardTD.Path @ x=12, y=19 Distance: 12
+WizardTD.Path @ x=12, y=19 optimal path direction LEFT
+WizardTD.Path @ x=13, y=19 Distance: 13
+WizardTD.Path @ x=13, y=19 optimal path direction LEFT
+WizardTD.Path @ x=14, y=19 Distance: 14
+WizardTD.Path @ x=14, y=19 optimal path direction LEFT
+WizardTD.Path @ x=15, y=19 Distance: 15
+WizardTD.Path @ x=15, y=19 optimal path direction LEFT
+WizardTD.Path @ x=16, y=19 Distance: 16
+WizardTD.Path @ x=16, y=19 optimal path direction LEFT
+WizardTD.Path @ x=17, y=19 Distance: 17
+WizardTD.Path @ x=17, y=19 optimal path direction LEFT
+WizardTD.Path @ x=18, y=19 Distance: 18
+WizardTD.Path @ x=18, y=19 optimal path direction LEFT
+WizardTD.Path @ x=8, y=19 Distance: 10
+WizardTD.Path @ x=8, y=19 optimal path direction RIGHT
+WizardTD.Path @ x=7, y=19 Distance: 11
+WizardTD.Path @ x=7, y=19 optimal path direction RIGHT
+WizardTD.Path @ x=6, y=19 Distance: 12
+WizardTD.Path @ x=6, y=19 optimal path direction RIGHT
+WizardTD.Path @ x=5, y=19 Distance: 13
+WizardTD.Path @ x=5, y=19 optimal path direction RIGHT
+WizardTD.Path @ x=4, y=19 Distance: 14
+WizardTD.Path @ x=4, y=19 optimal path direction RIGHT
+WizardTD.Path @ x=3, y=19 Distance: 15
+WizardTD.Path @ x=3, y=19 optimal path direction RIGHT
+WizardTD.Path @ x=2, y=19 Distance: 16
+WizardTD.Path @ x=2, y=19 optimal path direction RIGHT
+WizardTD.Path @ x=1, y=19 Distance: 17
+WizardTD.Path @ x=1, y=19 optimal path direction RIGHT
+WizardTD.Path @ x=10, y=10 Distance: 1
+WizardTD.Path @ x=10, y=10 optimal path direction LEFT
+WizardTD.Path @ x=11, y=10 Distance: 2
+WizardTD.Path @ x=11, y=10 optimal path direction LEFT
+WizardTD.Path @ x=12, y=10 Distance: 3
+WizardTD.Path @ x=12, y=10 optimal path direction LEFT
+WizardTD.Path @ x=13, y=10 Distance: 4
+WizardTD.Path @ x=13, y=10 optimal path direction LEFT
+WizardTD.Path @ x=14, y=10 Distance: 5
+WizardTD.Path @ x=14, y=10 optimal path direction LEFT
+WizardTD.Path @ x=15, y=10 Distance: 6
+WizardTD.Path @ x=15, y=10 optimal path direction LEFT
+WizardTD.Path @ x=16, y=10 Distance: 7
+WizardTD.Path @ x=16, y=10 optimal path direction LEFT
+WizardTD.Path @ x=17, y=10 Distance: 8
+WizardTD.Path @ x=17, y=10 optimal path direction LEFT
+WizardTD.Path @ x=18, y=10 Distance: 9
+WizardTD.Path @ x=18, y=10 optimal path direction LEFT
+WizardTD.Path @ x=19, y=10 Distance: 10
+WizardTD.Path @ x=19, y=10 optimal path direction LEFT
+WizardTD.Path @ x=19, y=11 Distance: 11
+WizardTD.Path @ x=19, y=11 optimal path direction UP
+WizardTD.Path @ x=19, y=12 Distance: 12
+WizardTD.Path @ x=19, y=12 optimal path direction UP
+WizardTD.Path @ x=19, y=13 Distance: 13
+WizardTD.Path @ x=19, y=13 optimal path direction UP
+WizardTD.Path @ x=19, y=14 Distance: 14
+WizardTD.Path @ x=19, y=14 optimal path direction UP
+WizardTD.Path @ x=19, y=15 Distance: 15
+WizardTD.Path @ x=19, y=15 optimal path direction UP
+WizardTD.Path @ x=19, y=16 Distance: 16
+WizardTD.Path @ x=19, y=16 optimal path direction UP
+WizardTD.Path @ x=19, y=17 Distance: 17
+WizardTD.Path @ x=19, y=17 optimal path direction UP
+WizardTD.Path @ x=19, y=18 Distance: 18
+WizardTD.Path @ x=19, y=18 optimal path direction UP
+WizardTD.Path @ x=19, y=9 Distance: 11
+WizardTD.Path @ x=19, y=9 optimal path direction DOWN
+WizardTD.Path @ x=19, y=8 Distance: 12
+WizardTD.Path @ x=19, y=8 optimal path direction DOWN
+WizardTD.Path @ x=19, y=7 Distance: 13
+WizardTD.Path @ x=19, y=7 optimal path direction DOWN
+WizardTD.Path @ x=19, y=6 Distance: 14
+WizardTD.Path @ x=19, y=6 optimal path direction DOWN
+WizardTD.Path @ x=19, y=5 Distance: 15
+WizardTD.Path @ x=19, y=5 optimal path direction DOWN
+WizardTD.Path @ x=19, y=4 Distance: 16
+WizardTD.Path @ x=19, y=4 optimal path direction DOWN
+WizardTD.Path @ x=19, y=3 Distance: 17
+WizardTD.Path @ x=19, y=3 optimal path direction DOWN
+WizardTD.Path @ x=19, y=2 Distance: 18
+WizardTD.Path @ x=19, y=2 optimal path direction DOWN
+WizardTD.Path @ x=19, y=1 Distance: 19
+WizardTD.Path @ x=19, y=1 optimal path direction DOWN
+WizardTD.Path @ x=8, y=10 Distance: 1
+WizardTD.Path @ x=8, y=10 optimal path direction RIGHT
+WizardTD.Path @ x=7, y=10 Distance: 2
+WizardTD.Path @ x=7, y=10 optimal path direction RIGHT
+WizardTD.Path @ x=6, y=10 Distance: 3
+WizardTD.Path @ x=6, y=10 optimal path direction RIGHT
+WizardTD.Path @ x=5, y=10 Distance: 4
+WizardTD.Path @ x=5, y=10 optimal path direction RIGHT
+WizardTD.Path @ x=4, y=10 Distance: 5
+WizardTD.Path @ x=4, y=10 optimal path direction RIGHT
+WizardTD.Path @ x=3, y=10 Distance: 6
+WizardTD.Path @ x=3, y=10 optimal path direction RIGHT
+WizardTD.Path @ x=2, y=10 Distance: 7
+WizardTD.Path @ x=2, y=10 optimal path direction RIGHT
+WizardTD.Path @ x=1, y=10 Distance: 8
+WizardTD.Path @ x=1, y=10 optimal path direction RIGHT
+WizardTD.Path @ x=0, y=10 Distance: 9
+WizardTD.Path @ x=0, y=10 optimal path direction RIGHT
+WizardTD.Path @ x=0, y=11 Distance: 10
+WizardTD.Path @ x=0, y=11 optimal path direction UP
+WizardTD.Path @ x=0, y=12 Distance: 11
+WizardTD.Path @ x=0, y=12 optimal path direction UP
+WizardTD.Path @ x=0, y=13 Distance: 12
+WizardTD.Path @ x=0, y=13 optimal path direction UP
+WizardTD.Path @ x=0, y=14 Distance: 13
+WizardTD.Path @ x=0, y=14 optimal path direction UP
+WizardTD.Path @ x=0, y=15 Distance: 14
+WizardTD.Path @ x=0, y=15 optimal path direction UP
+WizardTD.Path @ x=0, y=16 Distance: 15
+WizardTD.Path @ x=0, y=16 optimal path direction UP
+WizardTD.Path @ x=0, y=17 Distance: 16
+WizardTD.Path @ x=0, y=17 optimal path direction UP
+WizardTD.Path @ x=0, y=18 Distance: 17
+WizardTD.Path @ x=0, y=18 optimal path direction UP
+WizardTD.Path @ x=0, y=9 Distance: 10
+WizardTD.Path @ x=0, y=9 optimal path direction DOWN
+WizardTD.Path @ x=0, y=8 Distance: 11
+WizardTD.Path @ x=0, y=8 optimal path direction DOWN
+WizardTD.Path @ x=0, y=7 Distance: 12
+WizardTD.Path @ x=0, y=7 optimal path direction DOWN
+WizardTD.Path @ x=0, y=6 Distance: 13
+WizardTD.Path @ x=0, y=6 optimal path direction DOWN
+WizardTD.Path @ x=0, y=5 Distance: 14
+WizardTD.Path @ x=0, y=5 optimal path direction DOWN
+WizardTD.Path @ x=0, y=4 Distance: 15
+WizardTD.Path @ x=0, y=4 optimal path direction DOWN
+WizardTD.Path @ x=0, y=3 Distance: 16
+WizardTD.Path @ x=0, y=3 optimal path direction DOWN
+WizardTD.Path @ x=0, y=2 Distance: 17
+WizardTD.Path @ x=0, y=2 optimal path direction DOWN
+WizardTD.Path @ x=0, y=1 Distance: 18
+WizardTD.Path @ x=0, y=1 optimal path direction DOWN
+WizardTD.Path @ x=9, y=9 Distance: 1
+WizardTD.Path @ x=9, y=9 optimal path direction DOWN
+WizardTD.Path @ x=9, y=8 Distance: 2
+WizardTD.Path @ x=9, y=8 optimal path direction DOWN
+WizardTD.Path @ x=9, y=7 Distance: 3
+WizardTD.Path @ x=9, y=7 optimal path direction DOWN
+WizardTD.Path @ x=9, y=6 Distance: 4
+WizardTD.Path @ x=9, y=6 optimal path direction DOWN
+WizardTD.Path @ x=9, y=5 Distance: 5
+WizardTD.Path @ x=9, y=5 optimal path direction DOWN
+WizardTD.Path @ x=9, y=4 Distance: 6
+WizardTD.Path @ x=9, y=4 optimal path direction DOWN
+WizardTD.Path @ x=9, y=3 Distance: 7
+WizardTD.Path @ x=9, y=3 optimal path direction DOWN
+WizardTD.Path @ x=9, y=2 Distance: 8
+WizardTD.Path @ x=9, y=2 optimal path direction DOWN
+WizardTD.Path @ x=9, y=1 Distance: 9
+WizardTD.Path @ x=9, y=1 optimal path direction DOWN
+WizardTD.Path @ x=9, y=0 Distance: 10
+WizardTD.Path @ x=9, y=0 optimal path direction DOWN
+WizardTD.Path @ x=10, y=0 Distance: 11
+WizardTD.Path @ x=10, y=0 optimal path direction LEFT
+WizardTD.Path @ x=11, y=0 Distance: 12
+WizardTD.Path @ x=11, y=0 optimal path direction LEFT
+WizardTD.Path @ x=12, y=0 Distance: 13
+WizardTD.Path @ x=12, y=0 optimal path direction LEFT
+WizardTD.Path @ x=13, y=0 Distance: 14
+WizardTD.Path @ x=13, y=0 optimal path direction LEFT
+WizardTD.Path @ x=14, y=0 Distance: 15
+WizardTD.Path @ x=14, y=0 optimal path direction LEFT
+WizardTD.Path @ x=15, y=0 Distance: 16
+WizardTD.Path @ x=15, y=0 optimal path direction LEFT
+WizardTD.Path @ x=16, y=0 Distance: 17
+WizardTD.Path @ x=16, y=0 optimal path direction LEFT
+WizardTD.Path @ x=17, y=0 Distance: 18
+WizardTD.Path @ x=17, y=0 optimal path direction LEFT
+WizardTD.Path @ x=18, y=0 Distance: 19
+WizardTD.Path @ x=18, y=0 optimal path direction LEFT
+WizardTD.Path @ x=8, y=0 Distance: 11
+WizardTD.Path @ x=8, y=0 optimal path direction RIGHT
+WizardTD.Path @ x=7, y=0 Distance: 12
+WizardTD.Path @ x=7, y=0 optimal path direction RIGHT
+WizardTD.Path @ x=6, y=0 Distance: 13
+WizardTD.Path @ x=6, y=0 optimal path direction RIGHT
+WizardTD.Path @ x=5, y=0 Distance: 14
+WizardTD.Path @ x=5, y=0 optimal path direction RIGHT
+WizardTD.Path @ x=4, y=0 Distance: 15
+WizardTD.Path @ x=4, y=0 optimal path direction RIGHT
+WizardTD.Path @ x=3, y=0 Distance: 16
+WizardTD.Path @ x=3, y=0 optimal path direction RIGHT
+WizardTD.Path @ x=2, y=0 Distance: 17
+WizardTD.Path @ x=2, y=0 optimal path direction RIGHT
+WizardTD.Path @ x=1, y=0 Distance: 18
+WizardTD.Path @ x=1, y=0 optimal path direction RIGHT
+Wave created
+1800.0
+upgraded range to 1 0 0 tower at (1, 1)
+upgraded speed to 1 1 0 tower at (1, 1)
+upgraded damage to 1 1 1 tower at (1, 1)
+Created: 1 1 1 tower at (1, 1)
+upgraded range to 2 1 1 tower at (1, 1)
+upgraded speed to 2 2 1 tower at (1, 1)
+upgraded damage to 2 2 2 tower at (1, 1)
+Wave created
+Created 10.0 hp monster at (0, 1)
+Shot fired
+row 0 read
+row 1 read
+row 2 read
+row 3 read
+row 4 read
+row 5 read
+row 6 read
+row 7 read
+row 8 read
+row 9 read
+row 10 read
+row 11 read
+row 12 read
+row 13 read
+row 14 read
+row 15 read
+row 16 read
+row 17 read
+row 18 read
+row 19 read
+matrix made
+WizardTD.Path @ x=0, y=1 is a spawn
+WizardTD.Path @ x=0, y=1 assigned rotation
+WizardTD.Path @ x=0, y=2 is a spawn
+WizardTD.Path @ x=0, y=2 assigned rotation
+WizardTD.Path @ x=0, y=3 is a spawn
+WizardTD.Path @ x=0, y=3 assigned rotation
+WizardTD.Path @ x=0, y=4 is a spawn
+WizardTD.Path @ x=0, y=4 assigned rotation
+WizardTD.Path @ x=0, y=5 is a spawn
+WizardTD.Path @ x=0, y=5 assigned rotation
+WizardTD.Path @ x=0, y=6 is a spawn
+WizardTD.Path @ x=0, y=6 assigned rotation
+WizardTD.Path @ x=0, y=7 is a spawn
+WizardTD.Path @ x=0, y=7 assigned rotation
+WizardTD.Path @ x=0, y=8 is a spawn
+WizardTD.Path @ x=0, y=8 assigned rotation
+WizardTD.Path @ x=0, y=9 is a spawn
+WizardTD.Path @ x=0, y=9 assigned rotation
+WizardTD.Path @ x=0, y=10 is a spawn
+WizardTD.Path @ x=0, y=10 assigned rotation
+WizardTD.Path @ x=0, y=11 is a spawn
+WizardTD.Path @ x=0, y=11 assigned rotation
+WizardTD.Path @ x=0, y=12 is a spawn
+WizardTD.Path @ x=0, y=12 assigned rotation
+WizardTD.Path @ x=0, y=13 is a spawn
+WizardTD.Path @ x=0, y=13 assigned rotation
+WizardTD.Path @ x=0, y=14 is a spawn
+WizardTD.Path @ x=0, y=14 assigned rotation
+WizardTD.Path @ x=0, y=15 is a spawn
+WizardTD.Path @ x=0, y=15 assigned rotation
+WizardTD.Path @ x=0, y=16 is a spawn
+WizardTD.Path @ x=0, y=16 assigned rotation
+WizardTD.Path @ x=0, y=17 is a spawn
+WizardTD.Path @ x=0, y=17 assigned rotation
+WizardTD.Path @ x=0, y=18 is a spawn
+WizardTD.Path @ x=0, y=18 assigned rotation
+WizardTD.Path @ x=1, y=0 is a spawn
+WizardTD.Path @ x=1, y=0 assigned rotation
+WizardTD.Path @ x=1, y=10 assigned rotation
+WizardTD.Path @ x=1, y=19 is a spawn
+WizardTD.Path @ x=1, y=19 assigned rotation
+WizardTD.Path @ x=2, y=0 is a spawn
+WizardTD.Path @ x=2, y=0 assigned rotation
+WizardTD.Path @ x=2, y=10 assigned rotation
+WizardTD.Path @ x=2, y=19 is a spawn
+WizardTD.Path @ x=2, y=19 assigned rotation
+WizardTD.Path @ x=3, y=0 is a spawn
+WizardTD.Path @ x=3, y=0 assigned rotation
+WizardTD.Path @ x=3, y=10 assigned rotation
+WizardTD.Path @ x=3, y=19 is a spawn
+WizardTD.Path @ x=3, y=19 assigned rotation
+WizardTD.Path @ x=4, y=0 is a spawn
+WizardTD.Path @ x=4, y=0 assigned rotation
+WizardTD.Path @ x=4, y=10 assigned rotation
+WizardTD.Path @ x=4, y=19 is a spawn
+WizardTD.Path @ x=4, y=19 assigned rotation
+WizardTD.Path @ x=5, y=0 is a spawn
+WizardTD.Path @ x=5, y=0 assigned rotation
+WizardTD.Path @ x=5, y=10 assigned rotation
+WizardTD.Path @ x=5, y=19 is a spawn
+WizardTD.Path @ x=5, y=19 assigned rotation
+WizardTD.Path @ x=6, y=0 is a spawn
+WizardTD.Path @ x=6, y=0 assigned rotation
+WizardTD.Path @ x=6, y=10 assigned rotation
+WizardTD.Path @ x=6, y=19 is a spawn
+WizardTD.Path @ x=6, y=19 assigned rotation
+WizardTD.Path @ x=7, y=0 is a spawn
+WizardTD.Path @ x=7, y=0 assigned rotation
+WizardTD.Path @ x=7, y=10 assigned rotation
+WizardTD.Path @ x=7, y=19 is a spawn
+WizardTD.Path @ x=7, y=19 assigned rotation
+WizardTD.Path @ x=8, y=0 is a spawn
+WizardTD.Path @ x=8, y=0 assigned rotation
+WizardTD.Path @ x=8, y=10 assigned rotation
+WizardTD.Path @ x=8, y=19 is a spawn
+WizardTD.Path @ x=8, y=19 assigned rotation
+WizardTD.Path @ x=9, y=0 is a spawn
+WizardTD.Path @ x=9, y=0 assigned rotation
+WizardTD.Path @ x=9, y=1 assigned rotation
+WizardTD.Path @ x=9, y=2 assigned rotation
+WizardTD.Path @ x=9, y=3 assigned rotation
+WizardTD.Path @ x=9, y=4 assigned rotation
+WizardTD.Path @ x=9, y=5 assigned rotation
+WizardTD.Path @ x=9, y=6 assigned rotation
+WizardTD.Path @ x=9, y=7 assigned rotation
+WizardTD.Path @ x=9, y=8 assigned rotation
+WizardTD.Path @ x=9, y=9 assigned rotation
+WizardTD.Path @ x=9, y=11 assigned rotation
+WizardTD.Path @ x=9, y=12 assigned rotation
+WizardTD.Path @ x=9, y=13 assigned rotation
+WizardTD.Path @ x=9, y=14 assigned rotation
+WizardTD.Path @ x=9, y=15 assigned rotation
+WizardTD.Path @ x=9, y=16 assigned rotation
+WizardTD.Path @ x=9, y=17 assigned rotation
+WizardTD.Path @ x=9, y=18 assigned rotation
+WizardTD.Path @ x=9, y=19 is a spawn
+WizardTD.Path @ x=9, y=19 assigned rotation
+WizardTD.Path @ x=10, y=0 is a spawn
+WizardTD.Path @ x=10, y=0 assigned rotation
+WizardTD.Path @ x=10, y=10 assigned rotation
+WizardTD.Path @ x=10, y=19 is a spawn
+WizardTD.Path @ x=10, y=19 assigned rotation
+WizardTD.Path @ x=11, y=0 is a spawn
+WizardTD.Path @ x=11, y=0 assigned rotation
+WizardTD.Path @ x=11, y=10 assigned rotation
+WizardTD.Path @ x=11, y=19 is a spawn
+WizardTD.Path @ x=11, y=19 assigned rotation
+WizardTD.Path @ x=12, y=0 is a spawn
+WizardTD.Path @ x=12, y=0 assigned rotation
+WizardTD.Path @ x=12, y=10 assigned rotation
+WizardTD.Path @ x=12, y=19 is a spawn
+WizardTD.Path @ x=12, y=19 assigned rotation
+WizardTD.Path @ x=13, y=0 is a spawn
+WizardTD.Path @ x=13, y=0 assigned rotation
+WizardTD.Path @ x=13, y=10 assigned rotation
+WizardTD.Path @ x=13, y=19 is a spawn
+WizardTD.Path @ x=13, y=19 assigned rotation
+WizardTD.Path @ x=14, y=0 is a spawn
+WizardTD.Path @ x=14, y=0 assigned rotation
+WizardTD.Path @ x=14, y=10 assigned rotation
+WizardTD.Path @ x=14, y=19 is a spawn
+WizardTD.Path @ x=14, y=19 assigned rotation
+WizardTD.Path @ x=15, y=0 is a spawn
+WizardTD.Path @ x=15, y=0 assigned rotation
+WizardTD.Path @ x=15, y=10 assigned rotation
+WizardTD.Path @ x=15, y=19 is a spawn
+WizardTD.Path @ x=15, y=19 assigned rotation
+WizardTD.Path @ x=16, y=0 is a spawn
+WizardTD.Path @ x=16, y=0 assigned rotation
+WizardTD.Path @ x=16, y=10 assigned rotation
+WizardTD.Path @ x=16, y=19 is a spawn
+WizardTD.Path @ x=16, y=19 assigned rotation
+WizardTD.Path @ x=17, y=0 is a spawn
+WizardTD.Path @ x=17, y=0 assigned rotation
+WizardTD.Path @ x=17, y=10 assigned rotation
+WizardTD.Path @ x=17, y=19 is a spawn
+WizardTD.Path @ x=17, y=19 assigned rotation
+WizardTD.Path @ x=18, y=0 is a spawn
+WizardTD.Path @ x=18, y=0 assigned rotation
+WizardTD.Path @ x=18, y=10 assigned rotation
+WizardTD.Path @ x=18, y=19 is a spawn
+WizardTD.Path @ x=18, y=19 assigned rotation
+WizardTD.Path @ x=19, y=1 is a spawn
+WizardTD.Path @ x=19, y=1 assigned rotation
+WizardTD.Path @ x=19, y=2 is a spawn
+WizardTD.Path @ x=19, y=2 assigned rotation
+WizardTD.Path @ x=19, y=3 is a spawn
+WizardTD.Path @ x=19, y=3 assigned rotation
+WizardTD.Path @ x=19, y=4 is a spawn
+WizardTD.Path @ x=19, y=4 assigned rotation
+WizardTD.Path @ x=19, y=5 is a spawn
+WizardTD.Path @ x=19, y=5 assigned rotation
+WizardTD.Path @ x=19, y=6 is a spawn
+WizardTD.Path @ x=19, y=6 assigned rotation
+WizardTD.Path @ x=19, y=7 is a spawn
+WizardTD.Path @ x=19, y=7 assigned rotation
+WizardTD.Path @ x=19, y=8 is a spawn
+WizardTD.Path @ x=19, y=8 assigned rotation
+WizardTD.Path @ x=19, y=9 is a spawn
+WizardTD.Path @ x=19, y=9 assigned rotation
+WizardTD.Path @ x=19, y=10 is a spawn
+WizardTD.Path @ x=19, y=10 assigned rotation
+WizardTD.Path @ x=19, y=11 is a spawn
+WizardTD.Path @ x=19, y=11 assigned rotation
+WizardTD.Path @ x=19, y=12 is a spawn
+WizardTD.Path @ x=19, y=12 assigned rotation
+WizardTD.Path @ x=19, y=13 is a spawn
+WizardTD.Path @ x=19, y=13 assigned rotation
+WizardTD.Path @ x=19, y=14 is a spawn
+WizardTD.Path @ x=19, y=14 assigned rotation
+WizardTD.Path @ x=19, y=15 is a spawn
+WizardTD.Path @ x=19, y=15 assigned rotation
+WizardTD.Path @ x=19, y=16 is a spawn
+WizardTD.Path @ x=19, y=16 assigned rotation
+WizardTD.Path @ x=19, y=17 is a spawn
+WizardTD.Path @ x=19, y=17 assigned rotation
+WizardTD.Path @ x=19, y=18 is a spawn
+WizardTD.Path @ x=19, y=18 assigned rotation
+Paths rotated
+WizardTD.Path @ x=9, y=11 Distance: 1
+WizardTD.Path @ x=9, y=11 optimal path direction UP
+WizardTD.Path @ x=9, y=12 Distance: 2
+WizardTD.Path @ x=9, y=12 optimal path direction UP
+WizardTD.Path @ x=9, y=13 Distance: 3
+WizardTD.Path @ x=9, y=13 optimal path direction UP
+WizardTD.Path @ x=9, y=14 Distance: 4
+WizardTD.Path @ x=9, y=14 optimal path direction UP
+WizardTD.Path @ x=9, y=15 Distance: 5
+WizardTD.Path @ x=9, y=15 optimal path direction UP
+WizardTD.Path @ x=9, y=16 Distance: 6
+WizardTD.Path @ x=9, y=16 optimal path direction UP
+WizardTD.Path @ x=9, y=17 Distance: 7
+WizardTD.Path @ x=9, y=17 optimal path direction UP
+WizardTD.Path @ x=9, y=18 Distance: 8
+WizardTD.Path @ x=9, y=18 optimal path direction UP
+WizardTD.Path @ x=9, y=19 Distance: 9
+WizardTD.Path @ x=9, y=19 optimal path direction UP
+WizardTD.Path @ x=10, y=19 Distance: 10
+WizardTD.Path @ x=10, y=19 optimal path direction LEFT
+WizardTD.Path @ x=11, y=19 Distance: 11
+WizardTD.Path @ x=11, y=19 optimal path direction LEFT
+WizardTD.Path @ x=12, y=19 Distance: 12
+WizardTD.Path @ x=12, y=19 optimal path direction LEFT
+WizardTD.Path @ x=13, y=19 Distance: 13
+WizardTD.Path @ x=13, y=19 optimal path direction LEFT
+WizardTD.Path @ x=14, y=19 Distance: 14
+WizardTD.Path @ x=14, y=19 optimal path direction LEFT
+WizardTD.Path @ x=15, y=19 Distance: 15
+WizardTD.Path @ x=15, y=19 optimal path direction LEFT
+WizardTD.Path @ x=16, y=19 Distance: 16
+WizardTD.Path @ x=16, y=19 optimal path direction LEFT
+WizardTD.Path @ x=17, y=19 Distance: 17
+WizardTD.Path @ x=17, y=19 optimal path direction LEFT
+WizardTD.Path @ x=18, y=19 Distance: 18
+WizardTD.Path @ x=18, y=19 optimal path direction LEFT
+WizardTD.Path @ x=8, y=19 Distance: 10
+WizardTD.Path @ x=8, y=19 optimal path direction RIGHT
+WizardTD.Path @ x=7, y=19 Distance: 11
+WizardTD.Path @ x=7, y=19 optimal path direction RIGHT
+WizardTD.Path @ x=6, y=19 Distance: 12
+WizardTD.Path @ x=6, y=19 optimal path direction RIGHT
+WizardTD.Path @ x=5, y=19 Distance: 13
+WizardTD.Path @ x=5, y=19 optimal path direction RIGHT
+WizardTD.Path @ x=4, y=19 Distance: 14
+WizardTD.Path @ x=4, y=19 optimal path direction RIGHT
+WizardTD.Path @ x=3, y=19 Distance: 15
+WizardTD.Path @ x=3, y=19 optimal path direction RIGHT
+WizardTD.Path @ x=2, y=19 Distance: 16
+WizardTD.Path @ x=2, y=19 optimal path direction RIGHT
+WizardTD.Path @ x=1, y=19 Distance: 17
+WizardTD.Path @ x=1, y=19 optimal path direction RIGHT
+WizardTD.Path @ x=10, y=10 Distance: 1
+WizardTD.Path @ x=10, y=10 optimal path direction LEFT
+WizardTD.Path @ x=11, y=10 Distance: 2
+WizardTD.Path @ x=11, y=10 optimal path direction LEFT
+WizardTD.Path @ x=12, y=10 Distance: 3
+WizardTD.Path @ x=12, y=10 optimal path direction LEFT
+WizardTD.Path @ x=13, y=10 Distance: 4
+WizardTD.Path @ x=13, y=10 optimal path direction LEFT
+WizardTD.Path @ x=14, y=10 Distance: 5
+WizardTD.Path @ x=14, y=10 optimal path direction LEFT
+WizardTD.Path @ x=15, y=10 Distance: 6
+WizardTD.Path @ x=15, y=10 optimal path direction LEFT
+WizardTD.Path @ x=16, y=10 Distance: 7
+WizardTD.Path @ x=16, y=10 optimal path direction LEFT
+WizardTD.Path @ x=17, y=10 Distance: 8
+WizardTD.Path @ x=17, y=10 optimal path direction LEFT
+WizardTD.Path @ x=18, y=10 Distance: 9
+WizardTD.Path @ x=18, y=10 optimal path direction LEFT
+WizardTD.Path @ x=19, y=10 Distance: 10
+WizardTD.Path @ x=19, y=10 optimal path direction LEFT
+WizardTD.Path @ x=19, y=11 Distance: 11
+WizardTD.Path @ x=19, y=11 optimal path direction UP
+WizardTD.Path @ x=19, y=12 Distance: 12
+WizardTD.Path @ x=19, y=12 optimal path direction UP
+WizardTD.Path @ x=19, y=13 Distance: 13
+WizardTD.Path @ x=19, y=13 optimal path direction UP
+WizardTD.Path @ x=19, y=14 Distance: 14
+WizardTD.Path @ x=19, y=14 optimal path direction UP
+WizardTD.Path @ x=19, y=15 Distance: 15
+WizardTD.Path @ x=19, y=15 optimal path direction UP
+WizardTD.Path @ x=19, y=16 Distance: 16
+WizardTD.Path @ x=19, y=16 optimal path direction UP
+WizardTD.Path @ x=19, y=17 Distance: 17
+WizardTD.Path @ x=19, y=17 optimal path direction UP
+WizardTD.Path @ x=19, y=18 Distance: 18
+WizardTD.Path @ x=19, y=18 optimal path direction UP
+WizardTD.Path @ x=19, y=9 Distance: 11
+WizardTD.Path @ x=19, y=9 optimal path direction DOWN
+WizardTD.Path @ x=19, y=8 Distance: 12
+WizardTD.Path @ x=19, y=8 optimal path direction DOWN
+WizardTD.Path @ x=19, y=7 Distance: 13
+WizardTD.Path @ x=19, y=7 optimal path direction DOWN
+WizardTD.Path @ x=19, y=6 Distance: 14
+WizardTD.Path @ x=19, y=6 optimal path direction DOWN
+WizardTD.Path @ x=19, y=5 Distance: 15
+WizardTD.Path @ x=19, y=5 optimal path direction DOWN
+WizardTD.Path @ x=19, y=4 Distance: 16
+WizardTD.Path @ x=19, y=4 optimal path direction DOWN
+WizardTD.Path @ x=19, y=3 Distance: 17
+WizardTD.Path @ x=19, y=3 optimal path direction DOWN
+WizardTD.Path @ x=19, y=2 Distance: 18
+WizardTD.Path @ x=19, y=2 optimal path direction DOWN
+WizardTD.Path @ x=19, y=1 Distance: 19
+WizardTD.Path @ x=19, y=1 optimal path direction DOWN
+WizardTD.Path @ x=8, y=10 Distance: 1
+WizardTD.Path @ x=8, y=10 optimal path direction RIGHT
+WizardTD.Path @ x=7, y=10 Distance: 2
+WizardTD.Path @ x=7, y=10 optimal path direction RIGHT
+WizardTD.Path @ x=6, y=10 Distance: 3
+WizardTD.Path @ x=6, y=10 optimal path direction RIGHT
+WizardTD.Path @ x=5, y=10 Distance: 4
+WizardTD.Path @ x=5, y=10 optimal path direction RIGHT
+WizardTD.Path @ x=4, y=10 Distance: 5
+WizardTD.Path @ x=4, y=10 optimal path direction RIGHT
+WizardTD.Path @ x=3, y=10 Distance: 6
+WizardTD.Path @ x=3, y=10 optimal path direction RIGHT
+WizardTD.Path @ x=2, y=10 Distance: 7
+WizardTD.Path @ x=2, y=10 optimal path direction RIGHT
+WizardTD.Path @ x=1, y=10 Distance: 8
+WizardTD.Path @ x=1, y=10 optimal path direction RIGHT
+WizardTD.Path @ x=0, y=10 Distance: 9
+WizardTD.Path @ x=0, y=10 optimal path direction RIGHT
+WizardTD.Path @ x=0, y=11 Distance: 10
+WizardTD.Path @ x=0, y=11 optimal path direction UP
+WizardTD.Path @ x=0, y=12 Distance: 11
+WizardTD.Path @ x=0, y=12 optimal path direction UP
+WizardTD.Path @ x=0, y=13 Distance: 12
+WizardTD.Path @ x=0, y=13 optimal path direction UP
+WizardTD.Path @ x=0, y=14 Distance: 13
+WizardTD.Path @ x=0, y=14 optimal path direction UP
+WizardTD.Path @ x=0, y=15 Distance: 14
+WizardTD.Path @ x=0, y=15 optimal path direction UP
+WizardTD.Path @ x=0, y=16 Distance: 15
+WizardTD.Path @ x=0, y=16 optimal path direction UP
+WizardTD.Path @ x=0, y=17 Distance: 16
+WizardTD.Path @ x=0, y=17 optimal path direction UP
+WizardTD.Path @ x=0, y=18 Distance: 17
+WizardTD.Path @ x=0, y=18 optimal path direction UP
+WizardTD.Path @ x=0, y=9 Distance: 10
+WizardTD.Path @ x=0, y=9 optimal path direction DOWN
+WizardTD.Path @ x=0, y=8 Distance: 11
+WizardTD.Path @ x=0, y=8 optimal path direction DOWN
+WizardTD.Path @ x=0, y=7 Distance: 12
+WizardTD.Path @ x=0, y=7 optimal path direction DOWN
+WizardTD.Path @ x=0, y=6 Distance: 13
+WizardTD.Path @ x=0, y=6 optimal path direction DOWN
+WizardTD.Path @ x=0, y=5 Distance: 14
+WizardTD.Path @ x=0, y=5 optimal path direction DOWN
+WizardTD.Path @ x=0, y=4 Distance: 15
+WizardTD.Path @ x=0, y=4 optimal path direction DOWN
+WizardTD.Path @ x=0, y=3 Distance: 16
+WizardTD.Path @ x=0, y=3 optimal path direction DOWN
+WizardTD.Path @ x=0, y=2 Distance: 17
+WizardTD.Path @ x=0, y=2 optimal path direction DOWN
+WizardTD.Path @ x=0, y=1 Distance: 18
+WizardTD.Path @ x=0, y=1 optimal path direction DOWN
+WizardTD.Path @ x=9, y=9 Distance: 1
+WizardTD.Path @ x=9, y=9 optimal path direction DOWN
+WizardTD.Path @ x=9, y=8 Distance: 2
+WizardTD.Path @ x=9, y=8 optimal path direction DOWN
+WizardTD.Path @ x=9, y=7 Distance: 3
+WizardTD.Path @ x=9, y=7 optimal path direction DOWN
+WizardTD.Path @ x=9, y=6 Distance: 4
+WizardTD.Path @ x=9, y=6 optimal path direction DOWN
+WizardTD.Path @ x=9, y=5 Distance: 5
+WizardTD.Path @ x=9, y=5 optimal path direction DOWN
+WizardTD.Path @ x=9, y=4 Distance: 6
+WizardTD.Path @ x=9, y=4 optimal path direction DOWN
+WizardTD.Path @ x=9, y=3 Distance: 7
+WizardTD.Path @ x=9, y=3 optimal path direction DOWN
+WizardTD.Path @ x=9, y=2 Distance: 8
+WizardTD.Path @ x=9, y=2 optimal path direction DOWN
+WizardTD.Path @ x=9, y=1 Distance: 9
+WizardTD.Path @ x=9, y=1 optimal path direction DOWN
+WizardTD.Path @ x=9, y=0 Distance: 10
+WizardTD.Path @ x=9, y=0 optimal path direction DOWN
+WizardTD.Path @ x=10, y=0 Distance: 11
+WizardTD.Path @ x=10, y=0 optimal path direction LEFT
+WizardTD.Path @ x=11, y=0 Distance: 12
+WizardTD.Path @ x=11, y=0 optimal path direction LEFT
+WizardTD.Path @ x=12, y=0 Distance: 13
+WizardTD.Path @ x=12, y=0 optimal path direction LEFT
+WizardTD.Path @ x=13, y=0 Distance: 14
+WizardTD.Path @ x=13, y=0 optimal path direction LEFT
+WizardTD.Path @ x=14, y=0 Distance: 15
+WizardTD.Path @ x=14, y=0 optimal path direction LEFT
+WizardTD.Path @ x=15, y=0 Distance: 16
+WizardTD.Path @ x=15, y=0 optimal path direction LEFT
+WizardTD.Path @ x=16, y=0 Distance: 17
+WizardTD.Path @ x=16, y=0 optimal path direction LEFT
+WizardTD.Path @ x=17, y=0 Distance: 18
+WizardTD.Path @ x=17, y=0 optimal path direction LEFT
+WizardTD.Path @ x=18, y=0 Distance: 19
+WizardTD.Path @ x=18, y=0 optimal path direction LEFT
+WizardTD.Path @ x=8, y=0 Distance: 11
+WizardTD.Path @ x=8, y=0 optimal path direction RIGHT
+WizardTD.Path @ x=7, y=0 Distance: 12
+WizardTD.Path @ x=7, y=0 optimal path direction RIGHT
+WizardTD.Path @ x=6, y=0 Distance: 13
+WizardTD.Path @ x=6, y=0 optimal path direction RIGHT
+WizardTD.Path @ x=5, y=0 Distance: 14
+WizardTD.Path @ x=5, y=0 optimal path direction RIGHT
+WizardTD.Path @ x=4, y=0 Distance: 15
+WizardTD.Path @ x=4, y=0 optimal path direction RIGHT
+WizardTD.Path @ x=3, y=0 Distance: 16
+WizardTD.Path @ x=3, y=0 optimal path direction RIGHT
+WizardTD.Path @ x=2, y=0 Distance: 17
+WizardTD.Path @ x=2, y=0 optimal path direction RIGHT
+WizardTD.Path @ x=1, y=0 Distance: 18
+WizardTD.Path @ x=1, y=0 optimal path direction RIGHT
+Wave created
+1800.0
+upgraded range to 1 0 0 tower at (1, 1)
+upgraded speed to 1 1 0 tower at (1, 1)
+upgraded damage to 1 1 1 tower at (1, 1)
+Created: 1 1 1 tower at (1, 1)
+upgraded range to 2 1 1 tower at (1, 1)
+upgraded speed to 2 2 1 tower at (1, 1)
+upgraded damage to 2 2 2 tower at (1, 1)
+Wave created
+Created 100.0 hp monster at (0, 13)
+row 0 read
+row 1 read
+row 2 read
+row 3 read
+row 4 read
+row 5 read
+row 6 read
+row 7 read
+row 8 read
+row 9 read
+row 10 read
+row 11 read
+row 12 read
+row 13 read
+row 14 read
+row 15 read
+row 16 read
+row 17 read
+row 18 read
+row 19 read
+matrix made
+WizardTD.Path @ x=0, y=1 is a spawn
+WizardTD.Path @ x=0, y=1 assigned rotation
+WizardTD.Path @ x=0, y=2 is a spawn
+WizardTD.Path @ x=0, y=2 assigned rotation
+WizardTD.Path @ x=0, y=3 is a spawn
+WizardTD.Path @ x=0, y=3 assigned rotation
+WizardTD.Path @ x=0, y=4 is a spawn
+WizardTD.Path @ x=0, y=4 assigned rotation
+WizardTD.Path @ x=0, y=5 is a spawn
+WizardTD.Path @ x=0, y=5 assigned rotation
+WizardTD.Path @ x=0, y=6 is a spawn
+WizardTD.Path @ x=0, y=6 assigned rotation
+WizardTD.Path @ x=0, y=7 is a spawn
+WizardTD.Path @ x=0, y=7 assigned rotation
+WizardTD.Path @ x=0, y=8 is a spawn
+WizardTD.Path @ x=0, y=8 assigned rotation
+WizardTD.Path @ x=0, y=9 is a spawn
+WizardTD.Path @ x=0, y=9 assigned rotation
+WizardTD.Path @ x=0, y=10 is a spawn
+WizardTD.Path @ x=0, y=10 assigned rotation
+WizardTD.Path @ x=0, y=11 is a spawn
+WizardTD.Path @ x=0, y=11 assigned rotation
+WizardTD.Path @ x=0, y=12 is a spawn
+WizardTD.Path @ x=0, y=12 assigned rotation
+WizardTD.Path @ x=0, y=13 is a spawn
+WizardTD.Path @ x=0, y=13 assigned rotation
+WizardTD.Path @ x=0, y=14 is a spawn
+WizardTD.Path @ x=0, y=14 assigned rotation
+WizardTD.Path @ x=0, y=15 is a spawn
+WizardTD.Path @ x=0, y=15 assigned rotation
+WizardTD.Path @ x=0, y=16 is a spawn
+WizardTD.Path @ x=0, y=16 assigned rotation
+WizardTD.Path @ x=0, y=17 is a spawn
+WizardTD.Path @ x=0, y=17 assigned rotation
+WizardTD.Path @ x=0, y=18 is a spawn
+WizardTD.Path @ x=0, y=18 assigned rotation
+WizardTD.Path @ x=1, y=0 is a spawn
+WizardTD.Path @ x=1, y=0 assigned rotation
+WizardTD.Path @ x=1, y=10 assigned rotation
+WizardTD.Path @ x=1, y=19 is a spawn
+WizardTD.Path @ x=1, y=19 assigned rotation
+WizardTD.Path @ x=2, y=0 is a spawn
+WizardTD.Path @ x=2, y=0 assigned rotation
+WizardTD.Path @ x=2, y=10 assigned rotation
+WizardTD.Path @ x=2, y=19 is a spawn
+WizardTD.Path @ x=2, y=19 assigned rotation
+WizardTD.Path @ x=3, y=0 is a spawn
+WizardTD.Path @ x=3, y=0 assigned rotation
+WizardTD.Path @ x=3, y=10 assigned rotation
+WizardTD.Path @ x=3, y=19 is a spawn
+WizardTD.Path @ x=3, y=19 assigned rotation
+WizardTD.Path @ x=4, y=0 is a spawn
+WizardTD.Path @ x=4, y=0 assigned rotation
+WizardTD.Path @ x=4, y=10 assigned rotation
+WizardTD.Path @ x=4, y=19 is a spawn
+WizardTD.Path @ x=4, y=19 assigned rotation
+WizardTD.Path @ x=5, y=0 is a spawn
+WizardTD.Path @ x=5, y=0 assigned rotation
+WizardTD.Path @ x=5, y=10 assigned rotation
+WizardTD.Path @ x=5, y=19 is a spawn
+WizardTD.Path @ x=5, y=19 assigned rotation
+WizardTD.Path @ x=6, y=0 is a spawn
+WizardTD.Path @ x=6, y=0 assigned rotation
+WizardTD.Path @ x=6, y=10 assigned rotation
+WizardTD.Path @ x=6, y=19 is a spawn
+WizardTD.Path @ x=6, y=19 assigned rotation
+WizardTD.Path @ x=7, y=0 is a spawn
+WizardTD.Path @ x=7, y=0 assigned rotation
+WizardTD.Path @ x=7, y=10 assigned rotation
+WizardTD.Path @ x=7, y=19 is a spawn
+WizardTD.Path @ x=7, y=19 assigned rotation
+WizardTD.Path @ x=8, y=0 is a spawn
+WizardTD.Path @ x=8, y=0 assigned rotation
+WizardTD.Path @ x=8, y=10 assigned rotation
+WizardTD.Path @ x=8, y=19 is a spawn
+WizardTD.Path @ x=8, y=19 assigned rotation
+WizardTD.Path @ x=9, y=0 is a spawn
+WizardTD.Path @ x=9, y=0 assigned rotation
+WizardTD.Path @ x=9, y=1 assigned rotation
+WizardTD.Path @ x=9, y=2 assigned rotation
+WizardTD.Path @ x=9, y=3 assigned rotation
+WizardTD.Path @ x=9, y=4 assigned rotation
+WizardTD.Path @ x=9, y=5 assigned rotation
+WizardTD.Path @ x=9, y=6 assigned rotation
+WizardTD.Path @ x=9, y=7 assigned rotation
+WizardTD.Path @ x=9, y=8 assigned rotation
+WizardTD.Path @ x=9, y=9 assigned rotation
+WizardTD.Path @ x=9, y=11 assigned rotation
+WizardTD.Path @ x=9, y=12 assigned rotation
+WizardTD.Path @ x=9, y=13 assigned rotation
+WizardTD.Path @ x=9, y=14 assigned rotation
+WizardTD.Path @ x=9, y=15 assigned rotation
+WizardTD.Path @ x=9, y=16 assigned rotation
+WizardTD.Path @ x=9, y=17 assigned rotation
+WizardTD.Path @ x=9, y=18 assigned rotation
+WizardTD.Path @ x=9, y=19 is a spawn
+WizardTD.Path @ x=9, y=19 assigned rotation
+WizardTD.Path @ x=10, y=0 is a spawn
+WizardTD.Path @ x=10, y=0 assigned rotation
+WizardTD.Path @ x=10, y=10 assigned rotation
+WizardTD.Path @ x=10, y=19 is a spawn
+WizardTD.Path @ x=10, y=19 assigned rotation
+WizardTD.Path @ x=11, y=0 is a spawn
+WizardTD.Path @ x=11, y=0 assigned rotation
+WizardTD.Path @ x=11, y=10 assigned rotation
+WizardTD.Path @ x=11, y=19 is a spawn
+WizardTD.Path @ x=11, y=19 assigned rotation
+WizardTD.Path @ x=12, y=0 is a spawn
+WizardTD.Path @ x=12, y=0 assigned rotation
+WizardTD.Path @ x=12, y=10 assigned rotation
+WizardTD.Path @ x=12, y=19 is a spawn
+WizardTD.Path @ x=12, y=19 assigned rotation
+WizardTD.Path @ x=13, y=0 is a spawn
+WizardTD.Path @ x=13, y=0 assigned rotation
+WizardTD.Path @ x=13, y=10 assigned rotation
+WizardTD.Path @ x=13, y=19 is a spawn
+WizardTD.Path @ x=13, y=19 assigned rotation
+WizardTD.Path @ x=14, y=0 is a spawn
+WizardTD.Path @ x=14, y=0 assigned rotation
+WizardTD.Path @ x=14, y=10 assigned rotation
+WizardTD.Path @ x=14, y=19 is a spawn
+WizardTD.Path @ x=14, y=19 assigned rotation
+WizardTD.Path @ x=15, y=0 is a spawn
+WizardTD.Path @ x=15, y=0 assigned rotation
+WizardTD.Path @ x=15, y=10 assigned rotation
+WizardTD.Path @ x=15, y=19 is a spawn
+WizardTD.Path @ x=15, y=19 assigned rotation
+WizardTD.Path @ x=16, y=0 is a spawn
+WizardTD.Path @ x=16, y=0 assigned rotation
+WizardTD.Path @ x=16, y=10 assigned rotation
+WizardTD.Path @ x=16, y=19 is a spawn
+WizardTD.Path @ x=16, y=19 assigned rotation
+WizardTD.Path @ x=17, y=0 is a spawn
+WizardTD.Path @ x=17, y=0 assigned rotation
+WizardTD.Path @ x=17, y=10 assigned rotation
+WizardTD.Path @ x=17, y=19 is a spawn
+WizardTD.Path @ x=17, y=19 assigned rotation
+WizardTD.Path @ x=18, y=0 is a spawn
+WizardTD.Path @ x=18, y=0 assigned rotation
+WizardTD.Path @ x=18, y=10 assigned rotation
+WizardTD.Path @ x=18, y=19 is a spawn
+WizardTD.Path @ x=18, y=19 assigned rotation
+WizardTD.Path @ x=19, y=1 is a spawn
+WizardTD.Path @ x=19, y=1 assigned rotation
+WizardTD.Path @ x=19, y=2 is a spawn
+WizardTD.Path @ x=19, y=2 assigned rotation
+WizardTD.Path @ x=19, y=3 is a spawn
+WizardTD.Path @ x=19, y=3 assigned rotation
+WizardTD.Path @ x=19, y=4 is a spawn
+WizardTD.Path @ x=19, y=4 assigned rotation
+WizardTD.Path @ x=19, y=5 is a spawn
+WizardTD.Path @ x=19, y=5 assigned rotation
+WizardTD.Path @ x=19, y=6 is a spawn
+WizardTD.Path @ x=19, y=6 assigned rotation
+WizardTD.Path @ x=19, y=7 is a spawn
+WizardTD.Path @ x=19, y=7 assigned rotation
+WizardTD.Path @ x=19, y=8 is a spawn
+WizardTD.Path @ x=19, y=8 assigned rotation
+WizardTD.Path @ x=19, y=9 is a spawn
+WizardTD.Path @ x=19, y=9 assigned rotation
+WizardTD.Path @ x=19, y=10 is a spawn
+WizardTD.Path @ x=19, y=10 assigned rotation
+WizardTD.Path @ x=19, y=11 is a spawn
+WizardTD.Path @ x=19, y=11 assigned rotation
+WizardTD.Path @ x=19, y=12 is a spawn
+WizardTD.Path @ x=19, y=12 assigned rotation
+WizardTD.Path @ x=19, y=13 is a spawn
+WizardTD.Path @ x=19, y=13 assigned rotation
+WizardTD.Path @ x=19, y=14 is a spawn
+WizardTD.Path @ x=19, y=14 assigned rotation
+WizardTD.Path @ x=19, y=15 is a spawn
+WizardTD.Path @ x=19, y=15 assigned rotation
+WizardTD.Path @ x=19, y=16 is a spawn
+WizardTD.Path @ x=19, y=16 assigned rotation
+WizardTD.Path @ x=19, y=17 is a spawn
+WizardTD.Path @ x=19, y=17 assigned rotation
+WizardTD.Path @ x=19, y=18 is a spawn
+WizardTD.Path @ x=19, y=18 assigned rotation
+Paths rotated
+WizardTD.Path @ x=9, y=11 Distance: 1
+WizardTD.Path @ x=9, y=11 optimal path direction UP
+WizardTD.Path @ x=9, y=12 Distance: 2
+WizardTD.Path @ x=9, y=12 optimal path direction UP
+WizardTD.Path @ x=9, y=13 Distance: 3
+WizardTD.Path @ x=9, y=13 optimal path direction UP
+WizardTD.Path @ x=9, y=14 Distance: 4
+WizardTD.Path @ x=9, y=14 optimal path direction UP
+WizardTD.Path @ x=9, y=15 Distance: 5
+WizardTD.Path @ x=9, y=15 optimal path direction UP
+WizardTD.Path @ x=9, y=16 Distance: 6
+WizardTD.Path @ x=9, y=16 optimal path direction UP
+WizardTD.Path @ x=9, y=17 Distance: 7
+WizardTD.Path @ x=9, y=17 optimal path direction UP
+WizardTD.Path @ x=9, y=18 Distance: 8
+WizardTD.Path @ x=9, y=18 optimal path direction UP
+WizardTD.Path @ x=9, y=19 Distance: 9
+WizardTD.Path @ x=9, y=19 optimal path direction UP
+WizardTD.Path @ x=10, y=19 Distance: 10
+WizardTD.Path @ x=10, y=19 optimal path direction LEFT
+WizardTD.Path @ x=11, y=19 Distance: 11
+WizardTD.Path @ x=11, y=19 optimal path direction LEFT
+WizardTD.Path @ x=12, y=19 Distance: 12
+WizardTD.Path @ x=12, y=19 optimal path direction LEFT
+WizardTD.Path @ x=13, y=19 Distance: 13
+WizardTD.Path @ x=13, y=19 optimal path direction LEFT
+WizardTD.Path @ x=14, y=19 Distance: 14
+WizardTD.Path @ x=14, y=19 optimal path direction LEFT
+WizardTD.Path @ x=15, y=19 Distance: 15
+WizardTD.Path @ x=15, y=19 optimal path direction LEFT
+WizardTD.Path @ x=16, y=19 Distance: 16
+WizardTD.Path @ x=16, y=19 optimal path direction LEFT
+WizardTD.Path @ x=17, y=19 Distance: 17
+WizardTD.Path @ x=17, y=19 optimal path direction LEFT
+WizardTD.Path @ x=18, y=19 Distance: 18
+WizardTD.Path @ x=18, y=19 optimal path direction LEFT
+WizardTD.Path @ x=8, y=19 Distance: 10
+WizardTD.Path @ x=8, y=19 optimal path direction RIGHT
+WizardTD.Path @ x=7, y=19 Distance: 11
+WizardTD.Path @ x=7, y=19 optimal path direction RIGHT
+WizardTD.Path @ x=6, y=19 Distance: 12
+WizardTD.Path @ x=6, y=19 optimal path direction RIGHT
+WizardTD.Path @ x=5, y=19 Distance: 13
+WizardTD.Path @ x=5, y=19 optimal path direction RIGHT
+WizardTD.Path @ x=4, y=19 Distance: 14
+WizardTD.Path @ x=4, y=19 optimal path direction RIGHT
+WizardTD.Path @ x=3, y=19 Distance: 15
+WizardTD.Path @ x=3, y=19 optimal path direction RIGHT
+WizardTD.Path @ x=2, y=19 Distance: 16
+WizardTD.Path @ x=2, y=19 optimal path direction RIGHT
+WizardTD.Path @ x=1, y=19 Distance: 17
+WizardTD.Path @ x=1, y=19 optimal path direction RIGHT
+WizardTD.Path @ x=10, y=10 Distance: 1
+WizardTD.Path @ x=10, y=10 optimal path direction LEFT
+WizardTD.Path @ x=11, y=10 Distance: 2
+WizardTD.Path @ x=11, y=10 optimal path direction LEFT
+WizardTD.Path @ x=12, y=10 Distance: 3
+WizardTD.Path @ x=12, y=10 optimal path direction LEFT
+WizardTD.Path @ x=13, y=10 Distance: 4
+WizardTD.Path @ x=13, y=10 optimal path direction LEFT
+WizardTD.Path @ x=14, y=10 Distance: 5
+WizardTD.Path @ x=14, y=10 optimal path direction LEFT
+WizardTD.Path @ x=15, y=10 Distance: 6
+WizardTD.Path @ x=15, y=10 optimal path direction LEFT
+WizardTD.Path @ x=16, y=10 Distance: 7
+WizardTD.Path @ x=16, y=10 optimal path direction LEFT
+WizardTD.Path @ x=17, y=10 Distance: 8
+WizardTD.Path @ x=17, y=10 optimal path direction LEFT
+WizardTD.Path @ x=18, y=10 Distance: 9
+WizardTD.Path @ x=18, y=10 optimal path direction LEFT
+WizardTD.Path @ x=19, y=10 Distance: 10
+WizardTD.Path @ x=19, y=10 optimal path direction LEFT
+WizardTD.Path @ x=19, y=11 Distance: 11
+WizardTD.Path @ x=19, y=11 optimal path direction UP
+WizardTD.Path @ x=19, y=12 Distance: 12
+WizardTD.Path @ x=19, y=12 optimal path direction UP
+WizardTD.Path @ x=19, y=13 Distance: 13
+WizardTD.Path @ x=19, y=13 optimal path direction UP
+WizardTD.Path @ x=19, y=14 Distance: 14
+WizardTD.Path @ x=19, y=14 optimal path direction UP
+WizardTD.Path @ x=19, y=15 Distance: 15
+WizardTD.Path @ x=19, y=15 optimal path direction UP
+WizardTD.Path @ x=19, y=16 Distance: 16
+WizardTD.Path @ x=19, y=16 optimal path direction UP
+WizardTD.Path @ x=19, y=17 Distance: 17
+WizardTD.Path @ x=19, y=17 optimal path direction UP
+WizardTD.Path @ x=19, y=18 Distance: 18
+WizardTD.Path @ x=19, y=18 optimal path direction UP
+WizardTD.Path @ x=19, y=9 Distance: 11
+WizardTD.Path @ x=19, y=9 optimal path direction DOWN
+WizardTD.Path @ x=19, y=8 Distance: 12
+WizardTD.Path @ x=19, y=8 optimal path direction DOWN
+WizardTD.Path @ x=19, y=7 Distance: 13
+WizardTD.Path @ x=19, y=7 optimal path direction DOWN
+WizardTD.Path @ x=19, y=6 Distance: 14
+WizardTD.Path @ x=19, y=6 optimal path direction DOWN
+WizardTD.Path @ x=19, y=5 Distance: 15
+WizardTD.Path @ x=19, y=5 optimal path direction DOWN
+WizardTD.Path @ x=19, y=4 Distance: 16
+WizardTD.Path @ x=19, y=4 optimal path direction DOWN
+WizardTD.Path @ x=19, y=3 Distance: 17
+WizardTD.Path @ x=19, y=3 optimal path direction DOWN
+WizardTD.Path @ x=19, y=2 Distance: 18
+WizardTD.Path @ x=19, y=2 optimal path direction DOWN
+WizardTD.Path @ x=19, y=1 Distance: 19
+WizardTD.Path @ x=19, y=1 optimal path direction DOWN
+WizardTD.Path @ x=8, y=10 Distance: 1
+WizardTD.Path @ x=8, y=10 optimal path direction RIGHT
+WizardTD.Path @ x=7, y=10 Distance: 2
+WizardTD.Path @ x=7, y=10 optimal path direction RIGHT
+WizardTD.Path @ x=6, y=10 Distance: 3
+WizardTD.Path @ x=6, y=10 optimal path direction RIGHT
+WizardTD.Path @ x=5, y=10 Distance: 4
+WizardTD.Path @ x=5, y=10 optimal path direction RIGHT
+WizardTD.Path @ x=4, y=10 Distance: 5
+WizardTD.Path @ x=4, y=10 optimal path direction RIGHT
+WizardTD.Path @ x=3, y=10 Distance: 6
+WizardTD.Path @ x=3, y=10 optimal path direction RIGHT
+WizardTD.Path @ x=2, y=10 Distance: 7
+WizardTD.Path @ x=2, y=10 optimal path direction RIGHT
+WizardTD.Path @ x=1, y=10 Distance: 8
+WizardTD.Path @ x=1, y=10 optimal path direction RIGHT
+WizardTD.Path @ x=0, y=10 Distance: 9
+WizardTD.Path @ x=0, y=10 optimal path direction RIGHT
+WizardTD.Path @ x=0, y=11 Distance: 10
+WizardTD.Path @ x=0, y=11 optimal path direction UP
+WizardTD.Path @ x=0, y=12 Distance: 11
+WizardTD.Path @ x=0, y=12 optimal path direction UP
+WizardTD.Path @ x=0, y=13 Distance: 12
+WizardTD.Path @ x=0, y=13 optimal path direction UP
+WizardTD.Path @ x=0, y=14 Distance: 13
+WizardTD.Path @ x=0, y=14 optimal path direction UP
+WizardTD.Path @ x=0, y=15 Distance: 14
+WizardTD.Path @ x=0, y=15 optimal path direction UP
+WizardTD.Path @ x=0, y=16 Distance: 15
+WizardTD.Path @ x=0, y=16 optimal path direction UP
+WizardTD.Path @ x=0, y=17 Distance: 16
+WizardTD.Path @ x=0, y=17 optimal path direction UP
+WizardTD.Path @ x=0, y=18 Distance: 17
+WizardTD.Path @ x=0, y=18 optimal path direction UP
+WizardTD.Path @ x=0, y=9 Distance: 10
+WizardTD.Path @ x=0, y=9 optimal path direction DOWN
+WizardTD.Path @ x=0, y=8 Distance: 11
+WizardTD.Path @ x=0, y=8 optimal path direction DOWN
+WizardTD.Path @ x=0, y=7 Distance: 12
+WizardTD.Path @ x=0, y=7 optimal path direction DOWN
+WizardTD.Path @ x=0, y=6 Distance: 13
+WizardTD.Path @ x=0, y=6 optimal path direction DOWN
+WizardTD.Path @ x=0, y=5 Distance: 14
+WizardTD.Path @ x=0, y=5 optimal path direction DOWN
+WizardTD.Path @ x=0, y=4 Distance: 15
+WizardTD.Path @ x=0, y=4 optimal path direction DOWN
+WizardTD.Path @ x=0, y=3 Distance: 16
+WizardTD.Path @ x=0, y=3 optimal path direction DOWN
+WizardTD.Path @ x=0, y=2 Distance: 17
+WizardTD.Path @ x=0, y=2 optimal path direction DOWN
+WizardTD.Path @ x=0, y=1 Distance: 18
+WizardTD.Path @ x=0, y=1 optimal path direction DOWN
+WizardTD.Path @ x=9, y=9 Distance: 1
+WizardTD.Path @ x=9, y=9 optimal path direction DOWN
+WizardTD.Path @ x=9, y=8 Distance: 2
+WizardTD.Path @ x=9, y=8 optimal path direction DOWN
+WizardTD.Path @ x=9, y=7 Distance: 3
+WizardTD.Path @ x=9, y=7 optimal path direction DOWN
+WizardTD.Path @ x=9, y=6 Distance: 4
+WizardTD.Path @ x=9, y=6 optimal path direction DOWN
+WizardTD.Path @ x=9, y=5 Distance: 5
+WizardTD.Path @ x=9, y=5 optimal path direction DOWN
+WizardTD.Path @ x=9, y=4 Distance: 6
+WizardTD.Path @ x=9, y=4 optimal path direction DOWN
+WizardTD.Path @ x=9, y=3 Distance: 7
+WizardTD.Path @ x=9, y=3 optimal path direction DOWN
+WizardTD.Path @ x=9, y=2 Distance: 8
+WizardTD.Path @ x=9, y=2 optimal path direction DOWN
+WizardTD.Path @ x=9, y=1 Distance: 9
+WizardTD.Path @ x=9, y=1 optimal path direction DOWN
+WizardTD.Path @ x=9, y=0 Distance: 10
+WizardTD.Path @ x=9, y=0 optimal path direction DOWN
+WizardTD.Path @ x=10, y=0 Distance: 11
+WizardTD.Path @ x=10, y=0 optimal path direction LEFT
+WizardTD.Path @ x=11, y=0 Distance: 12
+WizardTD.Path @ x=11, y=0 optimal path direction LEFT
+WizardTD.Path @ x=12, y=0 Distance: 13
+WizardTD.Path @ x=12, y=0 optimal path direction LEFT
+WizardTD.Path @ x=13, y=0 Distance: 14
+WizardTD.Path @ x=13, y=0 optimal path direction LEFT
+WizardTD.Path @ x=14, y=0 Distance: 15
+WizardTD.Path @ x=14, y=0 optimal path direction LEFT
+WizardTD.Path @ x=15, y=0 Distance: 16
+WizardTD.Path @ x=15, y=0 optimal path direction LEFT
+WizardTD.Path @ x=16, y=0 Distance: 17
+WizardTD.Path @ x=16, y=0 optimal path direction LEFT
+WizardTD.Path @ x=17, y=0 Distance: 18
+WizardTD.Path @ x=17, y=0 optimal path direction LEFT
+WizardTD.Path @ x=18, y=0 Distance: 19
+WizardTD.Path @ x=18, y=0 optimal path direction LEFT
+WizardTD.Path @ x=8, y=0 Distance: 11
+WizardTD.Path @ x=8, y=0 optimal path direction RIGHT
+WizardTD.Path @ x=7, y=0 Distance: 12
+WizardTD.Path @ x=7, y=0 optimal path direction RIGHT
+WizardTD.Path @ x=6, y=0 Distance: 13
+WizardTD.Path @ x=6, y=0 optimal path direction RIGHT
+WizardTD.Path @ x=5, y=0 Distance: 14
+WizardTD.Path @ x=5, y=0 optimal path direction RIGHT
+WizardTD.Path @ x=4, y=0 Distance: 15
+WizardTD.Path @ x=4, y=0 optimal path direction RIGHT
+WizardTD.Path @ x=3, y=0 Distance: 16
+WizardTD.Path @ x=3, y=0 optimal path direction RIGHT
+WizardTD.Path @ x=2, y=0 Distance: 17
+WizardTD.Path @ x=2, y=0 optimal path direction RIGHT
+WizardTD.Path @ x=1, y=0 Distance: 18
+WizardTD.Path @ x=1, y=0 optimal path direction RIGHT
+Wave created
+1800.0
+upgraded range to 1 0 0 tower at (1, 1)
+upgraded speed to 1 1 0 tower at (1, 1)
+upgraded damage to 1 1 1 tower at (1, 1)
+Created: 1 1 1 tower at (1, 1)
+upgraded range to 2 1 1 tower at (1, 1)
+upgraded speed to 2 2 1 tower at (1, 1)
+upgraded damage to 2 2 2 tower at (1, 1)
+row 0 read
+row 1 read
+row 2 read
+row 3 read
+row 4 read
+row 5 read
+row 6 read
+row 7 read
+row 8 read
+row 9 read
+row 10 read
+row 11 read
+row 12 read
+row 13 read
+row 14 read
+row 15 read
+row 16 read
+row 17 read
+row 18 read
+row 19 read
+matrix made
+WizardTD.Path @ x=0, y=1 is a spawn
+WizardTD.Path @ x=0, y=1 assigned rotation
+WizardTD.Path @ x=0, y=2 is a spawn
+WizardTD.Path @ x=0, y=2 assigned rotation
+WizardTD.Path @ x=0, y=3 is a spawn
+WizardTD.Path @ x=0, y=3 assigned rotation
+WizardTD.Path @ x=0, y=4 is a spawn
+WizardTD.Path @ x=0, y=4 assigned rotation
+WizardTD.Path @ x=0, y=5 is a spawn
+WizardTD.Path @ x=0, y=5 assigned rotation
+WizardTD.Path @ x=0, y=6 is a spawn
+WizardTD.Path @ x=0, y=6 assigned rotation
+WizardTD.Path @ x=0, y=7 is a spawn
+WizardTD.Path @ x=0, y=7 assigned rotation
+WizardTD.Path @ x=0, y=8 is a spawn
+WizardTD.Path @ x=0, y=8 assigned rotation
+WizardTD.Path @ x=0, y=9 is a spawn
+WizardTD.Path @ x=0, y=9 assigned rotation
+WizardTD.Path @ x=0, y=10 is a spawn
+WizardTD.Path @ x=0, y=10 assigned rotation
+WizardTD.Path @ x=0, y=11 is a spawn
+WizardTD.Path @ x=0, y=11 assigned rotation
+WizardTD.Path @ x=0, y=12 is a spawn
+WizardTD.Path @ x=0, y=12 assigned rotation
+WizardTD.Path @ x=0, y=13 is a spawn
+WizardTD.Path @ x=0, y=13 assigned rotation
+WizardTD.Path @ x=0, y=14 is a spawn
+WizardTD.Path @ x=0, y=14 assigned rotation
+WizardTD.Path @ x=0, y=15 is a spawn
+WizardTD.Path @ x=0, y=15 assigned rotation
+WizardTD.Path @ x=0, y=16 is a spawn
+WizardTD.Path @ x=0, y=16 assigned rotation
+WizardTD.Path @ x=0, y=17 is a spawn
+WizardTD.Path @ x=0, y=17 assigned rotation
+WizardTD.Path @ x=0, y=18 is a spawn
+WizardTD.Path @ x=0, y=18 assigned rotation
+WizardTD.Path @ x=1, y=0 is a spawn
+WizardTD.Path @ x=1, y=0 assigned rotation
+WizardTD.Path @ x=1, y=10 assigned rotation
+WizardTD.Path @ x=1, y=19 is a spawn
+WizardTD.Path @ x=1, y=19 assigned rotation
+WizardTD.Path @ x=2, y=0 is a spawn
+WizardTD.Path @ x=2, y=0 assigned rotation
+WizardTD.Path @ x=2, y=10 assigned rotation
+WizardTD.Path @ x=2, y=19 is a spawn
+WizardTD.Path @ x=2, y=19 assigned rotation
+WizardTD.Path @ x=3, y=0 is a spawn
+WizardTD.Path @ x=3, y=0 assigned rotation
+WizardTD.Path @ x=3, y=10 assigned rotation
+WizardTD.Path @ x=3, y=19 is a spawn
+WizardTD.Path @ x=3, y=19 assigned rotation
+WizardTD.Path @ x=4, y=0 is a spawn
+WizardTD.Path @ x=4, y=0 assigned rotation
+WizardTD.Path @ x=4, y=10 assigned rotation
+WizardTD.Path @ x=4, y=19 is a spawn
+WizardTD.Path @ x=4, y=19 assigned rotation
+WizardTD.Path @ x=5, y=0 is a spawn
+WizardTD.Path @ x=5, y=0 assigned rotation
+WizardTD.Path @ x=5, y=10 assigned rotation
+WizardTD.Path @ x=5, y=19 is a spawn
+WizardTD.Path @ x=5, y=19 assigned rotation
+WizardTD.Path @ x=6, y=0 is a spawn
+WizardTD.Path @ x=6, y=0 assigned rotation
+WizardTD.Path @ x=6, y=10 assigned rotation
+WizardTD.Path @ x=6, y=19 is a spawn
+WizardTD.Path @ x=6, y=19 assigned rotation
+WizardTD.Path @ x=7, y=0 is a spawn
+WizardTD.Path @ x=7, y=0 assigned rotation
+WizardTD.Path @ x=7, y=10 assigned rotation
+WizardTD.Path @ x=7, y=19 is a spawn
+WizardTD.Path @ x=7, y=19 assigned rotation
+WizardTD.Path @ x=8, y=0 is a spawn
+WizardTD.Path @ x=8, y=0 assigned rotation
+WizardTD.Path @ x=8, y=10 assigned rotation
+WizardTD.Path @ x=8, y=19 is a spawn
+WizardTD.Path @ x=8, y=19 assigned rotation
+WizardTD.Path @ x=9, y=0 is a spawn
+WizardTD.Path @ x=9, y=0 assigned rotation
+WizardTD.Path @ x=9, y=1 assigned rotation
+WizardTD.Path @ x=9, y=2 assigned rotation
+WizardTD.Path @ x=9, y=3 assigned rotation
+WizardTD.Path @ x=9, y=4 assigned rotation
+WizardTD.Path @ x=9, y=5 assigned rotation
+WizardTD.Path @ x=9, y=6 assigned rotation
+WizardTD.Path @ x=9, y=7 assigned rotation
+WizardTD.Path @ x=9, y=8 assigned rotation
+WizardTD.Path @ x=9, y=9 assigned rotation
+WizardTD.Path @ x=9, y=11 assigned rotation
+WizardTD.Path @ x=9, y=12 assigned rotation
+WizardTD.Path @ x=9, y=13 assigned rotation
+WizardTD.Path @ x=9, y=14 assigned rotation
+WizardTD.Path @ x=9, y=15 assigned rotation
+WizardTD.Path @ x=9, y=16 assigned rotation
+WizardTD.Path @ x=9, y=17 assigned rotation
+WizardTD.Path @ x=9, y=18 assigned rotation
+WizardTD.Path @ x=9, y=19 is a spawn
+WizardTD.Path @ x=9, y=19 assigned rotation
+WizardTD.Path @ x=10, y=0 is a spawn
+WizardTD.Path @ x=10, y=0 assigned rotation
+WizardTD.Path @ x=10, y=10 assigned rotation
+WizardTD.Path @ x=10, y=19 is a spawn
+WizardTD.Path @ x=10, y=19 assigned rotation
+WizardTD.Path @ x=11, y=0 is a spawn
+WizardTD.Path @ x=11, y=0 assigned rotation
+WizardTD.Path @ x=11, y=10 assigned rotation
+WizardTD.Path @ x=11, y=19 is a spawn
+WizardTD.Path @ x=11, y=19 assigned rotation
+WizardTD.Path @ x=12, y=0 is a spawn
+WizardTD.Path @ x=12, y=0 assigned rotation
+WizardTD.Path @ x=12, y=10 assigned rotation
+WizardTD.Path @ x=12, y=19 is a spawn
+WizardTD.Path @ x=12, y=19 assigned rotation
+WizardTD.Path @ x=13, y=0 is a spawn
+WizardTD.Path @ x=13, y=0 assigned rotation
+WizardTD.Path @ x=13, y=10 assigned rotation
+WizardTD.Path @ x=13, y=19 is a spawn
+WizardTD.Path @ x=13, y=19 assigned rotation
+WizardTD.Path @ x=14, y=0 is a spawn
+WizardTD.Path @ x=14, y=0 assigned rotation
+WizardTD.Path @ x=14, y=10 assigned rotation
+WizardTD.Path @ x=14, y=19 is a spawn
+WizardTD.Path @ x=14, y=19 assigned rotation
+WizardTD.Path @ x=15, y=0 is a spawn
+WizardTD.Path @ x=15, y=0 assigned rotation
+WizardTD.Path @ x=15, y=10 assigned rotation
+WizardTD.Path @ x=15, y=19 is a spawn
+WizardTD.Path @ x=15, y=19 assigned rotation
+WizardTD.Path @ x=16, y=0 is a spawn
+WizardTD.Path @ x=16, y=0 assigned rotation
+WizardTD.Path @ x=16, y=10 assigned rotation
+WizardTD.Path @ x=16, y=19 is a spawn
+WizardTD.Path @ x=16, y=19 assigned rotation
+WizardTD.Path @ x=17, y=0 is a spawn
+WizardTD.Path @ x=17, y=0 assigned rotation
+WizardTD.Path @ x=17, y=10 assigned rotation
+WizardTD.Path @ x=17, y=19 is a spawn
+WizardTD.Path @ x=17, y=19 assigned rotation
+WizardTD.Path @ x=18, y=0 is a spawn
+WizardTD.Path @ x=18, y=0 assigned rotation
+WizardTD.Path @ x=18, y=10 assigned rotation
+WizardTD.Path @ x=18, y=19 is a spawn
+WizardTD.Path @ x=18, y=19 assigned rotation
+WizardTD.Path @ x=19, y=1 is a spawn
+WizardTD.Path @ x=19, y=1 assigned rotation
+WizardTD.Path @ x=19, y=2 is a spawn
+WizardTD.Path @ x=19, y=2 assigned rotation
+WizardTD.Path @ x=19, y=3 is a spawn
+WizardTD.Path @ x=19, y=3 assigned rotation
+WizardTD.Path @ x=19, y=4 is a spawn
+WizardTD.Path @ x=19, y=4 assigned rotation
+WizardTD.Path @ x=19, y=5 is a spawn
+WizardTD.Path @ x=19, y=5 assigned rotation
+WizardTD.Path @ x=19, y=6 is a spawn
+WizardTD.Path @ x=19, y=6 assigned rotation
+WizardTD.Path @ x=19, y=7 is a spawn
+WizardTD.Path @ x=19, y=7 assigned rotation
+WizardTD.Path @ x=19, y=8 is a spawn
+WizardTD.Path @ x=19, y=8 assigned rotation
+WizardTD.Path @ x=19, y=9 is a spawn
+WizardTD.Path @ x=19, y=9 assigned rotation
+WizardTD.Path @ x=19, y=10 is a spawn
+WizardTD.Path @ x=19, y=10 assigned rotation
+WizardTD.Path @ x=19, y=11 is a spawn
+WizardTD.Path @ x=19, y=11 assigned rotation
+WizardTD.Path @ x=19, y=12 is a spawn
+WizardTD.Path @ x=19, y=12 assigned rotation
+WizardTD.Path @ x=19, y=13 is a spawn
+WizardTD.Path @ x=19, y=13 assigned rotation
+WizardTD.Path @ x=19, y=14 is a spawn
+WizardTD.Path @ x=19, y=14 assigned rotation
+WizardTD.Path @ x=19, y=15 is a spawn
+WizardTD.Path @ x=19, y=15 assigned rotation
+WizardTD.Path @ x=19, y=16 is a spawn
+WizardTD.Path @ x=19, y=16 assigned rotation
+WizardTD.Path @ x=19, y=17 is a spawn
+WizardTD.Path @ x=19, y=17 assigned rotation
+WizardTD.Path @ x=19, y=18 is a spawn
+WizardTD.Path @ x=19, y=18 assigned rotation
+Paths rotated
+WizardTD.Path @ x=9, y=11 Distance: 1
+WizardTD.Path @ x=9, y=11 optimal path direction UP
+WizardTD.Path @ x=9, y=12 Distance: 2
+WizardTD.Path @ x=9, y=12 optimal path direction UP
+WizardTD.Path @ x=9, y=13 Distance: 3
+WizardTD.Path @ x=9, y=13 optimal path direction UP
+WizardTD.Path @ x=9, y=14 Distance: 4
+WizardTD.Path @ x=9, y=14 optimal path direction UP
+WizardTD.Path @ x=9, y=15 Distance: 5
+WizardTD.Path @ x=9, y=15 optimal path direction UP
+WizardTD.Path @ x=9, y=16 Distance: 6
+WizardTD.Path @ x=9, y=16 optimal path direction UP
+WizardTD.Path @ x=9, y=17 Distance: 7
+WizardTD.Path @ x=9, y=17 optimal path direction UP
+WizardTD.Path @ x=9, y=18 Distance: 8
+WizardTD.Path @ x=9, y=18 optimal path direction UP
+WizardTD.Path @ x=9, y=19 Distance: 9
+WizardTD.Path @ x=9, y=19 optimal path direction UP
+WizardTD.Path @ x=10, y=19 Distance: 10
+WizardTD.Path @ x=10, y=19 optimal path direction LEFT
+WizardTD.Path @ x=11, y=19 Distance: 11
+WizardTD.Path @ x=11, y=19 optimal path direction LEFT
+WizardTD.Path @ x=12, y=19 Distance: 12
+WizardTD.Path @ x=12, y=19 optimal path direction LEFT
+WizardTD.Path @ x=13, y=19 Distance: 13
+WizardTD.Path @ x=13, y=19 optimal path direction LEFT
+WizardTD.Path @ x=14, y=19 Distance: 14
+WizardTD.Path @ x=14, y=19 optimal path direction LEFT
+WizardTD.Path @ x=15, y=19 Distance: 15
+WizardTD.Path @ x=15, y=19 optimal path direction LEFT
+WizardTD.Path @ x=16, y=19 Distance: 16
+WizardTD.Path @ x=16, y=19 optimal path direction LEFT
+WizardTD.Path @ x=17, y=19 Distance: 17
+WizardTD.Path @ x=17, y=19 optimal path direction LEFT
+WizardTD.Path @ x=18, y=19 Distance: 18
+WizardTD.Path @ x=18, y=19 optimal path direction LEFT
+WizardTD.Path @ x=8, y=19 Distance: 10
+WizardTD.Path @ x=8, y=19 optimal path direction RIGHT
+WizardTD.Path @ x=7, y=19 Distance: 11
+WizardTD.Path @ x=7, y=19 optimal path direction RIGHT
+WizardTD.Path @ x=6, y=19 Distance: 12
+WizardTD.Path @ x=6, y=19 optimal path direction RIGHT
+WizardTD.Path @ x=5, y=19 Distance: 13
+WizardTD.Path @ x=5, y=19 optimal path direction RIGHT
+WizardTD.Path @ x=4, y=19 Distance: 14
+WizardTD.Path @ x=4, y=19 optimal path direction RIGHT
+WizardTD.Path @ x=3, y=19 Distance: 15
+WizardTD.Path @ x=3, y=19 optimal path direction RIGHT
+WizardTD.Path @ x=2, y=19 Distance: 16
+WizardTD.Path @ x=2, y=19 optimal path direction RIGHT
+WizardTD.Path @ x=1, y=19 Distance: 17
+WizardTD.Path @ x=1, y=19 optimal path direction RIGHT
+WizardTD.Path @ x=10, y=10 Distance: 1
+WizardTD.Path @ x=10, y=10 optimal path direction LEFT
+WizardTD.Path @ x=11, y=10 Distance: 2
+WizardTD.Path @ x=11, y=10 optimal path direction LEFT
+WizardTD.Path @ x=12, y=10 Distance: 3
+WizardTD.Path @ x=12, y=10 optimal path direction LEFT
+WizardTD.Path @ x=13, y=10 Distance: 4
+WizardTD.Path @ x=13, y=10 optimal path direction LEFT
+WizardTD.Path @ x=14, y=10 Distance: 5
+WizardTD.Path @ x=14, y=10 optimal path direction LEFT
+WizardTD.Path @ x=15, y=10 Distance: 6
+WizardTD.Path @ x=15, y=10 optimal path direction LEFT
+WizardTD.Path @ x=16, y=10 Distance: 7
+WizardTD.Path @ x=16, y=10 optimal path direction LEFT
+WizardTD.Path @ x=17, y=10 Distance: 8
+WizardTD.Path @ x=17, y=10 optimal path direction LEFT
+WizardTD.Path @ x=18, y=10 Distance: 9
+WizardTD.Path @ x=18, y=10 optimal path direction LEFT
+WizardTD.Path @ x=19, y=10 Distance: 10
+WizardTD.Path @ x=19, y=10 optimal path direction LEFT
+WizardTD.Path @ x=19, y=11 Distance: 11
+WizardTD.Path @ x=19, y=11 optimal path direction UP
+WizardTD.Path @ x=19, y=12 Distance: 12
+WizardTD.Path @ x=19, y=12 optimal path direction UP
+WizardTD.Path @ x=19, y=13 Distance: 13
+WizardTD.Path @ x=19, y=13 optimal path direction UP
+WizardTD.Path @ x=19, y=14 Distance: 14
+WizardTD.Path @ x=19, y=14 optimal path direction UP
+WizardTD.Path @ x=19, y=15 Distance: 15
+WizardTD.Path @ x=19, y=15 optimal path direction UP
+WizardTD.Path @ x=19, y=16 Distance: 16
+WizardTD.Path @ x=19, y=16 optimal path direction UP
+WizardTD.Path @ x=19, y=17 Distance: 17
+WizardTD.Path @ x=19, y=17 optimal path direction UP
+WizardTD.Path @ x=19, y=18 Distance: 18
+WizardTD.Path @ x=19, y=18 optimal path direction UP
+WizardTD.Path @ x=19, y=9 Distance: 11
+WizardTD.Path @ x=19, y=9 optimal path direction DOWN
+WizardTD.Path @ x=19, y=8 Distance: 12
+WizardTD.Path @ x=19, y=8 optimal path direction DOWN
+WizardTD.Path @ x=19, y=7 Distance: 13
+WizardTD.Path @ x=19, y=7 optimal path direction DOWN
+WizardTD.Path @ x=19, y=6 Distance: 14
+WizardTD.Path @ x=19, y=6 optimal path direction DOWN
+WizardTD.Path @ x=19, y=5 Distance: 15
+WizardTD.Path @ x=19, y=5 optimal path direction DOWN
+WizardTD.Path @ x=19, y=4 Distance: 16
+WizardTD.Path @ x=19, y=4 optimal path direction DOWN
+WizardTD.Path @ x=19, y=3 Distance: 17
+WizardTD.Path @ x=19, y=3 optimal path direction DOWN
+WizardTD.Path @ x=19, y=2 Distance: 18
+WizardTD.Path @ x=19, y=2 optimal path direction DOWN
+WizardTD.Path @ x=19, y=1 Distance: 19
+WizardTD.Path @ x=19, y=1 optimal path direction DOWN
+WizardTD.Path @ x=8, y=10 Distance: 1
+WizardTD.Path @ x=8, y=10 optimal path direction RIGHT
+WizardTD.Path @ x=7, y=10 Distance: 2
+WizardTD.Path @ x=7, y=10 optimal path direction RIGHT
+WizardTD.Path @ x=6, y=10 Distance: 3
+WizardTD.Path @ x=6, y=10 optimal path direction RIGHT
+WizardTD.Path @ x=5, y=10 Distance: 4
+WizardTD.Path @ x=5, y=10 optimal path direction RIGHT
+WizardTD.Path @ x=4, y=10 Distance: 5
+WizardTD.Path @ x=4, y=10 optimal path direction RIGHT
+WizardTD.Path @ x=3, y=10 Distance: 6
+WizardTD.Path @ x=3, y=10 optimal path direction RIGHT
+WizardTD.Path @ x=2, y=10 Distance: 7
+WizardTD.Path @ x=2, y=10 optimal path direction RIGHT
+WizardTD.Path @ x=1, y=10 Distance: 8
+WizardTD.Path @ x=1, y=10 optimal path direction RIGHT
+WizardTD.Path @ x=0, y=10 Distance: 9
+WizardTD.Path @ x=0, y=10 optimal path direction RIGHT
+WizardTD.Path @ x=0, y=11 Distance: 10
+WizardTD.Path @ x=0, y=11 optimal path direction UP
+WizardTD.Path @ x=0, y=12 Distance: 11
+WizardTD.Path @ x=0, y=12 optimal path direction UP
+WizardTD.Path @ x=0, y=13 Distance: 12
+WizardTD.Path @ x=0, y=13 optimal path direction UP
+WizardTD.Path @ x=0, y=14 Distance: 13
+WizardTD.Path @ x=0, y=14 optimal path direction UP
+WizardTD.Path @ x=0, y=15 Distance: 14
+WizardTD.Path @ x=0, y=15 optimal path direction UP
+WizardTD.Path @ x=0, y=16 Distance: 15
+WizardTD.Path @ x=0, y=16 optimal path direction UP
+WizardTD.Path @ x=0, y=17 Distance: 16
+WizardTD.Path @ x=0, y=17 optimal path direction UP
+WizardTD.Path @ x=0, y=18 Distance: 17
+WizardTD.Path @ x=0, y=18 optimal path direction UP
+WizardTD.Path @ x=0, y=9 Distance: 10
+WizardTD.Path @ x=0, y=9 optimal path direction DOWN
+WizardTD.Path @ x=0, y=8 Distance: 11
+WizardTD.Path @ x=0, y=8 optimal path direction DOWN
+WizardTD.Path @ x=0, y=7 Distance: 12
+WizardTD.Path @ x=0, y=7 optimal path direction DOWN
+WizardTD.Path @ x=0, y=6 Distance: 13
+WizardTD.Path @ x=0, y=6 optimal path direction DOWN
+WizardTD.Path @ x=0, y=5 Distance: 14
+WizardTD.Path @ x=0, y=5 optimal path direction DOWN
+WizardTD.Path @ x=0, y=4 Distance: 15
+WizardTD.Path @ x=0, y=4 optimal path direction DOWN
+WizardTD.Path @ x=0, y=3 Distance: 16
+WizardTD.Path @ x=0, y=3 optimal path direction DOWN
+WizardTD.Path @ x=0, y=2 Distance: 17
+WizardTD.Path @ x=0, y=2 optimal path direction DOWN
+WizardTD.Path @ x=0, y=1 Distance: 18
+WizardTD.Path @ x=0, y=1 optimal path direction DOWN
+WizardTD.Path @ x=9, y=9 Distance: 1
+WizardTD.Path @ x=9, y=9 optimal path direction DOWN
+WizardTD.Path @ x=9, y=8 Distance: 2
+WizardTD.Path @ x=9, y=8 optimal path direction DOWN
+WizardTD.Path @ x=9, y=7 Distance: 3
+WizardTD.Path @ x=9, y=7 optimal path direction DOWN
+WizardTD.Path @ x=9, y=6 Distance: 4
+WizardTD.Path @ x=9, y=6 optimal path direction DOWN
+WizardTD.Path @ x=9, y=5 Distance: 5
+WizardTD.Path @ x=9, y=5 optimal path direction DOWN
+WizardTD.Path @ x=9, y=4 Distance: 6
+WizardTD.Path @ x=9, y=4 optimal path direction DOWN
+WizardTD.Path @ x=9, y=3 Distance: 7
+WizardTD.Path @ x=9, y=3 optimal path direction DOWN
+WizardTD.Path @ x=9, y=2 Distance: 8
+WizardTD.Path @ x=9, y=2 optimal path direction DOWN
+WizardTD.Path @ x=9, y=1 Distance: 9
+WizardTD.Path @ x=9, y=1 optimal path direction DOWN
+WizardTD.Path @ x=9, y=0 Distance: 10
+WizardTD.Path @ x=9, y=0 optimal path direction DOWN
+WizardTD.Path @ x=10, y=0 Distance: 11
+WizardTD.Path @ x=10, y=0 optimal path direction LEFT
+WizardTD.Path @ x=11, y=0 Distance: 12
+WizardTD.Path @ x=11, y=0 optimal path direction LEFT
+WizardTD.Path @ x=12, y=0 Distance: 13
+WizardTD.Path @ x=12, y=0 optimal path direction LEFT
+WizardTD.Path @ x=13, y=0 Distance: 14
+WizardTD.Path @ x=13, y=0 optimal path direction LEFT
+WizardTD.Path @ x=14, y=0 Distance: 15
+WizardTD.Path @ x=14, y=0 optimal path direction LEFT
+WizardTD.Path @ x=15, y=0 Distance: 16
+WizardTD.Path @ x=15, y=0 optimal path direction LEFT
+WizardTD.Path @ x=16, y=0 Distance: 17
+WizardTD.Path @ x=16, y=0 optimal path direction LEFT
+WizardTD.Path @ x=17, y=0 Distance: 18
+WizardTD.Path @ x=17, y=0 optimal path direction LEFT
+WizardTD.Path @ x=18, y=0 Distance: 19
+WizardTD.Path @ x=18, y=0 optimal path direction LEFT
+WizardTD.Path @ x=8, y=0 Distance: 11
+WizardTD.Path @ x=8, y=0 optimal path direction RIGHT
+WizardTD.Path @ x=7, y=0 Distance: 12
+WizardTD.Path @ x=7, y=0 optimal path direction RIGHT
+WizardTD.Path @ x=6, y=0 Distance: 13
+WizardTD.Path @ x=6, y=0 optimal path direction RIGHT
+WizardTD.Path @ x=5, y=0 Distance: 14
+WizardTD.Path @ x=5, y=0 optimal path direction RIGHT
+WizardTD.Path @ x=4, y=0 Distance: 15
+WizardTD.Path @ x=4, y=0 optimal path direction RIGHT
+WizardTD.Path @ x=3, y=0 Distance: 16
+WizardTD.Path @ x=3, y=0 optimal path direction RIGHT
+WizardTD.Path @ x=2, y=0 Distance: 17
+WizardTD.Path @ x=2, y=0 optimal path direction RIGHT
+WizardTD.Path @ x=1, y=0 Distance: 18
+WizardTD.Path @ x=1, y=0 optimal path direction RIGHT
+Wave created
+1800.0
+upgraded range to 1 0 0 tower at (1, 1)
+upgraded speed to 1 1 0 tower at (1, 1)
+upgraded damage to 1 1 1 tower at (1, 1)
+Created: 1 1 1 tower at (1, 1)
+upgraded range to 2 1 1 tower at (1, 1)
+upgraded speed to 2 2 1 tower at (1, 1)
+upgraded damage to 2 2 2 tower at (1, 1)
+row 0 read
+row 1 read
+row 2 read
+row 3 read
+row 4 read
+row 5 read
+row 6 read
+row 7 read
+row 8 read
+row 9 read
+row 10 read
+row 11 read
+row 12 read
+row 13 read
+row 14 read
+row 15 read
+row 16 read
+row 17 read
+row 18 read
+row 19 read
+matrix made
+WizardTD.Path @ x=0, y=1 is a spawn
+WizardTD.Path @ x=0, y=1 assigned rotation
+WizardTD.Path @ x=0, y=2 is a spawn
+WizardTD.Path @ x=0, y=2 assigned rotation
+WizardTD.Path @ x=0, y=3 is a spawn
+WizardTD.Path @ x=0, y=3 assigned rotation
+WizardTD.Path @ x=0, y=4 is a spawn
+WizardTD.Path @ x=0, y=4 assigned rotation
+WizardTD.Path @ x=0, y=5 is a spawn
+WizardTD.Path @ x=0, y=5 assigned rotation
+WizardTD.Path @ x=0, y=6 is a spawn
+WizardTD.Path @ x=0, y=6 assigned rotation
+WizardTD.Path @ x=0, y=7 is a spawn
+WizardTD.Path @ x=0, y=7 assigned rotation
+WizardTD.Path @ x=0, y=8 is a spawn
+WizardTD.Path @ x=0, y=8 assigned rotation
+WizardTD.Path @ x=0, y=9 is a spawn
+WizardTD.Path @ x=0, y=9 assigned rotation
+WizardTD.Path @ x=0, y=10 is a spawn
+WizardTD.Path @ x=0, y=10 assigned rotation
+WizardTD.Path @ x=0, y=11 is a spawn
+WizardTD.Path @ x=0, y=11 assigned rotation
+WizardTD.Path @ x=0, y=12 is a spawn
+WizardTD.Path @ x=0, y=12 assigned rotation
+WizardTD.Path @ x=0, y=13 is a spawn
+WizardTD.Path @ x=0, y=13 assigned rotation
+WizardTD.Path @ x=0, y=14 is a spawn
+WizardTD.Path @ x=0, y=14 assigned rotation
+WizardTD.Path @ x=0, y=15 is a spawn
+WizardTD.Path @ x=0, y=15 assigned rotation
+WizardTD.Path @ x=0, y=16 is a spawn
+WizardTD.Path @ x=0, y=16 assigned rotation
+WizardTD.Path @ x=0, y=17 is a spawn
+WizardTD.Path @ x=0, y=17 assigned rotation
+WizardTD.Path @ x=0, y=18 is a spawn
+WizardTD.Path @ x=0, y=18 assigned rotation
+WizardTD.Path @ x=1, y=0 is a spawn
+WizardTD.Path @ x=1, y=0 assigned rotation
+WizardTD.Path @ x=1, y=10 assigned rotation
+WizardTD.Path @ x=1, y=19 is a spawn
+WizardTD.Path @ x=1, y=19 assigned rotation
+WizardTD.Path @ x=2, y=0 is a spawn
+WizardTD.Path @ x=2, y=0 assigned rotation
+WizardTD.Path @ x=2, y=10 assigned rotation
+WizardTD.Path @ x=2, y=19 is a spawn
+WizardTD.Path @ x=2, y=19 assigned rotation
+WizardTD.Path @ x=3, y=0 is a spawn
+WizardTD.Path @ x=3, y=0 assigned rotation
+WizardTD.Path @ x=3, y=10 assigned rotation
+WizardTD.Path @ x=3, y=19 is a spawn
+WizardTD.Path @ x=3, y=19 assigned rotation
+WizardTD.Path @ x=4, y=0 is a spawn
+WizardTD.Path @ x=4, y=0 assigned rotation
+WizardTD.Path @ x=4, y=10 assigned rotation
+WizardTD.Path @ x=4, y=19 is a spawn
+WizardTD.Path @ x=4, y=19 assigned rotation
+WizardTD.Path @ x=5, y=0 is a spawn
+WizardTD.Path @ x=5, y=0 assigned rotation
+WizardTD.Path @ x=5, y=10 assigned rotation
+WizardTD.Path @ x=5, y=19 is a spawn
+WizardTD.Path @ x=5, y=19 assigned rotation
+WizardTD.Path @ x=6, y=0 is a spawn
+WizardTD.Path @ x=6, y=0 assigned rotation
+WizardTD.Path @ x=6, y=10 assigned rotation
+WizardTD.Path @ x=6, y=19 is a spawn
+WizardTD.Path @ x=6, y=19 assigned rotation
+WizardTD.Path @ x=7, y=0 is a spawn
+WizardTD.Path @ x=7, y=0 assigned rotation
+WizardTD.Path @ x=7, y=10 assigned rotation
+WizardTD.Path @ x=7, y=19 is a spawn
+WizardTD.Path @ x=7, y=19 assigned rotation
+WizardTD.Path @ x=8, y=0 is a spawn
+WizardTD.Path @ x=8, y=0 assigned rotation
+WizardTD.Path @ x=8, y=10 assigned rotation
+WizardTD.Path @ x=8, y=19 is a spawn
+WizardTD.Path @ x=8, y=19 assigned rotation
+WizardTD.Path @ x=9, y=0 is a spawn
+WizardTD.Path @ x=9, y=0 assigned rotation
+WizardTD.Path @ x=9, y=1 assigned rotation
+WizardTD.Path @ x=9, y=2 assigned rotation
+WizardTD.Path @ x=9, y=3 assigned rotation
+WizardTD.Path @ x=9, y=4 assigned rotation
+WizardTD.Path @ x=9, y=5 assigned rotation
+WizardTD.Path @ x=9, y=6 assigned rotation
+WizardTD.Path @ x=9, y=7 assigned rotation
+WizardTD.Path @ x=9, y=8 assigned rotation
+WizardTD.Path @ x=9, y=9 assigned rotation
+WizardTD.Path @ x=9, y=11 assigned rotation
+WizardTD.Path @ x=9, y=12 assigned rotation
+WizardTD.Path @ x=9, y=13 assigned rotation
+WizardTD.Path @ x=9, y=14 assigned rotation
+WizardTD.Path @ x=9, y=15 assigned rotation
+WizardTD.Path @ x=9, y=16 assigned rotation
+WizardTD.Path @ x=9, y=17 assigned rotation
+WizardTD.Path @ x=9, y=18 assigned rotation
+WizardTD.Path @ x=9, y=19 is a spawn
+WizardTD.Path @ x=9, y=19 assigned rotation
+WizardTD.Path @ x=10, y=0 is a spawn
+WizardTD.Path @ x=10, y=0 assigned rotation
+WizardTD.Path @ x=10, y=10 assigned rotation
+WizardTD.Path @ x=10, y=19 is a spawn
+WizardTD.Path @ x=10, y=19 assigned rotation
+WizardTD.Path @ x=11, y=0 is a spawn
+WizardTD.Path @ x=11, y=0 assigned rotation
+WizardTD.Path @ x=11, y=10 assigned rotation
+WizardTD.Path @ x=11, y=19 is a spawn
+WizardTD.Path @ x=11, y=19 assigned rotation
+WizardTD.Path @ x=12, y=0 is a spawn
+WizardTD.Path @ x=12, y=0 assigned rotation
+WizardTD.Path @ x=12, y=10 assigned rotation
+WizardTD.Path @ x=12, y=19 is a spawn
+WizardTD.Path @ x=12, y=19 assigned rotation
+WizardTD.Path @ x=13, y=0 is a spawn
+WizardTD.Path @ x=13, y=0 assigned rotation
+WizardTD.Path @ x=13, y=10 assigned rotation
+WizardTD.Path @ x=13, y=19 is a spawn
+WizardTD.Path @ x=13, y=19 assigned rotation
+WizardTD.Path @ x=14, y=0 is a spawn
+WizardTD.Path @ x=14, y=0 assigned rotation
+WizardTD.Path @ x=14, y=10 assigned rotation
+WizardTD.Path @ x=14, y=19 is a spawn
+WizardTD.Path @ x=14, y=19 assigned rotation
+WizardTD.Path @ x=15, y=0 is a spawn
+WizardTD.Path @ x=15, y=0 assigned rotation
+WizardTD.Path @ x=15, y=10 assigned rotation
+WizardTD.Path @ x=15, y=19 is a spawn
+WizardTD.Path @ x=15, y=19 assigned rotation
+WizardTD.Path @ x=16, y=0 is a spawn
+WizardTD.Path @ x=16, y=0 assigned rotation
+WizardTD.Path @ x=16, y=10 assigned rotation
+WizardTD.Path @ x=16, y=19 is a spawn
+WizardTD.Path @ x=16, y=19 assigned rotation
+WizardTD.Path @ x=17, y=0 is a spawn
+WizardTD.Path @ x=17, y=0 assigned rotation
+WizardTD.Path @ x=17, y=10 assigned rotation
+WizardTD.Path @ x=17, y=19 is a spawn
+WizardTD.Path @ x=17, y=19 assigned rotation
+WizardTD.Path @ x=18, y=0 is a spawn
+WizardTD.Path @ x=18, y=0 assigned rotation
+WizardTD.Path @ x=18, y=10 assigned rotation
+WizardTD.Path @ x=18, y=19 is a spawn
+WizardTD.Path @ x=18, y=19 assigned rotation
+WizardTD.Path @ x=19, y=1 is a spawn
+WizardTD.Path @ x=19, y=1 assigned rotation
+WizardTD.Path @ x=19, y=2 is a spawn
+WizardTD.Path @ x=19, y=2 assigned rotation
+WizardTD.Path @ x=19, y=3 is a spawn
+WizardTD.Path @ x=19, y=3 assigned rotation
+WizardTD.Path @ x=19, y=4 is a spawn
+WizardTD.Path @ x=19, y=4 assigned rotation
+WizardTD.Path @ x=19, y=5 is a spawn
+WizardTD.Path @ x=19, y=5 assigned rotation
+WizardTD.Path @ x=19, y=6 is a spawn
+WizardTD.Path @ x=19, y=6 assigned rotation
+WizardTD.Path @ x=19, y=7 is a spawn
+WizardTD.Path @ x=19, y=7 assigned rotation
+WizardTD.Path @ x=19, y=8 is a spawn
+WizardTD.Path @ x=19, y=8 assigned rotation
+WizardTD.Path @ x=19, y=9 is a spawn
+WizardTD.Path @ x=19, y=9 assigned rotation
+WizardTD.Path @ x=19, y=10 is a spawn
+WizardTD.Path @ x=19, y=10 assigned rotation
+WizardTD.Path @ x=19, y=11 is a spawn
+WizardTD.Path @ x=19, y=11 assigned rotation
+WizardTD.Path @ x=19, y=12 is a spawn
+WizardTD.Path @ x=19, y=12 assigned rotation
+WizardTD.Path @ x=19, y=13 is a spawn
+WizardTD.Path @ x=19, y=13 assigned rotation
+WizardTD.Path @ x=19, y=14 is a spawn
+WizardTD.Path @ x=19, y=14 assigned rotation
+WizardTD.Path @ x=19, y=15 is a spawn
+WizardTD.Path @ x=19, y=15 assigned rotation
+WizardTD.Path @ x=19, y=16 is a spawn
+WizardTD.Path @ x=19, y=16 assigned rotation
+WizardTD.Path @ x=19, y=17 is a spawn
+WizardTD.Path @ x=19, y=17 assigned rotation
+WizardTD.Path @ x=19, y=18 is a spawn
+WizardTD.Path @ x=19, y=18 assigned rotation
+Paths rotated
+WizardTD.Path @ x=9, y=11 Distance: 1
+WizardTD.Path @ x=9, y=11 optimal path direction UP
+WizardTD.Path @ x=9, y=12 Distance: 2
+WizardTD.Path @ x=9, y=12 optimal path direction UP
+WizardTD.Path @ x=9, y=13 Distance: 3
+WizardTD.Path @ x=9, y=13 optimal path direction UP
+WizardTD.Path @ x=9, y=14 Distance: 4
+WizardTD.Path @ x=9, y=14 optimal path direction UP
+WizardTD.Path @ x=9, y=15 Distance: 5
+WizardTD.Path @ x=9, y=15 optimal path direction UP
+WizardTD.Path @ x=9, y=16 Distance: 6
+WizardTD.Path @ x=9, y=16 optimal path direction UP
+WizardTD.Path @ x=9, y=17 Distance: 7
+WizardTD.Path @ x=9, y=17 optimal path direction UP
+WizardTD.Path @ x=9, y=18 Distance: 8
+WizardTD.Path @ x=9, y=18 optimal path direction UP
+WizardTD.Path @ x=9, y=19 Distance: 9
+WizardTD.Path @ x=9, y=19 optimal path direction UP
+WizardTD.Path @ x=10, y=19 Distance: 10
+WizardTD.Path @ x=10, y=19 optimal path direction LEFT
+WizardTD.Path @ x=11, y=19 Distance: 11
+WizardTD.Path @ x=11, y=19 optimal path direction LEFT
+WizardTD.Path @ x=12, y=19 Distance: 12
+WizardTD.Path @ x=12, y=19 optimal path direction LEFT
+WizardTD.Path @ x=13, y=19 Distance: 13
+WizardTD.Path @ x=13, y=19 optimal path direction LEFT
+WizardTD.Path @ x=14, y=19 Distance: 14
+WizardTD.Path @ x=14, y=19 optimal path direction LEFT
+WizardTD.Path @ x=15, y=19 Distance: 15
+WizardTD.Path @ x=15, y=19 optimal path direction LEFT
+WizardTD.Path @ x=16, y=19 Distance: 16
+WizardTD.Path @ x=16, y=19 optimal path direction LEFT
+WizardTD.Path @ x=17, y=19 Distance: 17
+WizardTD.Path @ x=17, y=19 optimal path direction LEFT
+WizardTD.Path @ x=18, y=19 Distance: 18
+WizardTD.Path @ x=18, y=19 optimal path direction LEFT
+WizardTD.Path @ x=8, y=19 Distance: 10
+WizardTD.Path @ x=8, y=19 optimal path direction RIGHT
+WizardTD.Path @ x=7, y=19 Distance: 11
+WizardTD.Path @ x=7, y=19 optimal path direction RIGHT
+WizardTD.Path @ x=6, y=19 Distance: 12
+WizardTD.Path @ x=6, y=19 optimal path direction RIGHT
+WizardTD.Path @ x=5, y=19 Distance: 13
+WizardTD.Path @ x=5, y=19 optimal path direction RIGHT
+WizardTD.Path @ x=4, y=19 Distance: 14
+WizardTD.Path @ x=4, y=19 optimal path direction RIGHT
+WizardTD.Path @ x=3, y=19 Distance: 15
+WizardTD.Path @ x=3, y=19 optimal path direction RIGHT
+WizardTD.Path @ x=2, y=19 Distance: 16
+WizardTD.Path @ x=2, y=19 optimal path direction RIGHT
+WizardTD.Path @ x=1, y=19 Distance: 17
+WizardTD.Path @ x=1, y=19 optimal path direction RIGHT
+WizardTD.Path @ x=10, y=10 Distance: 1
+WizardTD.Path @ x=10, y=10 optimal path direction LEFT
+WizardTD.Path @ x=11, y=10 Distance: 2
+WizardTD.Path @ x=11, y=10 optimal path direction LEFT
+WizardTD.Path @ x=12, y=10 Distance: 3
+WizardTD.Path @ x=12, y=10 optimal path direction LEFT
+WizardTD.Path @ x=13, y=10 Distance: 4
+WizardTD.Path @ x=13, y=10 optimal path direction LEFT
+WizardTD.Path @ x=14, y=10 Distance: 5
+WizardTD.Path @ x=14, y=10 optimal path direction LEFT
+WizardTD.Path @ x=15, y=10 Distance: 6
+WizardTD.Path @ x=15, y=10 optimal path direction LEFT
+WizardTD.Path @ x=16, y=10 Distance: 7
+WizardTD.Path @ x=16, y=10 optimal path direction LEFT
+WizardTD.Path @ x=17, y=10 Distance: 8
+WizardTD.Path @ x=17, y=10 optimal path direction LEFT
+WizardTD.Path @ x=18, y=10 Distance: 9
+WizardTD.Path @ x=18, y=10 optimal path direction LEFT
+WizardTD.Path @ x=19, y=10 Distance: 10
+WizardTD.Path @ x=19, y=10 optimal path direction LEFT
+WizardTD.Path @ x=19, y=11 Distance: 11
+WizardTD.Path @ x=19, y=11 optimal path direction UP
+WizardTD.Path @ x=19, y=12 Distance: 12
+WizardTD.Path @ x=19, y=12 optimal path direction UP
+WizardTD.Path @ x=19, y=13 Distance: 13
+WizardTD.Path @ x=19, y=13 optimal path direction UP
+WizardTD.Path @ x=19, y=14 Distance: 14
+WizardTD.Path @ x=19, y=14 optimal path direction UP
+WizardTD.Path @ x=19, y=15 Distance: 15
+WizardTD.Path @ x=19, y=15 optimal path direction UP
+WizardTD.Path @ x=19, y=16 Distance: 16
+WizardTD.Path @ x=19, y=16 optimal path direction UP
+WizardTD.Path @ x=19, y=17 Distance: 17
+WizardTD.Path @ x=19, y=17 optimal path direction UP
+WizardTD.Path @ x=19, y=18 Distance: 18
+WizardTD.Path @ x=19, y=18 optimal path direction UP
+WizardTD.Path @ x=19, y=9 Distance: 11
+WizardTD.Path @ x=19, y=9 optimal path direction DOWN
+WizardTD.Path @ x=19, y=8 Distance: 12
+WizardTD.Path @ x=19, y=8 optimal path direction DOWN
+WizardTD.Path @ x=19, y=7 Distance: 13
+WizardTD.Path @ x=19, y=7 optimal path direction DOWN
+WizardTD.Path @ x=19, y=6 Distance: 14
+WizardTD.Path @ x=19, y=6 optimal path direction DOWN
+WizardTD.Path @ x=19, y=5 Distance: 15
+WizardTD.Path @ x=19, y=5 optimal path direction DOWN
+WizardTD.Path @ x=19, y=4 Distance: 16
+WizardTD.Path @ x=19, y=4 optimal path direction DOWN
+WizardTD.Path @ x=19, y=3 Distance: 17
+WizardTD.Path @ x=19, y=3 optimal path direction DOWN
+WizardTD.Path @ x=19, y=2 Distance: 18
+WizardTD.Path @ x=19, y=2 optimal path direction DOWN
+WizardTD.Path @ x=19, y=1 Distance: 19
+WizardTD.Path @ x=19, y=1 optimal path direction DOWN
+WizardTD.Path @ x=8, y=10 Distance: 1
+WizardTD.Path @ x=8, y=10 optimal path direction RIGHT
+WizardTD.Path @ x=7, y=10 Distance: 2
+WizardTD.Path @ x=7, y=10 optimal path direction RIGHT
+WizardTD.Path @ x=6, y=10 Distance: 3
+WizardTD.Path @ x=6, y=10 optimal path direction RIGHT
+WizardTD.Path @ x=5, y=10 Distance: 4
+WizardTD.Path @ x=5, y=10 optimal path direction RIGHT
+WizardTD.Path @ x=4, y=10 Distance: 5
+WizardTD.Path @ x=4, y=10 optimal path direction RIGHT
+WizardTD.Path @ x=3, y=10 Distance: 6
+WizardTD.Path @ x=3, y=10 optimal path direction RIGHT
+WizardTD.Path @ x=2, y=10 Distance: 7
+WizardTD.Path @ x=2, y=10 optimal path direction RIGHT
+WizardTD.Path @ x=1, y=10 Distance: 8
+WizardTD.Path @ x=1, y=10 optimal path direction RIGHT
+WizardTD.Path @ x=0, y=10 Distance: 9
+WizardTD.Path @ x=0, y=10 optimal path direction RIGHT
+WizardTD.Path @ x=0, y=11 Distance: 10
+WizardTD.Path @ x=0, y=11 optimal path direction UP
+WizardTD.Path @ x=0, y=12 Distance: 11
+WizardTD.Path @ x=0, y=12 optimal path direction UP
+WizardTD.Path @ x=0, y=13 Distance: 12
+WizardTD.Path @ x=0, y=13 optimal path direction UP
+WizardTD.Path @ x=0, y=14 Distance: 13
+WizardTD.Path @ x=0, y=14 optimal path direction UP
+WizardTD.Path @ x=0, y=15 Distance: 14
+WizardTD.Path @ x=0, y=15 optimal path direction UP
+WizardTD.Path @ x=0, y=16 Distance: 15
+WizardTD.Path @ x=0, y=16 optimal path direction UP
+WizardTD.Path @ x=0, y=17 Distance: 16
+WizardTD.Path @ x=0, y=17 optimal path direction UP
+WizardTD.Path @ x=0, y=18 Distance: 17
+WizardTD.Path @ x=0, y=18 optimal path direction UP
+WizardTD.Path @ x=0, y=9 Distance: 10
+WizardTD.Path @ x=0, y=9 optimal path direction DOWN
+WizardTD.Path @ x=0, y=8 Distance: 11
+WizardTD.Path @ x=0, y=8 optimal path direction DOWN
+WizardTD.Path @ x=0, y=7 Distance: 12
+WizardTD.Path @ x=0, y=7 optimal path direction DOWN
+WizardTD.Path @ x=0, y=6 Distance: 13
+WizardTD.Path @ x=0, y=6 optimal path direction DOWN
+WizardTD.Path @ x=0, y=5 Distance: 14
+WizardTD.Path @ x=0, y=5 optimal path direction DOWN
+WizardTD.Path @ x=0, y=4 Distance: 15
+WizardTD.Path @ x=0, y=4 optimal path direction DOWN
+WizardTD.Path @ x=0, y=3 Distance: 16
+WizardTD.Path @ x=0, y=3 optimal path direction DOWN
+WizardTD.Path @ x=0, y=2 Distance: 17
+WizardTD.Path @ x=0, y=2 optimal path direction DOWN
+WizardTD.Path @ x=0, y=1 Distance: 18
+WizardTD.Path @ x=0, y=1 optimal path direction DOWN
+WizardTD.Path @ x=9, y=9 Distance: 1
+WizardTD.Path @ x=9, y=9 optimal path direction DOWN
+WizardTD.Path @ x=9, y=8 Distance: 2
+WizardTD.Path @ x=9, y=8 optimal path direction DOWN
+WizardTD.Path @ x=9, y=7 Distance: 3
+WizardTD.Path @ x=9, y=7 optimal path direction DOWN
+WizardTD.Path @ x=9, y=6 Distance: 4
+WizardTD.Path @ x=9, y=6 optimal path direction DOWN
+WizardTD.Path @ x=9, y=5 Distance: 5
+WizardTD.Path @ x=9, y=5 optimal path direction DOWN
+WizardTD.Path @ x=9, y=4 Distance: 6
+WizardTD.Path @ x=9, y=4 optimal path direction DOWN
+WizardTD.Path @ x=9, y=3 Distance: 7
+WizardTD.Path @ x=9, y=3 optimal path direction DOWN
+WizardTD.Path @ x=9, y=2 Distance: 8
+WizardTD.Path @ x=9, y=2 optimal path direction DOWN
+WizardTD.Path @ x=9, y=1 Distance: 9
+WizardTD.Path @ x=9, y=1 optimal path direction DOWN
+WizardTD.Path @ x=9, y=0 Distance: 10
+WizardTD.Path @ x=9, y=0 optimal path direction DOWN
+WizardTD.Path @ x=10, y=0 Distance: 11
+WizardTD.Path @ x=10, y=0 optimal path direction LEFT
+WizardTD.Path @ x=11, y=0 Distance: 12
+WizardTD.Path @ x=11, y=0 optimal path direction LEFT
+WizardTD.Path @ x=12, y=0 Distance: 13
+WizardTD.Path @ x=12, y=0 optimal path direction LEFT
+WizardTD.Path @ x=13, y=0 Distance: 14
+WizardTD.Path @ x=13, y=0 optimal path direction LEFT
+WizardTD.Path @ x=14, y=0 Distance: 15
+WizardTD.Path @ x=14, y=0 optimal path direction LEFT
+WizardTD.Path @ x=15, y=0 Distance: 16
+WizardTD.Path @ x=15, y=0 optimal path direction LEFT
+WizardTD.Path @ x=16, y=0 Distance: 17
+WizardTD.Path @ x=16, y=0 optimal path direction LEFT
+WizardTD.Path @ x=17, y=0 Distance: 18
+WizardTD.Path @ x=17, y=0 optimal path direction LEFT
+WizardTD.Path @ x=18, y=0 Distance: 19
+WizardTD.Path @ x=18, y=0 optimal path direction LEFT
+WizardTD.Path @ x=8, y=0 Distance: 11
+WizardTD.Path @ x=8, y=0 optimal path direction RIGHT
+WizardTD.Path @ x=7, y=0 Distance: 12
+WizardTD.Path @ x=7, y=0 optimal path direction RIGHT
+WizardTD.Path @ x=6, y=0 Distance: 13
+WizardTD.Path @ x=6, y=0 optimal path direction RIGHT
+WizardTD.Path @ x=5, y=0 Distance: 14
+WizardTD.Path @ x=5, y=0 optimal path direction RIGHT
+WizardTD.Path @ x=4, y=0 Distance: 15
+WizardTD.Path @ x=4, y=0 optimal path direction RIGHT
+WizardTD.Path @ x=3, y=0 Distance: 16
+WizardTD.Path @ x=3, y=0 optimal path direction RIGHT
+WizardTD.Path @ x=2, y=0 Distance: 17
+WizardTD.Path @ x=2, y=0 optimal path direction RIGHT
+WizardTD.Path @ x=1, y=0 Distance: 18
+WizardTD.Path @ x=1, y=0 optimal path direction RIGHT
+Wave created
+1800.0
+upgraded range to 1 0 0 tower at (1, 1)
+upgraded speed to 1 1 0 tower at (1, 1)
+upgraded damage to 1 1 1 tower at (1, 1)
+Created: 1 1 1 tower at (1, 1)
+upgraded range to 2 1 1 tower at (1, 1)
+upgraded speed to 2 2 1 tower at (1, 1)
+upgraded damage to 2 2 2 tower at (1, 1)
+row 0 read
+row 1 read
+row 2 read
+row 3 read
+row 4 read
+row 5 read
+row 6 read
+row 7 read
+row 8 read
+row 9 read
+row 10 read
+row 11 read
+row 12 read
+row 13 read
+row 14 read
+row 15 read
+row 16 read
+row 17 read
+row 18 read
+row 19 read
+matrix made
+WizardTD.Path @ x=0, y=1 is a spawn
+WizardTD.Path @ x=0, y=1 assigned rotation
+WizardTD.Path @ x=0, y=2 is a spawn
+WizardTD.Path @ x=0, y=2 assigned rotation
+WizardTD.Path @ x=0, y=3 is a spawn
+WizardTD.Path @ x=0, y=3 assigned rotation
+WizardTD.Path @ x=0, y=4 is a spawn
+WizardTD.Path @ x=0, y=4 assigned rotation
+WizardTD.Path @ x=0, y=5 is a spawn
+WizardTD.Path @ x=0, y=5 assigned rotation
+WizardTD.Path @ x=0, y=6 is a spawn
+WizardTD.Path @ x=0, y=6 assigned rotation
+WizardTD.Path @ x=0, y=7 is a spawn
+WizardTD.Path @ x=0, y=7 assigned rotation
+WizardTD.Path @ x=0, y=8 is a spawn
+WizardTD.Path @ x=0, y=8 assigned rotation
+WizardTD.Path @ x=0, y=9 is a spawn
+WizardTD.Path @ x=0, y=9 assigned rotation
+WizardTD.Path @ x=0, y=10 is a spawn
+WizardTD.Path @ x=0, y=10 assigned rotation
+WizardTD.Path @ x=0, y=11 is a spawn
+WizardTD.Path @ x=0, y=11 assigned rotation
+WizardTD.Path @ x=0, y=12 is a spawn
+WizardTD.Path @ x=0, y=12 assigned rotation
+WizardTD.Path @ x=0, y=13 is a spawn
+WizardTD.Path @ x=0, y=13 assigned rotation
+WizardTD.Path @ x=0, y=14 is a spawn
+WizardTD.Path @ x=0, y=14 assigned rotation
+WizardTD.Path @ x=0, y=15 is a spawn
+WizardTD.Path @ x=0, y=15 assigned rotation
+WizardTD.Path @ x=0, y=16 is a spawn
+WizardTD.Path @ x=0, y=16 assigned rotation
+WizardTD.Path @ x=0, y=17 is a spawn
+WizardTD.Path @ x=0, y=17 assigned rotation
+WizardTD.Path @ x=0, y=18 is a spawn
+WizardTD.Path @ x=0, y=18 assigned rotation
+WizardTD.Path @ x=1, y=0 is a spawn
+WizardTD.Path @ x=1, y=0 assigned rotation
+WizardTD.Path @ x=1, y=10 assigned rotation
+WizardTD.Path @ x=1, y=19 is a spawn
+WizardTD.Path @ x=1, y=19 assigned rotation
+WizardTD.Path @ x=2, y=0 is a spawn
+WizardTD.Path @ x=2, y=0 assigned rotation
+WizardTD.Path @ x=2, y=10 assigned rotation
+WizardTD.Path @ x=2, y=19 is a spawn
+WizardTD.Path @ x=2, y=19 assigned rotation
+WizardTD.Path @ x=3, y=0 is a spawn
+WizardTD.Path @ x=3, y=0 assigned rotation
+WizardTD.Path @ x=3, y=10 assigned rotation
+WizardTD.Path @ x=3, y=19 is a spawn
+WizardTD.Path @ x=3, y=19 assigned rotation
+WizardTD.Path @ x=4, y=0 is a spawn
+WizardTD.Path @ x=4, y=0 assigned rotation
+WizardTD.Path @ x=4, y=10 assigned rotation
+WizardTD.Path @ x=4, y=19 is a spawn
+WizardTD.Path @ x=4, y=19 assigned rotation
+WizardTD.Path @ x=5, y=0 is a spawn
+WizardTD.Path @ x=5, y=0 assigned rotation
+WizardTD.Path @ x=5, y=10 assigned rotation
+WizardTD.Path @ x=5, y=19 is a spawn
+WizardTD.Path @ x=5, y=19 assigned rotation
+WizardTD.Path @ x=6, y=0 is a spawn
+WizardTD.Path @ x=6, y=0 assigned rotation
+WizardTD.Path @ x=6, y=10 assigned rotation
+WizardTD.Path @ x=6, y=19 is a spawn
+WizardTD.Path @ x=6, y=19 assigned rotation
+WizardTD.Path @ x=7, y=0 is a spawn
+WizardTD.Path @ x=7, y=0 assigned rotation
+WizardTD.Path @ x=7, y=10 assigned rotation
+WizardTD.Path @ x=7, y=19 is a spawn
+WizardTD.Path @ x=7, y=19 assigned rotation
+WizardTD.Path @ x=8, y=0 is a spawn
+WizardTD.Path @ x=8, y=0 assigned rotation
+WizardTD.Path @ x=8, y=10 assigned rotation
+WizardTD.Path @ x=8, y=19 is a spawn
+WizardTD.Path @ x=8, y=19 assigned rotation
+WizardTD.Path @ x=9, y=0 is a spawn
+WizardTD.Path @ x=9, y=0 assigned rotation
+WizardTD.Path @ x=9, y=1 assigned rotation
+WizardTD.Path @ x=9, y=2 assigned rotation
+WizardTD.Path @ x=9, y=3 assigned rotation
+WizardTD.Path @ x=9, y=4 assigned rotation
+WizardTD.Path @ x=9, y=5 assigned rotation
+WizardTD.Path @ x=9, y=6 assigned rotation
+WizardTD.Path @ x=9, y=7 assigned rotation
+WizardTD.Path @ x=9, y=8 assigned rotation
+WizardTD.Path @ x=9, y=9 assigned rotation
+WizardTD.Path @ x=9, y=11 assigned rotation
+WizardTD.Path @ x=9, y=12 assigned rotation
+WizardTD.Path @ x=9, y=13 assigned rotation
+WizardTD.Path @ x=9, y=14 assigned rotation
+WizardTD.Path @ x=9, y=15 assigned rotation
+WizardTD.Path @ x=9, y=16 assigned rotation
+WizardTD.Path @ x=9, y=17 assigned rotation
+WizardTD.Path @ x=9, y=18 assigned rotation
+WizardTD.Path @ x=9, y=19 is a spawn
+WizardTD.Path @ x=9, y=19 assigned rotation
+WizardTD.Path @ x=10, y=0 is a spawn
+WizardTD.Path @ x=10, y=0 assigned rotation
+WizardTD.Path @ x=10, y=10 assigned rotation
+WizardTD.Path @ x=10, y=19 is a spawn
+WizardTD.Path @ x=10, y=19 assigned rotation
+WizardTD.Path @ x=11, y=0 is a spawn
+WizardTD.Path @ x=11, y=0 assigned rotation
+WizardTD.Path @ x=11, y=10 assigned rotation
+WizardTD.Path @ x=11, y=19 is a spawn
+WizardTD.Path @ x=11, y=19 assigned rotation
+WizardTD.Path @ x=12, y=0 is a spawn
+WizardTD.Path @ x=12, y=0 assigned rotation
+WizardTD.Path @ x=12, y=10 assigned rotation
+WizardTD.Path @ x=12, y=19 is a spawn
+WizardTD.Path @ x=12, y=19 assigned rotation
+WizardTD.Path @ x=13, y=0 is a spawn
+WizardTD.Path @ x=13, y=0 assigned rotation
+WizardTD.Path @ x=13, y=10 assigned rotation
+WizardTD.Path @ x=13, y=19 is a spawn
+WizardTD.Path @ x=13, y=19 assigned rotation
+WizardTD.Path @ x=14, y=0 is a spawn
+WizardTD.Path @ x=14, y=0 assigned rotation
+WizardTD.Path @ x=14, y=10 assigned rotation
+WizardTD.Path @ x=14, y=19 is a spawn
+WizardTD.Path @ x=14, y=19 assigned rotation
+WizardTD.Path @ x=15, y=0 is a spawn
+WizardTD.Path @ x=15, y=0 assigned rotation
+WizardTD.Path @ x=15, y=10 assigned rotation
+WizardTD.Path @ x=15, y=19 is a spawn
+WizardTD.Path @ x=15, y=19 assigned rotation
+WizardTD.Path @ x=16, y=0 is a spawn
+WizardTD.Path @ x=16, y=0 assigned rotation
+WizardTD.Path @ x=16, y=10 assigned rotation
+WizardTD.Path @ x=16, y=19 is a spawn
+WizardTD.Path @ x=16, y=19 assigned rotation
+WizardTD.Path @ x=17, y=0 is a spawn
+WizardTD.Path @ x=17, y=0 assigned rotation
+WizardTD.Path @ x=17, y=10 assigned rotation
+WizardTD.Path @ x=17, y=19 is a spawn
+WizardTD.Path @ x=17, y=19 assigned rotation
+WizardTD.Path @ x=18, y=0 is a spawn
+WizardTD.Path @ x=18, y=0 assigned rotation
+WizardTD.Path @ x=18, y=10 assigned rotation
+WizardTD.Path @ x=18, y=19 is a spawn
+WizardTD.Path @ x=18, y=19 assigned rotation
+WizardTD.Path @ x=19, y=1 is a spawn
+WizardTD.Path @ x=19, y=1 assigned rotation
+WizardTD.Path @ x=19, y=2 is a spawn
+WizardTD.Path @ x=19, y=2 assigned rotation
+WizardTD.Path @ x=19, y=3 is a spawn
+WizardTD.Path @ x=19, y=3 assigned rotation
+WizardTD.Path @ x=19, y=4 is a spawn
+WizardTD.Path @ x=19, y=4 assigned rotation
+WizardTD.Path @ x=19, y=5 is a spawn
+WizardTD.Path @ x=19, y=5 assigned rotation
+WizardTD.Path @ x=19, y=6 is a spawn
+WizardTD.Path @ x=19, y=6 assigned rotation
+WizardTD.Path @ x=19, y=7 is a spawn
+WizardTD.Path @ x=19, y=7 assigned rotation
+WizardTD.Path @ x=19, y=8 is a spawn
+WizardTD.Path @ x=19, y=8 assigned rotation
+WizardTD.Path @ x=19, y=9 is a spawn
+WizardTD.Path @ x=19, y=9 assigned rotation
+WizardTD.Path @ x=19, y=10 is a spawn
+WizardTD.Path @ x=19, y=10 assigned rotation
+WizardTD.Path @ x=19, y=11 is a spawn
+WizardTD.Path @ x=19, y=11 assigned rotation
+WizardTD.Path @ x=19, y=12 is a spawn
+WizardTD.Path @ x=19, y=12 assigned rotation
+WizardTD.Path @ x=19, y=13 is a spawn
+WizardTD.Path @ x=19, y=13 assigned rotation
+WizardTD.Path @ x=19, y=14 is a spawn
+WizardTD.Path @ x=19, y=14 assigned rotation
+WizardTD.Path @ x=19, y=15 is a spawn
+WizardTD.Path @ x=19, y=15 assigned rotation
+WizardTD.Path @ x=19, y=16 is a spawn
+WizardTD.Path @ x=19, y=16 assigned rotation
+WizardTD.Path @ x=19, y=17 is a spawn
+WizardTD.Path @ x=19, y=17 assigned rotation
+WizardTD.Path @ x=19, y=18 is a spawn
+WizardTD.Path @ x=19, y=18 assigned rotation
+Paths rotated
+WizardTD.Path @ x=9, y=11 Distance: 1
+WizardTD.Path @ x=9, y=11 optimal path direction UP
+WizardTD.Path @ x=9, y=12 Distance: 2
+WizardTD.Path @ x=9, y=12 optimal path direction UP
+WizardTD.Path @ x=9, y=13 Distance: 3
+WizardTD.Path @ x=9, y=13 optimal path direction UP
+WizardTD.Path @ x=9, y=14 Distance: 4
+WizardTD.Path @ x=9, y=14 optimal path direction UP
+WizardTD.Path @ x=9, y=15 Distance: 5
+WizardTD.Path @ x=9, y=15 optimal path direction UP
+WizardTD.Path @ x=9, y=16 Distance: 6
+WizardTD.Path @ x=9, y=16 optimal path direction UP
+WizardTD.Path @ x=9, y=17 Distance: 7
+WizardTD.Path @ x=9, y=17 optimal path direction UP
+WizardTD.Path @ x=9, y=18 Distance: 8
+WizardTD.Path @ x=9, y=18 optimal path direction UP
+WizardTD.Path @ x=9, y=19 Distance: 9
+WizardTD.Path @ x=9, y=19 optimal path direction UP
+WizardTD.Path @ x=10, y=19 Distance: 10
+WizardTD.Path @ x=10, y=19 optimal path direction LEFT
+WizardTD.Path @ x=11, y=19 Distance: 11
+WizardTD.Path @ x=11, y=19 optimal path direction LEFT
+WizardTD.Path @ x=12, y=19 Distance: 12
+WizardTD.Path @ x=12, y=19 optimal path direction LEFT
+WizardTD.Path @ x=13, y=19 Distance: 13
+WizardTD.Path @ x=13, y=19 optimal path direction LEFT
+WizardTD.Path @ x=14, y=19 Distance: 14
+WizardTD.Path @ x=14, y=19 optimal path direction LEFT
+WizardTD.Path @ x=15, y=19 Distance: 15
+WizardTD.Path @ x=15, y=19 optimal path direction LEFT
+WizardTD.Path @ x=16, y=19 Distance: 16
+WizardTD.Path @ x=16, y=19 optimal path direction LEFT
+WizardTD.Path @ x=17, y=19 Distance: 17
+WizardTD.Path @ x=17, y=19 optimal path direction LEFT
+WizardTD.Path @ x=18, y=19 Distance: 18
+WizardTD.Path @ x=18, y=19 optimal path direction LEFT
+WizardTD.Path @ x=8, y=19 Distance: 10
+WizardTD.Path @ x=8, y=19 optimal path direction RIGHT
+WizardTD.Path @ x=7, y=19 Distance: 11
+WizardTD.Path @ x=7, y=19 optimal path direction RIGHT
+WizardTD.Path @ x=6, y=19 Distance: 12
+WizardTD.Path @ x=6, y=19 optimal path direction RIGHT
+WizardTD.Path @ x=5, y=19 Distance: 13
+WizardTD.Path @ x=5, y=19 optimal path direction RIGHT
+WizardTD.Path @ x=4, y=19 Distance: 14
+WizardTD.Path @ x=4, y=19 optimal path direction RIGHT
+WizardTD.Path @ x=3, y=19 Distance: 15
+WizardTD.Path @ x=3, y=19 optimal path direction RIGHT
+WizardTD.Path @ x=2, y=19 Distance: 16
+WizardTD.Path @ x=2, y=19 optimal path direction RIGHT
+WizardTD.Path @ x=1, y=19 Distance: 17
+WizardTD.Path @ x=1, y=19 optimal path direction RIGHT
+WizardTD.Path @ x=10, y=10 Distance: 1
+WizardTD.Path @ x=10, y=10 optimal path direction LEFT
+WizardTD.Path @ x=11, y=10 Distance: 2
+WizardTD.Path @ x=11, y=10 optimal path direction LEFT
+WizardTD.Path @ x=12, y=10 Distance: 3
+WizardTD.Path @ x=12, y=10 optimal path direction LEFT
+WizardTD.Path @ x=13, y=10 Distance: 4
+WizardTD.Path @ x=13, y=10 optimal path direction LEFT
+WizardTD.Path @ x=14, y=10 Distance: 5
+WizardTD.Path @ x=14, y=10 optimal path direction LEFT
+WizardTD.Path @ x=15, y=10 Distance: 6
+WizardTD.Path @ x=15, y=10 optimal path direction LEFT
+WizardTD.Path @ x=16, y=10 Distance: 7
+WizardTD.Path @ x=16, y=10 optimal path direction LEFT
+WizardTD.Path @ x=17, y=10 Distance: 8
+WizardTD.Path @ x=17, y=10 optimal path direction LEFT
+WizardTD.Path @ x=18, y=10 Distance: 9
+WizardTD.Path @ x=18, y=10 optimal path direction LEFT
+WizardTD.Path @ x=19, y=10 Distance: 10
+WizardTD.Path @ x=19, y=10 optimal path direction LEFT
+WizardTD.Path @ x=19, y=11 Distance: 11
+WizardTD.Path @ x=19, y=11 optimal path direction UP
+WizardTD.Path @ x=19, y=12 Distance: 12
+WizardTD.Path @ x=19, y=12 optimal path direction UP
+WizardTD.Path @ x=19, y=13 Distance: 13
+WizardTD.Path @ x=19, y=13 optimal path direction UP
+WizardTD.Path @ x=19, y=14 Distance: 14
+WizardTD.Path @ x=19, y=14 optimal path direction UP
+WizardTD.Path @ x=19, y=15 Distance: 15
+WizardTD.Path @ x=19, y=15 optimal path direction UP
+WizardTD.Path @ x=19, y=16 Distance: 16
+WizardTD.Path @ x=19, y=16 optimal path direction UP
+WizardTD.Path @ x=19, y=17 Distance: 17
+WizardTD.Path @ x=19, y=17 optimal path direction UP
+WizardTD.Path @ x=19, y=18 Distance: 18
+WizardTD.Path @ x=19, y=18 optimal path direction UP
+WizardTD.Path @ x=19, y=9 Distance: 11
+WizardTD.Path @ x=19, y=9 optimal path direction DOWN
+WizardTD.Path @ x=19, y=8 Distance: 12
+WizardTD.Path @ x=19, y=8 optimal path direction DOWN
+WizardTD.Path @ x=19, y=7 Distance: 13
+WizardTD.Path @ x=19, y=7 optimal path direction DOWN
+WizardTD.Path @ x=19, y=6 Distance: 14
+WizardTD.Path @ x=19, y=6 optimal path direction DOWN
+WizardTD.Path @ x=19, y=5 Distance: 15
+WizardTD.Path @ x=19, y=5 optimal path direction DOWN
+WizardTD.Path @ x=19, y=4 Distance: 16
+WizardTD.Path @ x=19, y=4 optimal path direction DOWN
+WizardTD.Path @ x=19, y=3 Distance: 17
+WizardTD.Path @ x=19, y=3 optimal path direction DOWN
+WizardTD.Path @ x=19, y=2 Distance: 18
+WizardTD.Path @ x=19, y=2 optimal path direction DOWN
+WizardTD.Path @ x=19, y=1 Distance: 19
+WizardTD.Path @ x=19, y=1 optimal path direction DOWN
+WizardTD.Path @ x=8, y=10 Distance: 1
+WizardTD.Path @ x=8, y=10 optimal path direction RIGHT
+WizardTD.Path @ x=7, y=10 Distance: 2
+WizardTD.Path @ x=7, y=10 optimal path direction RIGHT
+WizardTD.Path @ x=6, y=10 Distance: 3
+WizardTD.Path @ x=6, y=10 optimal path direction RIGHT
+WizardTD.Path @ x=5, y=10 Distance: 4
+WizardTD.Path @ x=5, y=10 optimal path direction RIGHT
+WizardTD.Path @ x=4, y=10 Distance: 5
+WizardTD.Path @ x=4, y=10 optimal path direction RIGHT
+WizardTD.Path @ x=3, y=10 Distance: 6
+WizardTD.Path @ x=3, y=10 optimal path direction RIGHT
+WizardTD.Path @ x=2, y=10 Distance: 7
+WizardTD.Path @ x=2, y=10 optimal path direction RIGHT
+WizardTD.Path @ x=1, y=10 Distance: 8
+WizardTD.Path @ x=1, y=10 optimal path direction RIGHT
+WizardTD.Path @ x=0, y=10 Distance: 9
+WizardTD.Path @ x=0, y=10 optimal path direction RIGHT
+WizardTD.Path @ x=0, y=11 Distance: 10
+WizardTD.Path @ x=0, y=11 optimal path direction UP
+WizardTD.Path @ x=0, y=12 Distance: 11
+WizardTD.Path @ x=0, y=12 optimal path direction UP
+WizardTD.Path @ x=0, y=13 Distance: 12
+WizardTD.Path @ x=0, y=13 optimal path direction UP
+WizardTD.Path @ x=0, y=14 Distance: 13
+WizardTD.Path @ x=0, y=14 optimal path direction UP
+WizardTD.Path @ x=0, y=15 Distance: 14
+WizardTD.Path @ x=0, y=15 optimal path direction UP
+WizardTD.Path @ x=0, y=16 Distance: 15
+WizardTD.Path @ x=0, y=16 optimal path direction UP
+WizardTD.Path @ x=0, y=17 Distance: 16
+WizardTD.Path @ x=0, y=17 optimal path direction UP
+WizardTD.Path @ x=0, y=18 Distance: 17
+WizardTD.Path @ x=0, y=18 optimal path direction UP
+WizardTD.Path @ x=0, y=9 Distance: 10
+WizardTD.Path @ x=0, y=9 optimal path direction DOWN
+WizardTD.Path @ x=0, y=8 Distance: 11
+WizardTD.Path @ x=0, y=8 optimal path direction DOWN
+WizardTD.Path @ x=0, y=7 Distance: 12
+WizardTD.Path @ x=0, y=7 optimal path direction DOWN
+WizardTD.Path @ x=0, y=6 Distance: 13
+WizardTD.Path @ x=0, y=6 optimal path direction DOWN
+WizardTD.Path @ x=0, y=5 Distance: 14
+WizardTD.Path @ x=0, y=5 optimal path direction DOWN
+WizardTD.Path @ x=0, y=4 Distance: 15
+WizardTD.Path @ x=0, y=4 optimal path direction DOWN
+WizardTD.Path @ x=0, y=3 Distance: 16
+WizardTD.Path @ x=0, y=3 optimal path direction DOWN
+WizardTD.Path @ x=0, y=2 Distance: 17
+WizardTD.Path @ x=0, y=2 optimal path direction DOWN
+WizardTD.Path @ x=0, y=1 Distance: 18
+WizardTD.Path @ x=0, y=1 optimal path direction DOWN
+WizardTD.Path @ x=9, y=9 Distance: 1
+WizardTD.Path @ x=9, y=9 optimal path direction DOWN
+WizardTD.Path @ x=9, y=8 Distance: 2
+WizardTD.Path @ x=9, y=8 optimal path direction DOWN
+WizardTD.Path @ x=9, y=7 Distance: 3
+WizardTD.Path @ x=9, y=7 optimal path direction DOWN
+WizardTD.Path @ x=9, y=6 Distance: 4
+WizardTD.Path @ x=9, y=6 optimal path direction DOWN
+WizardTD.Path @ x=9, y=5 Distance: 5
+WizardTD.Path @ x=9, y=5 optimal path direction DOWN
+WizardTD.Path @ x=9, y=4 Distance: 6
+WizardTD.Path @ x=9, y=4 optimal path direction DOWN
+WizardTD.Path @ x=9, y=3 Distance: 7
+WizardTD.Path @ x=9, y=3 optimal path direction DOWN
+WizardTD.Path @ x=9, y=2 Distance: 8
+WizardTD.Path @ x=9, y=2 optimal path direction DOWN
+WizardTD.Path @ x=9, y=1 Distance: 9
+WizardTD.Path @ x=9, y=1 optimal path direction DOWN
+WizardTD.Path @ x=9, y=0 Distance: 10
+WizardTD.Path @ x=9, y=0 optimal path direction DOWN
+WizardTD.Path @ x=10, y=0 Distance: 11
+WizardTD.Path @ x=10, y=0 optimal path direction LEFT
+WizardTD.Path @ x=11, y=0 Distance: 12
+WizardTD.Path @ x=11, y=0 optimal path direction LEFT
+WizardTD.Path @ x=12, y=0 Distance: 13
+WizardTD.Path @ x=12, y=0 optimal path direction LEFT
+WizardTD.Path @ x=13, y=0 Distance: 14
+WizardTD.Path @ x=13, y=0 optimal path direction LEFT
+WizardTD.Path @ x=14, y=0 Distance: 15
+WizardTD.Path @ x=14, y=0 optimal path direction LEFT
+WizardTD.Path @ x=15, y=0 Distance: 16
+WizardTD.Path @ x=15, y=0 optimal path direction LEFT
+WizardTD.Path @ x=16, y=0 Distance: 17
+WizardTD.Path @ x=16, y=0 optimal path direction LEFT
+WizardTD.Path @ x=17, y=0 Distance: 18
+WizardTD.Path @ x=17, y=0 optimal path direction LEFT
+WizardTD.Path @ x=18, y=0 Distance: 19
+WizardTD.Path @ x=18, y=0 optimal path direction LEFT
+WizardTD.Path @ x=8, y=0 Distance: 11
+WizardTD.Path @ x=8, y=0 optimal path direction RIGHT
+WizardTD.Path @ x=7, y=0 Distance: 12
+WizardTD.Path @ x=7, y=0 optimal path direction RIGHT
+WizardTD.Path @ x=6, y=0 Distance: 13
+WizardTD.Path @ x=6, y=0 optimal path direction RIGHT
+WizardTD.Path @ x=5, y=0 Distance: 14
+WizardTD.Path @ x=5, y=0 optimal path direction RIGHT
+WizardTD.Path @ x=4, y=0 Distance: 15
+WizardTD.Path @ x=4, y=0 optimal path direction RIGHT
+WizardTD.Path @ x=3, y=0 Distance: 16
+WizardTD.Path @ x=3, y=0 optimal path direction RIGHT
+WizardTD.Path @ x=2, y=0 Distance: 17
+WizardTD.Path @ x=2, y=0 optimal path direction RIGHT
+WizardTD.Path @ x=1, y=0 Distance: 18
+WizardTD.Path @ x=1, y=0 optimal path direction RIGHT
+Wave created
+1800.0
+upgraded range to 1 0 0 tower at (1, 1)
+upgraded speed to 1 1 0 tower at (1, 1)
+upgraded damage to 1 1 1 tower at (1, 1)
+Created: 1 1 1 tower at (1, 1)
+upgraded range to 2 1 1 tower at (1, 1)
+upgraded speed to 2 2 1 tower at (1, 1)
+upgraded damage to 2 2 2 tower at (1, 1)
+Wave created
+row 0 read
+row 1 read
+row 2 read
+row 3 read
+row 4 read
+row 5 read
+row 6 read
+row 7 read
+row 8 read
+row 9 read
+row 10 read
+row 11 read
+row 12 read
+row 13 read
+row 14 read
+row 15 read
+row 16 read
+row 17 read
+row 18 read
+row 19 read
+matrix made
+WizardTD.Path @ x=0, y=1 is a spawn
+WizardTD.Path @ x=0, y=1 assigned rotation
+WizardTD.Path @ x=0, y=2 is a spawn
+WizardTD.Path @ x=0, y=2 assigned rotation
+WizardTD.Path @ x=0, y=3 is a spawn
+WizardTD.Path @ x=0, y=3 assigned rotation
+WizardTD.Path @ x=0, y=4 is a spawn
+WizardTD.Path @ x=0, y=4 assigned rotation
+WizardTD.Path @ x=0, y=5 is a spawn
+WizardTD.Path @ x=0, y=5 assigned rotation
+WizardTD.Path @ x=0, y=6 is a spawn
+WizardTD.Path @ x=0, y=6 assigned rotation
+WizardTD.Path @ x=0, y=7 is a spawn
+WizardTD.Path @ x=0, y=7 assigned rotation
+WizardTD.Path @ x=0, y=8 is a spawn
+WizardTD.Path @ x=0, y=8 assigned rotation
+WizardTD.Path @ x=0, y=9 is a spawn
+WizardTD.Path @ x=0, y=9 assigned rotation
+WizardTD.Path @ x=0, y=10 is a spawn
+WizardTD.Path @ x=0, y=10 assigned rotation
+WizardTD.Path @ x=0, y=11 is a spawn
+WizardTD.Path @ x=0, y=11 assigned rotation
+WizardTD.Path @ x=0, y=12 is a spawn
+WizardTD.Path @ x=0, y=12 assigned rotation
+WizardTD.Path @ x=0, y=13 is a spawn
+WizardTD.Path @ x=0, y=13 assigned rotation
+WizardTD.Path @ x=0, y=14 is a spawn
+WizardTD.Path @ x=0, y=14 assigned rotation
+WizardTD.Path @ x=0, y=15 is a spawn
+WizardTD.Path @ x=0, y=15 assigned rotation
+WizardTD.Path @ x=0, y=16 is a spawn
+WizardTD.Path @ x=0, y=16 assigned rotation
+WizardTD.Path @ x=0, y=17 is a spawn
+WizardTD.Path @ x=0, y=17 assigned rotation
+WizardTD.Path @ x=0, y=18 is a spawn
+WizardTD.Path @ x=0, y=18 assigned rotation
+WizardTD.Path @ x=1, y=0 is a spawn
+WizardTD.Path @ x=1, y=0 assigned rotation
+WizardTD.Path @ x=1, y=10 assigned rotation
+WizardTD.Path @ x=1, y=19 is a spawn
+WizardTD.Path @ x=1, y=19 assigned rotation
+WizardTD.Path @ x=2, y=0 is a spawn
+WizardTD.Path @ x=2, y=0 assigned rotation
+WizardTD.Path @ x=2, y=10 assigned rotation
+WizardTD.Path @ x=2, y=19 is a spawn
+WizardTD.Path @ x=2, y=19 assigned rotation
+WizardTD.Path @ x=3, y=0 is a spawn
+WizardTD.Path @ x=3, y=0 assigned rotation
+WizardTD.Path @ x=3, y=10 assigned rotation
+WizardTD.Path @ x=3, y=19 is a spawn
+WizardTD.Path @ x=3, y=19 assigned rotation
+WizardTD.Path @ x=4, y=0 is a spawn
+WizardTD.Path @ x=4, y=0 assigned rotation
+WizardTD.Path @ x=4, y=10 assigned rotation
+WizardTD.Path @ x=4, y=19 is a spawn
+WizardTD.Path @ x=4, y=19 assigned rotation
+WizardTD.Path @ x=5, y=0 is a spawn
+WizardTD.Path @ x=5, y=0 assigned rotation
+WizardTD.Path @ x=5, y=10 assigned rotation
+WizardTD.Path @ x=5, y=19 is a spawn
+WizardTD.Path @ x=5, y=19 assigned rotation
+WizardTD.Path @ x=6, y=0 is a spawn
+WizardTD.Path @ x=6, y=0 assigned rotation
+WizardTD.Path @ x=6, y=10 assigned rotation
+WizardTD.Path @ x=6, y=19 is a spawn
+WizardTD.Path @ x=6, y=19 assigned rotation
+WizardTD.Path @ x=7, y=0 is a spawn
+WizardTD.Path @ x=7, y=0 assigned rotation
+WizardTD.Path @ x=7, y=10 assigned rotation
+WizardTD.Path @ x=7, y=19 is a spawn
+WizardTD.Path @ x=7, y=19 assigned rotation
+WizardTD.Path @ x=8, y=0 is a spawn
+WizardTD.Path @ x=8, y=0 assigned rotation
+WizardTD.Path @ x=8, y=10 assigned rotation
+WizardTD.Path @ x=8, y=19 is a spawn
+WizardTD.Path @ x=8, y=19 assigned rotation
+WizardTD.Path @ x=9, y=0 is a spawn
+WizardTD.Path @ x=9, y=0 assigned rotation
+WizardTD.Path @ x=9, y=1 assigned rotation
+WizardTD.Path @ x=9, y=2 assigned rotation
+WizardTD.Path @ x=9, y=3 assigned rotation
+WizardTD.Path @ x=9, y=4 assigned rotation
+WizardTD.Path @ x=9, y=5 assigned rotation
+WizardTD.Path @ x=9, y=6 assigned rotation
+WizardTD.Path @ x=9, y=7 assigned rotation
+WizardTD.Path @ x=9, y=8 assigned rotation
+WizardTD.Path @ x=9, y=9 assigned rotation
+WizardTD.Path @ x=9, y=11 assigned rotation
+WizardTD.Path @ x=9, y=12 assigned rotation
+WizardTD.Path @ x=9, y=13 assigned rotation
+WizardTD.Path @ x=9, y=14 assigned rotation
+WizardTD.Path @ x=9, y=15 assigned rotation
+WizardTD.Path @ x=9, y=16 assigned rotation
+WizardTD.Path @ x=9, y=17 assigned rotation
+WizardTD.Path @ x=9, y=18 assigned rotation
+WizardTD.Path @ x=9, y=19 is a spawn
+WizardTD.Path @ x=9, y=19 assigned rotation
+WizardTD.Path @ x=10, y=0 is a spawn
+WizardTD.Path @ x=10, y=0 assigned rotation
+WizardTD.Path @ x=10, y=10 assigned rotation
+WizardTD.Path @ x=10, y=19 is a spawn
+WizardTD.Path @ x=10, y=19 assigned rotation
+WizardTD.Path @ x=11, y=0 is a spawn
+WizardTD.Path @ x=11, y=0 assigned rotation
+WizardTD.Path @ x=11, y=10 assigned rotation
+WizardTD.Path @ x=11, y=19 is a spawn
+WizardTD.Path @ x=11, y=19 assigned rotation
+WizardTD.Path @ x=12, y=0 is a spawn
+WizardTD.Path @ x=12, y=0 assigned rotation
+WizardTD.Path @ x=12, y=10 assigned rotation
+WizardTD.Path @ x=12, y=19 is a spawn
+WizardTD.Path @ x=12, y=19 assigned rotation
+WizardTD.Path @ x=13, y=0 is a spawn
+WizardTD.Path @ x=13, y=0 assigned rotation
+WizardTD.Path @ x=13, y=10 assigned rotation
+WizardTD.Path @ x=13, y=19 is a spawn
+WizardTD.Path @ x=13, y=19 assigned rotation
+WizardTD.Path @ x=14, y=0 is a spawn
+WizardTD.Path @ x=14, y=0 assigned rotation
+WizardTD.Path @ x=14, y=10 assigned rotation
+WizardTD.Path @ x=14, y=19 is a spawn
+WizardTD.Path @ x=14, y=19 assigned rotation
+WizardTD.Path @ x=15, y=0 is a spawn
+WizardTD.Path @ x=15, y=0 assigned rotation
+WizardTD.Path @ x=15, y=10 assigned rotation
+WizardTD.Path @ x=15, y=19 is a spawn
+WizardTD.Path @ x=15, y=19 assigned rotation
+WizardTD.Path @ x=16, y=0 is a spawn
+WizardTD.Path @ x=16, y=0 assigned rotation
+WizardTD.Path @ x=16, y=10 assigned rotation
+WizardTD.Path @ x=16, y=19 is a spawn
+WizardTD.Path @ x=16, y=19 assigned rotation
+WizardTD.Path @ x=17, y=0 is a spawn
+WizardTD.Path @ x=17, y=0 assigned rotation
+WizardTD.Path @ x=17, y=10 assigned rotation
+WizardTD.Path @ x=17, y=19 is a spawn
+WizardTD.Path @ x=17, y=19 assigned rotation
+WizardTD.Path @ x=18, y=0 is a spawn
+WizardTD.Path @ x=18, y=0 assigned rotation
+WizardTD.Path @ x=18, y=10 assigned rotation
+WizardTD.Path @ x=18, y=19 is a spawn
+WizardTD.Path @ x=18, y=19 assigned rotation
+WizardTD.Path @ x=19, y=1 is a spawn
+WizardTD.Path @ x=19, y=1 assigned rotation
+WizardTD.Path @ x=19, y=2 is a spawn
+WizardTD.Path @ x=19, y=2 assigned rotation
+WizardTD.Path @ x=19, y=3 is a spawn
+WizardTD.Path @ x=19, y=3 assigned rotation
+WizardTD.Path @ x=19, y=4 is a spawn
+WizardTD.Path @ x=19, y=4 assigned rotation
+WizardTD.Path @ x=19, y=5 is a spawn
+WizardTD.Path @ x=19, y=5 assigned rotation
+WizardTD.Path @ x=19, y=6 is a spawn
+WizardTD.Path @ x=19, y=6 assigned rotation
+WizardTD.Path @ x=19, y=7 is a spawn
+WizardTD.Path @ x=19, y=7 assigned rotation
+WizardTD.Path @ x=19, y=8 is a spawn
+WizardTD.Path @ x=19, y=8 assigned rotation
+WizardTD.Path @ x=19, y=9 is a spawn
+WizardTD.Path @ x=19, y=9 assigned rotation
+WizardTD.Path @ x=19, y=10 is a spawn
+WizardTD.Path @ x=19, y=10 assigned rotation
+WizardTD.Path @ x=19, y=11 is a spawn
+WizardTD.Path @ x=19, y=11 assigned rotation
+WizardTD.Path @ x=19, y=12 is a spawn
+WizardTD.Path @ x=19, y=12 assigned rotation
+WizardTD.Path @ x=19, y=13 is a spawn
+WizardTD.Path @ x=19, y=13 assigned rotation
+WizardTD.Path @ x=19, y=14 is a spawn
+WizardTD.Path @ x=19, y=14 assigned rotation
+WizardTD.Path @ x=19, y=15 is a spawn
+WizardTD.Path @ x=19, y=15 assigned rotation
+WizardTD.Path @ x=19, y=16 is a spawn
+WizardTD.Path @ x=19, y=16 assigned rotation
+WizardTD.Path @ x=19, y=17 is a spawn
+WizardTD.Path @ x=19, y=17 assigned rotation
+WizardTD.Path @ x=19, y=18 is a spawn
+WizardTD.Path @ x=19, y=18 assigned rotation
+Paths rotated
+WizardTD.Path @ x=9, y=11 Distance: 1
+WizardTD.Path @ x=9, y=11 optimal path direction UP
+WizardTD.Path @ x=9, y=12 Distance: 2
+WizardTD.Path @ x=9, y=12 optimal path direction UP
+WizardTD.Path @ x=9, y=13 Distance: 3
+WizardTD.Path @ x=9, y=13 optimal path direction UP
+WizardTD.Path @ x=9, y=14 Distance: 4
+WizardTD.Path @ x=9, y=14 optimal path direction UP
+WizardTD.Path @ x=9, y=15 Distance: 5
+WizardTD.Path @ x=9, y=15 optimal path direction UP
+WizardTD.Path @ x=9, y=16 Distance: 6
+WizardTD.Path @ x=9, y=16 optimal path direction UP
+WizardTD.Path @ x=9, y=17 Distance: 7
+WizardTD.Path @ x=9, y=17 optimal path direction UP
+WizardTD.Path @ x=9, y=18 Distance: 8
+WizardTD.Path @ x=9, y=18 optimal path direction UP
+WizardTD.Path @ x=9, y=19 Distance: 9
+WizardTD.Path @ x=9, y=19 optimal path direction UP
+WizardTD.Path @ x=10, y=19 Distance: 10
+WizardTD.Path @ x=10, y=19 optimal path direction LEFT
+WizardTD.Path @ x=11, y=19 Distance: 11
+WizardTD.Path @ x=11, y=19 optimal path direction LEFT
+WizardTD.Path @ x=12, y=19 Distance: 12
+WizardTD.Path @ x=12, y=19 optimal path direction LEFT
+WizardTD.Path @ x=13, y=19 Distance: 13
+WizardTD.Path @ x=13, y=19 optimal path direction LEFT
+WizardTD.Path @ x=14, y=19 Distance: 14
+WizardTD.Path @ x=14, y=19 optimal path direction LEFT
+WizardTD.Path @ x=15, y=19 Distance: 15
+WizardTD.Path @ x=15, y=19 optimal path direction LEFT
+WizardTD.Path @ x=16, y=19 Distance: 16
+WizardTD.Path @ x=16, y=19 optimal path direction LEFT
+WizardTD.Path @ x=17, y=19 Distance: 17
+WizardTD.Path @ x=17, y=19 optimal path direction LEFT
+WizardTD.Path @ x=18, y=19 Distance: 18
+WizardTD.Path @ x=18, y=19 optimal path direction LEFT
+WizardTD.Path @ x=8, y=19 Distance: 10
+WizardTD.Path @ x=8, y=19 optimal path direction RIGHT
+WizardTD.Path @ x=7, y=19 Distance: 11
+WizardTD.Path @ x=7, y=19 optimal path direction RIGHT
+WizardTD.Path @ x=6, y=19 Distance: 12
+WizardTD.Path @ x=6, y=19 optimal path direction RIGHT
+WizardTD.Path @ x=5, y=19 Distance: 13
+WizardTD.Path @ x=5, y=19 optimal path direction RIGHT
+WizardTD.Path @ x=4, y=19 Distance: 14
+WizardTD.Path @ x=4, y=19 optimal path direction RIGHT
+WizardTD.Path @ x=3, y=19 Distance: 15
+WizardTD.Path @ x=3, y=19 optimal path direction RIGHT
+WizardTD.Path @ x=2, y=19 Distance: 16
+WizardTD.Path @ x=2, y=19 optimal path direction RIGHT
+WizardTD.Path @ x=1, y=19 Distance: 17
+WizardTD.Path @ x=1, y=19 optimal path direction RIGHT
+WizardTD.Path @ x=10, y=10 Distance: 1
+WizardTD.Path @ x=10, y=10 optimal path direction LEFT
+WizardTD.Path @ x=11, y=10 Distance: 2
+WizardTD.Path @ x=11, y=10 optimal path direction LEFT
+WizardTD.Path @ x=12, y=10 Distance: 3
+WizardTD.Path @ x=12, y=10 optimal path direction LEFT
+WizardTD.Path @ x=13, y=10 Distance: 4
+WizardTD.Path @ x=13, y=10 optimal path direction LEFT
+WizardTD.Path @ x=14, y=10 Distance: 5
+WizardTD.Path @ x=14, y=10 optimal path direction LEFT
+WizardTD.Path @ x=15, y=10 Distance: 6
+WizardTD.Path @ x=15, y=10 optimal path direction LEFT
+WizardTD.Path @ x=16, y=10 Distance: 7
+WizardTD.Path @ x=16, y=10 optimal path direction LEFT
+WizardTD.Path @ x=17, y=10 Distance: 8
+WizardTD.Path @ x=17, y=10 optimal path direction LEFT
+WizardTD.Path @ x=18, y=10 Distance: 9
+WizardTD.Path @ x=18, y=10 optimal path direction LEFT
+WizardTD.Path @ x=19, y=10 Distance: 10
+WizardTD.Path @ x=19, y=10 optimal path direction LEFT
+WizardTD.Path @ x=19, y=11 Distance: 11
+WizardTD.Path @ x=19, y=11 optimal path direction UP
+WizardTD.Path @ x=19, y=12 Distance: 12
+WizardTD.Path @ x=19, y=12 optimal path direction UP
+WizardTD.Path @ x=19, y=13 Distance: 13
+WizardTD.Path @ x=19, y=13 optimal path direction UP
+WizardTD.Path @ x=19, y=14 Distance: 14
+WizardTD.Path @ x=19, y=14 optimal path direction UP
+WizardTD.Path @ x=19, y=15 Distance: 15
+WizardTD.Path @ x=19, y=15 optimal path direction UP
+WizardTD.Path @ x=19, y=16 Distance: 16
+WizardTD.Path @ x=19, y=16 optimal path direction UP
+WizardTD.Path @ x=19, y=17 Distance: 17
+WizardTD.Path @ x=19, y=17 optimal path direction UP
+WizardTD.Path @ x=19, y=18 Distance: 18
+WizardTD.Path @ x=19, y=18 optimal path direction UP
+WizardTD.Path @ x=19, y=9 Distance: 11
+WizardTD.Path @ x=19, y=9 optimal path direction DOWN
+WizardTD.Path @ x=19, y=8 Distance: 12
+WizardTD.Path @ x=19, y=8 optimal path direction DOWN
+WizardTD.Path @ x=19, y=7 Distance: 13
+WizardTD.Path @ x=19, y=7 optimal path direction DOWN
+WizardTD.Path @ x=19, y=6 Distance: 14
+WizardTD.Path @ x=19, y=6 optimal path direction DOWN
+WizardTD.Path @ x=19, y=5 Distance: 15
+WizardTD.Path @ x=19, y=5 optimal path direction DOWN
+WizardTD.Path @ x=19, y=4 Distance: 16
+WizardTD.Path @ x=19, y=4 optimal path direction DOWN
+WizardTD.Path @ x=19, y=3 Distance: 17
+WizardTD.Path @ x=19, y=3 optimal path direction DOWN
+WizardTD.Path @ x=19, y=2 Distance: 18
+WizardTD.Path @ x=19, y=2 optimal path direction DOWN
+WizardTD.Path @ x=19, y=1 Distance: 19
+WizardTD.Path @ x=19, y=1 optimal path direction DOWN
+WizardTD.Path @ x=8, y=10 Distance: 1
+WizardTD.Path @ x=8, y=10 optimal path direction RIGHT
+WizardTD.Path @ x=7, y=10 Distance: 2
+WizardTD.Path @ x=7, y=10 optimal path direction RIGHT
+WizardTD.Path @ x=6, y=10 Distance: 3
+WizardTD.Path @ x=6, y=10 optimal path direction RIGHT
+WizardTD.Path @ x=5, y=10 Distance: 4
+WizardTD.Path @ x=5, y=10 optimal path direction RIGHT
+WizardTD.Path @ x=4, y=10 Distance: 5
+WizardTD.Path @ x=4, y=10 optimal path direction RIGHT
+WizardTD.Path @ x=3, y=10 Distance: 6
+WizardTD.Path @ x=3, y=10 optimal path direction RIGHT
+WizardTD.Path @ x=2, y=10 Distance: 7
+WizardTD.Path @ x=2, y=10 optimal path direction RIGHT
+WizardTD.Path @ x=1, y=10 Distance: 8
+WizardTD.Path @ x=1, y=10 optimal path direction RIGHT
+WizardTD.Path @ x=0, y=10 Distance: 9
+WizardTD.Path @ x=0, y=10 optimal path direction RIGHT
+WizardTD.Path @ x=0, y=11 Distance: 10
+WizardTD.Path @ x=0, y=11 optimal path direction UP
+WizardTD.Path @ x=0, y=12 Distance: 11
+WizardTD.Path @ x=0, y=12 optimal path direction UP
+WizardTD.Path @ x=0, y=13 Distance: 12
+WizardTD.Path @ x=0, y=13 optimal path direction UP
+WizardTD.Path @ x=0, y=14 Distance: 13
+WizardTD.Path @ x=0, y=14 optimal path direction UP
+WizardTD.Path @ x=0, y=15 Distance: 14
+WizardTD.Path @ x=0, y=15 optimal path direction UP
+WizardTD.Path @ x=0, y=16 Distance: 15
+WizardTD.Path @ x=0, y=16 optimal path direction UP
+WizardTD.Path @ x=0, y=17 Distance: 16
+WizardTD.Path @ x=0, y=17 optimal path direction UP
+WizardTD.Path @ x=0, y=18 Distance: 17
+WizardTD.Path @ x=0, y=18 optimal path direction UP
+WizardTD.Path @ x=0, y=9 Distance: 10
+WizardTD.Path @ x=0, y=9 optimal path direction DOWN
+WizardTD.Path @ x=0, y=8 Distance: 11
+WizardTD.Path @ x=0, y=8 optimal path direction DOWN
+WizardTD.Path @ x=0, y=7 Distance: 12
+WizardTD.Path @ x=0, y=7 optimal path direction DOWN
+WizardTD.Path @ x=0, y=6 Distance: 13
+WizardTD.Path @ x=0, y=6 optimal path direction DOWN
+WizardTD.Path @ x=0, y=5 Distance: 14
+WizardTD.Path @ x=0, y=5 optimal path direction DOWN
+WizardTD.Path @ x=0, y=4 Distance: 15
+WizardTD.Path @ x=0, y=4 optimal path direction DOWN
+WizardTD.Path @ x=0, y=3 Distance: 16
+WizardTD.Path @ x=0, y=3 optimal path direction DOWN
+WizardTD.Path @ x=0, y=2 Distance: 17
+WizardTD.Path @ x=0, y=2 optimal path direction DOWN
+WizardTD.Path @ x=0, y=1 Distance: 18
+WizardTD.Path @ x=0, y=1 optimal path direction DOWN
+WizardTD.Path @ x=9, y=9 Distance: 1
+WizardTD.Path @ x=9, y=9 optimal path direction DOWN
+WizardTD.Path @ x=9, y=8 Distance: 2
+WizardTD.Path @ x=9, y=8 optimal path direction DOWN
+WizardTD.Path @ x=9, y=7 Distance: 3
+WizardTD.Path @ x=9, y=7 optimal path direction DOWN
+WizardTD.Path @ x=9, y=6 Distance: 4
+WizardTD.Path @ x=9, y=6 optimal path direction DOWN
+WizardTD.Path @ x=9, y=5 Distance: 5
+WizardTD.Path @ x=9, y=5 optimal path direction DOWN
+WizardTD.Path @ x=9, y=4 Distance: 6
+WizardTD.Path @ x=9, y=4 optimal path direction DOWN
+WizardTD.Path @ x=9, y=3 Distance: 7
+WizardTD.Path @ x=9, y=3 optimal path direction DOWN
+WizardTD.Path @ x=9, y=2 Distance: 8
+WizardTD.Path @ x=9, y=2 optimal path direction DOWN
+WizardTD.Path @ x=9, y=1 Distance: 9
+WizardTD.Path @ x=9, y=1 optimal path direction DOWN
+WizardTD.Path @ x=9, y=0 Distance: 10
+WizardTD.Path @ x=9, y=0 optimal path direction DOWN
+WizardTD.Path @ x=10, y=0 Distance: 11
+WizardTD.Path @ x=10, y=0 optimal path direction LEFT
+WizardTD.Path @ x=11, y=0 Distance: 12
+WizardTD.Path @ x=11, y=0 optimal path direction LEFT
+WizardTD.Path @ x=12, y=0 Distance: 13
+WizardTD.Path @ x=12, y=0 optimal path direction LEFT
+WizardTD.Path @ x=13, y=0 Distance: 14
+WizardTD.Path @ x=13, y=0 optimal path direction LEFT
+WizardTD.Path @ x=14, y=0 Distance: 15
+WizardTD.Path @ x=14, y=0 optimal path direction LEFT
+WizardTD.Path @ x=15, y=0 Distance: 16
+WizardTD.Path @ x=15, y=0 optimal path direction LEFT
+WizardTD.Path @ x=16, y=0 Distance: 17
+WizardTD.Path @ x=16, y=0 optimal path direction LEFT
+WizardTD.Path @ x=17, y=0 Distance: 18
+WizardTD.Path @ x=17, y=0 optimal path direction LEFT
+WizardTD.Path @ x=18, y=0 Distance: 19
+WizardTD.Path @ x=18, y=0 optimal path direction LEFT
+WizardTD.Path @ x=8, y=0 Distance: 11
+WizardTD.Path @ x=8, y=0 optimal path direction RIGHT
+WizardTD.Path @ x=7, y=0 Distance: 12
+WizardTD.Path @ x=7, y=0 optimal path direction RIGHT
+WizardTD.Path @ x=6, y=0 Distance: 13
+WizardTD.Path @ x=6, y=0 optimal path direction RIGHT
+WizardTD.Path @ x=5, y=0 Distance: 14
+WizardTD.Path @ x=5, y=0 optimal path direction RIGHT
+WizardTD.Path @ x=4, y=0 Distance: 15
+WizardTD.Path @ x=4, y=0 optimal path direction RIGHT
+WizardTD.Path @ x=3, y=0 Distance: 16
+WizardTD.Path @ x=3, y=0 optimal path direction RIGHT
+WizardTD.Path @ x=2, y=0 Distance: 17
+WizardTD.Path @ x=2, y=0 optimal path direction RIGHT
+WizardTD.Path @ x=1, y=0 Distance: 18
+WizardTD.Path @ x=1, y=0 optimal path direction RIGHT
+Wave created
+1800.0
+upgraded range to 1 0 0 tower at (1, 1)
+upgraded speed to 1 1 0 tower at (1, 1)
+upgraded damage to 1 1 1 tower at (1, 1)
+Created: 1 1 1 tower at (1, 1)
+upgraded range to 2 1 1 tower at (1, 1)
+upgraded speed to 2 2 1 tower at (1, 1)
+upgraded damage to 2 2 2 tower at (1, 1)
 </pre>
 </span>
 </div>
@@ -193,7 +3081,7 @@
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 8.3</a> at 10/10/2023 3:57:58 PM</p>
+<a href="http://www.gradle.org">Gradle 8.3</a> at Oct 14, 2023 7:49:01 PM</p>
 </div>
 </div>
 </body>

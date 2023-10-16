@@ -9,46 +9,46 @@ public class Fireball{
     private App app;
     private Monster target;
     private double damage;
-<span class="nc" id="L12">    private boolean exists = true;</span>
+<span class="fc" id="L12">    private boolean exists = true;</span>
     
     public Fireball(int x, int y, Monster target, double damage, App app)
-<span class="nc" id="L15">    {</span>
-<span class="nc" id="L16">        this.pixelX = x + App.FIREBALLRADIUS; // define position based </span>
-<span class="nc" id="L17">        this.pixelY = y + App.FIREBALLRADIUS; // on center of sprite</span>
-<span class="nc" id="L18">        this.app = app;</span>
-<span class="nc" id="L19">        this.target = target;</span>
-<span class="nc" id="L20">        this.damage = damage;</span>
-<span class="nc" id="L21">        this.sprite = app.loadImage(&quot;src/main/resources/WizardTD/fireball.png&quot;);</span>
-<span class="nc" id="L22">    }</span>
+<span class="fc" id="L15">    {</span>
+<span class="fc" id="L16">        this.pixelX = x + App.FIREBALLRADIUS; // define position based </span>
+<span class="fc" id="L17">        this.pixelY = y + App.FIREBALLRADIUS; // on center of sprite</span>
+<span class="fc" id="L18">        this.app = app;</span>
+<span class="fc" id="L19">        this.target = target;</span>
+<span class="fc" id="L20">        this.damage = damage;</span>
+<span class="fc" id="L21">        this.sprite = app.loadImage(&quot;src/main/resources/WizardTD/fireball.png&quot;);</span>
+<span class="fc" id="L22">    }</span>
 
     public boolean getExists(){
-<span class="nc" id="L25">        return this.exists;</span>
+<span class="fc" id="L25">        return this.exists;</span>
     }
 
     public void tick(){
         // move towards target
-<span class="nc" id="L30">        double targetCentreX = this.target.getPixelX() + App.SPRITESHIFT;</span>
-<span class="nc" id="L31">        double targetCentreY = this.target.getPixelY() + App.SPRITESHIFT;</span>
+<span class="fc" id="L30">        double targetCentreX = this.target.getPixelX() + App.SPRITESHIFT;</span>
+<span class="fc" id="L31">        double targetCentreY = this.target.getPixelY() + App.SPRITESHIFT;</span>
         
-<span class="nc" id="L33">        this.pixelX += App.PROJSPEED / App.scalarDistance(</span>
+<span class="fc" id="L33">        this.pixelX += App.PROJSPEED / App.scalarDistance(</span>
             this.pixelX, this.pixelY, 
             targetCentreX, targetCentreY
             ) * (targetCentreX - this.pixelX);
 
-<span class="nc" id="L38">        this.pixelY += App.PROJSPEED / App.scalarDistance(</span>
+<span class="fc" id="L38">        this.pixelY += App.PROJSPEED / App.scalarDistance(</span>
             this.pixelX, this.pixelY, 
             targetCentreX, targetCentreY
             ) * (targetCentreY - this.pixelY);
 
         // check if hit target
-<span class="nc bnc" id="L44" title="All 2 branches missed.">        if(App.scalarDistance(</span>
+<span class="pc bpc" id="L44" title="1 of 2 branches missed.">        if(App.scalarDistance(</span>
             this.pixelX, this.pixelY, 
             targetCentreX, targetCentreY
             ) &lt;= App.MONSTERRADIUS){
 <span class="nc" id="L48">            this.target.takeDamage(this.damage);</span>
 <span class="nc" id="L49">            this.exists = false;</span>
         }
-<span class="nc" id="L51">    }</span>
+<span class="fc" id="L51">    }</span>
 
     public void draw(){
 <span class="nc" id="L54">        this.app.image(this.sprite, this.pixelX, this.pixelY);</span>

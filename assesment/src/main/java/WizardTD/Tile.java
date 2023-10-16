@@ -20,10 +20,11 @@ abstract class Tile {
      * @param y y tile cordinates [0, 19]
      * @param map map class it is generated from
      */
-    public Tile(int x, int y, Map map){
+    public Tile(int x, int y, Map map, String spritePath){
         this.x = x;
         this.y = y;
         this.map = map;
+        this.sprite = map.getApp().loadImage(spritePath);
     }
 
     public int getX(){
@@ -51,6 +52,7 @@ abstract class Tile {
 }
 
 class Shrub extends Tile {
+    private static final String spritePath = "src/main/resources/WizardTD/shrub.png";
     /**
      * Only unique thing about shrub is its sprite.
      * @param x x tile cordinates [0, 19]
@@ -58,12 +60,12 @@ class Shrub extends Tile {
      * @param map map class it is generated from
      */
     public Shrub(int x, int y, Map map){
-        super(x, y, map);
-        this.sprite = map.getApp().loadImage("src/main/resources/WizardTD/shrub.png");
+        super(x, y, map, Shrub.spritePath);
     }
 }
 
 class Grass extends Tile{
+    private static final String spritePath = "src/main/resources/WizardTD/grass.png";
     /**
      * Only unique thing about grass is its sprite.
      * @param x x tile cordinates [0, 19]
@@ -71,7 +73,6 @@ class Grass extends Tile{
      * @param map map class it is generated from
      */
     public Grass(int x, int y, Map map){
-        super(x, y, map);
-        this.sprite = map.getApp().loadImage("src/main/resources/WizardTD/grass.png");
+        super(x, y, map, Grass.spritePath);
     }
 }

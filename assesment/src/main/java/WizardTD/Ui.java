@@ -1,22 +1,22 @@
 package WizardTD;
 
 public class Ui {
-    private Map map;
-    private int waveSeconds;
-    private boolean ff = false;
-    private boolean ffHov = false;
-    private boolean paused = false;
-    private boolean pausedHov = false;
-    private boolean placeTower = false;
-    private boolean placeTowerHov = false;
-    private boolean upgradeRange = false;
-    private boolean upgradeRangeHov = false;
-    private boolean upgradeSpeed = false;
-    private boolean upgradeSpeedHov = false;
-    private boolean upgradeDamage = false;
-    private boolean upgradeDamageHov = false;
-    private boolean manaPoolHov = false;
-    private boolean poisonHov = false;
+    public Map map;
+    public int waveSeconds;
+    public boolean ff = false;
+    public boolean ffHov = false;
+    public boolean paused = false;
+    public boolean pausedHov = false;
+    public boolean placeTower = false;
+    public boolean placeTowerHov = false;
+    public boolean upgradeRange = false;
+    public boolean upgradeRangeHov = false;
+    public boolean upgradeSpeed = false;
+    public boolean upgradeSpeedHov = false;
+    public boolean upgradeDamage = false;
+    public boolean upgradeDamageHov = false;
+    public boolean manaPoolHov = false;
+    public boolean poisonHov = false;
 
     public Ui(Map map)
     {
@@ -35,9 +35,11 @@ public class Ui {
     public void waveCountdown(App app)
     {
         if(!this.map.getLastWave()){ // if not last wave
-            app.fill(0);
+            app.fill(0, 0, 0);
             app.textSize(25);
-            app.text("Wave " + (this.map.getWaveNumber() + 2) + " starts: " + this.waveSeconds, 10, 30);
+            app.text(
+                "Wave " + (this.map.getWaveNumber() + 2) + " starts: " + this.waveSeconds, 10, 30
+            );
             // +2 to change base from 0 to 1 and refer to next wave
         }
     }
@@ -47,7 +49,7 @@ public class Ui {
         float manaProp = (float)(this.map.getMana().getCurrMana() / this.map.getMana().getCap());
 
         // blue bit
-        app.stroke(0);
+        app.stroke(0, 0, 0);
         app.strokeWeight(2);
         app.fill(5, 210, 215); 
         app.rect(App.MANAX, App.MANAY, App.MANALENGTH * manaProp, App.MANAWIDTH);
@@ -63,7 +65,7 @@ public class Ui {
 
     public void manaText(App app)
     {
-        app.fill(0);
+        app.fill(0, 0, 0);
         app.textSize(17);
         app.text("MANA:", App.MANATEXTX, App.MANATEXTY);
         app.text((int)this.map.getMana().getCurrMana() + " / " + (int)this.map.getMana().getCap(), 
@@ -239,10 +241,14 @@ public class Ui {
 
         // text1
         app.textSize(App.BUTTONTEXT12SIZE);
-        app.text(text1, App.BUTTONX + App.BUTTONSIZE + App.BUTTONTEXTSHIFTX, y + App.BUTTONTEXT1SHIFTY);
+        app.text(
+            text1, App.BUTTONX + App.BUTTONSIZE + App.BUTTONTEXTSHIFTX, y + App.BUTTONTEXT1SHIFTY
+        );
 
         // text 2
-        app.text(text2, App.BUTTONX + App.BUTTONSIZE + App.BUTTONTEXTSHIFTX, y + App.BUTTONTEXT2SHIFTY);
+        app.text(
+            text2, App.BUTTONX + App.BUTTONSIZE + App.BUTTONTEXTSHIFTX, y + App.BUTTONTEXT2SHIFTY
+        );
 
         // hover
         if(hasHoverText && hover)
@@ -263,11 +269,14 @@ public class Ui {
         if(isMouseInMap(app.mouseX, app.mouseY)){
             if(this.placeTower)
             {
-                this.map.place(app.mouseX, app.mouseY, this.upgradeRange, this.upgradeSpeed, this.upgradeDamage);
+                this.map.place(
+                    app.mouseX, app.mouseY, this.upgradeRange, this.upgradeSpeed, this.upgradeDamage
+                );
             } 
             // upgrade even if in tower mode
-            this.map.upgrade(app.mouseX, app.mouseY, this.upgradeRange, this.upgradeSpeed, this.upgradeDamage);
-            
+            this.map.upgrade(
+                app.mouseX, app.mouseY, this.upgradeRange, this.upgradeSpeed, this.upgradeDamage
+            );
         }
     }
 
@@ -302,11 +311,26 @@ public class Ui {
 
     public void upgradeBubble(App app, Tower tower){
         // bubble
-        int upgrades = (this.upgradeRange ? 1 : 0) + (this.upgradeSpeed ? 1 : 0) + (this.upgradeDamage ? 1 : 0);
+        boolean wantAffordRange = this.upgradeRange 
+                                  && (int)tower.getRangeCost() < 
+                                  (int)this.map.getMana().getCurrMana();
+        int wARange = (wantAffordRange) ? 1 : 0;
+        boolean wantAffordSpeed = this.upgradeSpeed && 
+                                  (int)tower.getFiringSpeedCost() + 
+                                  wARange * (int)tower.getRangeCost() < 
+                                  (int)this.map.getMana().getCurrMana();
+        int wASpeed = (wantAffordSpeed) ? 1 : 0;
+        boolean wantAffordDamage = this.upgradeDamage && 
+                                   (int)tower.getDamageCost() + 
+                                   wASpeed * (int)tower.getFiringSpeedCost() + 
+                                   wARange * (int)tower.getRangeCost() < 
+                                   (int)this.map.getMana().getCurrMana();
+        int wADamage = (wantAffordDamage) ? 1 : 0;
+        int upgrades = wADamage + wASpeed + wARange;
         int textTally = 0;
-        int totalCost = (this.upgradeRange ? 1 : 0) * (int)tower.getRangeCost() + 
-                        (this.upgradeSpeed ? 1 : 0) * (int)tower.getFiringSpeedCost() + 
-                        (this.upgradeDamage ? 1 : 0) * (int)tower.getDamageCost();
+        int totalCost = wARange * (int)tower.getRangeCost() + 
+                        wASpeed * (int)tower.getFiringSpeedCost() + 
+                        wADamage * (int)tower.getDamageCost();
         app.stroke(0, 0, 0); // black
         app.strokeWeight(2);
         app.fill(255, 255, 255); // white
@@ -339,7 +363,7 @@ public class Ui {
         );
         textTally++;
 
-        if(this.upgradeRange){
+        if(wARange == 1){
             app.text(
                 "range:     " + (int)tower.getRangeCost(), 
                 App.UPGRADEBUBBLEX + App.UPGRADEBUBBLETEXTSHIFTX, 
@@ -347,7 +371,7 @@ public class Ui {
             );
             textTally++;
         }
-        if(this.upgradeSpeed){
+        if(wASpeed == 1){
             app.text(
                 "speed:     " + (int)tower.getFiringSpeedCost(), 
                 App.UPGRADEBUBBLEX + App.UPGRADEBUBBLETEXTSHIFTX, 
@@ -355,7 +379,7 @@ public class Ui {
             );
             textTally++;
         }
-        if(this.upgradeDamage){
+        if(wADamage == 1){
             app.text(
                 "damage: " + (int)tower.getDamageCost(), 
                 App.UPGRADEBUBBLEX + App.UPGRADEBUBBLETEXTSHIFTX, 

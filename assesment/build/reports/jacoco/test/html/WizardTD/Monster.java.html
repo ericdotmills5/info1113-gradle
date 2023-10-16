@@ -23,60 +23,60 @@ public class Monster {
     private double armour;
     private App app;
     private double healthProp;
-<span class="nc" id="L26">    private boolean alive = true;</span>
-<span class="nc" id="L27">    private boolean exists = true;</span>
-<span class="nc" id="L28">    private int deathTick = 0;</span>
-<span class="nc" id="L29">    private int tileNo = 0;</span>
-<span class="nc" id="L30">    private ArrayList&lt;Direction&gt; route = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L26">    private boolean alive = true;</span>
+<span class="fc" id="L27">    private boolean exists = true;</span>
+<span class="fc" id="L28">    private int deathTick = 0;</span>
+<span class="fc" id="L29">    private int tileNo = 0;</span>
+<span class="fc" id="L30">    private ArrayList&lt;Direction&gt; route = new ArrayList&lt;&gt;();</span>
     private PImage sprite;
     private int moves;
     private double manaOnKill;
     private int tileX;
     private int tileY;
 
-<span class="nc" id="L37">    private boolean firstTimeSpawning = true;</span>
+<span class="fc" id="L37">    private boolean firstTimeSpawning = true;</span>
 
     public Monster(
         int tileX, int tileY, double pixSpeed, double maxHealth, 
         double armour, ArrayList&lt;Direction&gt; route, App app, double manaOnKill
         )
-<span class="nc" id="L43">        {</span>
-<span class="nc bnc" id="L44" title="All 2 branches missed.">        for(Direction dir: route){</span>
-<span class="nc" id="L45">            this.route.add(dir);</span>
-<span class="nc" id="L46">        } // copy route as to not edit reference</span>
+<span class="fc" id="L43">        {</span>
+<span class="fc bfc" id="L44" title="All 2 branches covered.">        for(Direction dir: route){</span>
+<span class="fc" id="L45">            this.route.add(dir);</span>
+<span class="fc" id="L46">        } // copy route as to not edit reference</span>
         
-<span class="nc" id="L48">        this.tileX = tileX;</span>
-<span class="nc" id="L49">        this.tileY = tileY;</span>
-<span class="nc" id="L50">        this.pixSpeed = pixSpeed;</span>
-<span class="nc" id="L51">        this.maxHealth = maxHealth;</span>
-<span class="nc" id="L52">        this.currHealth = maxHealth;</span>
-<span class="nc" id="L53">        this.armour = armour;</span>
-<span class="nc" id="L54">        this.app = app;</span>
-<span class="nc" id="L55">        this.manaOnKill = manaOnKill;</span>
-<span class="nc" id="L56">        this.pixelX = tileX * CELLSIZE + ghostShiftX;</span>
-<span class="nc" id="L57">        this.pixelY = tileY * CELLSIZE + ghostShiftY + TOPBAR;</span>
-<span class="nc" id="L58">        this.sprite = app.loadImage(&quot;src/main/resources/WizardTD/gremlin.png&quot;);</span>
+<span class="fc" id="L48">        this.tileX = tileX;</span>
+<span class="fc" id="L49">        this.tileY = tileY;</span>
+<span class="fc" id="L50">        this.pixSpeed = pixSpeed;</span>
+<span class="fc" id="L51">        this.maxHealth = maxHealth;</span>
+<span class="fc" id="L52">        this.currHealth = maxHealth;</span>
+<span class="fc" id="L53">        this.armour = armour;</span>
+<span class="fc" id="L54">        this.app = app;</span>
+<span class="fc" id="L55">        this.manaOnKill = manaOnKill;</span>
+<span class="fc" id="L56">        this.pixelX = tileX * CELLSIZE + ghostShiftX;</span>
+<span class="fc" id="L57">        this.pixelY = tileY * CELLSIZE + ghostShiftY + TOPBAR;</span>
+<span class="fc" id="L58">        this.sprite = app.loadImage(&quot;src/main/resources/WizardTD/gremlin.png&quot;);</span>
 
         
-<span class="nc" id="L61">        this.spawnShift();</span>
+<span class="fc" id="L61">        this.spawnShift();</span>
 
-<span class="nc" id="L63">        System.out.println(&quot;Created &quot; + this);</span>
-<span class="nc" id="L64">    }</span>
+<span class="fc" id="L63">        System.out.println(&quot;Created &quot; + this);</span>
+<span class="fc" id="L64">    }</span>
 
     public boolean getExists(){
-<span class="nc" id="L67">        return this.exists;</span>
+<span class="fc" id="L67">        return this.exists;</span>
     }
 
     public double getPixelX(){
-<span class="nc" id="L71">        return this.pixelX;</span>
+<span class="fc" id="L71">        return this.pixelX;</span>
     }
 
     public double getPixelY(){
-<span class="nc" id="L75">        return this.pixelY;</span>
+<span class="fc" id="L75">        return this.pixelY;</span>
     }
 
     public void spawnShift(){ // shift mosnter so it spawns off screen
-<span class="nc bnc" id="L79" title="All 6 branches missed.">        switch(((WizOrPath)this.app.map.getLand()[this.tileX][this.tileY]).getTerminal()){</span>
+<span class="pc bpc" id="L79" title="5 of 6 branches missed.">        switch(((WizOrPath)this.app.map.getLand()[this.tileX][this.tileY]).getTerminal()){</span>
             case UP:
 <span class="nc" id="L81">                this.pixelY -= CELLSIZE;</span>
 <span class="nc bnc" id="L82" title="All 2 branches missed.">                if(this.firstTimeSpawning){</span>
@@ -90,9 +90,9 @@ public class Monster {
                 }
                 break;
             case LEFT:
-<span class="nc" id="L93">                this.pixelX -= CELLSIZE;</span>
-<span class="nc bnc" id="L94" title="All 2 branches missed.">                if(this.firstTimeSpawning){</span>
-<span class="nc" id="L95">                this.route.add(0, Direction.RIGHT);</span>
+<span class="fc" id="L93">                this.pixelX -= CELLSIZE;</span>
+<span class="pc bpc" id="L94" title="1 of 2 branches missed.">                if(this.firstTimeSpawning){</span>
+<span class="fc" id="L95">                this.route.add(0, Direction.RIGHT);</span>
                 }
                 break;
             case RIGHT:
@@ -105,8 +105,8 @@ public class Monster {
 <span class="nc" id="L105">                System.out.println(&quot;Monster spawned on non terminal path!&quot;);</span>
                 break;
         } 
-<span class="nc" id="L108">        this.firstTimeSpawning = false;</span>
-<span class="nc" id="L109">    }</span>
+<span class="fc" id="L108">        this.firstTimeSpawning = false;</span>
+<span class="fc" id="L109">    }</span>
 
     public void takeDamage(double damage){ // remember armour
 <span class="nc" id="L112">        this.currHealth -= damage * this.armour;</span>
@@ -114,8 +114,8 @@ public class Monster {
 <span class="nc" id="L114">    }</span>
 
     public void move(){
-<span class="nc bnc" id="L117" title="All 4 branches missed.">        if(this.tileNo &lt; this.route.size() &amp;&amp; this.alive){ // if directions are not empty</span>
-<span class="nc bnc" id="L118" title="All 6 branches missed.">            switch(this.route.get(tileNo)){ // follow next direction</span>
+<span class="pc bpc" id="L117" title="2 of 4 branches missed.">        if(this.tileNo &lt; this.route.size() &amp;&amp; this.alive){ // if directions are not empty</span>
+<span class="pc bpc" id="L118" title="5 of 6 branches missed.">            switch(this.route.get(tileNo)){ // follow next direction</span>
                 case UP:
 <span class="nc" id="L120">                    this.pixelY -= this.pixSpeed;</span>
 <span class="nc" id="L121">                    break;</span>
@@ -126,16 +126,16 @@ public class Monster {
 <span class="nc" id="L126">                    this.pixelX -= this.pixSpeed;</span>
 <span class="nc" id="L127">                    break;</span>
                 case RIGHT:
-<span class="nc" id="L129">                    this.pixelX += this.pixSpeed;</span>
-<span class="nc" id="L130">                    break;</span>
+<span class="fc" id="L129">                    this.pixelX += this.pixSpeed;</span>
+<span class="fc" id="L130">                    break;</span>
                 case NONE:
 <span class="nc" id="L132">                    System.out.println(&quot;Monster has no route&quot;);</span>
                     break;
             } 
-<span class="nc" id="L135">            this.moves += 1;</span>
-<span class="nc" id="L136">            double difference = this.pixSpeed * this.moves - CELLSIZE;</span>
+<span class="fc" id="L135">            this.moves += 1;</span>
+<span class="fc" id="L136">            double difference = this.pixSpeed * this.moves - CELLSIZE;</span>
 
-<span class="nc bnc" id="L138" title="All 2 branches missed.">            if(difference &gt;= 0){</span>
+<span class="pc bpc" id="L138" title="1 of 2 branches missed.">            if(difference &gt;= 0){</span>
 <span class="nc bnc" id="L139" title="All 5 branches missed.">                switch(this.route.get(tileNo)){ // take off difference based on direction</span>
                     case UP:
 <span class="nc" id="L141">                        this.pixelY += difference;</span>
@@ -155,7 +155,7 @@ public class Monster {
 <span class="nc" id="L155">                this.tileNo++;</span>
 <span class="nc" id="L156">                this.moves = 0; // reset pixels       </span>
             } // if monster has moved a full tile, move to next direction
-<span class="nc bnc" id="L158" title="All 4 branches missed.">        } else if(this.tileNo &gt;= this.route.size() &amp;&amp; this.alive){</span>
+<span class="pc bnc" id="L158" title="All 4 branches missed.">        } else if(this.tileNo &gt;= this.route.size() &amp;&amp; this.alive){</span>
 
             // take me back to the beginning
 <span class="nc" id="L161">            this.pixelX = tileX * CELLSIZE + ghostShiftX;</span>
@@ -170,35 +170,35 @@ public class Monster {
 <span class="nc" id="L170">                app.onLossScreen = true;</span>
             }
         }
-<span class="nc" id="L173">    }</span>
+<span class="fc" id="L173">    }</span>
 
     @Override
     public String toString(){
-<span class="nc" id="L177">        return this.currHealth + &quot; hp monster at (&quot; + this.tileX + &quot;, &quot; + this.tileY + &quot;)&quot;;</span>
+<span class="fc" id="L177">        return this.currHealth + &quot; hp monster at (&quot; + this.tileX + &quot;, &quot; + this.tileY + &quot;)&quot;;</span>
     }
 
     public void tick()
     {
         // poison
-<span class="nc bnc" id="L183" title="All 2 branches missed.">        if(this.app.map.getPoison()){</span>
+<span class="pc bpc" id="L183" title="1 of 2 branches missed.">        if(this.app.map.getPoison()){</span>
 <span class="nc" id="L184">            this.takeDamage(this.app.poisonDamage * this.app.rate); // influenced by armour</span>
         }
         
         // health
-<span class="nc" id="L188">        this.healthProp = this.currHealth / this.maxHealth;</span>
+<span class="fc" id="L188">        this.healthProp = this.currHealth / this.maxHealth;</span>
 
-<span class="nc bnc" id="L190" title="All 2 branches missed.">        for(int i = 0; i &lt; app.rate; i++){</span>
-<span class="nc bnc" id="L191" title="All 4 branches missed.">            if (this.alive &amp;&amp; this.currHealth &lt;= 0){</span>
+<span class="fc bfc" id="L190" title="All 2 branches covered.">        for(int i = 0; i &lt; app.rate; i++){</span>
+<span class="pc bpc" id="L191" title="2 of 4 branches missed.">            if (this.alive &amp;&amp; this.currHealth &lt;= 0){</span>
 <span class="nc" id="L192">            this.alive = false;</span>
 <span class="nc" id="L193">            app.map.getMana().updateMana(manaOnKill);</span>
             } // kill monster based on rate
 
-<span class="nc" id="L196">            this.move();</span>
+<span class="fc" id="L196">            this.move();</span>
         } // move monster based on rate
         
 
         // kill animation
-<span class="nc bnc" id="L201" title="All 2 branches missed.">        if(!this.alive){</span>
+<span class="pc bpc" id="L201" title="1 of 2 branches missed.">        if(!this.alive){</span>
 <span class="nc" id="L202">            this.deathTick += app.rate; // kill animation twice as fast</span>
 <span class="nc bnc" id="L203" title="All 2 branches missed.">            if(this.deathTick &gt; 20){</span>
 <span class="nc" id="L204">                this.exists = false; // will be deleted from spawn array</span>
@@ -214,7 +214,7 @@ public class Monster {
 <span class="nc" id="L214">                this.sprite = app.loadImage(&quot;src/main/resources/WizardTD/gremlin1.png&quot;);</span>
             }            
         }
-<span class="nc" id="L217">    }</span>
+<span class="fc" id="L217">    }</span>
     
     public void draw(PApplet app){
         // monster sprite

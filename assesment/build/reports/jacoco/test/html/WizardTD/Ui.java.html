@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Ui.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">assesment</a> &gt; <a href="index.source.html" class="el_package">WizardTD</a> &gt; <span class="el_source">Ui.java</span></div><h1>Ui.java</h1><pre class="source lang-java linenums">package WizardTD;
 
 public class Ui {
-    private Map map;
-    private int waveSeconds;
-<span class="fc" id="L6">    private boolean ff = false;</span>
-<span class="fc" id="L7">    private boolean ffHov = false;</span>
-<span class="fc" id="L8">    private boolean paused = false;</span>
-<span class="fc" id="L9">    private boolean pausedHov = false;</span>
-<span class="fc" id="L10">    private boolean placeTower = false;</span>
-<span class="fc" id="L11">    private boolean placeTowerHov = false;</span>
-<span class="fc" id="L12">    private boolean upgradeRange = false;</span>
-<span class="fc" id="L13">    private boolean upgradeRangeHov = false;</span>
-<span class="fc" id="L14">    private boolean upgradeSpeed = false;</span>
-<span class="fc" id="L15">    private boolean upgradeSpeedHov = false;</span>
-<span class="fc" id="L16">    private boolean upgradeDamage = false;</span>
-<span class="fc" id="L17">    private boolean upgradeDamageHov = false;</span>
-<span class="fc" id="L18">    private boolean manaPoolHov = false;</span>
-<span class="fc" id="L19">    private boolean poisonHov = false;</span>
+    public Map map;
+    public int waveSeconds;
+<span class="fc" id="L6">    public boolean ff = false;</span>
+<span class="fc" id="L7">    public boolean ffHov = false;</span>
+<span class="fc" id="L8">    public boolean paused = false;</span>
+<span class="fc" id="L9">    public boolean pausedHov = false;</span>
+<span class="fc" id="L10">    public boolean placeTower = false;</span>
+<span class="fc" id="L11">    public boolean placeTowerHov = false;</span>
+<span class="fc" id="L12">    public boolean upgradeRange = false;</span>
+<span class="fc" id="L13">    public boolean upgradeRangeHov = false;</span>
+<span class="fc" id="L14">    public boolean upgradeSpeed = false;</span>
+<span class="fc" id="L15">    public boolean upgradeSpeedHov = false;</span>
+<span class="fc" id="L16">    public boolean upgradeDamage = false;</span>
+<span class="fc" id="L17">    public boolean upgradeDamageHov = false;</span>
+<span class="fc" id="L18">    public boolean manaPoolHov = false;</span>
+<span class="fc" id="L19">    public boolean poisonHov = false;</span>
 
     public Ui(Map map)
 <span class="fc" id="L22">    {</span>
@@ -25,54 +25,54 @@ public class Ui {
 
     public int updateWaveSeconds()
     {
-<span class="nc" id="L28">        return (int) Math.floorDiv((int)this.map.getWaveTime(), App.FPS);</span>
+<span class="fc" id="L28">        return (int) Math.floorDiv((int)this.map.getWaveTime(), App.FPS);</span>
     }
 
     static public boolean isMouseInMap(int x, int y) {
-<span class="nc bnc" id="L32" title="All 8 branches missed.">        return x &gt; 0 &amp;&amp; x &lt; App.CELLSIZE * App.BOARD_WIDTH &amp;&amp; y &gt; App.TOPBAR &amp;&amp; y &lt; App.HEIGHT;</span>
+<span class="pc bpc" id="L32" title="4 of 8 branches missed.">        return x &gt; 0 &amp;&amp; x &lt; App.CELLSIZE * App.BOARD_WIDTH &amp;&amp; y &gt; App.TOPBAR &amp;&amp; y &lt; App.HEIGHT;</span>
     }
 
     public void waveCountdown(App app)
     {
-<span class="nc bnc" id="L37" title="All 2 branches missed.">        if(!this.map.getLastWave()){ // if not last wave</span>
-<span class="nc" id="L38">            app.fill(0);</span>
-<span class="nc" id="L39">            app.textSize(25);</span>
-<span class="nc" id="L40">            app.text(&quot;Wave &quot; + (this.map.getWaveNumber() + 2) + &quot; starts: &quot; + this.waveSeconds, 10, 30);</span>
+<span class="pc bpc" id="L37" title="1 of 2 branches missed.">        if(!this.map.getLastWave()){ // if not last wave</span>
+<span class="fc" id="L38">            app.fill(0, 0, 0);</span>
+<span class="fc" id="L39">            app.textSize(25);</span>
+<span class="fc" id="L40">            app.text(&quot;Wave &quot; + (this.map.getWaveNumber() + 2) + &quot; starts: &quot; + this.waveSeconds, 10, 30);</span>
             // +2 to change base from 0 to 1 and refer to next wave
         }
-<span class="nc" id="L43">    }</span>
+<span class="fc" id="L43">    }</span>
 
     public void manaBar(App app)
     {
-<span class="nc" id="L47">        float manaProp = (float)(this.map.getMana().getCurrMana() / this.map.getMana().getCap());</span>
+<span class="fc" id="L47">        float manaProp = (float)(this.map.getMana().getCurrMana() / this.map.getMana().getCap());</span>
 
         // blue bit
-<span class="nc" id="L50">        app.stroke(0);</span>
-<span class="nc" id="L51">        app.strokeWeight(2);</span>
-<span class="nc" id="L52">        app.fill(5, 210, 215); </span>
-<span class="nc" id="L53">        app.rect(App.MANAX, App.MANAY, App.MANALENGTH * manaProp, App.MANAWIDTH);</span>
+<span class="fc" id="L50">        app.stroke(0, 0, 0);</span>
+<span class="fc" id="L51">        app.strokeWeight(2);</span>
+<span class="fc" id="L52">        app.fill(5, 210, 215); </span>
+<span class="fc" id="L53">        app.rect(App.MANAX, App.MANAY, App.MANALENGTH * manaProp, App.MANAWIDTH);</span>
         
         // white bit
-<span class="nc" id="L56">        app.fill(255, 255, 255); </span>
-<span class="nc" id="L57">        app.rect(</span>
+<span class="fc" id="L56">        app.fill(255, 255, 255); </span>
+<span class="fc" id="L57">        app.rect(</span>
             App.MANAX + (App.MANALENGTH * manaProp), 
             App.MANAY, //
             (App.MANALENGTH * (1 - manaProp)), 
             App.MANAWIDTH);
-<span class="nc" id="L62">    }</span>
+<span class="fc" id="L62">    }</span>
 
     public void manaText(App app)
     {
-<span class="nc" id="L66">        app.fill(0);</span>
-<span class="nc" id="L67">        app.textSize(17);</span>
-<span class="nc" id="L68">        app.text(&quot;MANA:&quot;, App.MANATEXTX, App.MANATEXTY);</span>
-<span class="nc" id="L69">        app.text((int)this.map.getMana().getCurrMana() + &quot; / &quot; + (int)this.map.getMana().getCap(), </span>
+<span class="fc" id="L66">        app.fill(0, 0, 0);</span>
+<span class="fc" id="L67">        app.textSize(17);</span>
+<span class="fc" id="L68">        app.text(&quot;MANA:&quot;, App.MANATEXTX, App.MANATEXTY);</span>
+<span class="fc" id="L69">        app.text((int)this.map.getMana().getCurrMana() + &quot; / &quot; + (int)this.map.getMana().getCap(), </span>
                  App.MANATEXTX + App.MANACURRSHIFT, App.MANATEXTY);
-<span class="nc" id="L71">    }</span>
+<span class="fc" id="L71">    }</span>
 
     public void toggleSwitch(App app, int buttonNO)
     {
-<span class="nc bnc" id="L75" title="All 9 branches missed.">        switch(buttonNO){</span>
+<span class="pc bpc" id="L75" title="7 of 9 branches missed.">        switch(buttonNO){</span>
             case 1: // fast forward
 <span class="nc bnc" id="L77" title="All 2 branches missed.">                this.ff = !this.ff;</span>
 <span class="nc bnc" id="L78" title="All 2 branches missed.">                app.doubleRate = app.doubleRate == 1 ? 2 : 1;</span>
@@ -96,156 +96,156 @@ public class Ui {
 <span class="nc bnc" id="L96" title="All 2 branches missed.">                this.upgradeDamage = !this.upgradeDamage;</span>
 <span class="nc" id="L97">                break;</span>
             case 7: // upgrade mana pool
-<span class="nc" id="L99">                this.map.getMana().clickPoolSpell();</span>
-<span class="nc" id="L100">                break;</span>
+<span class="fc" id="L99">                this.map.getMana().clickPoolSpell();</span>
+<span class="fc" id="L100">                break;</span>
             case 8:
-<span class="nc" id="L102">                this.map.togglePoison();</span>
+<span class="fc" id="L102">                this.map.togglePoison();</span>
         }
-<span class="nc" id="L104">    }</span>
+<span class="fc" id="L104">    }</span>
 
     public void setHoveredButton(int buttonNO, boolean hover)
     {
-<span class="nc bnc" id="L108" title="All 9 branches missed.">        switch(buttonNO){</span>
+<span class="pc bpc" id="L108" title="1 of 9 branches missed.">        switch(buttonNO){</span>
             case 1: // fast forward
-<span class="nc" id="L110">                this.ffHov = hover;</span>
-<span class="nc" id="L111">                break;</span>
+<span class="fc" id="L110">                this.ffHov = hover;</span>
+<span class="fc" id="L111">                break;</span>
             case 2: // pause
-<span class="nc" id="L113">                this.pausedHov = hover;</span>
-<span class="nc" id="L114">                break;</span>
+<span class="fc" id="L113">                this.pausedHov = hover;</span>
+<span class="fc" id="L114">                break;</span>
             case 3: // place tower
-<span class="nc" id="L116">                this.placeTowerHov = hover;</span>
-<span class="nc" id="L117">                break;</span>
+<span class="fc" id="L116">                this.placeTowerHov = hover;</span>
+<span class="fc" id="L117">                break;</span>
             case 4: // upgrade range
-<span class="nc" id="L119">                this.upgradeRangeHov = hover;</span>
-<span class="nc" id="L120">                break;</span>
+<span class="fc" id="L119">                this.upgradeRangeHov = hover;</span>
+<span class="fc" id="L120">                break;</span>
             case 5: // upgrade speed
-<span class="nc" id="L122">                this.upgradeSpeedHov = hover;</span>
-<span class="nc" id="L123">                break;</span>
+<span class="fc" id="L122">                this.upgradeSpeedHov = hover;</span>
+<span class="fc" id="L123">                break;</span>
             case 6: // upgrade damage
-<span class="nc" id="L125">                this.upgradeDamageHov = hover;</span>
-<span class="nc" id="L126">                break;</span>
+<span class="fc" id="L125">                this.upgradeDamageHov = hover;</span>
+<span class="fc" id="L126">                break;</span>
             case 7: // upgrade mana pool
-<span class="nc" id="L128">                this.manaPoolHov = hover;</span>
-<span class="nc" id="L129">                break;</span>
+<span class="fc" id="L128">                this.manaPoolHov = hover;</span>
+<span class="fc" id="L129">                break;</span>
             case 8:
-<span class="nc" id="L131">                this.poisonHov = hover;</span>
+<span class="fc" id="L131">                this.poisonHov = hover;</span>
         }
-<span class="nc" id="L133">    }</span>
+<span class="fc" id="L133">    }</span>
     
     public void buttonDraw(App app, int buttonNO)
     {
-<span class="nc" id="L137">        Boolean light = null; // whether button is lit up</span>
-<span class="nc" id="L138">        Boolean hover = null; // whether mouse is hovering over button</span>
-<span class="nc" id="L139">        Boolean hasHoverText = null; // whether button has hover text</span>
-<span class="nc" id="L140">        Integer cost = null; // cost in hover box</span>
-<span class="nc" id="L141">        String text0 = null; // text on button</span>
-<span class="nc" id="L142">        String text1 = null; // text right of button (1st line)</span>
-<span class="nc" id="L143">        String text2 = null; // text right of button (2nd line)</span>
+<span class="fc" id="L137">        Boolean light = null; // whether button is lit up</span>
+<span class="fc" id="L138">        Boolean hover = null; // whether mouse is hovering over button</span>
+<span class="fc" id="L139">        Boolean hasHoverText = null; // whether button has hover text</span>
+<span class="fc" id="L140">        Integer cost = null; // cost in hover box</span>
+<span class="fc" id="L141">        String text0 = null; // text on button</span>
+<span class="fc" id="L142">        String text1 = null; // text right of button (1st line)</span>
+<span class="fc" id="L143">        String text2 = null; // text right of button (2nd line)</span>
 
         // determine which button were drawing
-<span class="nc bnc" id="L146" title="All 9 branches missed.">        switch(buttonNO){</span>
+<span class="pc bpc" id="L146" title="1 of 9 branches missed.">        switch(buttonNO){</span>
             case 1:
-<span class="nc" id="L148">                light = this.ff;</span>
-<span class="nc" id="L149">                hover = this.ffHov;</span>
-<span class="nc" id="L150">                hasHoverText = false; </span>
+<span class="fc" id="L148">                light = this.ff;</span>
+<span class="fc" id="L149">                hover = this.ffHov;</span>
+<span class="fc" id="L150">                hasHoverText = false; </span>
                 // hover text cost not needed since no hover box
-<span class="nc" id="L152">                text0 = &quot;FF&quot;;</span>
-<span class="nc" id="L153">                text1 = &quot;2x speed&quot;;</span>
-<span class="nc" id="L154">                text2 = &quot; &quot;;</span>
-<span class="nc" id="L155">                break;</span>
+<span class="fc" id="L152">                text0 = &quot;FF&quot;;</span>
+<span class="fc" id="L153">                text1 = &quot;2x speed&quot;;</span>
+<span class="fc" id="L154">                text2 = &quot; &quot;;</span>
+<span class="fc" id="L155">                break;</span>
             case 2:
-<span class="nc" id="L157">                light = this.paused;</span>
-<span class="nc" id="L158">                hover = this.pausedHov;</span>
-<span class="nc" id="L159">                hasHoverText = false;</span>
+<span class="fc" id="L157">                light = this.paused;</span>
+<span class="fc" id="L158">                hover = this.pausedHov;</span>
+<span class="fc" id="L159">                hasHoverText = false;</span>
                 // hover text cost not needed since no hover box
-<span class="nc" id="L161">                text0 = &quot;P&quot;;</span>
-<span class="nc" id="L162">                text1 = &quot;PAUSE&quot;;</span>
-<span class="nc" id="L163">                text2 = &quot; &quot;;</span>
-<span class="nc" id="L164">                break;</span>
+<span class="fc" id="L161">                text0 = &quot;P&quot;;</span>
+<span class="fc" id="L162">                text1 = &quot;PAUSE&quot;;</span>
+<span class="fc" id="L163">                text2 = &quot; &quot;;</span>
+<span class="fc" id="L164">                break;</span>
             case 3:
-<span class="nc" id="L166">                light = this.placeTower;</span>
-<span class="nc" id="L167">                hover = this.placeTowerHov;</span>
-<span class="nc" id="L168">                hasHoverText = true;</span>
-<span class="nc" id="L169">                cost = (int)this.map.getTowerCost();</span>
-<span class="nc" id="L170">                text0 = &quot;T&quot;;</span>
-<span class="nc" id="L171">                text1 = &quot;Build&quot;;</span>
-<span class="nc" id="L172">                text2 = &quot;tower&quot;;</span>
-<span class="nc" id="L173">                break;</span>
+<span class="fc" id="L166">                light = this.placeTower;</span>
+<span class="fc" id="L167">                hover = this.placeTowerHov;</span>
+<span class="fc" id="L168">                hasHoverText = true;</span>
+<span class="fc" id="L169">                cost = (int)this.map.getTowerCost();</span>
+<span class="fc" id="L170">                text0 = &quot;T&quot;;</span>
+<span class="fc" id="L171">                text1 = &quot;Build&quot;;</span>
+<span class="fc" id="L172">                text2 = &quot;tower&quot;;</span>
+<span class="fc" id="L173">                break;</span>
             case 4:
-<span class="nc" id="L175">                light = this.upgradeRange;</span>
-<span class="nc" id="L176">                hover = this.upgradeRangeHov;</span>
-<span class="nc" id="L177">                hasHoverText = false;</span>
+<span class="fc" id="L175">                light = this.upgradeRange;</span>
+<span class="fc" id="L176">                hover = this.upgradeRangeHov;</span>
+<span class="fc" id="L177">                hasHoverText = false;</span>
                 
-<span class="nc" id="L179">                text0 = &quot;U1&quot;;</span>
-<span class="nc" id="L180">                text1 = &quot;Upgrade&quot;;</span>
-<span class="nc" id="L181">                text2 = &quot;range&quot;;</span>
-<span class="nc" id="L182">                break;</span>
+<span class="fc" id="L179">                text0 = &quot;U1&quot;;</span>
+<span class="fc" id="L180">                text1 = &quot;Upgrade&quot;;</span>
+<span class="fc" id="L181">                text2 = &quot;range&quot;;</span>
+<span class="fc" id="L182">                break;</span>
             case 5:
-<span class="nc" id="L184">                light = this.upgradeSpeed;</span>
-<span class="nc" id="L185">                hover = this.upgradeSpeedHov;</span>
-<span class="nc" id="L186">                hasHoverText = false;</span>
+<span class="fc" id="L184">                light = this.upgradeSpeed;</span>
+<span class="fc" id="L185">                hover = this.upgradeSpeedHov;</span>
+<span class="fc" id="L186">                hasHoverText = false;</span>
                 
-<span class="nc" id="L188">                text0 = &quot;U2&quot;;</span>
-<span class="nc" id="L189">                text1 = &quot;Upgrade&quot;;</span>
-<span class="nc" id="L190">                text2 = &quot;speed&quot;;</span>
-<span class="nc" id="L191">                break;</span>
+<span class="fc" id="L188">                text0 = &quot;U2&quot;;</span>
+<span class="fc" id="L189">                text1 = &quot;Upgrade&quot;;</span>
+<span class="fc" id="L190">                text2 = &quot;speed&quot;;</span>
+<span class="fc" id="L191">                break;</span>
             case 6:
-<span class="nc" id="L193">                light = this.upgradeDamage;</span>
-<span class="nc" id="L194">                hover = this.upgradeDamageHov;</span>
-<span class="nc" id="L195">                hasHoverText = false;</span>
+<span class="fc" id="L193">                light = this.upgradeDamage;</span>
+<span class="fc" id="L194">                hover = this.upgradeDamageHov;</span>
+<span class="fc" id="L195">                hasHoverText = false;</span>
                 
-<span class="nc" id="L197">                text0 = &quot;U3&quot;;</span>
-<span class="nc" id="L198">                text1 = &quot;Upgrade&quot;;</span>
-<span class="nc" id="L199">                text2 = &quot;damage&quot;;</span>
-<span class="nc" id="L200">                break;</span>
+<span class="fc" id="L197">                text0 = &quot;U3&quot;;</span>
+<span class="fc" id="L198">                text1 = &quot;Upgrade&quot;;</span>
+<span class="fc" id="L199">                text2 = &quot;damage&quot;;</span>
+<span class="fc" id="L200">                break;</span>
             case 7:
-<span class="nc" id="L202">                light = false; // mana pool cannot be toggled</span>
-<span class="nc" id="L203">                hover = this.manaPoolHov;</span>
-<span class="nc" id="L204">                hasHoverText = true;</span>
-<span class="nc" id="L205">                cost = (int)this.map.getMana().getPoolCost();</span>
-<span class="nc" id="L206">                text0 = &quot;M&quot;;</span>
-<span class="nc" id="L207">                text1 = &quot;Mana pool&quot;;</span>
-<span class="nc" id="L208">                text2 = &quot;cost: &quot; + cost; // assume 4 digit price max</span>
-<span class="nc" id="L209">                break;</span>
+<span class="fc" id="L202">                light = false; // mana pool cannot be toggled</span>
+<span class="fc" id="L203">                hover = this.manaPoolHov;</span>
+<span class="fc" id="L204">                hasHoverText = true;</span>
+<span class="fc" id="L205">                cost = (int)this.map.getMana().getPoolCost();</span>
+<span class="fc" id="L206">                text0 = &quot;M&quot;;</span>
+<span class="fc" id="L207">                text1 = &quot;Mana pool&quot;;</span>
+<span class="fc" id="L208">                text2 = &quot;cost: &quot; + cost; // assume 4 digit price max</span>
+<span class="fc" id="L209">                break;</span>
             case 8:
-<span class="nc" id="L211">                light = this.map.getPoison();</span>
-<span class="nc" id="L212">                hover = this.poisonHov;</span>
-<span class="nc" id="L213">                hasHoverText = true;</span>
-<span class="nc" id="L214">                cost = (int)this.map.getApp().poisonCost;</span>
-<span class="nc" id="L215">                text0 = &quot;U4&quot;;</span>
-<span class="nc" id="L216">                text1 = &quot;Poison all&quot;;</span>
-<span class="nc" id="L217">                text2 = &quot;cost: &quot; + cost; // assume 4 digit price max</span>
+<span class="fc" id="L211">                light = this.map.getPoison();</span>
+<span class="fc" id="L212">                hover = this.poisonHov;</span>
+<span class="fc" id="L213">                hasHoverText = true;</span>
+<span class="fc" id="L214">                cost = (int)this.map.getApp().poisonCost;</span>
+<span class="fc" id="L215">                text0 = &quot;U4&quot;;</span>
+<span class="fc" id="L216">                text1 = &quot;Poison all&quot;;</span>
+<span class="fc" id="L217">                text2 = &quot;cost: &quot; + cost; // assume 4 digit price max</span>
                 break;
         }
 
         // button outline
-<span class="nc bnc" id="L222" title="All 2 branches missed.">        if(light){</span>
-<span class="nc" id="L223">            app.fill(255, 255, 0); // yellow</span>
-<span class="nc bnc" id="L224" title="All 2 branches missed.">        } else if(hover) { </span>
+<span class="fc bfc" id="L222" title="All 2 branches covered.">        if(light){</span>
+<span class="fc" id="L223">            app.fill(255, 255, 0); // yellow</span>
+<span class="pc bpc" id="L224" title="1 of 2 branches missed.">        } else if(hover) { </span>
 <span class="nc" id="L225">            app.fill(200, 200, 200); // grey</span>
         }else {
-<span class="nc" id="L227">            app.noFill(); // hollow</span>
+<span class="fc" id="L227">            app.noFill(); // hollow</span>
         }
-<span class="nc" id="L229">        int y = App.TOPBAR + buttonNO * App.BUTTONSPACING + (buttonNO-1)*App.BUTTONSIZE;</span>
+<span class="fc" id="L229">        int y = App.TOPBAR + buttonNO * App.BUTTONSPACING + (buttonNO-1)*App.BUTTONSIZE;</span>
 
-<span class="nc" id="L231">        app.stroke(0, 0, 0);</span>
-<span class="nc" id="L232">        app.strokeWeight(2);</span>
-<span class="nc" id="L233">        app.rect(App.BUTTONX, y, App.BUTTONSIZE, App.BUTTONSIZE);</span>
+<span class="fc" id="L231">        app.stroke(0, 0, 0);</span>
+<span class="fc" id="L232">        app.strokeWeight(2);</span>
+<span class="fc" id="L233">        app.rect(App.BUTTONX, y, App.BUTTONSIZE, App.BUTTONSIZE);</span>
 
         // text0
-<span class="nc" id="L236">        app.fill(0, 0, 0);</span>
-<span class="nc" id="L237">        app.textSize(App.BUTTONTEXT0SIZE);</span>
-<span class="nc" id="L238">        app.text(text0, App.BUTTONX + App.BUTTONTEXTSHIFTX, y + App.BUTTONTEXT0SHIFTY);</span>
+<span class="fc" id="L236">        app.fill(0, 0, 0);</span>
+<span class="fc" id="L237">        app.textSize(App.BUTTONTEXT0SIZE);</span>
+<span class="fc" id="L238">        app.text(text0, App.BUTTONX + App.BUTTONTEXTSHIFTX, y + App.BUTTONTEXT0SHIFTY);</span>
 
         // text1
-<span class="nc" id="L241">        app.textSize(App.BUTTONTEXT12SIZE);</span>
-<span class="nc" id="L242">        app.text(text1, App.BUTTONX + App.BUTTONSIZE + App.BUTTONTEXTSHIFTX, y + App.BUTTONTEXT1SHIFTY);</span>
+<span class="fc" id="L241">        app.textSize(App.BUTTONTEXT12SIZE);</span>
+<span class="fc" id="L242">        app.text(text1, App.BUTTONX + App.BUTTONSIZE + App.BUTTONTEXTSHIFTX, y + App.BUTTONTEXT1SHIFTY);</span>
 
         // text 2
-<span class="nc" id="L245">        app.text(text2, App.BUTTONX + App.BUTTONSIZE + App.BUTTONTEXTSHIFTX, y + App.BUTTONTEXT2SHIFTY);</span>
+<span class="fc" id="L245">        app.text(text2, App.BUTTONX + App.BUTTONSIZE + App.BUTTONTEXTSHIFTX, y + App.BUTTONTEXT2SHIFTY);</span>
 
         // hover
-<span class="nc bnc" id="L248" title="All 4 branches missed.">        if(hasHoverText &amp;&amp; hover)</span>
+<span class="pc bpc" id="L248" title="1 of 4 branches missed.">        if(hasHoverText &amp;&amp; hover)</span>
         {
             // hover box
 <span class="nc" id="L251">            app.fill(255, 255, 255); // white</span>
@@ -257,151 +257,150 @@ public class Ui {
 <span class="nc" id="L257">            app.text(&quot;Cost: &quot; + cost, App.BUTTONHOVERTEXTX, y + App.BUTTONHOVERTEXTSHIFTY);</span>
             
         }
-<span class="nc" id="L260">    }</span>
+<span class="fc" id="L260">    }</span>
 
     public void click(App app){
-<span class="nc bnc" id="L263" title="All 2 branches missed.">        if(isMouseInMap(app.mouseX, app.mouseY)){</span>
-<span class="nc bnc" id="L264" title="All 2 branches missed.">            if(this.placeTower)</span>
+<span class="pc bpc" id="L263" title="1 of 2 branches missed.">        if(isMouseInMap(app.mouseX, app.mouseY)){</span>
+<span class="pc bpc" id="L264" title="1 of 2 branches missed.">            if(this.placeTower)</span>
             {
-<span class="nc" id="L266">                this.map.place(app.mouseX, app.mouseY, this.upgradeRange, this.upgradeSpeed, this.upgradeDamage);</span>
+<span class="fc" id="L266">                this.map.place(app.mouseX, app.mouseY, this.upgradeRange, this.upgradeSpeed, this.upgradeDamage);</span>
             } 
             // upgrade even if in tower mode
-<span class="nc" id="L269">            this.map.upgrade(app.mouseX, app.mouseY, this.upgradeRange, this.upgradeSpeed, this.upgradeDamage);</span>
-            
+<span class="fc" id="L269">            this.map.upgrade(app.mouseX, app.mouseY, this.upgradeRange, this.upgradeSpeed, this.upgradeDamage);</span>
         }
-<span class="nc" id="L272">    }</span>
+<span class="fc" id="L271">    }</span>
 
     public void hoverPlace(App app){
-<span class="nc" id="L275">        app.noFill();</span>
-<span class="nc" id="L276">        app.stroke(0, 0, 0); // black</span>
-<span class="nc" id="L277">        app.strokeWeight(2);</span>
-<span class="nc" id="L278">        int x1 = app.mouseX - App.CELLSIZE / 2; // shift to center of cell</span>
-<span class="nc" id="L279">        int y1 = app.mouseY - App.CELLSIZE / 2;</span>
-<span class="nc" id="L280">        int x2 = app.mouseX + App.CELLSIZE / 2;</span>
-<span class="nc" id="L281">        int y2 = app.mouseY + App.CELLSIZE / 2;</span>
-<span class="nc" id="L282">        int circleGrow = 10;</span>
-<span class="nc" id="L283">        int crossGrow = -10; // shift crosshair to center of cell</span>
+<span class="fc" id="L274">        app.noFill();</span>
+<span class="fc" id="L275">        app.stroke(0, 0, 0); // black</span>
+<span class="fc" id="L276">        app.strokeWeight(2);</span>
+<span class="fc" id="L277">        int x1 = app.mouseX - App.CELLSIZE / 2; // shift to center of cell</span>
+<span class="fc" id="L278">        int y1 = app.mouseY - App.CELLSIZE / 2;</span>
+<span class="fc" id="L279">        int x2 = app.mouseX + App.CELLSIZE / 2;</span>
+<span class="fc" id="L280">        int y2 = app.mouseY + App.CELLSIZE / 2;</span>
+<span class="fc" id="L281">        int circleGrow = 10;</span>
+<span class="fc" id="L282">        int crossGrow = -10; // shift crosshair to center of cell</span>
 
-<span class="nc bnc" id="L285" title="All 2 branches missed.">        if(this.placeTower){</span>
-<span class="nc" id="L286">            app.image(</span>
-<span class="nc" id="L287">                app.loadImage(&quot;src/main/resources/WizardTD/towerGrey.png&quot;), </span>
+<span class="pc bpc" id="L284" title="1 of 2 branches missed.">        if(this.placeTower){</span>
+<span class="fc" id="L285">            app.image(</span>
+<span class="fc" id="L286">                app.loadImage(&quot;src/main/resources/WizardTD/towerGrey.png&quot;), </span>
                 x1, y1
             );
         }
-<span class="nc bnc" id="L291" title="All 2 branches missed.">        if(this.upgradeSpeed){</span>
-<span class="nc" id="L292">            app.rect(x1, y1, App.CELLSIZE, App.CELLSIZE);</span>
+<span class="pc bpc" id="L290" title="1 of 2 branches missed.">        if(this.upgradeSpeed){</span>
+<span class="fc" id="L291">            app.rect(x1, y1, App.CELLSIZE, App.CELLSIZE);</span>
         }
-<span class="nc bnc" id="L294" title="All 2 branches missed.">        if(this.upgradeRange){</span>
-<span class="nc" id="L295">            app.ellipse(app.mouseX, app.mouseY, App.CELLSIZE + circleGrow, App.CELLSIZE + circleGrow);</span>
+<span class="pc bpc" id="L293" title="1 of 2 branches missed.">        if(this.upgradeRange){</span>
+<span class="fc" id="L294">            app.ellipse(app.mouseX, app.mouseY, App.CELLSIZE + circleGrow, App.CELLSIZE + circleGrow);</span>
         } // + 5 makes it distinguishable from square
-<span class="nc bnc" id="L297" title="All 2 branches missed.">        if(this.upgradeDamage){</span>
-<span class="nc" id="L298">            app.line(x1 - crossGrow, y1 - crossGrow, x2 + crossGrow, y2 + crossGrow);</span>
-<span class="nc" id="L299">            app.line(x1 - crossGrow, y2 + crossGrow, x2 + crossGrow, y1 - crossGrow);</span>
+<span class="pc bpc" id="L296" title="1 of 2 branches missed.">        if(this.upgradeDamage){</span>
+<span class="fc" id="L297">            app.line(x1 - crossGrow, y1 - crossGrow, x2 + crossGrow, y2 + crossGrow);</span>
+<span class="fc" id="L298">            app.line(x1 - crossGrow, y2 + crossGrow, x2 + crossGrow, y1 - crossGrow);</span>
         }// +- 5 makes it distinguishable from square
-<span class="nc" id="L301">    }</span>
+<span class="fc" id="L300">    }</span>
 
     public void upgradeBubble(App app, Tower tower){
         // bubble
-<span class="nc bnc" id="L305" title="All 6 branches missed.">        int upgrades = (this.upgradeRange ? 1 : 0) + (this.upgradeSpeed ? 1 : 0) + (this.upgradeDamage ? 1 : 0);</span>
-<span class="nc" id="L306">        int textTally = 0;</span>
-<span class="nc bnc" id="L307" title="All 4 branches missed.">        int totalCost = (this.upgradeRange ? 1 : 0) * (int)tower.getRangeCost() + </span>
-<span class="nc bnc" id="L308" title="All 2 branches missed.">                        (this.upgradeSpeed ? 1 : 0) * (int)tower.getFiringSpeedCost() + </span>
-<span class="nc" id="L309">                        (this.upgradeDamage ? 1 : 0) * (int)tower.getDamageCost();</span>
-<span class="nc" id="L310">        app.stroke(0, 0, 0); // black</span>
-<span class="nc" id="L311">        app.strokeWeight(2);</span>
-<span class="nc" id="L312">        app.fill(255, 255, 255); // white</span>
+<span class="pc bpc" id="L304" title="3 of 6 branches missed.">        int upgrades = (this.upgradeRange ? 1 : 0) + (this.upgradeSpeed ? 1 : 0) + (this.upgradeDamage ? 1 : 0);</span>
+<span class="fc" id="L305">        int textTally = 0;</span>
+<span class="pc bpc" id="L306" title="2 of 4 branches missed.">        int totalCost = (this.upgradeRange ? 1 : 0) * (int)tower.getRangeCost() + </span>
+<span class="pc bpc" id="L307" title="1 of 2 branches missed.">                        (this.upgradeSpeed ? 1 : 0) * (int)tower.getFiringSpeedCost() + </span>
+<span class="fc" id="L308">                        (this.upgradeDamage ? 1 : 0) * (int)tower.getDamageCost();</span>
+<span class="fc" id="L309">        app.stroke(0, 0, 0); // black</span>
+<span class="fc" id="L310">        app.strokeWeight(2);</span>
+<span class="fc" id="L311">        app.fill(255, 255, 255); // white</span>
         
         // shapes
         // &quot;upgrade cost&quot; rectangle
-<span class="nc" id="L316">        app.rect(</span>
+<span class="fc" id="L315">        app.rect(</span>
             App.UPGRADEBUBBLEX, App.UPGRADEBUBBLEY, 
             App.UPGRADEBUBBLELENGTH, App.UPGRADEBUBBLEHEIGHT
         );
 
         // specific upgrade rectangle
-<span class="nc" id="L322">        app.rect(</span>
+<span class="fc" id="L321">        app.rect(</span>
             App.UPGRADEBUBBLEX, App.UPGRADEBUBBLEY + App.UPGRADEBUBBLEHEIGHT, 
             App.UPGRADEBUBBLELENGTH, App.UPGRADEBUBBLEHEIGHT * upgrades
         );
 
         // total cost rectangle
-<span class="nc" id="L328">        app.rect(</span>
+<span class="fc" id="L327">        app.rect(</span>
             App.UPGRADEBUBBLEX, App.UPGRADEBUBBLEY + App.UPGRADEBUBBLEHEIGHT * (upgrades + 1), 
             App.UPGRADEBUBBLELENGTH, App.UPGRADEBUBBLEHEIGHT
         );
 
         // text 
-<span class="nc" id="L334">        app.fill(0, 0, 0); // black text</span>
-<span class="nc" id="L335">        app.textSize(App.UPGRADEBUBBLETEXTSIZE);</span>
-<span class="nc" id="L336">        app.text(</span>
+<span class="fc" id="L333">        app.fill(0, 0, 0); // black text</span>
+<span class="fc" id="L334">        app.textSize(App.UPGRADEBUBBLETEXTSIZE);</span>
+<span class="fc" id="L335">        app.text(</span>
             &quot;Upgrade cost&quot;, App.UPGRADEBUBBLEX + App.UPGRADEBUBBLETEXTSHIFTX, 
             App.UPGRADEBUBBLEY + App.UPGRADEBUBBLETEXTSHIFTY + textTally * (App.UPGRADEBUBBLEHEIGHT)
         );
-<span class="nc" id="L340">        textTally++;</span>
+<span class="fc" id="L339">        textTally++;</span>
 
-<span class="nc bnc" id="L342" title="All 2 branches missed.">        if(this.upgradeRange){</span>
-<span class="nc" id="L343">            app.text(</span>
-<span class="nc" id="L344">                &quot;range:     &quot; + (int)tower.getRangeCost(), </span>
+<span class="pc bpc" id="L341" title="1 of 2 branches missed.">        if(this.upgradeRange){</span>
+<span class="fc" id="L342">            app.text(</span>
+<span class="fc" id="L343">                &quot;range:     &quot; + (int)tower.getRangeCost(), </span>
                 App.UPGRADEBUBBLEX + App.UPGRADEBUBBLETEXTSHIFTX, 
                 App.UPGRADEBUBBLEY + App.UPGRADEBUBBLETEXTSHIFTY + textTally * (App.UPGRADEBUBBLEHEIGHT)
             );
-<span class="nc" id="L348">            textTally++;</span>
+<span class="fc" id="L347">            textTally++;</span>
         }
-<span class="nc bnc" id="L350" title="All 2 branches missed.">        if(this.upgradeSpeed){</span>
-<span class="nc" id="L351">            app.text(</span>
-<span class="nc" id="L352">                &quot;speed:     &quot; + (int)tower.getFiringSpeedCost(), </span>
+<span class="pc bpc" id="L349" title="1 of 2 branches missed.">        if(this.upgradeSpeed){</span>
+<span class="fc" id="L350">            app.text(</span>
+<span class="fc" id="L351">                &quot;speed:     &quot; + (int)tower.getFiringSpeedCost(), </span>
                 App.UPGRADEBUBBLEX + App.UPGRADEBUBBLETEXTSHIFTX, 
                 App.UPGRADEBUBBLEY + App.UPGRADEBUBBLETEXTSHIFTY + textTally * (App.UPGRADEBUBBLEHEIGHT)
             );
-<span class="nc" id="L356">            textTally++;</span>
+<span class="fc" id="L355">            textTally++;</span>
         }
-<span class="nc bnc" id="L358" title="All 2 branches missed.">        if(this.upgradeDamage){</span>
-<span class="nc" id="L359">            app.text(</span>
-<span class="nc" id="L360">                &quot;damage: &quot; + (int)tower.getDamageCost(), </span>
+<span class="pc bpc" id="L357" title="1 of 2 branches missed.">        if(this.upgradeDamage){</span>
+<span class="fc" id="L358">            app.text(</span>
+<span class="fc" id="L359">                &quot;damage: &quot; + (int)tower.getDamageCost(), </span>
                 App.UPGRADEBUBBLEX + App.UPGRADEBUBBLETEXTSHIFTX, 
                 App.UPGRADEBUBBLEY + App.UPGRADEBUBBLETEXTSHIFTY + textTally * (App.UPGRADEBUBBLEHEIGHT)
             );
-<span class="nc" id="L364">            textTally++;</span>
+<span class="fc" id="L363">            textTally++;</span>
         }
 
-<span class="nc" id="L367">        app.text(</span>
+<span class="fc" id="L366">        app.text(</span>
             &quot;Total:      &quot; + totalCost, 
             App.UPGRADEBUBBLEX + App.UPGRADEBUBBLETEXTSHIFTX, 
             App.UPGRADEBUBBLEY + App.UPGRADEBUBBLETEXTSHIFTY + textTally * (App.UPGRADEBUBBLEHEIGHT)
         );
-<span class="nc" id="L372">    }</span>
+<span class="fc" id="L371">    }</span>
 
     public void tick()
     {
-<span class="nc" id="L376">        this.waveSeconds = this.updateWaveSeconds(); // convert wave time to seconds</span>
-<span class="nc" id="L377">    }</span>
+<span class="fc" id="L375">        this.waveSeconds = this.updateWaveSeconds(); // convert wave time to seconds</span>
+<span class="fc" id="L376">    }</span>
 
     public void draw(App app)
     {
-<span class="nc" id="L381">        this.waveCountdown(app); // wave timer</span>
+<span class="fc" id="L380">        this.waveCountdown(app); // wave timer</span>
 
         // mana
-<span class="nc" id="L384">        this.manaBar(app);</span>
-<span class="nc" id="L385">        this.manaText(app);</span>
+<span class="fc" id="L383">        this.manaBar(app);</span>
+<span class="fc" id="L384">        this.manaText(app);</span>
 
         // buttons
-<span class="nc bnc" id="L388" title="All 2 branches missed.">        for(int i = 1; i &lt;= App.NUMBEROFBUTTONS; i++){</span>
-<span class="nc" id="L389">            this.buttonDraw(app, i);</span>
+<span class="fc bfc" id="L387" title="All 2 branches covered.">        for(int i = 1; i &lt;= App.NUMBEROFBUTTONS; i++){</span>
+<span class="fc" id="L388">            this.buttonDraw(app, i);</span>
         }
 
         // tower mode
-<span class="nc" id="L393">        hoverPlace(app);</span>
+<span class="fc" id="L392">        hoverPlace(app);</span>
 
         // draw upgrade bubble in bottom right
-<span class="nc" id="L396">        Tile potentialTower = this.map.mouse2Land(app.mouseX, app.mouseY);</span>
+<span class="fc" id="L395">        Tile potentialTower = this.map.mouse2Land(app.mouseX, app.mouseY);</span>
 
-<span class="nc bnc" id="L398" title="All 8 branches missed.">        if(</span>
+<span class="pc bpc" id="L397" title="6 of 8 branches missed.">        if(</span>
             potentialTower instanceof Tower &amp;&amp; 
             (this.upgradeRange || this.upgradeSpeed || this.upgradeDamage)
         ){
-<span class="nc" id="L402">            Tower tower = (Tower) potentialTower;</span>
-<span class="nc" id="L403">            upgradeBubble(app, tower);</span>
+<span class="fc" id="L401">            Tower tower = (Tower) potentialTower;</span>
+<span class="fc" id="L402">            upgradeBubble(app, tower);</span>
         }
-<span class="nc" id="L405">    }</span>
+<span class="fc" id="L404">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>
