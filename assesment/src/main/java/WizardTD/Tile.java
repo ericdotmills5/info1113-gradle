@@ -5,8 +5,8 @@ import processing.core.PImage;
 
 abstract class Tile {
     public static final int CELLSIZE = App.CELLSIZE;
-    public static final int wizShiftX = App.wizShiftX; // 8 pixels left
-    public static final int wizShiftY = App.wizShiftY; // 5 pixels up
+    public static final int WIZ_SHIFT_X = App.WIZ_SHIFT_X; // 8 pixels left
+    public static final int WIZ_SHIFT_Y = App.WIZ_SHIFT_Y; // 5 pixels up
     public static final int TOPBAR = App.TOPBAR; // 40 pixels down
 
     protected int x; // tile coordinates
@@ -20,25 +20,25 @@ abstract class Tile {
      * @param y y tile cordinates [0, 19]
      * @param map map class it is generated from
      */
-    public Tile(int x, int y, Map map, String spritePath){
+    public Tile(int x, int y, Map map, String spritePath) {
         this.x = x;
         this.y = y;
         this.map = map;
         this.sprite = map.getApp().loadImage(spritePath);
     }
 
-    public int getX(){
+    public int getX() {
         return this.x;
     }
 
-    public int getY(){
+    public int getY() {
         return this.y;
     }
 
     /**
      * @return String representation of tile (x, y) for debugging
      */
-    public String toString(){
+    public String toString() {
         return this.getClass().getName() + " @ x=" + this.x + ", y=" + this.y;
     }
 
@@ -46,7 +46,7 @@ abstract class Tile {
      * Draws tile to screen, converting tile coordinates to pixel coordinates
      * @param app need app to draw with
      */
-    public void draw(PApplet app){
+    public void draw(PApplet app) {
         app.image(this.sprite, this.x * CELLSIZE, this.y * CELLSIZE + TOPBAR);
     }
 }
@@ -59,7 +59,7 @@ class Shrub extends Tile {
      * @param y y tile cordinates [0, 19]
      * @param map map class it is generated from
      */
-    public Shrub(int x, int y, Map map){
+    public Shrub(int x, int y, Map map) {
         super(x, y, map, Shrub.spritePath);
     }
 }
@@ -72,7 +72,7 @@ class Grass extends Tile{
      * @param y y tile cordinates [0, 19]
      * @param map map class it is generated from
      */
-    public Grass(int x, int y, Map map){
+    public Grass(int x, int y, Map map) {
         super(x, y, map, Grass.spritePath);
     }
 }

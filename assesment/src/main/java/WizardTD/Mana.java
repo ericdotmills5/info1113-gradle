@@ -38,7 +38,7 @@ public class Mana {
     }
 
     public void clickPoolSpell() {
-        if(updateMana(-1 * poolCost)){
+        if (updateMana(-1 * poolCost)) {
         // checks if mana is enough, and if so, deducts mana
             this.cap *= this.capMultiplier;
             this.regenRate += this.manaMultiplier * this.initialRegenRate;
@@ -47,12 +47,12 @@ public class Mana {
     }
         
     public boolean updateMana(double add) {
-        if(this.currMana + add <= 0){
+        if (this.currMana + add <= 0) {
             return false;
         // either building is too expensive and won't be placed
         // or ghost kills player
 
-        } else if(this.currMana + add > this.cap){
+        } else if (this.currMana + add > this.cap) {
             this.currMana = this.cap;
             return true;
         } else{
@@ -68,7 +68,7 @@ public class Mana {
     public void tick(App app) {
         this.counterOfFrames += app.rate;
 
-        if(this.counterOfFrames >= App.FPS){
+        if (this.counterOfFrames >= App.FPS) {
             this.updateMana(this.regenRate);
             this.counterOfFrames = 0;
         } // update mana every second

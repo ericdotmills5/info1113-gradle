@@ -85,43 +85,43 @@ public class Map {
         System.out.println(this.waveTime);
     } 
 
-    public Tile[][] getLand(){
+    public Tile[][] getLand() {
         return this.land;
     }
 
-    public ArrayList<Tower> getTowerList(){
+    public ArrayList<Tower> getTowerList() {
         return this.towerList;
     }
 
-    public App getApp(){
+    public App getApp() {
         return this.app;
     }
 
-    public boolean getLastWave(){
+    public boolean getLastWave() {
         return this.lastWave;
     }
 
-    public int getWaveNumber(){
+    public int getWaveNumber() {
         return this.waveNumber;
     }
 
-    public ArrayList<Wave> getWaves(){
+    public ArrayList<Wave> getWaves() {
         return this.waveList;
     }
 
-    public double getWaveTime(){
+    public double getWaveTime() {
         return this.waveTime;
     }
 
-    public Mana getMana(){
+    public Mana getMana() {
         return this.mana;
     }
 
-    public double getTowerCost(){
+    public double getTowerCost() {
         return this.data.getDouble("tower_cost");
     }
 
-    public double getInitialTowerRange(){
+    public double getInitialTowerRange() {
         return this.data.getDouble("initial_tower_range");
     }
 
@@ -153,8 +153,8 @@ public class Map {
     /**
      * Toggles poison on and off based on whether player has enough mana
      */
-    public void togglePoison(){
-        if(!this.poison && this.mana.updateMana(-1 * this.app.poisonCost)){
+    public void togglePoison() {
+        if (!this.poison && this.mana.updateMana(-1 * this.app.poisonCost)) {
             this.poison = true;
         }
     }
@@ -164,14 +164,14 @@ public class Map {
      * @param scan iterable of strings representing map
      * @return matrix of tiles
      */
-    public Tile[][] iterator2Matrix(Iterator<String> scan){
+    public Tile[][] iterator2Matrix(Iterator<String> scan) {
         Tile[][] matrix = new Tile[BOARD_WIDTH][BOARD_WIDTH]; // assume level is sqrmapsize
         int i;
         
-        for(int j = 0; j < BOARD_WIDTH; j++){ // iterate through each line
+        for(int j = 0; j < BOARD_WIDTH; j++) { // iterate through each line
             i = 0;
-            for(char c: scan.next().toCharArray()){ // iterate through each letter
-                switch(c){
+            for(char c: scan.next().toCharArray()) { // iterate through each letter
+                switch(c) {
                     case 'S':
                         matrix[i][j] = new Shrub(i, j, this);
                         break;
@@ -190,7 +190,7 @@ public class Map {
                 }
                 i++;
             }
-            while(i < BOARD_WIDTH){ // fill trailing empty text with grass
+            while(i < BOARD_WIDTH) { // fill trailing empty text with grass
                 matrix[i][j] = new Grass(i, j, this);
                 i++;
             }
@@ -207,7 +207,7 @@ public class Map {
     public double addWaveTimes()
     { 
         JSONArray waves = this.data.getJSONArray("waves");
-        if(waves.size() == 1){ // force wave to be negative (endless)
+        if (waves.size() == 1) { // force wave to be negative (endless)
             this.lastWave = true;
             return -1 * (waves.getJSONObject(this.waveNumber).getDouble("pre_wave_pause")*FPS +1);
         }
@@ -220,19 +220,19 @@ public class Map {
      */
     public void updateAllPaths()
     { 
-        for(Tile[] row: this.land){
-            for(Tile entry: row){
-                if(entry instanceof WizOrPath){
+        for(Tile[] row: this.land) {
+            for(Tile entry: row) {
+                if (entry instanceof WizOrPath) {
                     ((WizOrPath)entry).assignProperties(); // type cast into path type
 
                     // if it is a terminal path (and not a wizard hut), it is now a spawn
-                    if(entry instanceof Path && ((Path)entry).termArray[0] != Direction.NONE){
+                    if (entry instanceof Path && ((Path)entry).termArray[0] != Direction.NONE) {
                         this.routes.put((Path)entry, null); 
                         // add it to the spawn list, no route yet
                         System.out.println(entry + " is a spawn");
                     }
                 }
-                if(entry instanceof Path){
+                if (entry instanceof Path) {
                     ((Path)entry).updatePath();
                     System.out.println(entry + " assigned rotation");
                 }
@@ -250,7 +250,7 @@ public class Map {
         ArrayList<Direction> route = new ArrayList<Direction>();
         WizOrPath current = spawn;
 
-        while(!(current instanceof Wizard)){
+        while(!(current instanceof Wizard)) {
             System.out.println(current + " optimal direction: " + ((Path)current).optimal);
             Direction currentDirection = ((Path)current).optimal;
             route.add(currentDirection); // add optimal direction to route
@@ -264,7 +264,7 @@ public class Map {
      */
     public void createRoutes() 
     { 
-        for(Path spawn: this.routes.keySet()){
+        for(Path spawn: this.routes.keySet()) {
             this.routes.put(spawn, this.createRoute(spawn));
         }
     }
@@ -281,7 +281,7 @@ public class Map {
             this.data.getJSONArray("waves").getJSONObject(waveNumber), this.routes, this.app
         ));
 
-        if(this.waveNumber == this.data.getJSONArray("waves").size() - 1){ // if its the last wave
+        if (this.waveNumber == this.data.getJSONArray("waves").size() - 1) { // if its the last wave
             this.lastWave = true;
         } else{ // otherwise (if its not the last wave)
             this.waveTime = this.addWaveTimes();
@@ -324,14 +324,14 @@ public class Map {
                            (initialDamageLevel ? 1 : 0);
         int[] tileCords = mouse2Tile(x, y);
 
-        if(this.land[tileCords[0]][tileCords[1]] instanceof Grass)
+        if (this.land[tileCords[0]][tileCords[1]] instanceof Grass)
         { // if its grass
             while(
                 noOfUpgrades >= 0 &&
                 !this.mana.updateMana(-1 * (this.getTowerCost() + 20 * noOfUpgrades))
-                ){ // reduce price until affordable
+                ) { // reduce price until affordable
                 noOfUpgrades--;
-            } if(noOfUpgrades < 0){
+            } if (noOfUpgrades < 0) {
                 return false;
             } // if not affordable, return false
             
@@ -372,26 +372,26 @@ public class Map {
         boolean dmg = false;
         // set booleans to true if they are to be upgraded
 
-        if(noOfUpgrades == 3){
+        if (noOfUpgrades == 3) {
             range = true;
             speed = true;
             dmg = true;
-        } else if(noOfUpgrades == 2)
+        } else if (noOfUpgrades == 2)
         {
-            if(initialRangeLevel){
+            if (initialRangeLevel) {
                 range = true;
             } 
-            if(initialFiringSpeedLevel){
+            if (initialFiringSpeedLevel) {
                 speed = true;
             } 
-            if(initialDamageLevel && !(range && speed)){
+            if (initialDamageLevel && !(range && speed)) {
                 dmg = true;
             }
-        } else if(noOfUpgrades == 1)
+        } else if (noOfUpgrades == 1)
         {
-            if(initialRangeLevel){
+            if (initialRangeLevel) {
                 range = true;
-            } else if(initialFiringSpeedLevel){
+            } else if (initialFiringSpeedLevel) {
                 speed = true;
             } else{
                 dmg = true;
@@ -415,71 +415,71 @@ public class Map {
     public void upgrade(int x, int y, boolean range, boolean speed, boolean dmg)
     {
         int[] tileCords = mouse2Tile(x, y);
-        if(this.land[tileCords[0]][tileCords[1]] instanceof Tower)
+        if (this.land[tileCords[0]][tileCords[1]] instanceof Tower)
         {
             Tower tower = (Tower)this.land[tileCords[0]][tileCords[1]];
             int rangeInt = range ? 1 : 0;
             int speedInt = speed ? 1 : 0;
             int dmgInt = dmg ? 1 : 0;
 
-            if(
+            if (
                 range && speed && dmg &&
                 this.mana.updateMana(
                     -1 * (rangeInt * tower.getRangeCost() + 
                     speedInt * tower.getFiringSpeedCost() + 
                     dmgInt * tower.getDamageCost())
                 )
-            ){
+            ) {
                 tower.upgradeRange();
                 tower.upgradeFiringSpeed();
                 tower.upgradeDamage();
-            } else if(
+            } else if (
                 range && speed &&
                 this.mana.updateMana(
                     -1 * (rangeInt * tower.getRangeCost() + 
                     speedInt * tower.getFiringSpeedCost())
                 )
-            ){
+            ) {
                 tower.upgradeRange();
                 tower.upgradeFiringSpeed();
-            } else if(
+            } else if (
                 range && dmg &&
                 this.mana.updateMana(
                     -1 * (rangeInt * tower.getRangeCost() + 
                     dmgInt * tower.getDamageCost())
                 )
-            ){
+            ) {
                 tower.upgradeRange();
                 tower.upgradeDamage();
-            } else if(
+            } else if (
                 speed && dmg &&
                 this.mana.updateMana(
                     -1 * (speedInt * tower.getFiringSpeedCost() + 
                     dmgInt * tower.getDamageCost())
                 )
-            ){
+            ) {
                 tower.upgradeFiringSpeed();
                 tower.upgradeDamage();
-            } else if(
+            } else if (
                 range &&
                 this.mana.updateMana(
                     -1 * (rangeInt * tower.getRangeCost())
                 )
-            ){
+            ) {
                 tower.upgradeRange();
-            } else if(
+            } else if (
                 speed &&
                 this.mana.updateMana(
                     -1 * (speedInt * tower.getFiringSpeedCost())
                 )
-            ){
+            ) {
                 tower.upgradeFiringSpeed();
-            } else if(
+            } else if (
                 dmg &&
                 this.mana.updateMana(
                     -1 * (dmgInt * tower.getDamageCost())
                 )
-            ){
+            ) {
                 tower.upgradeDamage();
             } // else do nothing
             // cycle through upgrades you could afford to do in order of range, speed, dmg
@@ -494,7 +494,7 @@ public class Map {
     {
         Tile potentialTower = this.mouse2Land(app.mouseX, app.mouseY);
 
-        if(potentialTower instanceof Tower)
+        if (potentialTower instanceof Tower)
         {
             Tower tower = (Tower)potentialTower;
             // draw tower
@@ -519,7 +519,7 @@ public class Map {
      */
     public Tile mouse2Land(int x, int y)
     {
-        if(Ui.isMouseInMap(x, y)){
+        if (Ui.isMouseInMap(x, y)) {
             int[] tileCords = mouse2Tile(x, y);
             return this.land[tileCords[0]][tileCords[1]];
         } else{
@@ -537,14 +537,14 @@ public class Map {
     public void tick()
     {
         // tick each wave
-        if(!(waveNumber == 0 && this.waveTime > this.addWaveTimes()))
+        if (!(waveNumber == 0 && this.waveTime > this.addWaveTimes()))
         { // after 1st pre wave time
             Iterator<Wave> waveIterator = this.waveList.iterator(); // use for hasNext() method
-            while(waveIterator.hasNext()){ // tick all waves in array
+            while(waveIterator.hasNext()) { // tick all waves in array
                 Wave wave = waveIterator.next();
                 wave.tick();
 
-                if(wave.getWaveComplete()){
+                if (wave.getWaveComplete()) {
                     waveIterator.remove();
                 } // remove waves with all monsters spawned and killed
             }
@@ -554,7 +554,7 @@ public class Map {
                 this.app.onWinScreen = true;
             } // win, if its the last wave and all monsters are dead
 
-            if(this.waveTime < 0 && !this.lastWave){
+            if (this.waveTime < 0 && !this.lastWave) {
                 this.nextWave();
             }   
         } else{
@@ -566,12 +566,12 @@ public class Map {
         this.mana.tick(this.app); 
 
         // tick towers;
-        for(Tower tower: this.towerList){
+        for(Tower tower: this.towerList) {
             tower.tick();
         }
 
         // poison
-        if(this.poison && this.poisonFrames <= 0){
+        if (this.poison && this.poisonFrames <= 0) {
             this.poison = false;
             this.poisonFrames = this.app.poisonFrames;
         } else{
@@ -591,9 +591,9 @@ public class Map {
     public void draw(PApplet app)
     { 
         // draw each tile in matrix onto screen
-        for(Tile[] row: this.land){
-            for(Tile entry: row){
-                if(!(entry instanceof Wizard)){ // draw it if its not a wizard house
+        for(Tile[] row: this.land) {
+            for(Tile entry: row) {
+                if (!(entry instanceof Wizard)) { // draw it if its not a wizard house
                     entry.draw(app); 
                 } else{ // if it is a wizard house, draw grass under the wizard house
                     Tile wizGrass = new Grass(wizCordsXY[0], wizCordsXY[1], this); // change this
@@ -603,7 +603,7 @@ public class Map {
         }
         
         // draw each wave
-        for(Wave wave: this.waveList){
+        for(Wave wave: this.waveList) {
             wave.draw();
         }
 
@@ -614,8 +614,8 @@ public class Map {
         drawRangeCircle(this.app);
 
         // draw all towers' fireballs'
-        for(Tower tower: this.towerList){
-            for(Fireball fireball: tower.getProjectiles()){
+        for(Tower tower: this.towerList) {
+            for(Fireball fireball: tower.getProjectiles()) {
                 fireball.draw();
             }
         }

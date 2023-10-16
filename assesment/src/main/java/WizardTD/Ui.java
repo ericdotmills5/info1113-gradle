@@ -34,7 +34,7 @@ public class Ui {
 
     public void waveCountdown(App app)
     {
-        if(!this.map.getLastWave()){ // if not last wave
+        if (!this.map.getLastWave()) { // if not last wave
             app.fill(0, 0, 0);
             app.textSize(25);
             app.text(
@@ -52,29 +52,29 @@ public class Ui {
         app.stroke(0, 0, 0);
         app.strokeWeight(2);
         app.fill(5, 210, 215); 
-        app.rect(App.MANAX, App.MANAY, App.MANALENGTH * manaProp, App.MANAWIDTH);
+        app.rect(App.MANA_X, App.MANA_Y, App.MANA_LENGTH * manaProp, App.MANA_WIDTH);
         
         // white bit
         app.fill(255, 255, 255); 
         app.rect(
-            App.MANAX + (App.MANALENGTH * manaProp), 
-            App.MANAY, //
-            (App.MANALENGTH * (1 - manaProp)), 
-            App.MANAWIDTH);
+            App.MANA_X + (App.MANA_LENGTH * manaProp), 
+            App.MANA_Y, //
+            (App.MANA_LENGTH * (1 - manaProp)), 
+            App.MANA_WIDTH);
     }
 
     public void manaText(App app)
     {
         app.fill(0, 0, 0);
         app.textSize(17);
-        app.text("MANA:", App.MANATEXTX, App.MANATEXTY);
+        app.text("MANA:", App.MANA_TEXT_X, App.MANA_TEXT_Y);
         app.text((int)this.map.getMana().getCurrMana() + " / " + (int)this.map.getMana().getCap(), 
-                 App.MANATEXTX + App.MANACURRSHIFT, App.MANATEXTY);
+                 App.MANA_TEXT_X + App.MANA_CURR_SHIFT, App.MANA_TEXT_Y);
     }
 
     public void toggleSwitch(App app, int buttonNO)
     {
-        switch(buttonNO){
+        switch(buttonNO) {
             case 1: // fast forward
                 this.ff = !this.ff;
                 app.doubleRate = app.doubleRate == 1 ? 2 : 1;
@@ -107,7 +107,7 @@ public class Ui {
 
     public void setHoveredButton(int buttonNO, boolean hover)
     {
-        switch(buttonNO){
+        switch(buttonNO) {
             case 1: // fast forward
                 this.ffHov = hover;
                 break;
@@ -145,7 +145,7 @@ public class Ui {
         String text2 = null; // text right of button (2nd line)
 
         // determine which button were drawing
-        switch(buttonNO){
+        switch(buttonNO) {
             case 1:
                 light = this.ff;
                 hover = this.ffHov;
@@ -221,53 +221,53 @@ public class Ui {
         }
 
         // button outline
-        if(light){
+        if (light) {
             app.fill(255, 255, 0); // yellow
-        } else if(hover) { 
+        } else if (hover) { 
             app.fill(200, 200, 200); // grey
         }else {
             app.noFill(); // hollow
         }
-        int y = App.TOPBAR + buttonNO * App.BUTTONSPACING + (buttonNO-1)*App.BUTTONSIZE;
+        int y = App.TOPBAR + buttonNO * App.BUTTON_SPACING + (buttonNO-1)*App.BUTTON_SIZE;
 
         app.stroke(0, 0, 0);
         app.strokeWeight(2);
-        app.rect(App.BUTTONX, y, App.BUTTONSIZE, App.BUTTONSIZE);
+        app.rect(App.BUTTON_X, y, App.BUTTON_SIZE, App.BUTTON_SIZE);
 
         // text0
         app.fill(0, 0, 0);
-        app.textSize(App.BUTTONTEXT0SIZE);
-        app.text(text0, App.BUTTONX + App.BUTTONTEXTSHIFTX, y + App.BUTTONTEXT0SHIFTY);
+        app.textSize(App.BUTTON_TEXT_0_SIZE);
+        app.text(text0, App.BUTTON_X + App.BUTTON_TEXT_SHIFT_X, y + App.BUTTON_TEXT_0_SHIFT_Y);
 
         // text1
-        app.textSize(App.BUTTONTEXT12SIZE);
+        app.textSize(App.BUTTON_TEXT_12_SIZE);
         app.text(
-            text1, App.BUTTONX + App.BUTTONSIZE + App.BUTTONTEXTSHIFTX, y + App.BUTTONTEXT1SHIFTY
+            text1, App.BUTTON_X + App.BUTTON_SIZE + App.BUTTON_TEXT_SHIFT_X, y + App.BUTTON_TEXT_1_SHIFT_Y
         );
 
         // text 2
         app.text(
-            text2, App.BUTTONX + App.BUTTONSIZE + App.BUTTONTEXTSHIFTX, y + App.BUTTONTEXT2SHIFTY
+            text2, App.BUTTON_X + App.BUTTON_SIZE + App.BUTTON_TEXT_SHIFT_X, y + App.BUTTON_TEXT_2_SHIFT_Y
         );
 
         // hover
-        if(hasHoverText && hover)
+        if (hasHoverText && hover)
         {
             // hover box
             app.fill(255, 255, 255); // white
-            app.rect(App.BUTTONHOVERX, y, App.BUTTONHOVERLENGTH, App.BUTTONHOVERHEIGHT);
+            app.rect(App.BUTTON_HOVER_X, y, App.BUTTON_HOVER_LENGTH, App.BUTTON_HOVER_HEIGHT);
 
             // hover text
             app.fill(0, 0, 0); // black
-            app.textSize(App.BUTTONHOVERTEXTSIZE);
-            app.text("Cost: " + cost, App.BUTTONHOVERTEXTX, y + App.BUTTONHOVERTEXTSHIFTY);
+            app.textSize(App.BUTTON_HOVER_TEXT_SIZE);
+            app.text("Cost: " + cost, App.BUTTON_HOVER_TEXT_X, y + App.BUTTON_HOVER_TEXT_SHIFT_Y);
             
         }
     }
 
-    public void click(App app){
-        if(isMouseInMap(app.mouseX, app.mouseY)){
-            if(this.placeTower)
+    public void click(App app) {
+        if (isMouseInMap(app.mouseX, app.mouseY)) {
+            if (this.placeTower)
             {
                 this.map.place(
                     app.mouseX, app.mouseY, this.upgradeRange, this.upgradeSpeed, this.upgradeDamage
@@ -280,7 +280,7 @@ public class Ui {
         }
     }
 
-    public void hoverPlace(App app){
+    public void hoverPlace(App app) {
         app.noFill();
         app.stroke(0, 0, 0); // black
         app.strokeWeight(2);
@@ -291,25 +291,25 @@ public class Ui {
         int circleGrow = 10;
         int crossGrow = -10; // shift crosshair to center of cell
 
-        if(this.placeTower){
+        if (this.placeTower) {
             app.image(
                 app.loadImage("src/main/resources/WizardTD/towerGrey.png"), 
                 x1, y1
             );
         }
-        if(this.upgradeSpeed){
+        if (this.upgradeSpeed) {
             app.rect(x1, y1, App.CELLSIZE, App.CELLSIZE);
         }
-        if(this.upgradeRange){
+        if (this.upgradeRange) {
             app.ellipse(app.mouseX, app.mouseY, App.CELLSIZE + circleGrow, App.CELLSIZE + circleGrow);
         } // + 5 makes it distinguishable from square
-        if(this.upgradeDamage){
+        if (this.upgradeDamage) {
             app.line(x1 - crossGrow, y1 - crossGrow, x2 + crossGrow, y2 + crossGrow);
             app.line(x1 - crossGrow, y2 + crossGrow, x2 + crossGrow, y1 - crossGrow);
         }// +- 5 makes it distinguishable from square
     }
 
-    public void upgradeBubble(App app, Tower tower){
+    public void upgradeBubble(App app, Tower tower) {
         // bubble
         boolean wantAffordRange = this.upgradeRange 
                                   && (int)tower.getRangeCost() < 
@@ -338,60 +338,64 @@ public class Ui {
         // shapes
         // "upgrade cost" rectangle
         app.rect(
-            App.UPGRADEBUBBLEX, App.UPGRADEBUBBLEY, 
-            App.UPGRADEBUBBLELENGTH, App.UPGRADEBUBBLEHEIGHT
+            App.UPGRADE_BUBBLE_X, App.UPGRADE_BUBBLE_Y, 
+            App.UPGRADE_BUBBLE_LENGTH, App.UPGRADE_BUBBLE_HEIGHT
         );
 
         // specific upgrade rectangle
         app.rect(
-            App.UPGRADEBUBBLEX, App.UPGRADEBUBBLEY + App.UPGRADEBUBBLEHEIGHT, 
-            App.UPGRADEBUBBLELENGTH, App.UPGRADEBUBBLEHEIGHT * upgrades
+            App.UPGRADE_BUBBLE_X, App.UPGRADE_BUBBLE_Y + App.UPGRADE_BUBBLE_HEIGHT, 
+            App.UPGRADE_BUBBLE_LENGTH, App.UPGRADE_BUBBLE_HEIGHT * upgrades
         );
 
         // total cost rectangle
         app.rect(
-            App.UPGRADEBUBBLEX, App.UPGRADEBUBBLEY + App.UPGRADEBUBBLEHEIGHT * (upgrades + 1), 
-            App.UPGRADEBUBBLELENGTH, App.UPGRADEBUBBLEHEIGHT
+            App.UPGRADE_BUBBLE_X, App.UPGRADE_BUBBLE_Y + App.UPGRADE_BUBBLE_HEIGHT * (upgrades + 1), 
+            App.UPGRADE_BUBBLE_LENGTH, App.UPGRADE_BUBBLE_HEIGHT
         );
 
         // text 
         app.fill(0, 0, 0); // black text
-        app.textSize(App.UPGRADEBUBBLETEXTSIZE);
+        app.textSize(App.UPGRADE_BUBBLE_TEXT_SIZE);
         app.text(
-            "Upgrade cost", App.UPGRADEBUBBLEX + App.UPGRADEBUBBLETEXTSHIFTX, 
-            App.UPGRADEBUBBLEY + App.UPGRADEBUBBLETEXTSHIFTY + textTally * (App.UPGRADEBUBBLEHEIGHT)
+            "Upgrade cost", App.UPGRADE_BUBBLE_X + App.UPGRADE_BUBBLE_TEXT_SHIFT_X, 
+            App.UPGRADE_BUBBLE_Y + App.UPGRADE_BUBBLE_TEXT_SHIFT_Y + textTally * (App.UPGRADE_BUBBLE_HEIGHT)
         );
         textTally++;
 
-        if(wARange == 1){
+        if (wARange == 1) {
             app.text(
                 "range:     " + (int)tower.getRangeCost(), 
-                App.UPGRADEBUBBLEX + App.UPGRADEBUBBLETEXTSHIFTX, 
-                App.UPGRADEBUBBLEY + App.UPGRADEBUBBLETEXTSHIFTY + textTally * (App.UPGRADEBUBBLEHEIGHT)
+                App.UPGRADE_BUBBLE_X + App.UPGRADE_BUBBLE_TEXT_SHIFT_X, 
+                App.UPGRADE_BUBBLE_Y + App.UPGRADE_BUBBLE_TEXT_SHIFT_Y + 
+                textTally * (App.UPGRADE_BUBBLE_HEIGHT)
             );
             textTally++;
         }
-        if(wASpeed == 1){
+        if (wASpeed == 1) {
             app.text(
                 "speed:     " + (int)tower.getFiringSpeedCost(), 
-                App.UPGRADEBUBBLEX + App.UPGRADEBUBBLETEXTSHIFTX, 
-                App.UPGRADEBUBBLEY + App.UPGRADEBUBBLETEXTSHIFTY + textTally * (App.UPGRADEBUBBLEHEIGHT)
+                App.UPGRADE_BUBBLE_X + App.UPGRADE_BUBBLE_TEXT_SHIFT_X, 
+                App.UPGRADE_BUBBLE_Y + App.UPGRADE_BUBBLE_TEXT_SHIFT_Y + 
+                textTally * (App.UPGRADE_BUBBLE_HEIGHT)
             );
             textTally++;
         }
-        if(wADamage == 1){
+        if (wADamage == 1) {
             app.text(
                 "damage: " + (int)tower.getDamageCost(), 
-                App.UPGRADEBUBBLEX + App.UPGRADEBUBBLETEXTSHIFTX, 
-                App.UPGRADEBUBBLEY + App.UPGRADEBUBBLETEXTSHIFTY + textTally * (App.UPGRADEBUBBLEHEIGHT)
+                App.UPGRADE_BUBBLE_X + App.UPGRADE_BUBBLE_TEXT_SHIFT_X, 
+                App.UPGRADE_BUBBLE_Y + App.UPGRADE_BUBBLE_TEXT_SHIFT_Y + 
+                textTally * (App.UPGRADE_BUBBLE_HEIGHT)
             );
             textTally++;
         }
 
         app.text(
             "Total:      " + totalCost, 
-            App.UPGRADEBUBBLEX + App.UPGRADEBUBBLETEXTSHIFTX, 
-            App.UPGRADEBUBBLEY + App.UPGRADEBUBBLETEXTSHIFTY + textTally * (App.UPGRADEBUBBLEHEIGHT)
+            App.UPGRADE_BUBBLE_X + App.UPGRADE_BUBBLE_TEXT_SHIFT_X, 
+            App.UPGRADE_BUBBLE_Y + App.UPGRADE_BUBBLE_TEXT_SHIFT_Y + 
+            textTally * (App.UPGRADE_BUBBLE_HEIGHT)
         );
     }
 
@@ -408,8 +412,8 @@ public class Ui {
         this.manaBar(app);
         this.manaText(app);
 
-        // buttons
-        for(int i = 1; i <= App.NUMBEROFBUTTONS; i++){
+        // BUTTONS
+        for(int i = 1; i <= App.NUMBER_OF_BUTTONS; i++) {
             this.buttonDraw(app, i);
         }
 
@@ -419,10 +423,10 @@ public class Ui {
         // draw upgrade bubble in bottom right
         Tile potentialTower = this.map.mouse2Land(app.mouseX, app.mouseY);
 
-        if(
+        if (
             potentialTower instanceof Tower && 
             (this.upgradeRange || this.upgradeSpeed || this.upgradeDamage)
-        ){
+        ) {
             Tower tower = (Tower) potentialTower;
             upgradeBubble(app, tower);
         }

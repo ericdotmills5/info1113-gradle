@@ -21,7 +21,7 @@ public class Path extends WizOrPath {
     /**
      * Calls pathTypeRotate() and creates sprite based on diagnosis
      */
-    public void updatePath(){ 
+    public void updatePath() { 
         this.pathTypeRotate();
         this.createImage();
     }
@@ -42,75 +42,75 @@ public class Path extends WizOrPath {
         boolean[] directionsThatArentTerminal = this.findDirectionsThatExist();
         // {RIGHT NOT TERMINAL?, UP NOT TERMINAL?, LEFT NOT TERMINAL?, DOWN NOT TERMINAL?}
 
-        if( // if theres a path to the left of me, or the left is terminal, then left is true
+        if ( // if theres a path to the left of me, or the left is terminal, then left is true
             !directionsThatArentTerminal[0] || this.adj.get(Direction.RIGHT) instanceof WizOrPath
-        ){
+        ) {
             right = true;
         }
-        if(
+        if (
             !directionsThatArentTerminal[1] || this.adj.get(Direction.UP) instanceof WizOrPath
-        ){
+        ) {
             up = true;
         }
-        if(
+        if (
             !directionsThatArentTerminal[2] || this.adj.get(Direction.LEFT) instanceof WizOrPath
-        ){
+        ) {
             left = true;
         }
-        if(
+        if (
             !directionsThatArentTerminal[3] || this.adj.get(Direction.DOWN) instanceof WizOrPath
-        ){
+        ) {
             down = true;
         }
 
-        if(left && right && up && down){
+        if (left && right && up && down) {
             this.pathType = 3;
             this.rotates = 0;
             return;
-        } else if(left && right && up){
+        } else if (left && right && up) {
             this.pathType = 2;
             this.rotates = 2;
             return;
-        } else if(left && right && down){
+        } else if (left && right && down) {
             this.pathType = 2;
             this.rotates = 0;
             return;
-        } else if(left && up && down){
+        } else if (left && up && down) {
             this.pathType = 2;
             this.rotates = 3;
             return;
-        } else if(right && up && down){
+        } else if (right && up && down) {
             this.pathType = 2;
             this.rotates = 1;
             return;
-        } else if(left && right){
+        } else if (left && right) {
             this.pathType = 0;
             this.rotates = 0;
             return;
-        } else if(up && down){
+        } else if (up && down) {
             this.pathType = 0;
             this.rotates = 1;
             return;
-        } else if(left && up){
+        } else if (left && up) {
             this.pathType = 1;
             this.rotates = 3;
             return;
-        } else if(left && down){
+        } else if (left && down) {
             this.pathType = 1;
             this.rotates = 0;
             return;
-        } else if(right && up){
+        } else if (right && up) {
             this.pathType = 1;
             this.rotates = 2;
             return;
-        } else if(right && down){
+        } else if (right && down) {
             this.pathType = 1;
             this.rotates = 1;
             return;
-        } else if(left || right){
+        } else if (left || right) {
             this.pathType = 0;
             this.rotates = 0;
-        } else if(up || down){
+        } else if (up || down) {
             this.pathType = 0;
             this.rotates = 1;
         } else{

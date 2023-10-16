@@ -50,7 +50,7 @@ abstract class WizOrPath extends Tile {
         Direction[] termArray = new Direction[2];
         int index = 0;
 
-        switch(this.x){ // add directions to array if terminal
+        switch(this.x) { // add directions to array if terminal
             case 19:
                 termArray[index] = Direction.RIGHT;
                 index++;
@@ -59,7 +59,7 @@ abstract class WizOrPath extends Tile {
                 termArray[index] = Direction.LEFT;
                 index++;
         }
-        switch(this.y){
+        switch(this.y) {
             case 0:
                 termArray[index] = Direction.UP;
                 index++;
@@ -69,7 +69,7 @@ abstract class WizOrPath extends Tile {
                 index++;
         } // assume max 2 terminals
         
-        for(int i = index; i < 2; i++){ // fill rest of array with NONE
+        for(int i = index; i < 2; i++) { // fill rest of array with NONE
             termArray[i] = Direction.NONE;
         }
         System.out.println(this + " terminals: " + termArray[0] + " " + termArray[1]);
@@ -77,24 +77,24 @@ abstract class WizOrPath extends Tile {
         return termArray;
     }
 
-    public boolean[] findDirectionsThatExist(){
+    public boolean[] findDirectionsThatExist() {
         boolean[] directionsThatExist = new boolean[4];
         // {RIGHT EXISTS?, UP EXISTS?, LEFT EXISTS?, DOWN EXISTS?}
 
         // fill with true
-        for(int i = 0; i < 4; i++){
+        for(int i = 0; i < 4; i++) {
             directionsThatExist[i] = true;
         }
 
         // check if terminal, ie DNE
-        for(Direction dir: this.termArray){
-            if(dir == Direction.RIGHT){
+        for(Direction dir: this.termArray) {
+            if (dir == Direction.RIGHT) {
                 directionsThatExist[0] = false;
-            } else if(dir == Direction.UP){
+            } else if (dir == Direction.UP) {
                 directionsThatExist[1] = false;
-            } else if(dir == Direction.LEFT){
+            } else if (dir == Direction.LEFT) {
                 directionsThatExist[2] = false;
-            } else if(dir == Direction.DOWN){
+            } else if (dir == Direction.DOWN) {
                 directionsThatExist[3] = false;
             }
         }
@@ -113,22 +113,22 @@ abstract class WizOrPath extends Tile {
         boolean[] directionsThatExist = this.findDirectionsThatExist();
         // {RIGHT EXISTS?, UP EXISTS?, LEFT EXISTS?, DOWN EXISTS?}
         
-        if(directionsThatExist[0]){ // enter tile to the right
+        if (directionsThatExist[0]) { // enter tile to the right
             adj.put(Direction.RIGHT, this.map.getLand()[this.x + 1][this.y]);
         } else{ // otherwise, enter null
             adj.put(Direction.RIGHT, null);
         }
-        if(directionsThatExist[1]){ // enter tile above
+        if (directionsThatExist[1]) { // enter tile above
             adj.put(Direction.UP, this.map.getLand()[this.x][this.y - 1]);
         } else{
             adj.put(Direction.UP, null);
         }
-        if(directionsThatExist[2]){ // enter left
+        if (directionsThatExist[2]) { // enter left
             adj.put(Direction.LEFT, this.map.getLand()[this.x - 1][this.y]); 
         } else{
             adj.put(Direction.LEFT, null);
         }
-        if(directionsThatExist[3]){ // enter bellow
+        if (directionsThatExist[3]) { // enter bellow
             adj.put(Direction.DOWN, this.map.getLand()[this.x][this.y + 1]); 
         } else{
             adj.put(Direction.DOWN, null);
@@ -143,19 +143,19 @@ abstract class WizOrPath extends Tile {
      */
     public void determineWizDists()
     {
-        for(Tile i: this.adj.values()){ // for everyone around me
-            if(
+        for(Tile i: this.adj.values()) { // for everyone around me
+            if (
                 i instanceof Path // if the adjacent tile is a path
                 && (((Path)i).wizDist == 0 // and it either has no distance
                 || ((Path)i).wizDist > this.wizDist + 1) // or it has a bigger distance
-                ){ 
+                ) { 
                 ((Path)i).wizDist = this.wizDist + 1; // give it my better distance + 1
                 System.out.println(i + " Distance: " + ((Path)i).wizDist);
                 
                 // find the direction that leads to me and name it optimal
                 System.out.println(((Path)i).adj.values());
-                for(Direction j: ((Path)i).adj.keySet()){
-                    if(((Path)i).adj.get(j) == this){ // if your currently iterating over me
+                for(Direction j: ((Path)i).adj.keySet()) {
+                    if (((Path)i).adj.get(j) == this) { // if your currently iterating over me
                         ((Path)i).optimal = j; // then im the optimal direction
                         System.out.println(i + " optimal path direction " + j);
                     }
@@ -186,9 +186,9 @@ class Wizard extends WizOrPath {
      * Draw function needs to be overriden because wizard house needs to be shifted
      */
     @Override
-    public void draw(PApplet app){
+    public void draw(PApplet app) {
         app.image(
-            this.sprite, this.x * CELLSIZE + wizShiftX, this.y * CELLSIZE + wizShiftY + TOPBAR
+            this.sprite, this.x * CELLSIZE + WIZ_SHIFT_X, this.y * CELLSIZE + WIZ_SHIFT_Y + TOPBAR
         ); // wizard house needs to be shifted
     }
 }

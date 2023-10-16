@@ -32,7 +32,7 @@ public class Monster {
         double armour, ArrayList<Direction> route, App app, double manaOnKill
         )
         {
-        for(Direction dir: route){
+        for(Direction dir: route) {
             this.route.add(dir);
         } // copy route as to not edit reference
         
@@ -44,8 +44,8 @@ public class Monster {
         this.armour = armour;
         this.app = app;
         this.manaOnKill = manaOnKill;
-        this.pixelX = tileX * App.CELLSIZE + App.ghostShiftX;
-        this.pixelY = tileY * App.CELLSIZE + App.ghostShiftY + App.TOPBAR;
+        this.pixelX = tileX * App.CELLSIZE + App.GHOST_SHIFT_X;
+        this.pixelY = tileY * App.CELLSIZE + App.GHOST_SHIFT_Y + App.TOPBAR;
         this.sprite = app.loadImage("src/main/resources/WizardTD/gremlin.png");
 
         
@@ -54,41 +54,41 @@ public class Monster {
         System.out.println("Created " + this);
     }
 
-    public boolean getExists(){
+    public boolean getExists() {
         return this.exists;
     }
 
-    public double getPixelX(){
+    public double getPixelX() {
         return this.pixelX;
     }
 
-    public double getPixelY(){
+    public double getPixelY() {
         return this.pixelY;
     }
 
-    public void spawnShift(){ // shift mosnter so it spawns off screen
-        switch(((WizOrPath)this.app.map.getLand()[this.tileX][this.tileY]).getTerminals()[0]){
+    public void spawnShift() { // shift mosnter so it spawns off screen
+        switch(((WizOrPath)this.app.map.getLand()[this.tileX][this.tileY]).getTerminals()[0]) {
             case UP:
                 this.pixelY -= App.CELLSIZE;
-                if(this.firstTimeSpawning){
+                if (this.firstTimeSpawning) {
                 this.route.add(0, Direction.DOWN);
                 }
                 break;
             case DOWN:
                 this.pixelY += App.CELLSIZE;
-                if(this.firstTimeSpawning){
+                if (this.firstTimeSpawning) {
                 this.route.add(0, Direction.UP);
                 }
                 break;
             case LEFT:
                 this.pixelX -= App.CELLSIZE;
-                if(this.firstTimeSpawning){
+                if (this.firstTimeSpawning) {
                 this.route.add(0, Direction.RIGHT);
                 }
                 break;
             case RIGHT:
                 this.pixelX += App.CELLSIZE;
-                if(this.firstTimeSpawning){
+                if (this.firstTimeSpawning) {
                 this.route.add(0, Direction.LEFT);
                 }
                 break;
@@ -99,14 +99,14 @@ public class Monster {
         this.firstTimeSpawning = false;
     }
 
-    public void takeDamage(double damage){ // remember armour
+    public void takeDamage(double damage) { // remember armour
         this.currHealth -= damage * this.armour;
         System.out.println("Did " + damage + " damage to " + this);
     }
 
-    public void move(){
-        if(this.tileNo < this.route.size() && this.alive){ // if directions are not empty
-            switch(this.route.get(tileNo)){ // follow next direction
+    public void move() {
+        if (this.tileNo < this.route.size() && this.alive) { // if directions are not empty
+            switch(this.route.get(tileNo)) { // follow next direction
                 case UP:
                     this.pixelY -= this.pixSpeed;
                     break;
@@ -126,8 +126,8 @@ public class Monster {
             this.moves += 1;
             double difference = this.pixSpeed * this.moves - App.CELLSIZE;
 
-            if(difference >= 0){
-                switch(this.route.get(tileNo)){ // take off difference based on direction
+            if (difference >= 0) {
+                switch(this.route.get(tileNo)) { // take off difference based on direction
                     case UP:
                         this.pixelY += difference;
                         break;
@@ -146,17 +146,17 @@ public class Monster {
                 this.tileNo++;
                 this.moves = 0; // reset pixels       
             } // if monster has moved a full tile, move to next direction
-        } else if(this.tileNo >= this.route.size() && this.alive){
+        } else if (this.tileNo >= this.route.size() && this.alive) {
 
             // take me back to the beginning
-            this.pixelX = tileX * App.CELLSIZE + App.ghostShiftX;
-            this.pixelY = tileY * App.CELLSIZE + App.ghostShiftY + App.TOPBAR;
+            this.pixelX = tileX * App.CELLSIZE + App.GHOST_SHIFT_X;
+            this.pixelY = tileY * App.CELLSIZE + App.GHOST_SHIFT_Y + App.TOPBAR;
             this.spawnShift();
             this.tileNo = 0;
             this.moves = 0;
 
             // deduct mana and potentially lose
-            if(!app.map.getMana().updateMana(-1 * this.currHealth)){
+            if (!app.map.getMana().updateMana(-1 * this.currHealth)) {
                 app.map.getMana().makeManaZero(); // deduct all mana
                 app.onLossScreen = true;
             }
@@ -164,22 +164,22 @@ public class Monster {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return this.currHealth + " hp monster at (" + this.tileX + ", " + this.tileY + ")";
     }
 
     public void tick()
     {
         // poison
-        if(this.app.map.getPoison()){
+        if (this.app.map.getPoison()) {
             this.takeDamage(this.app.poisonDamage * this.app.rate); // influenced by armour
         }
         
         // health
         this.healthProp = this.currHealth / this.maxHealth;
 
-        for(int i = 0; i < app.rate; i++){
-            if (this.alive && this.currHealth <= 0){
+        for(int i = 0; i < app.rate; i++) {
+            if (this.alive && this.currHealth <= 0) {
             this.alive = false;
             app.map.getMana().updateMana(manaOnKill);
             } // kill monster based on rate
@@ -189,43 +189,43 @@ public class Monster {
         
 
         // kill animation
-        if(!this.alive){
+        if (!this.alive) {
             this.deathTick += app.rate; // kill animation twice as fast
-            if(this.deathTick > 20){
+            if (this.deathTick > 20) {
                 this.exists = false; // will be deleted from spawn array
-            } else if(this.deathTick > 16){
+            } else if (this.deathTick > 16) {
                 this.sprite = app.loadImage("src/main/resources/WizardTD/gremlin5.png");
-            } else if(this.deathTick > 12){
+            } else if (this.deathTick > 12) {
                 this.sprite = app.loadImage("src/main/resources/WizardTD/gremlin4.png");
-            } else if(this.deathTick > 8){
+            } else if (this.deathTick > 8) {
                 this.sprite = app.loadImage("src/main/resources/WizardTD/gremlin3.png");
-            } else if(this.deathTick > 4){
+            } else if (this.deathTick > 4) {
                 this.sprite = app.loadImage("src/main/resources/WizardTD/gremlin2.png");
-            } else if(this.deathTick > 0){
+            } else if (this.deathTick > 0) {
                 this.sprite = app.loadImage("src/main/resources/WizardTD/gremlin1.png");
             }            
         }
     }
     
-    public void draw(PApplet app){
+    public void draw(PApplet app) {
         // monster sprite
         app.image(this.sprite, (float)this.pixelX, (float)this.pixelY);
 
         // health bar
-        if(this.alive){ // health bar only displays if alive
+        if (this.alive) { // health bar only displays if alive
             app.noStroke(); // no border
             app.fill(0, 255, 0); // green bit
             app.rect(
-                (float)this.pixelX + App.healthShiftX, (float)this.pixelY + App.healthShiftY, 
-                (int) (App.healthLength * healthProp), App.healthWidth
+                (float)this.pixelX + App.HEALTH_SHIFT_X, (float)this.pixelY + App.HEALTH_SHIFT_Y, 
+                (int) (App.HEALTH_LENGTH * healthProp), App.HEALTH_WIDTH
             );
             
             app.fill(255, 0, 0); // red bit
             app.rect(
-                (float)(this.pixelX + App.healthShiftX + (App.healthLength * healthProp)), 
-                (float)(this.pixelY + App.healthShiftY), 
-                (float) (App.healthLength * (1 - healthProp)), 
-                App.healthWidth
+                (float)(this.pixelX + App.HEALTH_SHIFT_X + (App.HEALTH_LENGTH * healthProp)), 
+                (float)(this.pixelY + App.HEALTH_SHIFT_Y), 
+                (float) (App.HEALTH_LENGTH * (1 - healthProp)), 
+                App.HEALTH_WIDTH
             );
     
         }

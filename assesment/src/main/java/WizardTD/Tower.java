@@ -35,15 +35,15 @@ public class Tower extends Tile {
         this.damage = initialDamage;
         this.initialTowerDamage = initialDamage;
 
-        if(initialRangeLevel)
+        if (initialRangeLevel)
         {
             this.upgradeRange();
         }
-        if(initialFiringSpeedLevel)
+        if (initialFiringSpeedLevel)
         {
             this.upgradeFiringSpeed();
         }
-        if(initialDamageLevel)
+        if (initialDamageLevel)
         {
             this.upgradeDamage();
         }
@@ -82,16 +82,16 @@ public class Tower extends Tile {
 
     public void findLowestLevel()
     {
-        if(this.rangeLevel <= this.firingSpeedLevel && this.rangeLevel <= this.damageLevel){
+        if (this.rangeLevel <= this.firingSpeedLevel && this.rangeLevel <= this.damageLevel) {
             this.lowestLevel = this.rangeLevel;
-        } else if(
+        } else if (
             this.firingSpeedLevel <= this.rangeLevel && this.firingSpeedLevel <= this.damageLevel
-        ){
+        ) {
             this.lowestLevel = this.firingSpeedLevel;
         } else{
             this.lowestLevel = this.damageLevel;
         }
-        if(this.lowestLevel > 2){
+        if (this.lowestLevel > 2) {
             this.lowestLevel = 2;
         } // level 2 sprite is the lowest level sprite
         
@@ -121,25 +121,25 @@ public class Tower extends Tile {
         System.out.println("upgraded damage to " + this);
     }
 
-    public void shoot(){
+    public void shoot() {
         // create list of enemies in range
         ArrayList<Monster> enemiesInRange = new ArrayList<Monster>();
-        for(Wave wave: this.map.getWaves()){
-            for(Monster monster: wave.getMonsters()){
-                double spriteCentreX = monster.getPixelX() + App.SPRITESHIFT;
-                double spriteCentreY = monster.getPixelY() + App.SPRITESHIFT;
+        for(Wave wave: this.map.getWaves()) {
+            for(Monster monster: wave.getMonsters()) {
+                double spriteCentreX = monster.getPixelX() + App.SPRITE_SHIFT;
+                double spriteCentreY = monster.getPixelY() + App.SPRITE_SHIFT;
 
-                if(App.scalarDistance(
+                if (App.scalarDistance(
                     this.centerX, this.centerY, 
                     spriteCentreX, spriteCentreY
-                    ) <= this.range){
+                    ) <= this.range) {
                     enemiesInRange.add(monster);
                 }
             }
         }
 
         // only shoot if enemies in range exist
-        if(enemiesInRange.size() > 0){
+        if (enemiesInRange.size() > 0) {
             // randomly select one
             Random rand = new Random();
             int randIndex = rand.nextInt(enemiesInRange.size());
@@ -163,7 +163,7 @@ public class Tower extends Tile {
     {
         // shoot if enough frames have passed
         double framesPerFireball = App.FPS / this.firingSpeed;
-        if(this.framesCounter > framesPerFireball){
+        if (this.framesCounter > framesPerFireball) {
             this.shoot();
             this.framesCounter = 0;
         }
@@ -171,11 +171,11 @@ public class Tower extends Tile {
 
         // tick and remove all fireballs
         Iterator<Fireball> fireballIterator = this.projectiles.iterator();
-        while(fireballIterator.hasNext()){
+        while(fireballIterator.hasNext()) {
             Fireball fireball = fireballIterator.next();
             fireball.tick();
 
-            if(!(fireball.getExists())){
+            if (!(fireball.getExists())) {
                 fireballIterator.remove();
             }
         }
@@ -192,14 +192,14 @@ public class Tower extends Tile {
         app.noFill();
 
         // fire rate square
-        if(this.firingSpeedLevel - this.lowestLevel >= 1)
+        if (this.firingSpeedLevel - this.lowestLevel >= 1)
         { // only draw if upgraded past sprite
             app.stroke(120, 180, 255); // light blue
             app.strokeWeight((this.firingSpeedLevel - this.lowestLevel)* 2); 
             // stroke weight increases with level
             app.rect(
-                tileX + App.TOWERSPEEDSQUARESHIFT, tileY + App.TOWERSPEEDSQUARESHIFT,
-                App.TOWERSPEEDSQUARELENGTH, App.TOWERSPEEDSQUARELENGTH
+                tileX + App.TOWER_SPEED_SQUARE_SHIFT, tileY + App.TOWER_SPEED_SQUARE_SHIFT,
+                App.TOWER_SPEED_SQUARE_LENGTH, App.TOWER_SPEED_SQUARE_LENGTH
             );
         }
 
@@ -208,30 +208,30 @@ public class Tower extends Tile {
         app.strokeWeight(1);
         
         // range indicators
-        for(int i = 0; i < this.rangeLevel - this.lowestLevel; i++){
+        for(int i = 0; i < this.rangeLevel - this.lowestLevel; i++) {
             app.ellipse( // create above many circles
-                tileX + App.TOWERFIRSTUPGRADESHIFTX + 
-                i * (App.RANGEUPGRADEDIAMETER + App.TOWERUPGRADECIRCLEDIST),
-                tileY + App.TOWERFIRSTUPGRADESHIFTY, 
-                App.RANGEUPGRADEDIAMETER, App.RANGEUPGRADEDIAMETER
+                tileX + App.TOWER_FIRST_UPGRADE_SHIFT_X + 
+                i * (App.RANGE_UPGRADE_DIAMETER + App.TOWER_UPGRADE_CIRCLE_DIST),
+                tileY + App.TOWER_FIRST_UPGRADE_SHIFT_Y, 
+                App.RANGE_UPGRADE_DIAMETER, App.RANGE_UPGRADE_DIAMETER
             );
         } // each successive range upgrade indicator moves right
 
         // damage indicators
-        for(int i = 0; i < this.damageLevel - this.lowestLevel; i++){
+        for(int i = 0; i < this.damageLevel - this.lowestLevel; i++) {
             app.line( // create above many crosses
-                tileX + i * (App.TOWERDAMAGECROSSLENGTHX + App.TOWERUPGRADECROSSDIST),
-                tileY + App.TOWERFIRSTUPGRADEDMGSHIFTY,
-                tileX + App.TOWERFIRSTUPGRADESHIFTX +
-                (i+1) * App.TOWERDAMAGECROSSLENGTHX + i * App.TOWERUPGRADECROSSDIST,
-                tileY + App.TOWERFIRSTUPGRADEDMGSHIFTY + App.TOWERDAMAGECROSSLENGTHY
+                tileX + i * (App.TOWER_DAMAGE_CROSS_LENGTH_X + App.TOWER_UPGRADE_CROSS_DIST),
+                tileY + App.TOWER_FIRST_UPGRADE_DMG_SHIFT_Y,
+                tileX + App.TOWER_FIRST_UPGRADE_SHIFT_X +
+                (i+1) * App.TOWER_DAMAGE_CROSS_LENGTH_X + i * App.TOWER_UPGRADE_CROSS_DIST,
+                tileY + App.TOWER_FIRST_UPGRADE_DMG_SHIFT_Y + App.TOWER_DAMAGE_CROSS_LENGTH_Y
             );
             app.line(
-                tileX + i * (App.TOWERDAMAGECROSSLENGTHX + App.TOWERUPGRADECROSSDIST),
-                tileY + App.TOWERFIRSTUPGRADEDMGSHIFTY + App.TOWERDAMAGECROSSLENGTHY,
-                tileX + App.TOWERFIRSTUPGRADESHIFTX +
-                (i+1) * App.TOWERDAMAGECROSSLENGTHX + i * App.TOWERUPGRADECROSSDIST,
-                tileY + App.TOWERFIRSTUPGRADEDMGSHIFTY
+                tileX + i * (App.TOWER_DAMAGE_CROSS_LENGTH_X + App.TOWER_UPGRADE_CROSS_DIST),
+                tileY + App.TOWER_FIRST_UPGRADE_DMG_SHIFT_Y + App.TOWER_DAMAGE_CROSS_LENGTH_Y,
+                tileX + App.TOWER_FIRST_UPGRADE_SHIFT_X +
+                (i+1) * App.TOWER_DAMAGE_CROSS_LENGTH_X + i * App.TOWER_UPGRADE_CROSS_DIST,
+                tileY + App.TOWER_FIRST_UPGRADE_DMG_SHIFT_Y
             );
         } // each successive damage upgrade indicator moves right
     }

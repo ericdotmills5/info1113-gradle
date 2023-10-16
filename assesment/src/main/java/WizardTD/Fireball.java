@@ -13,44 +13,44 @@ public class Fireball{
     
     public Fireball(int x, int y, Monster target, double damage, App app)
     {
-        this.pixelX = x + App.FIREBALLRADIUS; // define position based 
-        this.pixelY = y + App.FIREBALLRADIUS; // on center of sprite
+        this.pixelX = x + App.FIREBALL_RADIUS; // define position based 
+        this.pixelY = y + App.FIREBALL_RADIUS; // on center of sprite
         this.app = app;
         this.target = target;
         this.damage = damage;
         this.sprite = app.loadImage("src/main/resources/WizardTD/fireball.png");
     }
 
-    public boolean getExists(){
+    public boolean getExists() {
         return this.exists;
     }
 
-    public void tick(){
+    public void tick() {
         // move towards target
-        double targetCentreX = this.target.getPixelX() + App.SPRITESHIFT;
-        double targetCentreY = this.target.getPixelY() + App.SPRITESHIFT;
+        double targetCentreX = this.target.getPixelX() + App.SPRITE_SHIFT;
+        double targetCentreY = this.target.getPixelY() + App.SPRITE_SHIFT;
         
-        this.pixelX += App.PROJSPEED / App.scalarDistance(
+        this.pixelX += App.PROJ_SPEED / App.scalarDistance(
             this.pixelX, this.pixelY, 
             targetCentreX, targetCentreY
             ) * (targetCentreX - this.pixelX);
 
-        this.pixelY += App.PROJSPEED / App.scalarDistance(
+        this.pixelY += App.PROJ_SPEED / App.scalarDistance(
             this.pixelX, this.pixelY, 
             targetCentreX, targetCentreY
             ) * (targetCentreY - this.pixelY);
 
         // check if hit target
-        if(App.scalarDistance(
+        if (App.scalarDistance(
             this.pixelX, this.pixelY, 
             targetCentreX, targetCentreY
-            ) <= App.MONSTERRADIUS){
+            ) <= App.MONSTER_RADIUS) {
             this.target.takeDamage(this.damage);
             this.exists = false;
         }
     }
 
-    public void draw(){
+    public void draw() {
         this.app.image(this.sprite, this.pixelX, this.pixelY);
     }
 }
