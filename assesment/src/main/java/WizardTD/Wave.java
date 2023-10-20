@@ -2,7 +2,6 @@ package WizardTD;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import processing.data.JSONObject;
 import java.util.Random;
 
@@ -74,7 +73,7 @@ public class Wave {
      * removes post death animation monsters from array (deleting them)
      */
     public void iterateThroughMonsters(App inputApp) {
-        Iterator<Monster> monsterIterator = this.monsters.iterator(); 
+        /*Iterator<Monster> monsterIterator = this.monsters.iterator(); 
         // used since updating elements as we iterate
         while (monsterIterator.hasNext()) { // tick all monsters in array
             Monster monster = monsterIterator.next();
@@ -83,7 +82,18 @@ public class Wave {
             if (!(monster.exists())) {
                 monsterIterator.remove();
             } // remove monsters that finished death animation
+        }*/
+
+        
+        for (int i = this.monsters.size() - 1; i >= 0; i--) {
+            Monster monster = this.monsters.get(i);
+            monster.tick(inputApp);
+
+            if (!(monster.exists())) {
+                this.monsters.remove(i);
+            } // remove monsters that finished death animation
         }
+         // if there are monsters in the array, iterate through them
     }
 
     /**

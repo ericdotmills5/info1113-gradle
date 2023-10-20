@@ -353,13 +353,14 @@ public class Map implements Draw, Tick {
      * create routes for each spawns by calling createRoute on each terminal path connected to wiz
      */
     public void createRoutes() {
-        Iterator<Path> spawnIterator = this.routes.keySet().iterator();
-        while (spawnIterator.hasNext()) {
-            Path spawn = spawnIterator.next();
+        //Iterator<Path> spawnIterator = this.routes.keySet().iterator();
+        ArrayList<Path> spawns = new ArrayList<Path>(this.routes.keySet());
+        for (int i = spawns.size() - 1; i >= 0; i--) {
+            Path spawn = spawns.get(i);
             if (spawn.wizDist > 0) {
                 this.routes.put(spawn, this.createRoute(spawn));
             } else {
-                spawnIterator.remove(); // remove spawn if it is not connected to wizard
+                this.routes.remove(spawn); // remove spawn if it is not connected to wizard
             }
         }
     }
@@ -623,13 +624,13 @@ public class Map implements Draw, Tick {
     public void tick(App inputApp) {
         // tick each wave
         if (!(waveNumber == 0 && this.waveTime > this.addWaveTimes())) { // after 1st prewave time
-            Iterator<Wave> waveIterator = this.waveList.iterator(); // use for hasNext() method
-            while (waveIterator.hasNext()) { // tick all waves in array
-                Wave wave = waveIterator.next();
+            //Iterator<Wave> waveIterator = this.waveList.iterator(); // use for hasNext() method
+            for (int i = this.waveList.size() - 1; i >= 0; i--) { // tick all waves in array
+                Wave wave = this.waveList.get(i);
                 wave.tick(inputApp);
 
                 if (wave.getWaveComplete()) {
-                    waveIterator.remove();
+                    this.waveList.remove(i);
                 } // remove waves with all monsters spawned and killed
             }
             this.waveTime -= inputApp.rate;

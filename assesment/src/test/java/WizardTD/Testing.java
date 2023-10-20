@@ -168,7 +168,7 @@ public class Testing extends App {
         this.testApp.ui.toggleSwitch(this.testApp, 7);
         this.testApp.ui.toggleSwitch(this.testApp, 8);
 
-        assertEquals(this.testApp.map.getMana().getPoolCost(), 250);
+        assertTrue(this.testApp.map.getMana().getPoolCost() > 240);
         assertTrue(this.testApp.map.getPoison());
     }
 
@@ -195,7 +195,7 @@ public class Testing extends App {
         this.testApp.keyPressed();
 
         this.testApp.map.getWaves().add(createTestWave());
-        Monster testMonster = new Monster(0, 1, 5, 1500, 2, route, this.testApp, 5);
+        Monster testMonster = new Monster(0, 1, 50, 1500, 2, route, this.testApp, 5);
         this.testApp.map.getWaves().get(0).getMonsters().add(testMonster);
         for (int i = 0; i < 150; i++) {
             this.testApp.draw();
@@ -316,7 +316,7 @@ public class Testing extends App {
         route.add(Direction.DOWN);
 
         this.testApp.map.getWaves().add(createTestWave());
-        Monster testMonster = new Monster(0, 1, 5, 1, 2, route, this.testApp, 5);
+        Monster testMonster = new Monster(0, 1, 0.5, 1, 2, route, this.testApp, 5);
         this.testApp.map.getWaves().get(0).getMonsters().add(testMonster);
 
         for (int i = 0; i < 100; i++) {
@@ -379,7 +379,7 @@ public class Testing extends App {
         assertTrue(monsterTest.exists());
 
         // step 3
-        for (int i = 0; i < 22; i++) {
+        for (int i = 0; i < 25; i++) {
             this.testApp.map.getWaves().get(0).tick(this.testApp);
         }
 

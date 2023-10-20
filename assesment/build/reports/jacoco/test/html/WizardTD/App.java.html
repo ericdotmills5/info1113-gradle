@@ -252,8 +252,8 @@ public class App extends PApplet {
      */
     public void mouseHover() {
 <span class="fc bfc" id="L254" title="All 2 branches covered.">        for (int buttonNO = 1; buttonNO &lt;= App.NUMBER_OF_BUTTONS; buttonNO++) {</span>
-<span class="fc bfc" id="L255" title="All 2 branches covered.">            if (isMouseOverButton(buttonNO)) {</span>
-<span class="fc" id="L256">                this.ui.setHoveredButton(buttonNO, true);</span>
+<span class="pc bpc" id="L255" title="1 of 2 branches missed.">            if (isMouseOverButton(buttonNO)) {</span>
+<span class="nc" id="L256">                this.ui.setHoveredButton(buttonNO, true);</span>
             } else {
 <span class="fc" id="L258">                this.ui.setHoveredButton(buttonNO, false);</span>
             }
@@ -267,7 +267,7 @@ public class App extends PApplet {
      * @return boolean of whether mouse is over button.
      */
     public boolean isMouseOverButton(int buttonNO) {
-<span class="pc bpc" id="L270" title="1 of 8 branches missed.">        return (this.mouseX &gt; BUTTON_X &amp;&amp;</span>
+<span class="pc bpc" id="L270" title="7 of 8 branches missed.">        return (this.mouseX &gt; BUTTON_X &amp;&amp;</span>
                 this.mouseX &lt; BUTTON_X + BUTTON_SIZE &amp;&amp;
                 this.mouseY &gt; TOPBAR + buttonNO * BUTTON_SPACING + (buttonNO-1)*BUTTON_SIZE &amp;&amp;
                 this.mouseY &lt; buttonNO * (BUTTON_SPACING + BUTTON_SIZE) + TOPBAR);

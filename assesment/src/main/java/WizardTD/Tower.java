@@ -232,13 +232,13 @@ public class Tower extends Tile implements Tick {
         this.framesCounter += inputApp.rate;
 
         // tick and remove all fireballs
-        Iterator<Fireball> fireballIterator = this.projectiles.iterator();
-        while (fireballIterator.hasNext()) {
-            Fireball fireball = fireballIterator.next();
+        // Iterator<Fireball> fireballIterator = this.projectiles.iterator();
+        for (int i = this.projectiles.size() - 1; i >= 0; i--) {
+            Fireball fireball = this.projectiles.get(i);
             fireball.tick(inputApp);
 
             if (!(fireball.exists())) {
-                fireballIterator.remove();
+                this.projectiles.remove(i);
             }
         }
     }

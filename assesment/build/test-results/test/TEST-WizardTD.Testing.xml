@@ -1,36 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="WizardTD.Testing" tests="12" skipped="0" failures="0" errors="0" timestamp="2023-10-20T03:28:44" hostname="DESKTOP-G6IO8O8" time="64.35">
+<testsuite name="WizardTD.Testing" tests="12" skipped="0" failures="0" errors="0" timestamp="2023-10-20T06:25:04" hostname="DESKTOP-G6IO8O8" time="70.275">
   <properties/>
-  <testcase name="spawnRandomMonster()" classname="WizardTD.Testing" time="3.071"/>
-  <testcase name="monsterMakesItToWizardWhileFastForward()" classname="WizardTD.Testing" time="3.547"/>
-  <testcase name="spawnMonsterWithNoHealth()" classname="WizardTD.Testing" time="3.431"/>
-  <testcase name="loseAndThenClickR()" classname="WizardTD.Testing" time="6.585"/>
-  <testcase name="testSomeUpgradeBranches()" classname="WizardTD.Testing" time="3.44"/>
-  <testcase name="tickCheck()" classname="WizardTD.Testing" time="4.077"/>
-  <testcase name="poisonScreenAndDamageMonster()" classname="WizardTD.Testing" time="7.973"/>
-  <testcase name="switchManaAndPoison()" classname="WizardTD.Testing" time="4.408"/>
-  <testcase name="createWave()" classname="WizardTD.Testing" time="5.06"/>
-  <testcase name="spawnMonsterWithNewPathAndInSecondWave()" classname="WizardTD.Testing" time="6.106"/>
-  <testcase name="shootMonsterTest()" classname="WizardTD.Testing" time="9.932"/>
-  <testcase name="drawMap()" classname="WizardTD.Testing" time="6.701"/>
+  <testcase name="spawnRandomMonster()" classname="WizardTD.Testing" time="3.113"/>
+  <testcase name="monsterMakesItToWizardWhileFastForward()" classname="WizardTD.Testing" time="3.165"/>
+  <testcase name="spawnMonsterWithNoHealth()" classname="WizardTD.Testing" time="3.247"/>
+  <testcase name="loseAndThenClickR()" classname="WizardTD.Testing" time="7.275"/>
+  <testcase name="testSomeUpgradeBranches()" classname="WizardTD.Testing" time="3.857"/>
+  <testcase name="tickCheck()" classname="WizardTD.Testing" time="4.651"/>
+  <testcase name="poisonScreenAndDamageMonster()" classname="WizardTD.Testing" time="8.997"/>
+  <testcase name="switchManaAndPoison()" classname="WizardTD.Testing" time="5.238"/>
+  <testcase name="createWave()" classname="WizardTD.Testing" time="5.937"/>
+  <testcase name="spawnMonsterWithNewPathAndInSecondWave()" classname="WizardTD.Testing" time="6.62"/>
+  <testcase name="shootMonsterTest()" classname="WizardTD.Testing" time="11.715"/>
+  <testcase name="drawMap()" classname="WizardTD.Testing" time="6.432"/>
   <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[java.util.ConcurrentModificationException
-	at java.util.ArrayList$Itr.checkForComodification(ArrayList.java:911)
-	at java.util.ArrayList$Itr.remove(ArrayList.java:875)
-	at WizardTD.Wave.iterateThroughMonsters(Wave.java:84)
-	at WizardTD.Wave.tick(Wave.java:127)
-	at WizardTD.Map.tick(Map.java:629)
-	at WizardTD.App.tick(App.java:277)
-	at WizardTD.App.draw(App.java:289)
-	at processing.core.PApplet.handleDraw(PApplet.java:2426)
-	at processing.awt.PSurfaceAWT$12.callDraw(PSurfaceAWT.java:1557)
-	at processing.core.PSurfaceNone$AnimationThread.run(PSurfaceNone.java:316)
-java.util.ConcurrentModificationException
-	at java.util.ArrayList$Itr.checkForComodification(ArrayList.java:911)
-	at java.util.ArrayList$Itr.remove(ArrayList.java:875)
-	at WizardTD.Wave.iterateThroughMonsters(Wave.java:84)
-	at WizardTD.Wave.tick(Wave.java:127)
-	at WizardTD.Map.tick(Map.java:629)
+  <system-err><![CDATA[java.lang.IndexOutOfBoundsException: Index: 0, Size: 0
+	at java.util.ArrayList.rangeCheck(ArrayList.java:659)
+	at java.util.ArrayList.remove(ArrayList.java:498)
+	at WizardTD.Tower.tick(Tower.java:241)
+	at WizardTD.Map.tick(Map.java:655)
 	at WizardTD.App.tick(App.java:277)
 	at WizardTD.App.draw(App.java:289)
 	at processing.core.PApplet.handleDraw(PApplet.java:2426)

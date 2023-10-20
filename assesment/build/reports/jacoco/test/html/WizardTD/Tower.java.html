@@ -232,15 +232,15 @@ public class Tower extends Tile implements Tick {
 <span class="fc" id="L232">        this.framesCounter += inputApp.rate;</span>
 
         // tick and remove all fireballs
-<span class="fc" id="L235">        Iterator&lt;Fireball&gt; fireballIterator = this.projectiles.iterator();</span>
-<span class="fc bfc" id="L236" title="All 2 branches covered.">        while (fireballIterator.hasNext()) {</span>
-<span class="fc" id="L237">            Fireball fireball = fireballIterator.next();</span>
+        // Iterator&lt;Fireball&gt; fireballIterator = this.projectiles.iterator();
+<span class="fc bfc" id="L236" title="All 2 branches covered.">        for (int i = this.projectiles.size() - 1; i &gt;= 0; i--) {</span>
+<span class="fc" id="L237">            Fireball fireball = this.projectiles.get(i);</span>
 <span class="fc" id="L238">            fireball.tick(inputApp);</span>
 
 <span class="fc bfc" id="L240" title="All 2 branches covered.">            if (!(fireball.exists())) {</span>
-<span class="fc" id="L241">                fireballIterator.remove();</span>
+<span class="fc" id="L241">                this.projectiles.remove(i);</span>
             }
-<span class="fc" id="L243">        }</span>
+        }
 <span class="fc" id="L244">    }</span>
 
     /**

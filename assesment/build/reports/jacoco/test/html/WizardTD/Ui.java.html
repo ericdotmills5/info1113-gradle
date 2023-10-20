@@ -41,7 +41,7 @@ public class Ui implements Tick, Draw {
      * @return true if mouse is in map, false otherwise
      */
     static public boolean isMouseInMap(int x, int y) {
-<span class="pc bpc" id="L44" title="2 of 8 branches missed.">        return x &gt; 0 &amp;&amp; x &lt; App.CELLSIZE * App.BOARD_WIDTH &amp;&amp; y &gt; App.TOPBAR &amp;&amp; y &lt; App.HEIGHT;</span>
+<span class="pc bpc" id="L44" title="3 of 8 branches missed.">        return x &gt; 0 &amp;&amp; x &lt; App.CELLSIZE * App.BOARD_WIDTH &amp;&amp; y &gt; App.TOPBAR &amp;&amp; y &lt; App.HEIGHT;</span>
     }
 
     /**
@@ -258,8 +258,8 @@ public class Ui implements Tick, Draw {
         // button outline
 <span class="fc bfc" id="L259" title="All 2 branches covered.">        if (light) {</span>
 <span class="fc" id="L260">            inputApp.fill(255, 255, 0); // yellow</span>
-<span class="fc bfc" id="L261" title="All 2 branches covered.">        } else if (hover) { </span>
-<span class="fc" id="L262">            inputApp.fill(200, 200, 200); // grey</span>
+<span class="pc bpc" id="L261" title="1 of 2 branches missed.">        } else if (hover) { </span>
+<span class="nc" id="L262">            inputApp.fill(200, 200, 200); // grey</span>
         } else {
 <span class="fc" id="L264">            inputApp.noFill(); // hollow</span>
         }
