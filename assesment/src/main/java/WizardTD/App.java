@@ -92,13 +92,6 @@ public class App extends PApplet {
     public Map map;
     public Ui ui;
     public Iterable<String> mapIterable;
-
-    public double poisonCost;
-    public double poisonFrames;
-    public double poisonDamage;
-    
-    public Monster monster; // testing
-
     public Random random = new Random();
 
     public App() {
@@ -130,22 +123,7 @@ public class App extends PApplet {
      * initialise map and ui classes.
      */
     public void createStuff() {
-        if (this.config.hasKey("poison_cost")) {
-            this.poisonCost = this.config.getDouble("poison_cost");
-        } else {
-            this.poisonCost = 100;
-        }
-        if (this.config.hasKey("poison_time")) {
-            this.poisonFrames = this.config.getDouble("poison_time") * FPS;
-        } else {
-            this.poisonFrames = 5 * FPS;
-        }
-        if (this.config.hasKey("poison_damage_per_second")) {
-            this.poisonDamage = this.config.getDouble("poison_damage_per_second");
-        } else {
-            this.poisonDamage = 1;
-        }
-        // default values in case these fields DNE
+        
 
         // read map
         Scanner scan = fileIO(this.config.getString("layout"));
@@ -301,8 +279,8 @@ public class App extends PApplet {
     }
 
     public void tick() {
-        this.map.tick();
-        this.ui.tick();
+        this.map.tick(this);
+        this.ui.tick(this);
         this.mouseHover();
     }
 

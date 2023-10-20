@@ -2,14 +2,13 @@
 
 import processing.core.PImage;
 
-public class Fireball {
+public class Fireball implements Exists, Draw, Tick {
     private int pixelX;
     private int pixelY;
     private PImage sprite;
-    private App app;
     private Monster target;
     private double damage;
-<span class="fc" id="L12">    private boolean exists = true;</span>
+    private boolean exists;
     
     /**
      * Constructor for Fireball
@@ -19,56 +18,62 @@ public class Fireball {
      * @param damage damage to deal to target
      * @param app App object
      */
-<span class="fc" id="L22">    public Fireball(int x, int y, Monster target, double damage, App app) {</span>
-<span class="fc" id="L23">        this.pixelX = x + App.FIREBALL_RADIUS; // define position based </span>
-<span class="fc" id="L24">        this.pixelY = y + App.FIREBALL_RADIUS; // on center of sprite</span>
-<span class="fc" id="L25">        this.app = app;</span>
-<span class="fc" id="L26">        this.target = target;</span>
-<span class="fc" id="L27">        this.damage = damage;</span>
-<span class="fc" id="L28">        this.sprite = app.loadImage(&quot;src/main/resources/WizardTD/fireball.png&quot;);</span>
-<span class="fc" id="L29">    }</span>
+<span class="fc" id="L21">    public Fireball(int x, int y, Monster target, double damage, App app) {</span>
+<span class="fc" id="L22">        this.pixelX = x + App.FIREBALL_RADIUS; // define position based </span>
+<span class="fc" id="L23">        this.pixelY = y + App.FIREBALL_RADIUS; // on center of sprite</span>
+<span class="fc" id="L24">        this.target = target;</span>
+<span class="fc" id="L25">        this.damage = damage;</span>
+<span class="fc" id="L26">        this.sprite = app.loadImage(&quot;src/main/resources/WizardTD/fireball.png&quot;);</span>
+<span class="fc" id="L27">        this.becomeExistant();</span>
+<span class="fc" id="L28">    }</span>
+
+    public void becomeExistant(){
+<span class="fc" id="L31">        this.exists = true;</span>
+<span class="fc" id="L32">    }</span>
 
     /**
      * used to check if fireball should be removed
      * @return false if fireball should be removed
      */
-    public boolean getExists() {
-<span class="fc" id="L36">        return this.exists;</span>
+    public boolean exists() {
+<span class="fc" id="L39">        return this.exists;</span>
     }
 
     /**
      * Move towards target and check/deal damage if hit
+     * @param inputApp app object to get general info about game
      */
-    public void tick() {
-<span class="fc" id="L43">        double targetCentreX = this.target.getPixelX() + App.SPRITE_SHIFT;</span>
-<span class="fc" id="L44">        double targetCentreY = this.target.getPixelY() + App.SPRITE_SHIFT;</span>
+    public void tick(App inputApp) {
+<span class="fc" id="L47">        double targetCentreX = this.target.getPixelX() + App.SPRITE_SHIFT;</span>
+<span class="fc" id="L48">        double targetCentreY = this.target.getPixelY() + App.SPRITE_SHIFT;</span>
         
         // move towards target
-<span class="fc" id="L47">        this.pixelX += App.PROJ_SPEED / App.scalarDistance(</span>
+<span class="fc" id="L51">        this.pixelX += App.PROJ_SPEED / App.scalarDistance(</span>
             this.pixelX, this.pixelY, 
             targetCentreX, targetCentreY
             ) * (targetCentreX - this.pixelX);
 
-<span class="fc" id="L52">        this.pixelY += App.PROJ_SPEED / App.scalarDistance(</span>
+<span class="fc" id="L56">        this.pixelY += App.PROJ_SPEED / App.scalarDistance(</span>
             this.pixelX, this.pixelY, 
             targetCentreX, targetCentreY
             ) * (targetCentreY - this.pixelY);
 
         // check if hit target
-<span class="fc bfc" id="L58" title="All 2 branches covered.">        if (App.scalarDistance(</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">        if (App.scalarDistance(</span>
             this.pixelX, this.pixelY, 
             targetCentreX, targetCentreY
             ) &lt;= App.MONSTER_RADIUS) {
-<span class="fc" id="L62">            this.target.takeDamage(this.damage);</span>
-<span class="fc" id="L63">            this.exists = false;</span>
+<span class="fc" id="L66">            this.target.takeDamage(this.damage);</span>
+<span class="fc" id="L67">            this.exists = false;</span>
         }
-<span class="fc" id="L65">    }</span>
+<span class="fc" id="L69">    }</span>
 
     /**
      * Draw fireball sprite
+     * @param inputApp App object to draw with
      */
-    public void draw() {
-<span class="fc" id="L71">        this.app.image(this.sprite, this.pixelX, this.pixelY);</span>
-<span class="fc" id="L72">    }</span>
+    public void draw(App inputApp) {
+<span class="fc" id="L76">        inputApp.image(this.sprite, this.pixelX, this.pixelY);</span>
+<span class="fc" id="L77">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

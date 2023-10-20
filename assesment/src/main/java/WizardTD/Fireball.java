@@ -2,14 +2,13 @@ package WizardTD;
 
 import processing.core.PImage;
 
-public class Fireball {
+public class Fireball implements Exists, Draw, Tick {
     private int pixelX;
     private int pixelY;
     private PImage sprite;
-    private App app;
     private Monster target;
     private double damage;
-    private boolean exists = true;
+    private boolean exists;
     
     /**
      * Constructor for Fireball
@@ -22,24 +21,29 @@ public class Fireball {
     public Fireball(int x, int y, Monster target, double damage, App app) {
         this.pixelX = x + App.FIREBALL_RADIUS; // define position based 
         this.pixelY = y + App.FIREBALL_RADIUS; // on center of sprite
-        this.app = app;
         this.target = target;
         this.damage = damage;
         this.sprite = app.loadImage("src/main/resources/WizardTD/fireball.png");
+        this.becomeExistant();
+    }
+
+    public void becomeExistant(){
+        this.exists = true;
     }
 
     /**
      * used to check if fireball should be removed
      * @return false if fireball should be removed
      */
-    public boolean getExists() {
+    public boolean exists() {
         return this.exists;
     }
 
     /**
      * Move towards target and check/deal damage if hit
+     * @param inputApp app object to get general info about game
      */
-    public void tick() {
+    public void tick(App inputApp) {
         double targetCentreX = this.target.getPixelX() + App.SPRITE_SHIFT;
         double targetCentreY = this.target.getPixelY() + App.SPRITE_SHIFT;
         
@@ -66,8 +70,9 @@ public class Fireball {
 
     /**
      * Draw fireball sprite
+     * @param inputApp App object to draw with
      */
-    public void draw() {
-        this.app.image(this.sprite, this.pixelX, this.pixelY);
+    public void draw(App inputApp) {
+        inputApp.image(this.sprite, this.pixelX, this.pixelY);
     }
 }

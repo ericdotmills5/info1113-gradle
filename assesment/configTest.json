@@ -39,7 +39,7 @@
           "speed": 2.5,
           "armour": 0.7,
           "mana_gained_on_kill": 70,
-          "quantity": 50
+          "quantity": 0
         }
       ]
     }

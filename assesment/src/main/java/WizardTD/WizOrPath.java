@@ -143,7 +143,9 @@ abstract class WizOrPath extends Tile {
 
     /**
      * Method to determine directions to wizard, recursivly calling adjacent tiles.
-     * This allows each path to know the optimal direction to the wizard.
+     * This allows each path to know the optimal direction to the wizard. 
+     * Sidenote, I came up with this pathfinding algorithm all by myself,
+     * I am very proud of it! unless it already exists :(
      */
     public void determineWizDists() {
         for(Tile i: this.adj.values()) { // for everyone around me

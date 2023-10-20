@@ -1,10 +1,9 @@
 package WizardTD;
 
 import java.util.ArrayList;
-import processing.core.PApplet;
 import processing.core.PImage;
 
-public class Monster {
+public class Monster implements Exists {
     private double pixelX;
     private double pixelY;
     private double pixSpeed;
@@ -14,7 +13,7 @@ public class Monster {
     private App app;
     private double healthProp;
     private boolean alive = true;
-    private boolean exists = true;
+    private boolean exists;
     private int deathTick = 0;
     private int tileNo = 0;
     private ArrayList<Direction> route = new ArrayList<>();
@@ -57,15 +56,20 @@ public class Monster {
         this.sprite = app.loadImage("src/main/resources/WizardTD/gremlin.png");
 
         this.spawnShift();
+        this.becomeExistant();
 
         System.out.println("Created " + this);
+    }
+
+    public void becomeExistant() {
+        this.exists = true;
     }
 
     /**
      * used to check if monster object should be removed after death animation
      * @return false if monster should be removed
      */
-    public boolean getExists() {
+    public boolean exists() {
         return this.exists;
     }
 
@@ -188,9 +192,9 @@ public class Monster {
             this.moves = 0;
 
             // deduct mana and potentially lose
-            if (!app.map.getMana().updateMana(-1 * this.currHealth)) {
-                app.map.getMana().makeManaZero(); // deduct all mana
-                app.onLossScreen = true;
+            if (!this.app.map.getMana().updateMana(-1 * this.currHealth)) {
+                this.app.map.getMana().makeManaZero(); // deduct all mana
+                this.app.onLossScreen = true;
             }
         }
     }
@@ -199,19 +203,19 @@ public class Monster {
      * change sprite throughout kill animation
      */
     public void changeSpriteDuringKillAnimation() {
-        this.deathTick += app.rate; // kill animation twice as fast if ff, stops if pasued
+        this.deathTick += this.app.rate; // kill animation twice as fast if ff, stops if pasued
             if (this.deathTick > 20) {
                 this.exists = false; // will be deleted from spawn array
             } else if (this.deathTick > 16) {
-                this.sprite = app.loadImage("src/main/resources/WizardTD/gremlin5.png");
+                this.sprite = this.app.loadImage("src/main/resources/WizardTD/gremlin5.png");
             } else if (this.deathTick > 12) {
-                this.sprite = app.loadImage("src/main/resources/WizardTD/gremlin4.png");
+                this.sprite = this.app.loadImage("src/main/resources/WizardTD/gremlin4.png");
             } else if (this.deathTick > 8) {
-                this.sprite = app.loadImage("src/main/resources/WizardTD/gremlin3.png");
+                this.sprite = this.app.loadImage("src/main/resources/WizardTD/gremlin3.png");
             } else if (this.deathTick > 4) {
-                this.sprite = app.loadImage("src/main/resources/WizardTD/gremlin2.png");
+                this.sprite = this.app.loadImage("src/main/resources/WizardTD/gremlin2.png");
             } else if (this.deathTick > 0) {
-                this.sprite = app.loadImage("src/main/resources/WizardTD/gremlin1.png");
+                this.sprite = this.app.loadImage("src/main/resources/WizardTD/gremlin1.png");
             }     
     }
 
@@ -231,21 +235,22 @@ public class Monster {
      * 3. move monster
      * 4. kill monster if health is 0
      * 5. update sprite throughout kill animation
+     * @param inputApp app to get speed from and other information about game
      */
-    public void tick()
+    public void tick(App inputApp)
     {
         // poison
-        if (this.app.map.getPoison()) {
-            this.takeDamage(this.app.poisonDamage * this.app.rate); // influenced by armour
+        if (inputApp.map.getPoison()) {
+            this.takeDamage(inputApp.map.getPoisonDamage() * inputApp.rate); // influenced by armour
         }
         
         // health
         this.healthProp = this.currHealth / this.maxHealth;
 
-        for(int i = 0; i < app.rate; i++) {
+        for(int i = 0; i < inputApp.rate; i++) {
             if (this.alive && this.currHealth <= 0) {
             this.alive = false;
-            app.map.getMana().updateMana(manaOnKill);
+            inputApp.map.getMana().updateMana(manaOnKill);
             } // kill monster based on rate
 
             this.move();
@@ -259,23 +264,23 @@ public class Monster {
     
     /**
      * draw monster sprite and health bar
-     * @param app
+     * @param inputApp app to draw with
      */
-    public void draw(PApplet app) {
+    public void draw(App inputApp) {
         // monster sprite
-        app.image(this.sprite, (float)this.pixelX, (float)this.pixelY);
+        inputApp.image(this.sprite, (float)this.pixelX, (float)this.pixelY);
 
         // health bar
         if (this.alive) { // health bar only displays if alive
-            app.noStroke(); // no border
-            app.fill(0, 255, 0); // green bit
-            app.rect(
+            inputApp.noStroke(); // no border
+            inputApp.fill(0, 255, 0); // green bit
+            inputApp.rect(
                 (float)this.pixelX + App.HEALTH_SHIFT_X, (float)this.pixelY + App.HEALTH_SHIFT_Y,
                 (int) (App.HEALTH_LENGTH * healthProp), App.HEALTH_WIDTH
             );
             
-            app.fill(255, 0, 0); // red bit
-            app.rect(
+            inputApp.fill(255, 0, 0); // red bit
+            inputApp.rect(
                 (float)(this.pixelX + App.HEALTH_SHIFT_X + (App.HEALTH_LENGTH * healthProp)),
                 (float)(this.pixelY + App.HEALTH_SHIFT_Y), 
                 (float) (App.HEALTH_LENGTH * (1 - healthProp)), 

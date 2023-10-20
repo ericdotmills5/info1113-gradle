@@ -92,27 +92,20 @@ public class App extends PApplet {
     public Map map;
     public Ui ui;
     public Iterable&lt;String&gt; mapIterable;
+<span class="fc" id="L95">    public Random random = new Random();</span>
 
-    public double poisonCost;
-    public double poisonFrames;
-    public double poisonDamage;
-    
-    public Monster monster; // testing
-
-<span class="fc" id="L102">    public Random random = new Random();</span>
-
-<span class="fc" id="L104">    public App() {</span>
+<span class="fc" id="L97">    public App() {</span>
         
-<span class="fc" id="L106">    }</span>
+<span class="fc" id="L99">    }</span>
 
     /**
      * Initialise the setting of the window size.
      */
 	@Override
     public void settings() {
-<span class="nc" id="L113">        size(WIDTH, HEIGHT); </span>
+<span class="fc" id="L106">        size(WIDTH, HEIGHT); </span>
         // glitched, probably due to window decorations on windows
-<span class="nc" id="L115">    }</span>
+<span class="fc" id="L108">    }</span>
 
     /**
      * Load all resources such as images. 
@@ -120,42 +113,27 @@ public class App extends PApplet {
      */
 	@Override
     public void setup() {
-<span class="nc" id="L123">        frameRate(FPS);</span>
-<span class="nc" id="L124">        this.configPath = &quot;config.json&quot;;</span>
-<span class="nc" id="L125">        this.config = readJSON(configPath);</span>
-<span class="nc" id="L126">        this.createStuff();</span>
-<span class="nc" id="L127">    }</span>
+<span class="fc" id="L116">        frameRate(FPS);</span>
+<span class="fc" id="L117">        this.configPath = &quot;config.json&quot;;</span>
+<span class="fc" id="L118">        this.config = readJSON(configPath);</span>
+<span class="fc" id="L119">        this.createStuff();</span>
+<span class="fc" id="L120">    }</span>
 
     /**
      * initialise map and ui classes.
      */
     public void createStuff() {
-<span class="pc bpc" id="L133" title="1 of 2 branches missed.">        if (this.config.hasKey(&quot;poison_cost&quot;)) {</span>
-<span class="fc" id="L134">            this.poisonCost = this.config.getDouble(&quot;poison_cost&quot;);</span>
-        } else {
-<span class="nc" id="L136">            this.poisonCost = 100;</span>
-        }
-<span class="pc bpc" id="L138" title="1 of 2 branches missed.">        if (this.config.hasKey(&quot;poison_time&quot;)) {</span>
-<span class="fc" id="L139">            this.poisonFrames = this.config.getDouble(&quot;poison_time&quot;) * FPS;</span>
-        } else {
-<span class="nc" id="L141">            this.poisonFrames = 5 * FPS;</span>
-        }
-<span class="pc bpc" id="L143" title="1 of 2 branches missed.">        if (this.config.hasKey(&quot;poison_damage_per_second&quot;)) {</span>
-<span class="fc" id="L144">            this.poisonDamage = this.config.getDouble(&quot;poison_damage_per_second&quot;);</span>
-        } else {
-<span class="nc" id="L146">            this.poisonDamage = 1;</span>
-        }
-        // default values in case these fields DNE
+        
 
         // read map
-<span class="fc" id="L151">        Scanner scan = fileIO(this.config.getString(&quot;layout&quot;));</span>
-<span class="fc" id="L152">        this.mapIterable = scan2Iterable(scan);</span>
-<span class="fc" id="L153">        scan.close();</span>
+<span class="fc" id="L129">        Scanner scan = fileIO(this.config.getString(&quot;layout&quot;));</span>
+<span class="fc" id="L130">        this.mapIterable = scan2Iterable(scan);</span>
+<span class="fc" id="L131">        scan.close();</span>
 
         // initialise map and ui classes
-<span class="fc" id="L156">        this.map = new Map(this.mapIterable, this, this.config);</span>
-<span class="fc" id="L157">        this.ui = new Ui(this.map);</span>
-<span class="fc" id="L158">    }</span>
+<span class="fc" id="L134">        this.map = new Map(this.mapIterable, this, this.config);</span>
+<span class="fc" id="L135">        this.ui = new Ui(this.map);</span>
+<span class="fc" id="L136">    }</span>
 
     /**
      * Read file into scanner object. Used to read map file.
@@ -163,15 +141,15 @@ public class App extends PApplet {
      * @return Scanner object of file.
      */
     static Scanner fileIO(String loc) { 
-<span class="fc" id="L166">        File f = new File(loc);</span>
+<span class="fc" id="L144">        File f = new File(loc);</span>
         Scanner scan;
         try {
-<span class="fc" id="L169">            scan = new Scanner(f);</span>
-<span class="nc" id="L170">        } catch (FileNotFoundException e) {</span>
-<span class="nc" id="L171">            System.out.println(&quot;File not found!&quot;);</span>
-<span class="nc" id="L172">            return null;</span>
-<span class="fc" id="L173">        }</span>
-<span class="fc" id="L174">        return scan;</span>
+<span class="fc" id="L147">            scan = new Scanner(f);</span>
+<span class="nc" id="L148">        } catch (FileNotFoundException e) {</span>
+<span class="nc" id="L149">            System.out.println(&quot;File not found!&quot;);</span>
+<span class="nc" id="L150">            return null;</span>
+<span class="fc" id="L151">        }</span>
+<span class="fc" id="L152">        return scan;</span>
     }
 
     /**
@@ -180,14 +158,14 @@ public class App extends PApplet {
      * @return JSONObject object of file.
      */
     static JSONObject readJSON(String path) {
-<span class="fc" id="L183">        String json = &quot;&quot;;</span>
+<span class="fc" id="L161">        String json = &quot;&quot;;</span>
         try {
-<span class="fc" id="L185">            json = new String(Files.readAllBytes(Paths.get(path)));</span>
-<span class="nc" id="L186">        } catch (IOException e) {</span>
-<span class="nc" id="L187">            System.out.println(&quot;File not found!&quot;);</span>
-<span class="nc" id="L188">            return null;</span>
-<span class="fc" id="L189">        }</span>
-<span class="fc" id="L190">        return JSONObject.parse(json);</span>
+<span class="fc" id="L163">            json = new String(Files.readAllBytes(Paths.get(path)));</span>
+<span class="nc" id="L164">        } catch (IOException e) {</span>
+<span class="nc" id="L165">            System.out.println(&quot;File not found!&quot;);</span>
+<span class="nc" id="L166">            return null;</span>
+<span class="fc" id="L167">        }</span>
+<span class="fc" id="L168">        return JSONObject.parse(json);</span>
     }
 
     /**
@@ -196,11 +174,11 @@ public class App extends PApplet {
      * @return Iterable object of file of read scanner.
      */
     static Iterable&lt;String&gt; scan2Iterable(Scanner scan) {
-<span class="fc" id="L199">        ArrayList&lt;String&gt; lines = new ArrayList&lt;String&gt;();</span>
-<span class="fc bfc" id="L200" title="All 2 branches covered.">        while (scan.hasNextLine()) {</span>
-<span class="fc" id="L201">            lines.add(scan.nextLine());</span>
+<span class="fc" id="L177">        ArrayList&lt;String&gt; lines = new ArrayList&lt;String&gt;();</span>
+<span class="fc bfc" id="L178" title="All 2 branches covered.">        while (scan.hasNextLine()) {</span>
+<span class="fc" id="L179">            lines.add(scan.nextLine());</span>
         }
-<span class="fc" id="L203">        return lines;</span>
+<span class="fc" id="L181">        return lines;</span>
     }
 
     /**
@@ -212,7 +190,7 @@ public class App extends PApplet {
      * @return double distance between two points.
      */
     static double scalarDistance(double x1, double y1, double x2, double y2) {
-<span class="fc" id="L215">        return Math.sqrt(Math.pow(x1-x2, 2) + Math.pow(y1-y2, 2));</span>
+<span class="fc" id="L193">        return Math.sqrt(Math.pow(x1-x2, 2) + Math.pow(y1-y2, 2));</span>
     }
 
     /**
@@ -221,26 +199,26 @@ public class App extends PApplet {
 	@Override
     public void keyPressed() {
 
-<span class="fc bfc" id="L224" title="All 2 branches covered.">        if (this.onLossScreen) {</span>
-<span class="pc bpc" id="L225" title="1 of 2 branches missed.">            if (this.keyCode == 'R') {</span>
-<span class="fc" id="L226">                this.onLossScreen = false;</span>
-<span class="fc" id="L227">                this.doubleRate = 1;</span>
-<span class="fc" id="L228">                this.pauseRate = 1;</span>
-<span class="fc" id="L229">                this.rate = doubleRate * pauseRate;</span>
-<span class="fc" id="L230">                this.map = new Map(this.mapIterable, this, this.config);</span>
-<span class="fc" id="L231">                this.ui = new Ui(this.map);</span>
+<span class="fc bfc" id="L202" title="All 2 branches covered.">        if (this.onLossScreen) {</span>
+<span class="pc bpc" id="L203" title="1 of 2 branches missed.">            if (this.keyCode == 'R') {</span>
+<span class="fc" id="L204">                this.onLossScreen = false;</span>
+<span class="fc" id="L205">                this.doubleRate = 1;</span>
+<span class="fc" id="L206">                this.pauseRate = 1;</span>
+<span class="fc" id="L207">                this.rate = doubleRate * pauseRate;</span>
+<span class="fc" id="L208">                this.map = new Map(this.mapIterable, this, this.config);</span>
+<span class="fc" id="L209">                this.ui = new Ui(this.map);</span>
                 
             }
-<span class="pc bpc" id="L234" title="1 of 2 branches missed.">        } else if (this.onWinScreen) {</span>
+<span class="pc bpc" id="L212" title="1 of 2 branches missed.">        } else if (this.onWinScreen) {</span>
             // not allowed to press bellow BUTTONS
         } else {
-<span class="fc bfc" id="L237" title="All 2 branches covered.">            for(int i = 1; i &lt; App.BUTTONS.length; i++) {</span>
-<span class="fc bfc" id="L238" title="All 2 branches covered.">                if (this.keyCode == App.BUTTONS[i]) {</span>
-<span class="fc" id="L239">                    this.ui.toggleSwitch(this, i);</span>
+<span class="fc bfc" id="L215" title="All 2 branches covered.">            for(int i = 1; i &lt; App.BUTTONS.length; i++) {</span>
+<span class="fc bfc" id="L216" title="All 2 branches covered.">                if (this.keyCode == App.BUTTONS[i]) {</span>
+<span class="fc" id="L217">                    this.ui.toggleSwitch(this, i);</span>
                 }
             }
         }
-<span class="fc" id="L243">    }</span>
+<span class="fc" id="L221">    }</span>
 
     /**
      * Receive key released signal from the keyboard.
@@ -248,7 +226,7 @@ public class App extends PApplet {
 	@Override
     public void keyReleased() {
 
-<span class="nc" id="L251">    }</span>
+<span class="nc" id="L229">    }</span>
 
     /**
      * Receive mouse pressed signal from the mouse.
@@ -257,35 +235,35 @@ public class App extends PApplet {
     @Override
     public void mousePressed(MouseEvent e) 
     { // hover over grey + cost
-<span class="nc bnc" id="L260" title="All 2 branches missed.">        for (int buttonNO = 1; buttonNO &lt;= App.NUMBER_OF_BUTTONS; buttonNO++)</span>
+<span class="nc bnc" id="L238" title="All 2 branches missed.">        for (int buttonNO = 1; buttonNO &lt;= App.NUMBER_OF_BUTTONS; buttonNO++)</span>
         {
-<span class="nc bnc" id="L262" title="All 2 branches missed.">            if (isMouseOverButton(buttonNO))</span>
+<span class="nc bnc" id="L240" title="All 2 branches missed.">            if (isMouseOverButton(buttonNO))</span>
             {
-<span class="nc" id="L264">                this.ui.toggleSwitch(this, buttonNO);</span>
+<span class="nc" id="L242">                this.ui.toggleSwitch(this, buttonNO);</span>
             }
         }
-<span class="nc" id="L267">        this.ui.click(this);</span>
-<span class="nc" id="L268">    }</span>
+<span class="nc" id="L245">        this.ui.click(this);</span>
+<span class="nc" id="L246">    }</span>
 
     @Override
     public void mouseReleased(MouseEvent e) {
         
-<span class="nc" id="L273">    }</span>
+<span class="nc" id="L251">    }</span>
     
     /**
      * tells ui class which button is being hovered over
      */
     public void mouseHover() {
-<span class="fc bfc" id="L279" title="All 2 branches covered.">        for (int buttonNO = 1; buttonNO &lt;= App.NUMBER_OF_BUTTONS; buttonNO++) {</span>
-<span class="pc bpc" id="L280" title="1 of 2 branches missed.">            if (isMouseOverButton(buttonNO))</span>
+<span class="fc bfc" id="L257" title="All 2 branches covered.">        for (int buttonNO = 1; buttonNO &lt;= App.NUMBER_OF_BUTTONS; buttonNO++) {</span>
+<span class="pc bpc" id="L258" title="1 of 2 branches missed.">            if (isMouseOverButton(buttonNO))</span>
             {
-<span class="nc" id="L282">                this.ui.setHoveredButton(buttonNO, true);</span>
+<span class="nc" id="L260">                this.ui.setHoveredButton(buttonNO, true);</span>
             } else
             {
-<span class="fc" id="L285">                this.ui.setHoveredButton(buttonNO, false);</span>
+<span class="fc" id="L263">                this.ui.setHoveredButton(buttonNO, false);</span>
             }
         }
-<span class="fc" id="L288">    }</span>
+<span class="fc" id="L266">    }</span>
 
     /**
      * Check if mouse is over a button. Based on x and y coordinates of mouse.
@@ -294,57 +272,57 @@ public class App extends PApplet {
      * @return boolean of whether mouse is over button.
      */
     public boolean isMouseOverButton(int buttonNO) {
-<span class="pc bpc" id="L297" title="7 of 8 branches missed.">        return (this.mouseX &gt; BUTTON_X &amp;&amp;</span>
+<span class="pc bpc" id="L275" title="7 of 8 branches missed.">        return (this.mouseX &gt; BUTTON_X &amp;&amp;</span>
                 this.mouseX &lt; BUTTON_X + BUTTON_SIZE &amp;&amp;
                 this.mouseY &gt; TOPBAR + buttonNO * BUTTON_SPACING + (buttonNO-1)*BUTTON_SIZE &amp;&amp;
                 this.mouseY &lt; buttonNO * (BUTTON_SPACING + BUTTON_SIZE) + TOPBAR);
     }
 
     public void tick() {
-<span class="fc" id="L304">        this.map.tick();</span>
-<span class="fc" id="L305">        this.ui.tick();</span>
-<span class="fc" id="L306">        this.mouseHover();</span>
-<span class="fc" id="L307">    }</span>
+<span class="fc" id="L282">        this.map.tick(this);</span>
+<span class="fc" id="L283">        this.ui.tick(this);</span>
+<span class="fc" id="L284">        this.mouseHover();</span>
+<span class="fc" id="L285">    }</span>
 
     /**
      * Draw all elements in the game by current frame.
      */
 	@Override
     public void draw() {
-<span class="pc bpc" id="L314" title="1 of 4 branches missed.">        if (!this.onLossScreen &amp;&amp; !this.onWinScreen) {</span>
+<span class="pc bpc" id="L292" title="1 of 4 branches missed.">        if (!this.onLossScreen &amp;&amp; !this.onWinScreen) {</span>
             // tick
-<span class="fc" id="L316">            this.tick();</span>
+<span class="fc" id="L294">            this.tick();</span>
 
             // draw
             // map
-<span class="fc" id="L320">            this.map.draw(this);</span>
+<span class="fc" id="L298">            this.map.draw(this);</span>
 
             // background
-<span class="fc" id="L323">            this.noStroke();</span>
-<span class="fc" id="L324">            this.fill(131, 111, 75); // brown background</span>
-<span class="fc" id="L325">            this.rect(0, 0, WIDTH, TOPBAR); // top bar</span>
-<span class="fc" id="L326">            this.rect(CELLSIZE*BOARD_WIDTH, 0, SIDEBAR, HEIGHT); // side bar</span>
+<span class="fc" id="L301">            this.noStroke();</span>
+<span class="fc" id="L302">            this.fill(131, 111, 75); // brown background</span>
+<span class="fc" id="L303">            this.rect(0, 0, WIDTH, TOPBAR); // top bar</span>
+<span class="fc" id="L304">            this.rect(CELLSIZE*BOARD_WIDTH, 0, SIDEBAR, HEIGHT); // side bar</span>
 
             // ui
-<span class="fc" id="L329">            this.ui.draw(this);</span>
+<span class="fc" id="L307">            this.ui.draw(this);</span>
         } 
-<span class="fc bfc" id="L331" title="All 2 branches covered.">        if (this.onLossScreen) {</span>
-<span class="fc" id="L332">            this.fill(0, 255, 0);</span>
-<span class="fc" id="L333">            this.textSize(35);</span>
-<span class="fc" id="L334">            this.text(&quot;YOU LOST&quot;, LOST_X, LOST_Y);</span>
-<span class="fc" id="L335">            this.textSize(20);</span>
-<span class="fc" id="L336">            this.text(&quot;Press 'r' to restart&quot;, LOST_X - 7, LOST_Y + 30);</span>
+<span class="fc bfc" id="L309" title="All 2 branches covered.">        if (this.onLossScreen) {</span>
+<span class="fc" id="L310">            this.fill(0, 255, 0);</span>
+<span class="fc" id="L311">            this.textSize(35);</span>
+<span class="fc" id="L312">            this.text(&quot;YOU LOST&quot;, LOST_X, LOST_Y);</span>
+<span class="fc" id="L313">            this.textSize(20);</span>
+<span class="fc" id="L314">            this.text(&quot;Press 'r' to restart&quot;, LOST_X - 7, LOST_Y + 30);</span>
         } 
-<span class="pc bpc" id="L338" title="1 of 2 branches missed.">        if (this.onWinScreen) {</span>
-<span class="nc" id="L339">            this.fill(255, 0, 255);</span>
-<span class="nc" id="L340">            this.textSize(35);</span>
-<span class="nc" id="L341">            this.text(&quot;YOU WIN&quot;, LOST_X, LOST_Y);</span>
+<span class="pc bpc" id="L316" title="1 of 2 branches missed.">        if (this.onWinScreen) {</span>
+<span class="nc" id="L317">            this.fill(255, 0, 255);</span>
+<span class="nc" id="L318">            this.textSize(35);</span>
+<span class="nc" id="L319">            this.text(&quot;YOU WIN&quot;, LOST_X, LOST_Y);</span>
         }
-<span class="fc" id="L343">    }</span>
+<span class="fc" id="L321">    }</span>
 
     public static void main(String[] args) {
-<span class="nc" id="L346">        PApplet.main(&quot;WizardTD.App&quot;);</span>
-<span class="nc" id="L347">    }</span>
+<span class="nc" id="L324">        PApplet.main(&quot;WizardTD.App&quot;);</span>
+<span class="nc" id="L325">    }</span>
 
     /**
      * Source: https://stackoverflow.com/questions/37758061/rotate-a-buffered-image-in-java
@@ -353,35 +331,35 @@ public class App extends PApplet {
      * @return the new rotated image 
      */
     public PImage rotateImageByDegrees(PImage pimg, double angle) { // rotates clockwise
-<span class="nc" id="L356">        BufferedImage img = (BufferedImage) pimg.getNative();</span>
-<span class="nc" id="L357">        double rads = Math.toRadians(angle);</span>
-<span class="nc" id="L358">        double sin = Math.abs(Math.sin(rads)), cos = Math.abs(Math.cos(rads));</span>
-<span class="nc" id="L359">        int w = img.getWidth();</span>
-<span class="nc" id="L360">        int h = img.getHeight();</span>
-<span class="nc" id="L361">        int newWidth = (int) Math.floor(w * cos + h * sin);</span>
-<span class="nc" id="L362">        int newHeight = (int) Math.floor(h * cos + w * sin);</span>
+<span class="fc" id="L334">        BufferedImage img = (BufferedImage) pimg.getNative();</span>
+<span class="fc" id="L335">        double rads = Math.toRadians(angle);</span>
+<span class="fc" id="L336">        double sin = Math.abs(Math.sin(rads)), cos = Math.abs(Math.cos(rads));</span>
+<span class="fc" id="L337">        int w = img.getWidth();</span>
+<span class="fc" id="L338">        int h = img.getHeight();</span>
+<span class="fc" id="L339">        int newWidth = (int) Math.floor(w * cos + h * sin);</span>
+<span class="fc" id="L340">        int newHeight = (int) Math.floor(h * cos + w * sin);</span>
 
-<span class="nc" id="L364">        PImage result = this.createImage(newWidth, newHeight, RGB);</span>
-        //BufferedImage rotated = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_ARGB);
-<span class="nc" id="L366">        BufferedImage rotated = (BufferedImage) result.getNative();</span>
-<span class="nc" id="L367">        Graphics2D g2d = rotated.createGraphics();</span>
-<span class="nc" id="L368">        AffineTransform at = new AffineTransform();</span>
-<span class="nc" id="L369">        at.translate((newWidth - w) / 2, (newHeight - h) / 2);</span>
+<span class="fc" id="L342">        PImage result = this.createImage(newWidth, newHeight, RGB);</span>
 
-<span class="nc" id="L371">        int x = w / 2;</span>
-<span class="nc" id="L372">        int y = h / 2;</span>
+<span class="fc" id="L344">        BufferedImage rotated = (BufferedImage) result.getNative();</span>
+<span class="fc" id="L345">        Graphics2D g2d = rotated.createGraphics();</span>
+<span class="fc" id="L346">        AffineTransform at = new AffineTransform();</span>
+<span class="fc" id="L347">        at.translate((newWidth - w) / 2, (newHeight - h) / 2);</span>
 
-<span class="nc" id="L374">        at.rotate(rads, x, y);</span>
-<span class="nc" id="L375">        g2d.setTransform(at);</span>
-<span class="nc" id="L376">        g2d.drawImage(img, 0, 0, null);</span>
-<span class="nc" id="L377">        g2d.dispose();</span>
-<span class="nc bnc" id="L378" title="All 2 branches missed.">        for (int i = 0; i &lt; newWidth; i++) {</span>
-<span class="nc bnc" id="L379" title="All 2 branches missed.">            for (int j = 0; j &lt; newHeight; j++) {</span>
-<span class="nc" id="L380">                result.set(i, j, rotated.getRGB(i, j));</span>
+<span class="fc" id="L349">        int x = w / 2;</span>
+<span class="fc" id="L350">        int y = h / 2;</span>
+
+<span class="fc" id="L352">        at.rotate(rads, x, y);</span>
+<span class="fc" id="L353">        g2d.setTransform(at);</span>
+<span class="fc" id="L354">        g2d.drawImage(img, 0, 0, null);</span>
+<span class="fc" id="L355">        g2d.dispose();</span>
+<span class="fc bfc" id="L356" title="All 2 branches covered.">        for (int i = 0; i &lt; newWidth; i++) {</span>
+<span class="fc bfc" id="L357" title="All 2 branches covered.">            for (int j = 0; j &lt; newHeight; j++) {</span>
+<span class="fc" id="L358">                result.set(i, j, rotated.getRGB(i, j));</span>
             }
         }
 
-<span class="nc" id="L384">        return result;</span>
+<span class="fc" id="L362">        return result;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

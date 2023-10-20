@@ -10,7 +10,6 @@ public class Wave {
     private ArrayList<Monster> monsters = new ArrayList<Monster>();
     private HashMap<Path, ArrayList<Direction>> rotes = new HashMap<Path, ArrayList<Direction>>();
     private JSONObject waveData;
-    private App app;
     private int framesPerSpawn;
     private int waveFrames;
     private int currentFrame;
@@ -23,12 +22,10 @@ public class Wave {
      * constructer for each wave
      * @param waveData JSON object containing wave data
      * @param rotes HashMap of spawns and their rotes to wizard tower
-     * @param app App object to draw with
      */
-    public Wave(JSONObject waveData, HashMap<Path, ArrayList<Direction>> rotes, App app) {
+    public Wave(JSONObject waveData, HashMap<Path, ArrayList<Direction>> rotes) {
         this.rotes = rotes;
         this.waveData = waveData;
-        this.app = app;
         this.waveFrames = (int)(waveData.getDouble("duration") * App.FPS);
         this.spawnPaths = rotes.keySet().toArray(new Path[rotes.size()]);
 
@@ -76,14 +73,14 @@ public class Wave {
      * iterates through all monsters in array and ticks them by creating an iterator.
      * removes post death animation monsters from array (deleting them)
      */
-    public void iterateThroughMonsters() {
+    public void iterateThroughMonsters(App inputApp) {
         Iterator<Monster> monsterIterator = this.monsters.iterator(); 
         // used since updating elements as we iterate
         while(monsterIterator.hasNext()) { // tick all monsters in array
             Monster monster = monsterIterator.next();
-            monster.tick();
+            monster.tick(inputApp);
 
-            if (!(monster.getExists())) {
+            if (!(monster.exists())) {
                 monsterIterator.remove();
             } // remove monsters that finished death animation
         }
@@ -93,7 +90,7 @@ public class Wave {
      * creates a random monster of a random type based on how many monsters 
      * it has left to spawn and spawns it on a random path
      */
-    public void createRandomMonster() {
+    public void createRandomMonster(App inputApp) {
         Random rand = new Random();
         int randMonsterType = rand.nextInt(this.monsterTypeCounts.size()); // choose random monster
         JSONObject type = this.waveData.getJSONArray("monsters").getJSONObject(randMonsterType);
@@ -104,7 +101,7 @@ public class Wave {
         this.monsters.add(new Monster(
             spawnPath.getX(), spawnPath.getY(), type.getDouble("speed"), 
             type.getDouble("hp"), type.getDouble("armour"), 
-            this.rotes.get(spawnPath), this.app, type.getDouble("mana_gained_on_kill")
+            this.rotes.get(spawnPath), inputApp, type.getDouble("mana_gained_on_kill")
         )); // add new monster type with spawn to array
         
         monsterTypeCounts.set(randMonsterType, monsterTypeCounts.get(randMonsterType) - 1); 
@@ -122,11 +119,12 @@ public class Wave {
      * 1. iterating through all monsters in array
      * 2. generating new random monster type with random spawn path after spawn cooldown is up
      * 3. checking if wave is complete by searching for any monsters in array
+     * @param inputApp App object to check if fast forward or paused and pass to monsters
      */
-    public void tick() {
-        this.currentFrame += app.rate;
+    public void tick(App inputApp) {
+        this.currentFrame += inputApp.rate;
 
-        this.iterateThroughMonsters();
+        this.iterateThroughMonsters(inputApp);
 
         // generate new random monster type with random spawn path if:
         // 1. there are still monsters left
@@ -137,7 +135,7 @@ public class Wave {
             this.currentFrame >= this.framesPerSpawn && 
             this.spawnPaths.length > 0
         ) {
-            this.createRandomMonster();
+            this.createRandomMonster(inputApp);
             this.currentFrame = 0; // reset frame counter
         } 
         
@@ -148,10 +146,11 @@ public class Wave {
 
     /**
      * draws all monsters spawned by wave
+     * @param inputApp to draw with
      */
-    public void draw() {
+    public void draw(App inputApp) {
         for(Monster monster : this.monsters) {
-            monster.draw(this.app); // draw all monsters in array
+            monster.draw(inputApp); // draw all monsters in array
         }
     }
 }

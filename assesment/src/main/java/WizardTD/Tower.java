@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
-import processing.core.PApplet;
-
-public class Tower extends Tile {
+public class Tower extends Tile implements Tick {
     private int rangeLevel; 
     private int firingSpeedLevel;
     private int damageLevel;
@@ -60,6 +58,30 @@ public class Tower extends Tile {
     }
 
     /**
+     * getter for range upgrade level
+     * @return range upgrade level
+     */
+    public int getRangeLevel() {
+        return this.rangeLevel;
+    }
+
+    /**
+     * getter for firing speed upgrade level
+     * @return firing speed upgrade level
+     */
+    public int getSpeedLevel() {
+        return this.firingSpeedLevel;
+    }
+
+    /**
+     * getter for damage upgrade level
+     * @return damage upgrade level
+     */
+    public int getDamageLevel() {
+        return this.damageLevel;
+    }
+
+    /**
      * getter for range upgrade cost
      * @return cost of range upgrade
      */
@@ -100,17 +122,9 @@ public class Tower extends Tile {
     }
 
     /**
-     * used for testing to force tower to shoot by manipulating the fire rate counter
-     * @param framesCounter new value for the fire rate delay counter
-     */
-    public void setFramesCounter(int framesCounter) {
-        this.framesCounter = framesCounter;
-    }
-
-    /**
      * loads appropriate sprite if the lowest level has changed
      */
-    public void findLowestLevel() {
+    public void findLowestLevel(App inputApp) {
         if (this.rangeLevel <= this.firingSpeedLevel && this.rangeLevel <= this.damageLevel) {
             this.lowestLevel = this.rangeLevel;
         } else if (
@@ -124,7 +138,7 @@ public class Tower extends Tile {
             this.lowestLevel = 2;
         } // level 2 sprite is the lowest level sprite
         
-        this.sprite = this.map.getApp().loadImage(
+        this.sprite = inputApp.loadImage(
             "src/main/resources/WizardTD/tower" + this.lowestLevel + ".png"
         );
     }   
@@ -162,7 +176,7 @@ public class Tower extends Tile {
      * 2. randomly selecting one
      * 3. creating a fireball object targeting the random enemy
      */
-    public void shoot() {
+    public void shoot(App inputApp) {
         // create list of enemies in range
         ArrayList<Monster> enemiesInRange = new ArrayList<Monster>();
         for(Wave wave: this.map.getWaves()) {
@@ -188,7 +202,7 @@ public class Tower extends Tile {
 
             // create fireball, targeting that enemy
             projectiles.add(new Fireball(
-                this.centerX, this.centerY, target, this.damage, this.map.getApp()
+                this.centerX, this.centerY, target, this.damage, inputApp
             ));
             System.out.println("Shot fired");
         }
@@ -206,23 +220,24 @@ public class Tower extends Tile {
 
     /**
      * tower shoots after delay, ticks all fireballs and removes fireball objects if theyve hit
+     * @param inputApp app object to pass to fireballs shot
      */
-    public void tick() {
+    public void tick(App inputApp) {
         // shoot if enough frames have passed
         double framesPerFireball = App.FPS / this.firingSpeed;
         if (this.framesCounter > framesPerFireball) {
-            this.shoot();
+            this.shoot(inputApp);
             this.framesCounter = 0;
         }
-        this.framesCounter += this.map.getApp().rate;
+        this.framesCounter += inputApp.rate;
 
         // tick and remove all fireballs
         Iterator<Fireball> fireballIterator = this.projectiles.iterator();
         while(fireballIterator.hasNext()) {
             Fireball fireball = fireballIterator.next();
-            fireball.tick();
+            fireball.tick(inputApp);
 
-            if (!(fireball.getExists())) {
+            if (!(fireball.exists())) {
                 fireballIterator.remove();
             }
         }
@@ -230,35 +245,36 @@ public class Tower extends Tile {
 
     /**
      * draws tower onto the screen and upgrade indicators
+     * @param inputApp app object to draw with
      */
     @Override
-    public void draw(PApplet app) {
-        this.findLowestLevel(); // and figure out which sprite to use
-        app.image(this.sprite, this.x * App.CELLSIZE, this.y * App.CELLSIZE + App.TOPBAR);
+    public void draw(App inputApp) {
+        this.findLowestLevel(inputApp); // and figure out which sprite to use
+        inputApp.image(this.sprite, this.x * App.CELLSIZE, this.y * App.CELLSIZE + App.TOPBAR);
 
         int tileX = this.x * App.CELLSIZE;
         int tileY = this.y * App.CELLSIZE + App.TOPBAR;
-        app.noFill();
+        inputApp.noFill();
 
         // fire rate square
         if (this.firingSpeedLevel - this.lowestLevel >= 1)
         { // only draw if upgraded past sprite
-            app.stroke(120, 180, 255); // light blue
-            app.strokeWeight((this.firingSpeedLevel - this.lowestLevel)* 2); 
+            inputApp.stroke(120, 180, 255); // light blue
+            inputApp.strokeWeight((this.firingSpeedLevel - this.lowestLevel)* 2); 
             // stroke weight increases with level
-            app.rect(
+            inputApp.rect(
                 tileX + App.TOWER_SPEED_SQUARE_SHIFT, tileY + App.TOWER_SPEED_SQUARE_SHIFT,
                 App.TOWER_SPEED_SQUARE_LENGTH, App.TOWER_SPEED_SQUARE_LENGTH
             );
         }
 
         // color + stroke weight setup for both dmg and range
-        app.stroke(255, 0, 255); // purple
-        app.strokeWeight(1);
+        inputApp.stroke(255, 0, 255); // purple
+        inputApp.strokeWeight(1);
         
         // range indicators
         for(int i = 0; i < this.rangeLevel - this.lowestLevel; i++) {
-            app.ellipse( // create above many circles
+            inputApp.ellipse( // create above many circles
                 tileX + App.TOWER_FIRST_UPGRADE_SHIFT_X + 
                 i * (App.RANGE_UPGRADE_DIAMETER + App.TOWER_UPGRADE_CIRCLE_DIST),
                 tileY + App.TOWER_FIRST_UPGRADE_SHIFT_Y, 
@@ -268,14 +284,14 @@ public class Tower extends Tile {
 
         // damage indicators
         for(int i = 0; i < this.damageLevel - this.lowestLevel; i++) {
-            app.line( // create above many crosses
+            inputApp.line( // create above many crosses
                 tileX + i * (App.TOWER_DAMAGE_CROSS_LENGTH_X + App.TOWER_UPGRADE_CROSS_DIST),
                 tileY + App.TOWER_FIRST_UPGRADE_DMG_SHIFT_Y,
                 tileX + App.TOWER_FIRST_UPGRADE_SHIFT_X +
                 (i+1) * App.TOWER_DAMAGE_CROSS_LENGTH_X + i * App.TOWER_UPGRADE_CROSS_DIST,
                 tileY + App.TOWER_FIRST_UPGRADE_DMG_SHIFT_Y + App.TOWER_DAMAGE_CROSS_LENGTH_Y
             );
-            app.line(
+            inputApp.line(
                 tileX + i * (App.TOWER_DAMAGE_CROSS_LENGTH_X + App.TOWER_UPGRADE_CROSS_DIST),
                 tileY + App.TOWER_FIRST_UPGRADE_DMG_SHIFT_Y + App.TOWER_DAMAGE_CROSS_LENGTH_Y,
                 tileX + App.TOWER_FIRST_UPGRADE_SHIFT_X +

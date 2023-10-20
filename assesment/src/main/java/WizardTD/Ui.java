@@ -1,6 +1,6 @@
 package WizardTD;
 
-public class Ui {
+public class Ui implements Tick, Draw {
     public Map map;
     public int waveSeconds;
     public boolean ff = false;
@@ -46,13 +46,13 @@ public class Ui {
 
     /**
      * draws wave countdown to top left as well as wave number
-     * @param app app to draw with
+     * @param inputApp app to draw with
      */
-    public void waveCountdown(App app) {
+    public void waveCountdown(App inputApp) {
         if (!this.map.getLastWave()) { // if not last wave
-            app.fill(0, 0, 0);
-            app.textSize(25);
-            app.text(
+            inputApp.fill(0, 0, 0);
+            inputApp.textSize(25);
+            inputApp.text(
                 "Wave " + (this.map.getWaveNumber() + 2) + " starts: " + this.waveSeconds, 10, 30
             );
             // +2 to change base from 0 to 1 and refer to next wave
@@ -61,20 +61,20 @@ public class Ui {
 
     /**
      * draws mana bar to screen
-     * @param app app to draw with
+     * @param inputApp app to draw with
      */
-    public void manaBar(App app) {
+    public void manaBar(App inputApp) {
         float manaProp = (float)(this.map.getMana().getCurrMana() / this.map.getMana().getCap());
 
         // blue bit
-        app.stroke(0, 0, 0);
-        app.strokeWeight(2);
-        app.fill(5, 210, 215); 
-        app.rect(App.MANA_X, App.MANA_Y, App.MANA_LENGTH * manaProp, App.MANA_WIDTH);
+        inputApp.stroke(0, 0, 0);
+        inputApp.strokeWeight(2);
+        inputApp.fill(5, 210, 215); 
+        inputApp.rect(App.MANA_X, App.MANA_Y, App.MANA_LENGTH * manaProp, App.MANA_WIDTH);
         
         // white bit
-        app.fill(255, 255, 255); 
-        app.rect(
+        inputApp.fill(255, 255, 255); 
+        inputApp.rect(
             App.MANA_X + (App.MANA_LENGTH * manaProp), 
             App.MANA_Y, //
             (App.MANA_LENGTH * (1 - manaProp)), 
@@ -83,32 +83,32 @@ public class Ui {
 
     /**
      * draws mana text to screen
-     * @param app app to draw with
+     * @param inputApp app to draw with
      */
-    public void manaText(App app) {
-        app.fill(0, 0, 0);
-        app.textSize(17);
-        app.text("MANA:", App.MANA_TEXT_X, App.MANA_TEXT_Y);
-        app.text((int)this.map.getMana().getCurrMana() + " / " + (int)this.map.getMana().getCap(), 
+    public void manaText(App inputApp) {
+        inputApp.fill(0, 0, 0);
+        inputApp.textSize(17);
+        inputApp.text("MANA:", App.MANA_TEXT_X, App.MANA_TEXT_Y);
+        inputApp.text((int)this.map.getMana().getCurrMana() + " / " + (int)this.map.getMana().getCap(), 
                 App.MANA_TEXT_X + App.MANA_CURR_SHIFT, App.MANA_TEXT_Y);
     }
 
     /**
      * toggles buttons on and off and controls some logic
-     * @param app app it was called by
+     * @param inputApp app it was called by
      * @param buttonNO which button was activated
      */
-    public void toggleSwitch(App app, int buttonNO) {
+    public void toggleSwitch(App inputApp, int buttonNO) {
         switch(buttonNO) {
             case 1: // fast forward
                 this.ff = !this.ff;
-                app.doubleRate = app.doubleRate == 1 ? 2 : 1;
-                app.rate = app.doubleRate * app.pauseRate;
+                inputApp.doubleRate = inputApp.doubleRate == 1 ? 2 : 1;
+                inputApp.rate = inputApp.doubleRate * inputApp.pauseRate;
                 break;
             case 2: // pause
                 this.paused = !this.paused;
-                app.pauseRate = this.paused ? 0 : 1;
-                app.rate = app.doubleRate * app.pauseRate;
+                inputApp.pauseRate = this.paused ? 0 : 1;
+                inputApp.rate = inputApp.doubleRate * inputApp.pauseRate;
                 break;
             case 3: // place tower
                 this.placeTower = !this.placeTower;
@@ -165,10 +165,10 @@ public class Ui {
     
     /**
      * draws all buttons to screen as well as whether they light up or are hovered over
-     * @param app app to draw with
+     * @param inputApp app to draw with
      * @param buttonNO which button to draw
      */
-    public void buttonDraw(App app, int buttonNO) {
+    public void buttonDraw(App inputApp, int buttonNO) {
         Boolean light = null; // whether button is lit up
         Boolean hover = null; // whether mouse is hovering over button
         Boolean hasHoverText = null; // whether button has hover text
@@ -246,7 +246,7 @@ public class Ui {
                 light = this.map.getPoison();
                 hover = this.poisonHov;
                 hasHoverText = true;
-                cost = (int)this.map.getApp().poisonCost;
+                cost = (int)this.map.getPoisonCost();
                 text0 = "U4";
                 text1 = "Poison all";
                 text2 = "cost: " + cost; // assume 4 digit price max
@@ -255,32 +255,32 @@ public class Ui {
 
         // button outline
         if (light) {
-            app.fill(255, 255, 0); // yellow
+            inputApp.fill(255, 255, 0); // yellow
         } else if (hover) { 
-            app.fill(200, 200, 200); // grey
+            inputApp.fill(200, 200, 200); // grey
         } else {
-            app.noFill(); // hollow
+            inputApp.noFill(); // hollow
         }
         int y = App.TOPBAR + buttonNO * App.BUTTON_SPACING + (buttonNO-1)*App.BUTTON_SIZE;
 
-        app.stroke(0, 0, 0);
-        app.strokeWeight(2);
-        app.rect(App.BUTTON_X, y, App.BUTTON_SIZE, App.BUTTON_SIZE);
+        inputApp.stroke(0, 0, 0);
+        inputApp.strokeWeight(2);
+        inputApp.rect(App.BUTTON_X, y, App.BUTTON_SIZE, App.BUTTON_SIZE);
 
         // text0
-        app.fill(0, 0, 0);
-        app.textSize(App.BUTTON_TEXT_0_SIZE);
-        app.text(text0, App.BUTTON_X + App.BUTTON_TEXT_SHIFT_X, y + App.BUTTON_TEXT_0_SHIFT_Y);
+        inputApp.fill(0, 0, 0);
+        inputApp.textSize(App.BUTTON_TEXT_0_SIZE);
+        inputApp.text(text0, App.BUTTON_X + App.BUTTON_TEXT_SHIFT_X, y + App.BUTTON_TEXT_0_SHIFT_Y);
 
         // text1
-        app.textSize(App.BUTTON_TEXT_12_SIZE);
-        app.text(
+        inputApp.textSize(App.BUTTON_TEXT_12_SIZE);
+        inputApp.text(
             text1, App.BUTTON_X + App.BUTTON_SIZE + App.BUTTON_TEXT_SHIFT_X, 
             y + App.BUTTON_TEXT_1_SHIFT_Y
         );
 
         // text 2
-        app.text(
+        inputApp.text(
             text2, App.BUTTON_X + App.BUTTON_SIZE + App.BUTTON_TEXT_SHIFT_X, 
             y + App.BUTTON_TEXT_2_SHIFT_Y
         );
@@ -288,32 +288,33 @@ public class Ui {
         // hover
         if (hasHoverText && hover) {
             // hover box
-            app.fill(255, 255, 255); // white
-            app.rect(App.BUTTON_HOVER_X, y, App.BUTTON_HOVER_LENGTH, App.BUTTON_HOVER_HEIGHT);
+            inputApp.fill(255, 255, 255); // white
+            inputApp.rect(App.BUTTON_HOVER_X, y, App.BUTTON_HOVER_LENGTH, App.BUTTON_HOVER_HEIGHT);
 
             // hover text
-            app.fill(0, 0, 0); // black
-            app.textSize(App.BUTTON_HOVER_TEXT_SIZE);
-            app.text("Cost: " + cost, App.BUTTON_HOVER_TEXT_X, y + App.BUTTON_HOVER_TEXT_SHIFT_Y);
+            inputApp.fill(0, 0, 0); // black
+            inputApp.textSize(App.BUTTON_HOVER_TEXT_SIZE);
+            inputApp.text("Cost: " + cost, App.BUTTON_HOVER_TEXT_X, y + App.BUTTON_HOVER_TEXT_SHIFT_Y);
             
         }
     }
 
     /**
      * handles mouse click to specifically place towers and/or upgrade towers
-     * @param app app it was called by
+     * @param inputApp app it was called by
      */
-    public void click(App app) {
-        if (isMouseInMap(app.mouseX, app.mouseY)) {
+    public void click(App inputApp) {
+        if (isMouseInMap(inputApp.mouseX, inputApp.mouseY)) {
             if (this.placeTower) {
                 this.map.place(
-                    app.mouseX, app.mouseY, this.upgradeRange, 
+                    inputApp.mouseX, inputApp.mouseY, this.upgradeRange, 
                     this.upgradeSpeed, this.upgradeDamage
                 );
             } 
             // upgrade even if in tower mode
             this.map.upgrade(
-                app.mouseX, app.mouseY, this.upgradeRange, this.upgradeSpeed, this.upgradeDamage
+                inputApp.mouseX, inputApp.mouseY, this.upgradeRange, 
+                this.upgradeSpeed, this.upgradeDamage
             );
         }
     }
@@ -321,45 +322,45 @@ public class Ui {
     /**
      * handles drawing of cursor based on what mode ui is in 
      * eg. if in place tower mode, draws greyscale tower to indicate where it will be placed
-     * @param app app to draw with
+     * @param inputApp app to draw with
      */
-    public void hoverPlace(App app) {
-        app.noFill();
-        app.stroke(0, 0, 0); // black
-        app.strokeWeight(2);
-        int x1 = app.mouseX - App.CELLSIZE / 2; // shift to center of cell
-        int y1 = app.mouseY - App.CELLSIZE / 2;
-        int x2 = app.mouseX + App.CELLSIZE / 2;
-        int y2 = app.mouseY + App.CELLSIZE / 2;
+    public void hoverPlace(App inputApp) {
+        inputApp.noFill();
+        inputApp.stroke(0, 0, 0); // black
+        inputApp.strokeWeight(2);
+        int x1 = inputApp.mouseX - App.CELLSIZE / 2; // shift to center of cell
+        int y1 = inputApp.mouseY - App.CELLSIZE / 2;
+        int x2 = inputApp.mouseX + App.CELLSIZE / 2;
+        int y2 = inputApp.mouseY + App.CELLSIZE / 2;
         int circleGrow = 10;
         int crossGrow = -10; // shift crosshair to center of cell
 
         if (this.placeTower) {
-            app.image(
-                app.loadImage("src/main/resources/WizardTD/towerGrey.png"), 
+            inputApp.image(
+                inputApp.loadImage("src/main/resources/WizardTD/towerGrey.png"), 
                 x1, y1
             );
         }
         if (this.upgradeSpeed) {
-            app.rect(x1, y1, App.CELLSIZE, App.CELLSIZE);
+            inputApp.rect(x1, y1, App.CELLSIZE, App.CELLSIZE);
         }
         if (this.upgradeRange) {
-            app.ellipse(app.mouseX, app.mouseY, 
+            inputApp.ellipse(inputApp.mouseX, inputApp.mouseY, 
             App.CELLSIZE + circleGrow, App.CELLSIZE + circleGrow
             );
         } // + 5 makes it distinguishable from square
         if (this.upgradeDamage) {
-            app.line(x1 - crossGrow, y1 - crossGrow, x2 + crossGrow, y2 + crossGrow);
-            app.line(x1 - crossGrow, y2 + crossGrow, x2 + crossGrow, y1 - crossGrow);
+            inputApp.line(x1 - crossGrow, y1 - crossGrow, x2 + crossGrow, y2 + crossGrow);
+            inputApp.line(x1 - crossGrow, y2 + crossGrow, x2 + crossGrow, y1 - crossGrow);
         }// +- 5 makes it distinguishable from square
     }
 
     /**
      * draws upgrade bubble in bottom right
-     * @param app app to draw with
+     * @param inputApp app to draw with
      * @param tower tower hovering over
      */
-    public void upgradeBubble(App app, Tower tower) {
+    public void upgradeBubble(App inputApp, Tower tower) {
         // bubble
         boolean wantAffordRange = this.upgradeRange 
                                   && (int)tower.getRangeCost() < 
@@ -381,34 +382,34 @@ public class Ui {
         int totalCost = wARange * (int)tower.getRangeCost() + 
                         wASpeed * (int)tower.getFiringSpeedCost() + 
                         wADamage * (int)tower.getDamageCost();
-        app.stroke(0, 0, 0); // black
-        app.strokeWeight(2);
-        app.fill(255, 255, 255); // white
+        inputApp.stroke(0, 0, 0); // black
+        inputApp.strokeWeight(2);
+        inputApp.fill(255, 255, 255); // white
         
         // shapes
         // "upgrade cost" rectangle
-        app.rect(
+        inputApp.rect(
             App.UPGRADE_BUBBLE_X, App.UPGRADE_BUBBLE_Y, 
             App.UPGRADE_BUBBLE_LENGTH, App.UPGRADE_BUBBLE_HEIGHT
         );
 
         // specific upgrade rectangle
-        app.rect(
+        inputApp.rect(
             App.UPGRADE_BUBBLE_X, App.UPGRADE_BUBBLE_Y + App.UPGRADE_BUBBLE_HEIGHT, 
             App.UPGRADE_BUBBLE_LENGTH, App.UPGRADE_BUBBLE_HEIGHT * upgrades
         );
 
         // total cost rectangle
-        app.rect(
+        inputApp.rect(
             App.UPGRADE_BUBBLE_X, 
             App.UPGRADE_BUBBLE_Y + App.UPGRADE_BUBBLE_HEIGHT * (upgrades + 1),
             App.UPGRADE_BUBBLE_LENGTH, App.UPGRADE_BUBBLE_HEIGHT
         );
 
         // text 
-        app.fill(0, 0, 0); // black text
-        app.textSize(App.UPGRADE_BUBBLE_TEXT_SIZE);
-        app.text(
+        inputApp.fill(0, 0, 0); // black text
+        inputApp.textSize(App.UPGRADE_BUBBLE_TEXT_SIZE);
+        inputApp.text(
             "Upgrade cost", App.UPGRADE_BUBBLE_X + App.UPGRADE_BUBBLE_TEXT_SHIFT_X, 
             App.UPGRADE_BUBBLE_Y + App.UPGRADE_BUBBLE_TEXT_SHIFT_Y + 
             textTally * (App.UPGRADE_BUBBLE_HEIGHT)
@@ -416,7 +417,7 @@ public class Ui {
         textTally++;
 
         if (wARange == 1) {
-            app.text(
+            inputApp.text(
                 "range:     " + (int)tower.getRangeCost(), 
                 App.UPGRADE_BUBBLE_X + App.UPGRADE_BUBBLE_TEXT_SHIFT_X, 
                 App.UPGRADE_BUBBLE_Y + App.UPGRADE_BUBBLE_TEXT_SHIFT_Y + 
@@ -425,7 +426,7 @@ public class Ui {
             textTally++;
         }
         if (wASpeed == 1) {
-            app.text(
+            inputApp.text(
                 "speed:     " + (int)tower.getFiringSpeedCost(), 
                 App.UPGRADE_BUBBLE_X + App.UPGRADE_BUBBLE_TEXT_SHIFT_X, 
                 App.UPGRADE_BUBBLE_Y + App.UPGRADE_BUBBLE_TEXT_SHIFT_Y + 
@@ -434,7 +435,7 @@ public class Ui {
             textTally++;
         }
         if (wADamage == 1) {
-            app.text(
+            inputApp.text(
                 "damage: " + (int)tower.getDamageCost(), 
                 App.UPGRADE_BUBBLE_X + App.UPGRADE_BUBBLE_TEXT_SHIFT_X, 
                 App.UPGRADE_BUBBLE_Y + App.UPGRADE_BUBBLE_TEXT_SHIFT_Y + 
@@ -443,7 +444,7 @@ public class Ui {
             textTally++;
         }
 
-        app.text(
+        inputApp.text(
             "Total:      " + totalCost, 
             App.UPGRADE_BUBBLE_X + App.UPGRADE_BUBBLE_TEXT_SHIFT_X, 
             App.UPGRADE_BUBBLE_Y + App.UPGRADE_BUBBLE_TEXT_SHIFT_Y + 
@@ -453,8 +454,9 @@ public class Ui {
 
     /**
      * tick method only needs to update the wave seconds for top right counter
+     * @param inputApp not really used, only needed to satisfy interface
      */
-    public void tick() {
+    public void tick(App inputApp) {
         this.waveSeconds = this.updateWaveSeconds(); // convert wave time to seconds
     }
 
@@ -465,32 +467,32 @@ public class Ui {
      * 3. buttons and their logic (yellow/grey)
      * 4. tower mode aka cursor logic
      * 5. upgrade bubble in bottom right
-     * @param app
+     * @param inputApp app to draw with
      */
-    public void draw(App app) {
-        this.waveCountdown(app); // wave timer
+    public void draw(App inputApp) {
+        this.waveCountdown(inputApp); // wave timer
 
         // mana
-        this.manaBar(app);
-        this.manaText(app);
+        this.manaBar(inputApp);
+        this.manaText(inputApp);
 
         // BUTTONS
         for(int i = 1; i <= App.NUMBER_OF_BUTTONS; i++) {
-            this.buttonDraw(app, i);
+            this.buttonDraw(inputApp, i);
         }
 
         // tower mode
-        hoverPlace(app);
+        hoverPlace(inputApp);
 
         // draw upgrade bubble in bottom right
-        Tile potentialTower = this.map.mouse2Land(app.mouseX, app.mouseY);
+        Tile potentialTower = this.map.mouse2Land(inputApp.mouseX, inputApp.mouseY);
 
         if (
             potentialTower instanceof Tower && 
             (this.upgradeRange || this.upgradeSpeed || this.upgradeDamage)
         ) {
             Tower tower = (Tower) potentialTower;
-            upgradeBubble(app, tower);
+            upgradeBubble(inputApp, tower);
         }
     }
 }

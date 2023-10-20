@@ -1,7 +1,5 @@
 package WizardTD;
 
-import processing.core.PApplet;
-
 public class Wizard extends WizOrPath {
     private static final String spritePath = "src/main/resources/WizardTD/wizard_house.png";
     /**
@@ -21,8 +19,8 @@ public class Wizard extends WizOrPath {
      * Draw function needs to be overriden because wizard house needs to be shifted
      */
     @Override
-    public void draw(PApplet app) {
-        app.image(
+    public void draw(App inputApp) {
+        inputApp.image(
             this.sprite, this.x * CELLSIZE + App.WIZ_SHIFT_X, 
             this.y * CELLSIZE + App.WIZ_SHIFT_Y + App.TOPBAR
         ); // wizard house needs to be shifted

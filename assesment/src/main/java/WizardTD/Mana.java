@@ -1,6 +1,6 @@
 package WizardTD;
 
-public class Mana {
+public class Mana implements Tick {
     double currMana;
     double cap;
     double regenRate;
@@ -102,10 +102,10 @@ public class Mana {
 
     /**
      * regenerate mana according to config
-     * @param app App object to check if fast forward or paused
+     * @param inputApp App object to check if fast forward or paused
      */
-    public void tick(App app) {
-        this.counterOfFrames += app.rate;
+    public void tick(App inputApp) {
+        this.counterOfFrames += inputApp.rate;
 
         if (this.counterOfFrames >= App.FPS) {
             this.updateMana(this.regenRate);

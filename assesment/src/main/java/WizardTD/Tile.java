@@ -1,9 +1,8 @@
 package WizardTD;
 
-import processing.core.PApplet;
 import processing.core.PImage;
 
-abstract class Tile {
+abstract class Tile implements Draw {
     
     protected int x; // tile coordinates
     protected int y;
@@ -48,10 +47,10 @@ abstract class Tile {
 
     /**
      * Draws tile to screen, converting tile coordinates to pixel coordinates
-     * @param app need app to draw with
+     * @param inputApp need app to draw with
      */
-    public void draw(PApplet app) {
-        app.image(this.sprite, this.x * App.CELLSIZE, this.y * App.CELLSIZE + App.TOPBAR);
+    public void draw(App inputApp) {
+        inputApp.image(this.sprite, this.x * App.CELLSIZE, this.y * App.CELLSIZE + App.TOPBAR);
     }
 }
 

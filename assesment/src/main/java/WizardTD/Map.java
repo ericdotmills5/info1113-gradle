@@ -1,6 +1,5 @@
 package WizardTD;
 
-import processing.core.PApplet;
 import processing.data.JSONObject;
 import processing.data.JSONArray;
 
@@ -11,7 +10,7 @@ enum Direction {
     UP, DOWN, LEFT, RIGHT, NONE;
 }
 
-public class Map {
+public class Map implements Draw, Tick {
     static final int BOARD_WIDTH = App.BOARD_WIDTH;
     static final int FPS = App.FPS;
 
@@ -29,16 +28,17 @@ public class Map {
     private Mana mana;
     private ArrayList<Tower> towerList = new ArrayList<>();
     private boolean poison = false;
+    private double initialPoisonFrames;
     private double poisonFrames;
+    private double poisonDamage;
+    private double poisonCost;
 
     /**
      * Draws map onto screen, creates routes for each spawn, creates waves, creates mana object
      * @param mapIterable iterable of strings representing map
      * @param app app object
      */
-    public Map(Iterable<String> mapIterable, App app, JSONObject data)
-    {
-        this.poisonFrames = app.poisonFrames;
+    public Map(Iterable<String> mapIterable, App app, JSONObject data) {
         this.app = app;
         this.land = this.iterator2Matrix(mapIterable.iterator());
         System.out.println("matrix made");
@@ -54,9 +54,7 @@ public class Map {
         this.data = data;
 
         JSONObject tempWave = this.data.getJSONArray("waves").getJSONObject(this.waveNumber);
-        this.waveList.add(new Wave(
-            tempWave, this.routes, this.app
-        )); // add pre wave pause for 1st wave
+        this.waveList.add(new Wave(tempWave, this.routes));
         this.waveTime = this.addWaveTimes() + tempWave.getDouble("pre_wave_pause") * FPS;
 
         this.mana = new Mana(
@@ -69,79 +67,152 @@ public class Map {
             this.data.getDouble("mana_pool_spell_mana_gained_multiplier")
         );
 
+        this.createPoison(this.data);
+
         System.out.println(this.waveTime);
     } 
 
+    /**
+     * getter for land matrix
+     * @return land matrix
+     */
     public Tile[][] getLand() {
         return this.land;
     }
 
+    /**
+     * getter for tower list
+     * @return list of all towers on map
+     */
     public ArrayList<Tower> getTowerList() {
         return this.towerList;
     }
 
+    /**
+     * getter for app
+     * @return app that created map
+     */
     public App getApp() {
         return this.app;
     }
 
+    /**
+     * getter for whether it is the last wave
+     * @return whether its the last wave
+     */
     public boolean getLastWave() {
         return this.lastWave;
     }
 
+    /**
+     * gets wave number
+     * @return wave number
+     */
     public int getWaveNumber() {
         return this.waveNumber;
     }
 
+    /**
+     * gets wave list
+     * @return wave list array list
+     */
     public ArrayList<Wave> getWaves() {
         return this.waveList;
     }
 
+    /**
+     * gets time left in wave
+     * @return time left in wave
+     */
     public double getWaveTime() {
         return this.waveTime;
     }
 
+    /**
+     * gets mana object
+     * @return mana object
+     */
     public Mana getMana() {
         return this.mana;
     }
 
+    /**
+     * gets tower of cost as loaded from config
+     * @return tower cost
+     */
     public double getTowerCost() {
         return this.data.getDouble("tower_cost");
     }
 
+    /**
+     * gets initial tower range as loaded from config
+     * @return initial tower range
+     */
     public double getInitialTowerRange() {
         return this.data.getDouble("initial_tower_range");
     }
 
-    public double getInitialTowerFiringSpeed()
-    {
+    /**
+     * gets initial tower firing speed as loaded from config
+     * @return initial tower firing speed
+     */
+    public double getInitialTowerFiringSpeed() {
         return this.data.getDouble("initial_tower_firing_speed");
     }
 
-    public double getInitialTowerDamage()
-    {
+    /**
+     * gets initial tower damage as loaded from config
+     * @return initial tower damage
+     */
+    public double getInitialTowerDamage() {
         return this.data.getDouble("initial_tower_damage");
     }
 
-    public boolean getPoison()
-    {
+    /**
+     * determines whether the screen is poisoned
+     * @return whether the screen is poisoned
+     */
+    public boolean getPoison() {
         return this.poison;
     }
 
-    public HashMap<Path, ArrayList<Direction>> getRoutes()
-    {
+    /*
+     * gets the hash map of spawns and their routes to the wizard house
+     * @return hash map of spawns and their routes to the wizard house
+     */
+    public HashMap<Path, ArrayList<Direction>> getRoutes() {
         return this.routes;
     }
 
-    public JSONObject getData()
-    {
+    /**
+     * gets all data read from config file
+     * @return JSON object of config file
+     */
+    public JSONObject getData() {
         return this.data;
+    }
+
+    /**
+     * gets the amount of damage poison does per second as loaded from config
+     * @return poison damage per second
+     */
+    public double getPoisonDamage() {
+        return this.poisonDamage;
+    }
+
+    /**
+     * gets the cost in mana for poisoing the screen
+     * @return poison cost
+     */
+    public double getPoisonCost() {
+        return this.poisonCost;
     }
 
     /**
      * Toggles poison on and off based on whether player has enough mana
      */
     public void togglePoison() {
-        if (!this.poison && this.mana.updateMana(-1 * this.app.poisonCost)) {
+        if (!this.poison && this.mana.updateMana(-1 * this.poisonCost)) {
             this.poison = true;
         }
     }
@@ -154,10 +225,11 @@ public class Map {
     public Tile[][] iterator2Matrix(Iterator<String> scan) {
         Tile[][] matrix = new Tile[BOARD_WIDTH][BOARD_WIDTH]; // assume level is sqrmapsize
         int i;
+        int j = 0;
         
-        for(int j = 0; j < BOARD_WIDTH; j++) { // iterate through each line
+        while (scan.hasNext()) { // iterate through each line
             i = 0;
-            for(char c: scan.next().toCharArray()) { // iterate through each letter
+            for (char c: scan.next().toCharArray()) { // iterate through each letter
                 switch(c) {
                     case 'S':
                         matrix[i][j] = new Shrub(i, j, this);
@@ -178,15 +250,46 @@ public class Map {
                 i++;
                 if (i >= BOARD_WIDTH) {
                     break;
-                } // prevent out of bounds error (assume map is not square)
+                } // prevent out of bounds error
             }
             while(i < BOARD_WIDTH) { // fill trailing empty text with grass
                 matrix[i][j] = new Grass(i, j, this);
                 i++;
             }
             System.out.println("row " + j + " read");
+            j++;
+            if (j >= BOARD_WIDTH) {
+                break;
+            } // prevent out of bounds error
+        }
+        while (j < BOARD_WIDTH) {
+            for (i = 0; i < BOARD_WIDTH; i++) {
+                matrix[i][j] = new Grass(i, j, this);
+            }
+            System.out.println("row " + j + " filled with grass");
+            j++; // fill remaining rows omitted from level txt with grass
         }
         return matrix;
+    }
+
+    public void createPoison(JSONObject conf) {
+        if (conf.hasKey("poison_cost")) {
+            this.poisonCost = this.data.getDouble("poison_cost");
+        } else {
+            this.poisonCost = 100;
+        }
+        if (conf.hasKey("poison_time")) {
+            this.initialPoisonFrames = conf.getDouble("poison_time") * FPS;
+            this.poisonFrames = this.initialPoisonFrames;
+        } else {
+            this.poisonFrames = 5 * FPS;
+        }
+        if (conf.hasKey("poison_damage_per_second")) {
+            this.poisonDamage = conf.getDouble("poison_damage_per_second");
+        } else {
+            this.poisonDamage = 1;
+        }
+        // default values in case these fields DNE
     }
 
     /**
@@ -194,8 +297,7 @@ public class Map {
      * Does so by adding current wave time with next wave prewave pause directly from config
      * @return wave time to be put onto screen
      */
-    public double addWaveTimes()
-    { 
+    public double addWaveTimes() { 
         JSONArray waves = this.data.getJSONArray("waves");
         if (waves.size() == 1) { // force wave to be negative (endless)
             this.lastWave = true;
@@ -208,8 +310,7 @@ public class Map {
     /**
      * Iterates through each tile in matrix and assigns properties to each path
      */
-    public void updateAllPaths()
-    { 
+    public void updateAllPaths() { 
         for(Tile[] row: this.land) {
             for(Tile entry: row) {
                 if (entry instanceof WizOrPath) {
@@ -271,7 +372,7 @@ public class Map {
     public void nextWave() {
         this.waveNumber++;
         this.waveList.add(new Wave(
-            this.data.getJSONArray("waves").getJSONObject(waveNumber), this.routes, this.app
+            this.data.getJSONArray("waves").getJSONObject(waveNumber), this.routes
         ));
 
         // if its the last wave, set last wave to true
@@ -291,8 +392,7 @@ public class Map {
      * @param y mouse y coordinate
      * @return array of tile coordinates
      */
-    static int[] mouse2Tile(int x, int y)
-    {
+    static int[] mouse2Tile(int x, int y) {
         int[] tileCords = new int[2];
         tileCords[0] = Math.floorDiv(x, App.CELLSIZE);
         tileCords[1] = Math.floorDiv(y - App.TOPBAR, App.CELLSIZE);
@@ -311,8 +411,8 @@ public class Map {
      */
     public boolean place(
         int x, int y, boolean initialRangeLevel, 
-        boolean initialFiringSpeedLevel, boolean initialDamageLevel)
-    {
+        boolean initialFiringSpeedLevel, boolean initialDamageLevel
+    ) {
         int noOfUpgrades = (initialRangeLevel ? 1 : 0) + 
                            (initialFiringSpeedLevel ? 1 : 0) + 
                            (initialDamageLevel ? 1 : 0);
@@ -359,8 +459,7 @@ public class Map {
     public boolean[] determineUpgrades(
         int noOfUpgrades, boolean initialRangeLevel, 
         boolean initialFiringSpeedLevel, boolean initialDamageLevel
-        )
-    {
+    ) {
         boolean range = false;
         boolean speed = false;
         boolean dmg = false;
@@ -406,8 +505,7 @@ public class Map {
      * @param speed whether in speed mode
      * @param dmg whether in damage mode
      */
-    public void upgrade(int x, int y, boolean range, boolean speed, boolean dmg)
-    {
+    public void upgrade(int x, int y, boolean range, boolean speed, boolean dmg) {
         int[] tileCords = mouse2Tile(x, y);
         if (this.land[tileCords[0]][tileCords[1]] instanceof Tower)
         {
@@ -482,26 +580,25 @@ public class Map {
 
     /**
      * Draws range circle around tower cursor is over under ui, over tiles
-     * @param app needs app to draw
+     * @param inputApp needs app to draw
      */
-    public void drawRangeCircle(App app)
-    {
-        Tile potentialTower = this.mouse2Land(app.mouseX, app.mouseY);
+    public void drawRangeCircle(App inputApp) {
+        Tile potentialTower = this.mouse2Land(inputApp.mouseX, inputApp.mouseY);
 
         if (potentialTower instanceof Tower)
         {
             Tower tower = (Tower)potentialTower;
             // draw tower
-            tower.draw(this.app);
+            tower.draw(inputApp);
 
             // draw circle around tower
             int centerX = App.CELLSIZE * tower.getX() + App.CELLSIZE / 2;
             int centerY = App.CELLSIZE * tower.getY() + App.TOPBAR + App.CELLSIZE / 2;
             float diameter = (float)(tower.getRange() * 2);
-            app.noFill();
-            app.stroke(255, 255, 0); // yellow
-            app.strokeWeight(2);
-            app.ellipse(centerX, centerY, diameter, diameter);
+            inputApp.noFill();
+            inputApp.stroke(255, 255, 0); // yellow
+            inputApp.strokeWeight(2);
+            inputApp.ellipse(centerX, centerY, diameter, diameter);
         }
     }
 
@@ -511,8 +608,7 @@ public class Map {
      * @param y mouse y coordinate
      * @return corresponding tile object
      */
-    public Tile mouse2Land(int x, int y)
-    {
+    public Tile mouse2Land(int x, int y) {
         if (Ui.isMouseInMap(x, y)) {
             int[] tileCords = mouse2Tile(x, y);
             return this.land[tileCords[0]][tileCords[1]];
@@ -527,49 +623,49 @@ public class Map {
      * mana,
      * towers,
      * screen poison.
+     * @param inputApp needs app to figure out if paused/ff and other information about game
      */
-    public void tick()
-    {
+    public void tick(App inputApp) {
         // tick each wave
         if (!(waveNumber == 0 && this.waveTime > this.addWaveTimes()))
         { // after 1st pre wave time
             Iterator<Wave> waveIterator = this.waveList.iterator(); // use for hasNext() method
             while(waveIterator.hasNext()) { // tick all waves in array
                 Wave wave = waveIterator.next();
-                wave.tick();
+                wave.tick(inputApp);
 
                 if (wave.getWaveComplete()) {
                     waveIterator.remove();
                 } // remove waves with all monsters spawned and killed
             }
-            this.waveTime -= app.rate;
+            this.waveTime -= inputApp.rate;
 
             if (this.lastWave && this.waveList.size() == 0) { 
-                this.app.onWinScreen = true;
+                inputApp.onWinScreen = true;
             } // win, if its the last wave and all monsters are dead
 
             if (this.waveTime < 0 && !this.lastWave) {
                 this.nextWave();
             }   
         } else {
-            this.waveTime -= app.rate;
+            this.waveTime -= inputApp.rate;
             System.out.println("Pre wave time: " + this.waveTime);
         }
 
         // tick mana
-        this.mana.tick(this.app); 
+        this.mana.tick(inputApp); 
 
         // tick towers;
         for(Tower tower: this.towerList) {
-            tower.tick();
+            tower.tick(inputApp);
         }
 
         // poison
         if (this.poison && this.poisonFrames <= 0) {
             this.poison = false;
-            this.poisonFrames = this.app.poisonFrames;
+            this.poisonFrames = this.initialPoisonFrames;
         } else {
-            this.poisonFrames -= this.app.rate;
+            this.poisonFrames -= inputApp.rate;
         }
     }
 
@@ -580,37 +676,37 @@ public class Map {
      * wizard house (seperate from matrix as to be drawn above monsters and other tiles),
      * range circles around tower cursor is over under ui
      * all towers' fireballs'
-     * @param app needs app to draw
+     * @param inputApp needs app to draw
      */
-    public void draw(PApplet app)
+    public void draw(App inputApp)
     { 
         // draw each tile in matrix onto screen
         for(Tile[] row: this.land) {
             for(Tile entry: row) {
                 if (!(entry instanceof Wizard)) { // draw it if its not a wizard house
-                    entry.draw(app); 
+                    entry.draw(inputApp); 
                 } else { // if it is a wizard house, draw grass under the wizard house
                     Tile wizGrass = new Grass(wizCordsXY[0], wizCordsXY[1], this); // change this
-                    wizGrass.draw(app);
+                    wizGrass.draw(inputApp);
                 }
             }
         }
         
         // draw each wave
         for(Wave wave: this.waveList) {
-            wave.draw();
+            wave.draw(inputApp);
         }
 
         // draw wizard house above monsters and other tiles
-        this.land[wizCordsXY[0]][wizCordsXY[1]].draw(app); 
+        this.land[wizCordsXY[0]][wizCordsXY[1]].draw(inputApp); 
 
         // draw range circles around tower cursor is over under ui, over tiles
-        drawRangeCircle(this.app);
+        drawRangeCircle(inputApp);
 
         // draw all towers' fireballs'
         for(Tower tower: this.towerList) {
             for(Fireball fireball: tower.getProjectiles()) {
-                fireball.draw();
+                fireball.draw(inputApp);
             }
         }
     }

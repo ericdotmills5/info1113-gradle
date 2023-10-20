@@ -10,50 +10,47 @@ public class Wave {
 <span class="fc" id="L10">    private ArrayList&lt;Monster&gt; monsters = new ArrayList&lt;Monster&gt;();</span>
 <span class="fc" id="L11">    private HashMap&lt;Path, ArrayList&lt;Direction&gt;&gt; rotes = new HashMap&lt;Path, ArrayList&lt;Direction&gt;&gt;();</span>
     private JSONObject waveData;
-    private App app;
     private int framesPerSpawn;
     private int waveFrames;
     private int currentFrame;
-<span class="fc" id="L17">    private ArrayList&lt;Integer&gt; monsterTypeCounts = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L18">    private int monstersRemaining = 0;</span>
+<span class="fc" id="L16">    private ArrayList&lt;Integer&gt; monsterTypeCounts = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L17">    private int monstersRemaining = 0;</span>
     private Path[] spawnPaths;
-<span class="fc" id="L20">    private boolean waveComplete = false;</span>
+<span class="fc" id="L19">    private boolean waveComplete = false;</span>
 
     /**
      * constructer for each wave
      * @param waveData JSON object containing wave data
      * @param rotes HashMap of spawns and their rotes to wizard tower
-     * @param app App object to draw with
      */
-<span class="fc" id="L28">    public Wave(JSONObject waveData, HashMap&lt;Path, ArrayList&lt;Direction&gt;&gt; rotes, App app) {</span>
-<span class="fc" id="L29">        this.rotes = rotes;</span>
-<span class="fc" id="L30">        this.waveData = waveData;</span>
-<span class="fc" id="L31">        this.app = app;</span>
-<span class="fc" id="L32">        this.waveFrames = waveData.getInt(&quot;duration&quot;) * App.FPS;</span>
-<span class="fc" id="L33">        this.spawnPaths = rotes.keySet().toArray(new Path[rotes.size()]);</span>
+<span class="fc" id="L26">    public Wave(JSONObject waveData, HashMap&lt;Path, ArrayList&lt;Direction&gt;&gt; rotes) {</span>
+<span class="fc" id="L27">        this.rotes = rotes;</span>
+<span class="fc" id="L28">        this.waveData = waveData;</span>
+<span class="fc" id="L29">        this.waveFrames = (int)(waveData.getDouble(&quot;duration&quot;) * App.FPS);</span>
+<span class="fc" id="L30">        this.spawnPaths = rotes.keySet().toArray(new Path[rotes.size()]);</span>
 
-<span class="fc bfc" id="L35" title="All 2 branches covered.">        for(int i = 0; i &lt; waveData.getJSONArray(&quot;monsters&quot;).size(); i++) {</span>
-<span class="fc" id="L36">            this.monsterTypeCounts.add(</span>
-<span class="fc" id="L37">                waveData.getJSONArray(&quot;monsters&quot;).getJSONObject(i).getInt(&quot;quantity&quot;)</span>
+<span class="fc bfc" id="L32" title="All 2 branches covered.">        for(int i = 0; i &lt; waveData.getJSONArray(&quot;monsters&quot;).size(); i++) {</span>
+<span class="fc" id="L33">            this.monsterTypeCounts.add(</span>
+<span class="fc" id="L34">                waveData.getJSONArray(&quot;monsters&quot;).getJSONObject(i).getInt(&quot;quantity&quot;)</span>
             );
-<span class="fc" id="L39">            this.monstersRemaining += this.monsterTypeCounts.get(i);</span>
+<span class="fc" id="L36">            this.monstersRemaining += this.monsterTypeCounts.get(i);</span>
         } // fill with number of each type of monster remaining, and total monsters remaining      
 
-<span class="pc bpc" id="L42" title="1 of 2 branches missed.">        if (this.monstersRemaining == 0) {</span>
-<span class="nc" id="L43">            this.framesPerSpawn = 0; // prevent division by 0 error</span>
+<span class="fc bfc" id="L39" title="All 2 branches covered.">        if (this.monstersRemaining == 0) {</span>
+<span class="fc" id="L40">            this.framesPerSpawn = 0; // prevent division by 0 error</span>
         } else {
-<span class="fc" id="L45">        this.framesPerSpawn = this.waveFrames / this.monstersRemaining;</span>
+<span class="fc" id="L42">        this.framesPerSpawn = this.waveFrames / this.monstersRemaining;</span>
         }
 
-<span class="fc" id="L48">        System.out.println(&quot;Wave created&quot;);</span>
-<span class="fc" id="L49">    }</span>
+<span class="fc" id="L45">        System.out.println(&quot;Wave created&quot;);</span>
+<span class="fc" id="L46">    }</span>
 
     /**
      * getter for wave data
      * @return JSONObject of wave data
      */
     public JSONObject getData() {
-<span class="nc" id="L56">        return this.waveData;</span>
+<span class="nc" id="L53">        return this.waveData;</span>
     }
 
     /**
@@ -61,7 +58,7 @@ public class Wave {
      * @return true if wave is complete
      */
     public boolean getWaveComplete() {
-<span class="fc" id="L64">        return this.waveComplete;</span>
+<span class="fc" id="L61">        return this.waveComplete;</span>
     }
 
     /**
@@ -69,83 +66,92 @@ public class Wave {
      * @return ArrayList of all monsters spawned by wave
      */
     public ArrayList&lt;Monster&gt; getMonsters() {
-<span class="fc" id="L72">        return this.monsters;</span>
+<span class="fc" id="L69">        return this.monsters;</span>
     }
 
     /**
      * iterates through all monsters in array and ticks them by creating an iterator.
      * removes post death animation monsters from array (deleting them)
      */
-    public void iterateThroughMonsters() {
-<span class="fc" id="L80">        Iterator&lt;Monster&gt; monsterIterator = this.monsters.iterator(); </span>
+    public void iterateThroughMonsters(App inputApp) {
+<span class="fc" id="L77">        Iterator&lt;Monster&gt; monsterIterator = this.monsters.iterator(); </span>
         // used since updating elements as we iterate
-<span class="fc bfc" id="L82" title="All 2 branches covered.">        while(monsterIterator.hasNext()) { // tick all monsters in array</span>
-<span class="fc" id="L83">            Monster monster = monsterIterator.next();</span>
-<span class="fc" id="L84">            monster.tick();</span>
+<span class="fc bfc" id="L79" title="All 2 branches covered.">        while(monsterIterator.hasNext()) { // tick all monsters in array</span>
+<span class="fc" id="L80">            Monster monster = monsterIterator.next();</span>
+<span class="fc" id="L81">            monster.tick(inputApp);</span>
 
-<span class="fc bfc" id="L86" title="All 2 branches covered.">            if (!(monster.getExists())) {</span>
-<span class="fc" id="L87">                monsterIterator.remove();</span>
+<span class="fc bfc" id="L83" title="All 2 branches covered.">            if (!(monster.exists())) {</span>
+<span class="fc" id="L84">                monsterIterator.remove();</span>
             } // remove monsters that finished death animation
-<span class="fc" id="L89">        }</span>
-<span class="fc" id="L90">    }</span>
+<span class="fc" id="L86">        }</span>
+<span class="fc" id="L87">    }</span>
 
     /**
      * creates a random monster of a random type based on how many monsters 
      * it has left to spawn and spawns it on a random path
      */
-    public void createRandomMonster() {
-<span class="fc" id="L97">        Random rand = new Random();</span>
-<span class="fc" id="L98">        int randMonsterType = rand.nextInt(this.monsterTypeCounts.size()); // choose random monster</span>
-<span class="fc" id="L99">        JSONObject type = this.waveData.getJSONArray(&quot;monsters&quot;).getJSONObject(randMonsterType);</span>
+    public void createRandomMonster(App inputApp) {
+<span class="fc" id="L94">        Random rand = new Random();</span>
+<span class="fc" id="L95">        int randMonsterType = rand.nextInt(this.monsterTypeCounts.size()); // choose random monster</span>
+<span class="fc" id="L96">        JSONObject type = this.waveData.getJSONArray(&quot;monsters&quot;).getJSONObject(randMonsterType);</span>
 
-<span class="fc" id="L101">        int randSpawnPath = rand.nextInt(this.spawnPaths.length); // choose random spawn path</span>
-<span class="fc" id="L102">        Path spawnPath = this.spawnPaths[randSpawnPath];</span>
+<span class="fc" id="L98">        int randSpawnPath = rand.nextInt(this.spawnPaths.length); // choose random spawn path</span>
+<span class="fc" id="L99">        Path spawnPath = this.spawnPaths[randSpawnPath];</span>
 
-<span class="fc" id="L104">        this.monsters.add(new Monster(</span>
-<span class="fc" id="L105">            spawnPath.getX(), spawnPath.getY(), type.getDouble(&quot;speed&quot;), </span>
-<span class="fc" id="L106">            type.getDouble(&quot;hp&quot;), type.getDouble(&quot;armour&quot;), </span>
-<span class="fc" id="L107">            this.rotes.get(spawnPath), this.app, type.getDouble(&quot;mana_gained_on_kill&quot;)</span>
+<span class="fc" id="L101">        this.monsters.add(new Monster(</span>
+<span class="fc" id="L102">            spawnPath.getX(), spawnPath.getY(), type.getDouble(&quot;speed&quot;), </span>
+<span class="fc" id="L103">            type.getDouble(&quot;hp&quot;), type.getDouble(&quot;armour&quot;), </span>
+<span class="fc" id="L104">            this.rotes.get(spawnPath), inputApp, type.getDouble(&quot;mana_gained_on_kill&quot;)</span>
         )); // add new monster type with spawn to array
         
-<span class="fc" id="L110">        monsterTypeCounts.set(randMonsterType, monsterTypeCounts.get(randMonsterType) - 1); </span>
-<span class="fc" id="L111">        this.monstersRemaining -= 1; // remove monster from count</span>
+<span class="fc" id="L107">        monsterTypeCounts.set(randMonsterType, monsterTypeCounts.get(randMonsterType) - 1); </span>
+<span class="fc" id="L108">        this.monstersRemaining -= 1; // remove monster from count</span>
 
-<span class="fc bfc" id="L113" title="All 2 branches covered.">        for(int i = 0; i &lt; monsterTypeCounts.size(); i++) {</span>
-<span class="pc bpc" id="L114" title="1 of 2 branches missed.">            if (monsterTypeCounts.get(i) == 0) {</span>
-<span class="nc" id="L115">                monsterTypeCounts.remove(i); </span>
+<span class="fc bfc" id="L110" title="All 2 branches covered.">        for(int i = 0; i &lt; monsterTypeCounts.size(); i++) {</span>
+<span class="fc bfc" id="L111" title="All 2 branches covered.">            if (monsterTypeCounts.get(i) == 0) {</span>
+<span class="fc" id="L112">                monsterTypeCounts.remove(i); </span>
             } // remove monster type from count if none left
         }
-<span class="fc" id="L118">    }</span>
+<span class="fc" id="L115">    }</span>
 
     /**
      * ticks wave by:
      * 1. iterating through all monsters in array
      * 2. generating new random monster type with random spawn path after spawn cooldown is up
      * 3. checking if wave is complete by searching for any monsters in array
+     * @param inputApp App object to check if fast forward or paused and pass to monsters
      */
-    public void tick() {
-<span class="fc" id="L127">        this.currentFrame += app.rate;</span>
+    public void tick(App inputApp) {
+<span class="fc" id="L125">        this.currentFrame += inputApp.rate;</span>
 
-<span class="fc" id="L129">        this.iterateThroughMonsters();</span>
+<span class="fc" id="L127">        this.iterateThroughMonsters(inputApp);</span>
 
-        // generate new random monster type with random spawn path
-<span class="pc bpc" id="L132" title="1 of 4 branches missed.">        if (this.monstersRemaining &gt; 0 &amp;&amp; this.currentFrame &gt;= this.framesPerSpawn) {</span>
-<span class="fc" id="L133">            this.createRandomMonster();</span>
-<span class="fc" id="L134">            this.currentFrame = 0; // reset frame counter</span>
+        // generate new random monster type with random spawn path if:
+        // 1. there are still monsters left
+        // 2. spawn cooldown is up
+        // 3. there are paths to spawn on
+<span class="pc bpc" id="L133" title="1 of 6 branches missed.">        if (</span>
+            this.monstersRemaining &gt; 0 &amp;&amp; 
+            this.currentFrame &gt;= this.framesPerSpawn &amp;&amp; 
+            this.spawnPaths.length &gt; 0
+        ) {
+<span class="fc" id="L138">            this.createRandomMonster(inputApp);</span>
+<span class="fc" id="L139">            this.currentFrame = 0; // reset frame counter</span>
         } 
         
-<span class="pc bpc" id="L137" title="3 of 4 branches missed.">        if (this.monstersRemaining == 0 &amp;&amp; this.monsters.size() == 0) {</span>
-<span class="nc" id="L138">            this.waveComplete = true;</span>
+<span class="fc bfc" id="L142" title="All 4 branches covered.">        if (this.monstersRemaining == 0 &amp;&amp; this.monsters.size() == 0) {</span>
+<span class="fc" id="L143">            this.waveComplete = true;</span>
         } // if all monsters have been spawned and killed, wave will be removed from map array
-<span class="fc" id="L140">    }</span>
+<span class="fc" id="L145">    }</span>
 
     /**
      * draws all monsters spawned by wave
+     * @param inputApp to draw with
      */
-    public void draw() {
-<span class="fc bfc" id="L146" title="All 2 branches covered.">        for(Monster monster : this.monsters) {</span>
-<span class="fc" id="L147">            monster.draw(this.app); // draw all monsters in array</span>
-<span class="fc" id="L148">        }</span>
-<span class="fc" id="L149">    }</span>
+    public void draw(App inputApp) {
+<span class="fc bfc" id="L152" title="All 2 branches covered.">        for(Monster monster : this.monsters) {</span>
+<span class="fc" id="L153">            monster.draw(inputApp); // draw all monsters in array</span>
+<span class="fc" id="L154">        }</span>
+<span class="fc" id="L155">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

@@ -130,6 +130,5 @@ public class Path extends WizOrPath {
         );
         
         this.sprite = this.map.getApp().rotateImageByDegrees(noRotate, this.rotates * -90);
-        
     }
 }

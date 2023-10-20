@@ -143,30 +143,32 @@ abstract class WizOrPath extends Tile {
 
     /**
      * Method to determine directions to wizard, recursivly calling adjacent tiles.
-     * This allows each path to know the optimal direction to the wizard.
+     * This allows each path to know the optimal direction to the wizard. 
+     * Sidenote, I came up with this pathfinding algorithm all by myself,
+     * I am very proud of it! unless it already exists :(
      */
     public void determineWizDists() {
-<span class="fc bfc" id="L149" title="All 2 branches covered.">        for(Tile i: this.adj.values()) { // for everyone around me</span>
-<span class="fc bfc" id="L150" title="All 6 branches covered.">            if (</span>
+<span class="fc bfc" id="L151" title="All 2 branches covered.">        for(Tile i: this.adj.values()) { // for everyone around me</span>
+<span class="fc bfc" id="L152" title="All 6 branches covered.">            if (</span>
                 i instanceof Path // if the adjacent tile is a path
                 &amp;&amp; (((Path)i).wizDist == 0 // and it either has no distance
                 || ((Path)i).wizDist &gt; this.wizDist + 1) // or it has a bigger distance
                 ) { 
-<span class="fc" id="L155">                ((Path)i).wizDist = this.wizDist + 1; // give it my better distance + 1</span>
-<span class="fc" id="L156">                System.out.println(i + &quot; Distance: &quot; + ((Path)i).wizDist);</span>
+<span class="fc" id="L157">                ((Path)i).wizDist = this.wizDist + 1; // give it my better distance + 1</span>
+<span class="fc" id="L158">                System.out.println(i + &quot; Distance: &quot; + ((Path)i).wizDist);</span>
                 
                 // find the direction that leads to me and name it optimal
-<span class="fc" id="L159">                System.out.println(((Path)i).adj.values());</span>
-<span class="fc bfc" id="L160" title="All 2 branches covered.">                for(Direction j: ((Path)i).adj.keySet()) {</span>
-<span class="fc bfc" id="L161" title="All 2 branches covered.">                    if (((Path)i).adj.get(j) == this) { // if your currently iterating over me</span>
-<span class="fc" id="L162">                        ((Path)i).optimal = j; // then im the optimal direction</span>
-<span class="fc" id="L163">                        System.out.println(i + &quot; optimal path direction &quot; + j);</span>
+<span class="fc" id="L161">                System.out.println(((Path)i).adj.values());</span>
+<span class="fc bfc" id="L162" title="All 2 branches covered.">                for(Direction j: ((Path)i).adj.keySet()) {</span>
+<span class="fc bfc" id="L163" title="All 2 branches covered.">                    if (((Path)i).adj.get(j) == this) { // if your currently iterating over me</span>
+<span class="fc" id="L164">                        ((Path)i).optimal = j; // then im the optimal direction</span>
+<span class="fc" id="L165">                        System.out.println(i + &quot; optimal path direction &quot; + j);</span>
                     }
-<span class="fc" id="L165">                }</span>
-<span class="fc" id="L166">                ((Path)i).determineWizDists(); // ask his friends to do it</span>
+<span class="fc" id="L167">                }</span>
+<span class="fc" id="L168">                ((Path)i).determineWizDists(); // ask his friends to do it</span>
             }
-<span class="fc" id="L168">        }</span>
-<span class="fc" id="L169">    }</span>
+<span class="fc" id="L170">        }</span>
+<span class="fc" id="L171">    }</span>
 }
 
 
