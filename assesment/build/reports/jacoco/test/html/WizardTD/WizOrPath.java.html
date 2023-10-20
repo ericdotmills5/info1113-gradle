@@ -69,7 +69,7 @@ abstract class WizOrPath extends Tile {
 <span class="fc" id="L69">                index++;</span>
         } // assume max 2 terminals
         
-<span class="fc bfc" id="L72" title="All 2 branches covered.">        for(int i = index; i &lt; 2; i++) { // fill rest of array with NONE</span>
+<span class="fc bfc" id="L72" title="All 2 branches covered.">        for (int i = index; i &lt; 2; i++) { // fill rest of array with NONE</span>
 <span class="fc" id="L73">            termArray[i] = Direction.NONE;</span>
         }
 <span class="fc" id="L75">        System.out.println(this + &quot; terminals: &quot; + termArray[0] + &quot; &quot; + termArray[1]);</span>
@@ -87,12 +87,12 @@ abstract class WizOrPath extends Tile {
         // {RIGHT EXISTS?, UP EXISTS?, LEFT EXISTS?, DOWN EXISTS?}
 
         // fill with true
-<span class="fc bfc" id="L90" title="All 2 branches covered.">        for(int i = 0; i &lt; 4; i++) {</span>
+<span class="fc bfc" id="L90" title="All 2 branches covered.">        for (int i = 0; i &lt; 4; i++) {</span>
 <span class="fc" id="L91">            directionsThatExist[i] = true;</span>
         }
 
         // check if terminal, ie DNE
-<span class="fc bfc" id="L95" title="All 2 branches covered.">        for(Direction dir: this.termArray) {</span>
+<span class="fc bfc" id="L95" title="All 2 branches covered.">        for (Direction dir: this.termArray) {</span>
 <span class="fc bfc" id="L96" title="All 2 branches covered.">            if (dir == Direction.RIGHT) {</span>
 <span class="fc" id="L97">                directionsThatExist[0] = false;</span>
 <span class="fc bfc" id="L98" title="All 2 branches covered.">            } else if (dir == Direction.UP) {</span>
@@ -148,7 +148,7 @@ abstract class WizOrPath extends Tile {
      * I am very proud of it! unless it already exists :(
      */
     public void determineWizDists() {
-<span class="fc bfc" id="L151" title="All 2 branches covered.">        for(Tile i: this.adj.values()) { // for everyone around me</span>
+<span class="fc bfc" id="L151" title="All 2 branches covered.">        for (Tile i: this.adj.values()) { // for everyone around me</span>
 <span class="fc bfc" id="L152" title="All 6 branches covered.">            if (</span>
                 i instanceof Path // if the adjacent tile is a path
                 &amp;&amp; (((Path)i).wizDist == 0 // and it either has no distance
@@ -159,7 +159,7 @@ abstract class WizOrPath extends Tile {
                 
                 // find the direction that leads to me and name it optimal
 <span class="fc" id="L161">                System.out.println(((Path)i).adj.values());</span>
-<span class="fc bfc" id="L162" title="All 2 branches covered.">                for(Direction j: ((Path)i).adj.keySet()) {</span>
+<span class="fc bfc" id="L162" title="All 2 branches covered.">                for (Direction j: ((Path)i).adj.keySet()) {</span>
 <span class="fc bfc" id="L163" title="All 2 branches covered.">                    if (((Path)i).adj.get(j) == this) { // if your currently iterating over me</span>
 <span class="fc" id="L164">                        ((Path)i).optimal = j; // then im the optimal direction</span>
 <span class="fc" id="L165">                        System.out.println(i + &quot; optimal path direction &quot; + j);</span>

@@ -27,7 +27,7 @@ public class Fireball implements Exists, Draw, Tick {
         this.becomeExistant();
     }
 
-    public void becomeExistant(){
+    public void becomeExistant() {
         this.exists = true;
     }
 

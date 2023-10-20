@@ -29,15 +29,15 @@ public class Wave {
 <span class="fc" id="L29">        this.waveFrames = (int)(waveData.getDouble(&quot;duration&quot;) * App.FPS);</span>
 <span class="fc" id="L30">        this.spawnPaths = rotes.keySet().toArray(new Path[rotes.size()]);</span>
 
-<span class="fc bfc" id="L32" title="All 2 branches covered.">        for(int i = 0; i &lt; waveData.getJSONArray(&quot;monsters&quot;).size(); i++) {</span>
+<span class="fc bfc" id="L32" title="All 2 branches covered.">        for (int i = 0; i &lt; waveData.getJSONArray(&quot;monsters&quot;).size(); i++) {</span>
 <span class="fc" id="L33">            this.monsterTypeCounts.add(</span>
 <span class="fc" id="L34">                waveData.getJSONArray(&quot;monsters&quot;).getJSONObject(i).getInt(&quot;quantity&quot;)</span>
             );
 <span class="fc" id="L36">            this.monstersRemaining += this.monsterTypeCounts.get(i);</span>
         } // fill with number of each type of monster remaining, and total monsters remaining      
 
-<span class="fc bfc" id="L39" title="All 2 branches covered.">        if (this.monstersRemaining == 0) {</span>
-<span class="fc" id="L40">            this.framesPerSpawn = 0; // prevent division by 0 error</span>
+<span class="pc bpc" id="L39" title="1 of 2 branches missed.">        if (this.monstersRemaining == 0) {</span>
+<span class="nc" id="L40">            this.framesPerSpawn = 0; // prevent division by 0 error</span>
         } else {
 <span class="fc" id="L42">        this.framesPerSpawn = this.waveFrames / this.monstersRemaining;</span>
         }
@@ -76,7 +76,7 @@ public class Wave {
     public void iterateThroughMonsters(App inputApp) {
 <span class="fc" id="L77">        Iterator&lt;Monster&gt; monsterIterator = this.monsters.iterator(); </span>
         // used since updating elements as we iterate
-<span class="fc bfc" id="L79" title="All 2 branches covered.">        while(monsterIterator.hasNext()) { // tick all monsters in array</span>
+<span class="fc bfc" id="L79" title="All 2 branches covered.">        while (monsterIterator.hasNext()) { // tick all monsters in array</span>
 <span class="fc" id="L80">            Monster monster = monsterIterator.next();</span>
 <span class="fc" id="L81">            monster.tick(inputApp);</span>
 
@@ -107,7 +107,7 @@ public class Wave {
 <span class="fc" id="L107">        monsterTypeCounts.set(randMonsterType, monsterTypeCounts.get(randMonsterType) - 1); </span>
 <span class="fc" id="L108">        this.monstersRemaining -= 1; // remove monster from count</span>
 
-<span class="fc bfc" id="L110" title="All 2 branches covered.">        for(int i = 0; i &lt; monsterTypeCounts.size(); i++) {</span>
+<span class="fc bfc" id="L110" title="All 2 branches covered.">        for (int i = 0; i &lt; monsterTypeCounts.size(); i++) {</span>
 <span class="fc bfc" id="L111" title="All 2 branches covered.">            if (monsterTypeCounts.get(i) == 0) {</span>
 <span class="fc" id="L112">                monsterTypeCounts.remove(i); </span>
             } // remove monster type from count if none left
@@ -139,8 +139,8 @@ public class Wave {
 <span class="fc" id="L139">            this.currentFrame = 0; // reset frame counter</span>
         } 
         
-<span class="fc bfc" id="L142" title="All 4 branches covered.">        if (this.monstersRemaining == 0 &amp;&amp; this.monsters.size() == 0) {</span>
-<span class="fc" id="L143">            this.waveComplete = true;</span>
+<span class="pc bpc" id="L142" title="1 of 4 branches missed.">        if (this.monstersRemaining == 0 &amp;&amp; this.monsters.size() == 0) {</span>
+<span class="nc" id="L143">            this.waveComplete = true;</span>
         } // if all monsters have been spawned and killed, wave will be removed from map array
 <span class="fc" id="L145">    }</span>
 
@@ -149,7 +149,7 @@ public class Wave {
      * @param inputApp to draw with
      */
     public void draw(App inputApp) {
-<span class="fc bfc" id="L152" title="All 2 branches covered.">        for(Monster monster : this.monsters) {</span>
+<span class="fc bfc" id="L152" title="All 2 branches covered.">        for (Monster monster : this.monsters) {</span>
 <span class="fc" id="L153">            monster.draw(inputApp); // draw all monsters in array</span>
 <span class="fc" id="L154">        }</span>
 <span class="fc" id="L155">    }</span>

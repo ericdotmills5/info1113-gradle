@@ -89,8 +89,10 @@ public class Ui implements Tick, Draw {
         inputApp.fill(0, 0, 0);
         inputApp.textSize(17);
         inputApp.text("MANA:", App.MANA_TEXT_X, App.MANA_TEXT_Y);
-        inputApp.text((int)this.map.getMana().getCurrMana() + " / " + (int)this.map.getMana().getCap(), 
-                App.MANA_TEXT_X + App.MANA_CURR_SHIFT, App.MANA_TEXT_Y);
+        inputApp.text(
+            (int)this.map.getMana().getCurrMana() + " / " + (int)this.map.getMana().getCap(),
+            App.MANA_TEXT_X + App.MANA_CURR_SHIFT, App.MANA_TEXT_Y
+        );
     }
 
     /**
@@ -270,7 +272,9 @@ public class Ui implements Tick, Draw {
         // text0
         inputApp.fill(0, 0, 0);
         inputApp.textSize(App.BUTTON_TEXT_0_SIZE);
-        inputApp.text(text0, App.BUTTON_X + App.BUTTON_TEXT_SHIFT_X, y + App.BUTTON_TEXT_0_SHIFT_Y);
+        inputApp.text(
+            text0, App.BUTTON_X + App.BUTTON_TEXT_SHIFT_X, y + App.BUTTON_TEXT_0_SHIFT_Y
+        );
 
         // text1
         inputApp.textSize(App.BUTTON_TEXT_12_SIZE);
@@ -289,12 +293,16 @@ public class Ui implements Tick, Draw {
         if (hasHoverText && hover) {
             // hover box
             inputApp.fill(255, 255, 255); // white
-            inputApp.rect(App.BUTTON_HOVER_X, y, App.BUTTON_HOVER_LENGTH, App.BUTTON_HOVER_HEIGHT);
+            inputApp.rect(
+                App.BUTTON_HOVER_X, y, App.BUTTON_HOVER_LENGTH, App.BUTTON_HOVER_HEIGHT
+            );
 
             // hover text
             inputApp.fill(0, 0, 0); // black
             inputApp.textSize(App.BUTTON_HOVER_TEXT_SIZE);
-            inputApp.text("Cost: " + cost, App.BUTTON_HOVER_TEXT_X, y + App.BUTTON_HOVER_TEXT_SHIFT_Y);
+            inputApp.text(
+                "Cost: " + cost, App.BUTTON_HOVER_TEXT_X, y + App.BUTTON_HOVER_TEXT_SHIFT_Y
+            );
             
         }
     }
@@ -477,7 +485,7 @@ public class Ui implements Tick, Draw {
         this.manaText(inputApp);
 
         // BUTTONS
-        for(int i = 1; i <= App.NUMBER_OF_BUTTONS; i++) {
+        for (int i = 1; i <= App.NUMBER_OF_BUTTONS; i++) {
             this.buttonDraw(inputApp, i);
         }
 

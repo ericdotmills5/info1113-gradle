@@ -1,5 +1,5 @@
 {
-  "layout": "level6.txt",
+  "layout": "level3.txt",
   "waves": [
     {
       "duration": 8.3,
@@ -55,7 +55,7 @@
   "initial_tower_range": 96.1,
   "initial_tower_firing_speed": 1.5,
   "initial_tower_damage": 40.3,
-  "initial_mana": 200.3,
+  "initial_mana": 999.3,
   "initial_mana_cap": 1000.2,
   "initial_mana_gained_per_second": 2.2,
   "tower_cost": 100.3,

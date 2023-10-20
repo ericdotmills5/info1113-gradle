@@ -69,7 +69,7 @@ abstract class WizOrPath extends Tile {
                 index++;
         } // assume max 2 terminals
         
-        for(int i = index; i < 2; i++) { // fill rest of array with NONE
+        for (int i = index; i < 2; i++) { // fill rest of array with NONE
             termArray[i] = Direction.NONE;
         }
         System.out.println(this + " terminals: " + termArray[0] + " " + termArray[1]);
@@ -87,12 +87,12 @@ abstract class WizOrPath extends Tile {
         // {RIGHT EXISTS?, UP EXISTS?, LEFT EXISTS?, DOWN EXISTS?}
 
         // fill with true
-        for(int i = 0; i < 4; i++) {
+        for (int i = 0; i < 4; i++) {
             directionsThatExist[i] = true;
         }
 
         // check if terminal, ie DNE
-        for(Direction dir: this.termArray) {
+        for (Direction dir: this.termArray) {
             if (dir == Direction.RIGHT) {
                 directionsThatExist[0] = false;
             } else if (dir == Direction.UP) {
@@ -148,7 +148,7 @@ abstract class WizOrPath extends Tile {
      * I am very proud of it! unless it already exists :(
      */
     public void determineWizDists() {
-        for(Tile i: this.adj.values()) { // for everyone around me
+        for (Tile i: this.adj.values()) { // for everyone around me
             if (
                 i instanceof Path // if the adjacent tile is a path
                 && (((Path)i).wizDist == 0 // and it either has no distance
@@ -159,7 +159,7 @@ abstract class WizOrPath extends Tile {
                 
                 // find the direction that leads to me and name it optimal
                 System.out.println(((Path)i).adj.values());
-                for(Direction j: ((Path)i).adj.keySet()) {
+                for (Direction j: ((Path)i).adj.keySet()) {
                     if (((Path)i).adj.get(j) == this) { // if your currently iterating over me
                         ((Path)i).optimal = j; // then im the optimal direction
                         System.out.println(i + " optimal path direction " + j);

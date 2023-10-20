@@ -179,8 +179,8 @@ public class Tower extends Tile implements Tick {
     public void shoot(App inputApp) {
         // create list of enemies in range
         ArrayList<Monster> enemiesInRange = new ArrayList<Monster>();
-        for(Wave wave: this.map.getWaves()) {
-            for(Monster monster: wave.getMonsters()) {
+        for (Wave wave: this.map.getWaves()) {
+            for (Monster monster: wave.getMonsters()) {
                 double spriteCentreX = monster.getPixelX() + App.SPRITE_SHIFT;
                 double spriteCentreY = monster.getPixelY() + App.SPRITE_SHIFT;
 
@@ -233,7 +233,7 @@ public class Tower extends Tile implements Tick {
 
         // tick and remove all fireballs
         Iterator<Fireball> fireballIterator = this.projectiles.iterator();
-        while(fireballIterator.hasNext()) {
+        while (fireballIterator.hasNext()) {
             Fireball fireball = fireballIterator.next();
             fireball.tick(inputApp);
 
@@ -257,8 +257,7 @@ public class Tower extends Tile implements Tick {
         inputApp.noFill();
 
         // fire rate square
-        if (this.firingSpeedLevel - this.lowestLevel >= 1)
-        { // only draw if upgraded past sprite
+        if (this.firingSpeedLevel - this.lowestLevel >= 1) { // only draw if upgraded past sprite
             inputApp.stroke(120, 180, 255); // light blue
             inputApp.strokeWeight((this.firingSpeedLevel - this.lowestLevel)* 2); 
             // stroke weight increases with level
@@ -273,7 +272,7 @@ public class Tower extends Tile implements Tick {
         inputApp.strokeWeight(1);
         
         // range indicators
-        for(int i = 0; i < this.rangeLevel - this.lowestLevel; i++) {
+        for (int i = 0; i < this.rangeLevel - this.lowestLevel; i++) {
             inputApp.ellipse( // create above many circles
                 tileX + App.TOWER_FIRST_UPGRADE_SHIFT_X + 
                 i * (App.RANGE_UPGRADE_DIAMETER + App.TOWER_UPGRADE_CIRCLE_DIST),
@@ -283,7 +282,7 @@ public class Tower extends Tile implements Tick {
         } // each successive range upgrade indicator moves right
 
         // damage indicators
-        for(int i = 0; i < this.damageLevel - this.lowestLevel; i++) {
+        for (int i = 0; i < this.damageLevel - this.lowestLevel; i++) {
             inputApp.line( // create above many crosses
                 tileX + i * (App.TOWER_DAMAGE_CROSS_LENGTH_X + App.TOWER_UPGRADE_CROSS_DIST),
                 tileY + App.TOWER_FIRST_UPGRADE_DMG_SHIFT_Y,

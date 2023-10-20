@@ -29,7 +29,7 @@ public class Wave {
         this.waveFrames = (int)(waveData.getDouble("duration") * App.FPS);
         this.spawnPaths = rotes.keySet().toArray(new Path[rotes.size()]);
 
-        for(int i = 0; i < waveData.getJSONArray("monsters").size(); i++) {
+        for (int i = 0; i < waveData.getJSONArray("monsters").size(); i++) {
             this.monsterTypeCounts.add(
                 waveData.getJSONArray("monsters").getJSONObject(i).getInt("quantity")
             );
@@ -76,7 +76,7 @@ public class Wave {
     public void iterateThroughMonsters(App inputApp) {
         Iterator<Monster> monsterIterator = this.monsters.iterator(); 
         // used since updating elements as we iterate
-        while(monsterIterator.hasNext()) { // tick all monsters in array
+        while (monsterIterator.hasNext()) { // tick all monsters in array
             Monster monster = monsterIterator.next();
             monster.tick(inputApp);
 
@@ -107,7 +107,7 @@ public class Wave {
         monsterTypeCounts.set(randMonsterType, monsterTypeCounts.get(randMonsterType) - 1); 
         this.monstersRemaining -= 1; // remove monster from count
 
-        for(int i = 0; i < monsterTypeCounts.size(); i++) {
+        for (int i = 0; i < monsterTypeCounts.size(); i++) {
             if (monsterTypeCounts.get(i) == 0) {
                 monsterTypeCounts.remove(i); 
             } // remove monster type from count if none left
@@ -149,7 +149,7 @@ public class Wave {
      * @param inputApp to draw with
      */
     public void draw(App inputApp) {
-        for(Monster monster : this.monsters) {
+        for (Monster monster : this.monsters) {
             monster.draw(inputApp); // draw all monsters in array
         }
     }

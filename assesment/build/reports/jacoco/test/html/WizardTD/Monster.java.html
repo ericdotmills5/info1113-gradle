@@ -39,7 +39,7 @@ public class Monster implements Exists {
         int tileX, int tileY, double pixSpeed, double maxHealth, 
         double armour, ArrayList&lt;Direction&gt; route, App app, double manaOnKill
 <span class="fc" id="L41">    ) {</span>
-<span class="fc bfc" id="L42" title="All 2 branches covered.">        for(Direction dir: route) {</span>
+<span class="fc bfc" id="L42" title="All 2 branches covered.">        for (Direction dir: route) {</span>
 <span class="fc" id="L43">            this.route.add(dir);</span>
 <span class="fc" id="L44">        } // copy route as to not edit reference</span>
         
@@ -237,30 +237,29 @@ public class Monster implements Exists {
      * 5. update sprite throughout kill animation
      * @param inputApp app to get speed from and other information about game
      */
-    public void tick(App inputApp)
-    {
+    public void tick(App inputApp) {
         // poison
-<span class="fc bfc" id="L243" title="All 2 branches covered.">        if (inputApp.map.getPoison()) {</span>
-<span class="fc" id="L244">            this.takeDamage(inputApp.map.getPoisonDamage() * inputApp.rate); // influenced by armour</span>
+<span class="fc bfc" id="L242" title="All 2 branches covered.">        if (inputApp.map.getPoison()) {</span>
+<span class="fc" id="L243">            this.takeDamage(inputApp.map.getPoisonDamage() * inputApp.rate); // influenced by armour</span>
         }
         
         // health
-<span class="fc" id="L248">        this.healthProp = this.currHealth / this.maxHealth;</span>
+<span class="fc" id="L247">        this.healthProp = this.currHealth / this.maxHealth;</span>
 
-<span class="fc bfc" id="L250" title="All 2 branches covered.">        for(int i = 0; i &lt; inputApp.rate; i++) {</span>
-<span class="fc bfc" id="L251" title="All 4 branches covered.">            if (this.alive &amp;&amp; this.currHealth &lt;= 0) {</span>
-<span class="fc" id="L252">            this.alive = false;</span>
-<span class="fc" id="L253">            inputApp.map.getMana().updateMana(manaOnKill);</span>
+<span class="fc bfc" id="L249" title="All 2 branches covered.">        for (int i = 0; i &lt; inputApp.rate; i++) {</span>
+<span class="fc bfc" id="L250" title="All 4 branches covered.">            if (this.alive &amp;&amp; this.currHealth &lt;= 0) {</span>
+<span class="fc" id="L251">            this.alive = false;</span>
+<span class="fc" id="L252">            inputApp.map.getMana().updateMana(manaOnKill);</span>
             } // kill monster based on rate
 
-<span class="fc" id="L256">            this.move();</span>
+<span class="fc" id="L255">            this.move();</span>
         } // move monster based on rate
         
         // kill animation
-<span class="fc bfc" id="L260" title="All 2 branches covered.">        if (!this.alive) {</span>
-<span class="fc" id="L261">            this.changeSpriteDuringKillAnimation();   </span>
+<span class="fc bfc" id="L259" title="All 2 branches covered.">        if (!this.alive) {</span>
+<span class="fc" id="L260">            this.changeSpriteDuringKillAnimation();   </span>
         }
-<span class="fc" id="L263">    }</span>
+<span class="fc" id="L262">    }</span>
     
     /**
      * draw monster sprite and health bar
@@ -268,19 +267,19 @@ public class Monster implements Exists {
      */
     public void draw(App inputApp) {
         // monster sprite
-<span class="fc" id="L271">        inputApp.image(this.sprite, (float)this.pixelX, (float)this.pixelY);</span>
+<span class="fc" id="L270">        inputApp.image(this.sprite, (float)this.pixelX, (float)this.pixelY);</span>
 
         // health bar
-<span class="fc bfc" id="L274" title="All 2 branches covered.">        if (this.alive) { // health bar only displays if alive</span>
-<span class="fc" id="L275">            inputApp.noStroke(); // no border</span>
-<span class="fc" id="L276">            inputApp.fill(0, 255, 0); // green bit</span>
-<span class="fc" id="L277">            inputApp.rect(</span>
+<span class="fc bfc" id="L273" title="All 2 branches covered.">        if (this.alive) { // health bar only displays if alive</span>
+<span class="fc" id="L274">            inputApp.noStroke(); // no border</span>
+<span class="fc" id="L275">            inputApp.fill(0, 255, 0); // green bit</span>
+<span class="fc" id="L276">            inputApp.rect(</span>
                 (float)this.pixelX + App.HEALTH_SHIFT_X, (float)this.pixelY + App.HEALTH_SHIFT_Y,
                 (int) (App.HEALTH_LENGTH * healthProp), App.HEALTH_WIDTH
             );
             
-<span class="fc" id="L282">            inputApp.fill(255, 0, 0); // red bit</span>
-<span class="fc" id="L283">            inputApp.rect(</span>
+<span class="fc" id="L281">            inputApp.fill(255, 0, 0); // red bit</span>
+<span class="fc" id="L282">            inputApp.rect(</span>
                 (float)(this.pixelX + App.HEALTH_SHIFT_X + (App.HEALTH_LENGTH * healthProp)),
                 (float)(this.pixelY + App.HEALTH_SHIFT_Y), 
                 (float) (App.HEALTH_LENGTH * (1 - healthProp)), 
@@ -288,6 +287,6 @@ public class Monster implements Exists {
             );
     
         }
-<span class="fc" id="L291">    }</span>
+<span class="fc" id="L290">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

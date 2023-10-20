@@ -212,7 +212,7 @@ public class App extends PApplet {
         } else if (this.onWinScreen) {
             // not allowed to press bellow BUTTONS
         } else {
-            for(int i = 1; i < App.BUTTONS.length; i++) {
+            for (int i = 1; i < App.BUTTONS.length; i++) {
                 if (this.keyCode == App.BUTTONS[i]) {
                     this.ui.toggleSwitch(this, i);
                 }
@@ -233,12 +233,9 @@ public class App extends PApplet {
      * Used to indicate clicking to ui class.
      */
     @Override
-    public void mousePressed(MouseEvent e) 
-    { // hover over grey + cost
-        for (int buttonNO = 1; buttonNO <= App.NUMBER_OF_BUTTONS; buttonNO++)
-        {
-            if (isMouseOverButton(buttonNO))
-            {
+    public void mousePressed(MouseEvent e) { // hover over grey + cost
+        for (int buttonNO = 1; buttonNO <= App.NUMBER_OF_BUTTONS; buttonNO++) {
+            if (isMouseOverButton(buttonNO)) {
                 this.ui.toggleSwitch(this, buttonNO);
             }
         }
@@ -255,11 +252,9 @@ public class App extends PApplet {
      */
     public void mouseHover() {
         for (int buttonNO = 1; buttonNO <= App.NUMBER_OF_BUTTONS; buttonNO++) {
-            if (isMouseOverButton(buttonNO))
-            {
+            if (isMouseOverButton(buttonNO)) {
                 this.ui.setHoveredButton(buttonNO, true);
-            } else
-            {
+            } else {
                 this.ui.setHoveredButton(buttonNO, false);
             }
         }

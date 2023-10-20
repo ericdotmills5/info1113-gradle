@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class TestApp extends App {
 
     @Override
-    public void image(PImage img, float x, float y){
+    public void image(PImage img, float x, float y) {
         // do nothing
     }
 
@@ -75,6 +75,14 @@ public class Testing extends App {
     public static final PrintStream originalOut = System.out;
 
     // ASSUME CONFIGTEST FILE ISNT CHANGED FROM WHAT I SUBMITTED
+
+    public Wave createTestWave() {
+        Wave testWave = new Wave(
+            this.testApp.map.getData().getJSONArray("waves").getJSONObject(0),
+            this.testApp.map.getRoutes()
+        );
+        return testWave;
+    }
 
     /**
      * mute print statements as to not spam the report files
@@ -169,10 +177,10 @@ public class Testing extends App {
      */
     @Test
     public void spawnRandomMonster() {
-        Wave wave = new Wave(this.testApp.map.getData().getJSONArray("waves").getJSONObject(0), this.testApp.map.getRoutes());
-        wave.createRandomMonster(this.testApp);
+        Wave testWave = createTestWave();
+        testWave.createRandomMonster(this.testApp);
 
-        assertEquals(wave.getMonsters().size(), 1);
+        assertEquals(testWave.getMonsters().size(), 1);
     }
 
     /**
@@ -186,10 +194,9 @@ public class Testing extends App {
         this.testApp.keyCode = 'F';
         this.testApp.keyPressed();
 
-        this.testApp.map.getWaves().add(new Wave(this.testApp.map.getData().getJSONArray("waves").getJSONObject(0), this.testApp.map.getRoutes()));
-        this.testApp.map.getWaves().get(0).getMonsters().add(new Monster(
-            0, 1, 5, 1500, 2, route, this.testApp, 5
-        ));
+        this.testApp.map.getWaves().add(createTestWave());
+        Monster testMonster = new Monster(0, 1, 5, 1500, 2, route, this.testApp, 5);
+        this.testApp.map.getWaves().get(0).getMonsters().add(testMonster);
         for (int i = 0; i < 150; i++) {
             this.testApp.draw();
         }
@@ -227,7 +234,7 @@ public class Testing extends App {
      * 1. creating a monster with 1 health
      * 2. activating poison, which kills the monster (hopefully)
      * 3. ticking through the death animation
-     * 4. checking if the monster still exists by checking if the monster array is empty
+     * 4. checking if the monster still exists
      */
     @Test
     public void poisonScreenAndDamageMonster() {
@@ -235,10 +242,9 @@ public class Testing extends App {
         ArrayList<Direction> route = new ArrayList<Direction>();
         route.add(Direction.UP);
 
-        this.testApp.map.getWaves().add(new Wave(this.testApp.map.getData().getJSONArray("waves").getJSONObject(0), this.testApp.map.getRoutes()));
-        this.testApp.map.getWaves().get(0).getMonsters().add(new Monster(
-            0, 1, 5, 1, 2, route, this.testApp, 5
-        ));
+        this.testApp.map.getWaves().add(createTestWave());
+        Monster testMonster = new Monster(0, 1, 5, 1, 2, route, this.testApp, 5);
+        this.testApp.map.getWaves().get(0).getMonsters().add(testMonster);
 
         // step 2
         this.testApp.keyCode = '4';
@@ -250,7 +256,7 @@ public class Testing extends App {
         }
 
         // step 4
-        assertEquals(this.testApp.map.getWaves().get(0).getMonsters().size(), 0);
+        assertFalse(testMonster.exists());
     }
 
     /**
@@ -309,16 +315,15 @@ public class Testing extends App {
         ArrayList<Direction> route = new ArrayList<Direction>();
         route.add(Direction.DOWN);
 
-        this.testApp.map.getWaves().add(new Wave(this.testApp.map.getData().getJSONArray("waves").getJSONObject(2), this.testApp.map.getRoutes()));
-        this.testApp.map.getWaves().get(0).getMonsters().add(new Monster(
-            0, 1, 5, 1, 2, route, this.testApp, 5
-        ));
+        this.testApp.map.getWaves().add(createTestWave());
+        Monster testMonster = new Monster(0, 1, 5, 1, 2, route, this.testApp, 5);
+        this.testApp.map.getWaves().get(0).getMonsters().add(testMonster);
 
         for (int i = 0; i < 100; i++) {
             this.testApp.draw();
         }
 
-        assertEquals(this.testApp.map.getWaves().get(0).getMonsters().size(), 0);
+        assertFalse(testMonster.exists());
     }
 
     // edge cases
@@ -332,7 +337,10 @@ public class Testing extends App {
         ArrayList<Direction> route = new ArrayList<Direction>();
 
         // spawn monster
-        this.testApp.map.getWaves().add(new Wave(this.testApp.map.getData().getJSONArray("waves").getJSONObject(0), this.testApp.map.getRoutes()));
+        this.testApp.map.getWaves().add(new Wave(
+            this.testApp.map.getData().getJSONArray("waves").getJSONObject(0),
+            this.testApp.map.getRoutes()
+            ));
         this.testApp.map.getWaves().get(0).getMonsters().add(new Monster(
             0, 1, 50, 1500, 2, route, this.testApp, 5
         ));
@@ -352,7 +360,7 @@ public class Testing extends App {
      * 1. spawn monster with 0 hp
      * 2. check if it was spawned (probably in death sequence at this stage since spawned "dead")
      * 3. tick through death sequence
-     * 4. check if it was removed
+     * 4. check if it was removed (if it doesn't exist, it gets removed by the game)
      */
     @Test
     public void spawnMonsterWithNoHealth() {
@@ -360,13 +368,15 @@ public class Testing extends App {
         route.add(Direction.LEFT);
 
         // step 1
-        this.testApp.map.getWaves().add(new Wave(this.testApp.map.getData().getJSONArray("waves").getJSONObject(0), this.testApp.map.getRoutes()));
-        this.testApp.map.getWaves().get(0).getMonsters().add(new Monster(
-            0, 1, 5, 0, 2, route, this.testApp, 5
+        this.testApp.map.getWaves().add(new Wave(
+            this.testApp.map.getData().getJSONArray("waves").getJSONObject(0), 
+            this.testApp.map.getRoutes()
         ));
+        Monster monsterTest = new Monster(0, 1, 5, 0, 2, route, this.testApp, 5);
+        this.testApp.map.getWaves().get(0).getMonsters().add(monsterTest);
 
         // step 2
-        assertEquals(this.testApp.map.getWaves().get(0).getMonsters().size(), 1);
+        assertTrue(monsterTest.exists());
 
         // step 3
         for (int i = 0; i < 22; i++) {
@@ -374,6 +384,6 @@ public class Testing extends App {
         }
 
         // step 4
-        assertEquals(this.testApp.map.getWaves().get(0).getMonsters().size(), 0);
+        assertFalse(monsterTest.exists());
     }
 }

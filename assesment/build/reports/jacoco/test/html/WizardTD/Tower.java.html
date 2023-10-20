@@ -179,8 +179,8 @@ public class Tower extends Tile implements Tick {
     public void shoot(App inputApp) {
         // create list of enemies in range
 <span class="fc" id="L181">        ArrayList&lt;Monster&gt; enemiesInRange = new ArrayList&lt;Monster&gt;();</span>
-<span class="fc bfc" id="L182" title="All 2 branches covered.">        for(Wave wave: this.map.getWaves()) {</span>
-<span class="fc bfc" id="L183" title="All 2 branches covered.">            for(Monster monster: wave.getMonsters()) {</span>
+<span class="fc bfc" id="L182" title="All 2 branches covered.">        for (Wave wave: this.map.getWaves()) {</span>
+<span class="fc bfc" id="L183" title="All 2 branches covered.">            for (Monster monster: wave.getMonsters()) {</span>
 <span class="fc" id="L184">                double spriteCentreX = monster.getPixelX() + App.SPRITE_SHIFT;</span>
 <span class="fc" id="L185">                double spriteCentreY = monster.getPixelY() + App.SPRITE_SHIFT;</span>
 
@@ -233,7 +233,7 @@ public class Tower extends Tile implements Tick {
 
         // tick and remove all fireballs
 <span class="fc" id="L235">        Iterator&lt;Fireball&gt; fireballIterator = this.projectiles.iterator();</span>
-<span class="fc bfc" id="L236" title="All 2 branches covered.">        while(fireballIterator.hasNext()) {</span>
+<span class="fc bfc" id="L236" title="All 2 branches covered.">        while (fireballIterator.hasNext()) {</span>
 <span class="fc" id="L237">            Fireball fireball = fireballIterator.next();</span>
 <span class="fc" id="L238">            fireball.tick(inputApp);</span>
 
@@ -257,24 +257,23 @@ public class Tower extends Tile implements Tick {
 <span class="fc" id="L257">        inputApp.noFill();</span>
 
         // fire rate square
-<span class="fc bfc" id="L260" title="All 2 branches covered.">        if (this.firingSpeedLevel - this.lowestLevel &gt;= 1)</span>
-        { // only draw if upgraded past sprite
-<span class="fc" id="L262">            inputApp.stroke(120, 180, 255); // light blue</span>
-<span class="fc" id="L263">            inputApp.strokeWeight((this.firingSpeedLevel - this.lowestLevel)* 2); </span>
+<span class="fc bfc" id="L260" title="All 2 branches covered.">        if (this.firingSpeedLevel - this.lowestLevel &gt;= 1) { // only draw if upgraded past sprite</span>
+<span class="fc" id="L261">            inputApp.stroke(120, 180, 255); // light blue</span>
+<span class="fc" id="L262">            inputApp.strokeWeight((this.firingSpeedLevel - this.lowestLevel)* 2); </span>
             // stroke weight increases with level
-<span class="fc" id="L265">            inputApp.rect(</span>
+<span class="fc" id="L264">            inputApp.rect(</span>
                 tileX + App.TOWER_SPEED_SQUARE_SHIFT, tileY + App.TOWER_SPEED_SQUARE_SHIFT,
                 App.TOWER_SPEED_SQUARE_LENGTH, App.TOWER_SPEED_SQUARE_LENGTH
             );
         }
 
         // color + stroke weight setup for both dmg and range
-<span class="fc" id="L272">        inputApp.stroke(255, 0, 255); // purple</span>
-<span class="fc" id="L273">        inputApp.strokeWeight(1);</span>
+<span class="fc" id="L271">        inputApp.stroke(255, 0, 255); // purple</span>
+<span class="fc" id="L272">        inputApp.strokeWeight(1);</span>
         
         // range indicators
-<span class="fc bfc" id="L276" title="All 2 branches covered.">        for(int i = 0; i &lt; this.rangeLevel - this.lowestLevel; i++) {</span>
-<span class="fc" id="L277">            inputApp.ellipse( // create above many circles</span>
+<span class="fc bfc" id="L275" title="All 2 branches covered.">        for (int i = 0; i &lt; this.rangeLevel - this.lowestLevel; i++) {</span>
+<span class="fc" id="L276">            inputApp.ellipse( // create above many circles</span>
                 tileX + App.TOWER_FIRST_UPGRADE_SHIFT_X + 
                 i * (App.RANGE_UPGRADE_DIAMETER + App.TOWER_UPGRADE_CIRCLE_DIST),
                 tileY + App.TOWER_FIRST_UPGRADE_SHIFT_Y, 
@@ -283,15 +282,15 @@ public class Tower extends Tile implements Tick {
         } // each successive range upgrade indicator moves right
 
         // damage indicators
-<span class="pc bpc" id="L286" title="1 of 2 branches missed.">        for(int i = 0; i &lt; this.damageLevel - this.lowestLevel; i++) {</span>
-<span class="nc" id="L287">            inputApp.line( // create above many crosses</span>
+<span class="pc bpc" id="L285" title="1 of 2 branches missed.">        for (int i = 0; i &lt; this.damageLevel - this.lowestLevel; i++) {</span>
+<span class="nc" id="L286">            inputApp.line( // create above many crosses</span>
                 tileX + i * (App.TOWER_DAMAGE_CROSS_LENGTH_X + App.TOWER_UPGRADE_CROSS_DIST),
                 tileY + App.TOWER_FIRST_UPGRADE_DMG_SHIFT_Y,
                 tileX + App.TOWER_FIRST_UPGRADE_SHIFT_X +
                 (i+1) * App.TOWER_DAMAGE_CROSS_LENGTH_X + i * App.TOWER_UPGRADE_CROSS_DIST,
                 tileY + App.TOWER_FIRST_UPGRADE_DMG_SHIFT_Y + App.TOWER_DAMAGE_CROSS_LENGTH_Y
             );
-<span class="nc" id="L294">            inputApp.line(</span>
+<span class="nc" id="L293">            inputApp.line(</span>
                 tileX + i * (App.TOWER_DAMAGE_CROSS_LENGTH_X + App.TOWER_UPGRADE_CROSS_DIST),
                 tileY + App.TOWER_FIRST_UPGRADE_DMG_SHIFT_Y + App.TOWER_DAMAGE_CROSS_LENGTH_Y,
                 tileX + App.TOWER_FIRST_UPGRADE_SHIFT_X +
@@ -299,6 +298,6 @@ public class Tower extends Tile implements Tick {
                 tileY + App.TOWER_FIRST_UPGRADE_DMG_SHIFT_Y
             );
         } // each successive damage upgrade indicator moves right
-<span class="fc" id="L302">    }</span>
+<span class="fc" id="L301">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

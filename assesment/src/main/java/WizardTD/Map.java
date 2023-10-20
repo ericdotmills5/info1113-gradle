@@ -252,7 +252,7 @@ public class Map implements Draw, Tick {
                     break;
                 } // prevent out of bounds error
             }
-            while(i < BOARD_WIDTH) { // fill trailing empty text with grass
+            while (i < BOARD_WIDTH) { // fill trailing empty text with grass
                 matrix[i][j] = new Grass(i, j, this);
                 i++;
             }
@@ -311,8 +311,8 @@ public class Map implements Draw, Tick {
      * Iterates through each tile in matrix and assigns properties to each path
      */
     public void updateAllPaths() { 
-        for(Tile[] row: this.land) {
-            for(Tile entry: row) {
+        for (Tile[] row: this.land) {
+            for (Tile entry: row) {
                 if (entry instanceof WizOrPath) {
                     ((WizOrPath)entry).assignProperties(); // type cast into path type
 
@@ -340,7 +340,7 @@ public class Map implements Draw, Tick {
         ArrayList<Direction> route = new ArrayList<Direction>();
         WizOrPath current = spawn;
 
-        while(!(current instanceof Wizard)) {
+        while (!(current instanceof Wizard)) {
             System.out.println(current + " optimal direction: " + ((Path)current).optimal);
             Direction currentDirection = ((Path)current).optimal;
             route.add(currentDirection); // add optimal direction to route
@@ -354,9 +354,9 @@ public class Map implements Draw, Tick {
      */
     public void createRoutes() {
         Iterator<Path> spawnIterator = this.routes.keySet().iterator();
-        while(spawnIterator.hasNext()) {
+        while (spawnIterator.hasNext()) {
             Path spawn = spawnIterator.next();
-            if (spawn.wizDist > 0){
+            if (spawn.wizDist > 0) {
                 this.routes.put(spawn, this.createRoute(spawn));
             } else {
                 spawnIterator.remove(); // remove spawn if it is not connected to wizard
@@ -418,9 +418,8 @@ public class Map implements Draw, Tick {
                            (initialDamageLevel ? 1 : 0);
         int[] tileCords = mouse2Tile(x, y);
 
-        if (this.land[tileCords[0]][tileCords[1]] instanceof Grass)
-        { // if its grass
-            while(
+        if (this.land[tileCords[0]][tileCords[1]] instanceof Grass) { // if its grass
+            while (
                 noOfUpgrades >= 0 &&
                 !this.mana.updateMana(-1 * (this.getTowerCost() + 20 * noOfUpgrades))
                 ) { // reduce price until affordable
@@ -469,8 +468,7 @@ public class Map implements Draw, Tick {
             range = true;
             speed = true;
             dmg = true;
-        } else if (noOfUpgrades == 2)
-        {
+        } else if (noOfUpgrades == 2) {
             if (initialRangeLevel) {
                 range = true;
             } 
@@ -480,8 +478,7 @@ public class Map implements Draw, Tick {
             if (initialDamageLevel && !(range && speed)) {
                 dmg = true;
             }
-        } else if (noOfUpgrades == 1)
-        {
+        } else if (noOfUpgrades == 1) {
             if (initialRangeLevel) {
                 range = true;
             } else if (initialFiringSpeedLevel) {
@@ -507,8 +504,7 @@ public class Map implements Draw, Tick {
      */
     public void upgrade(int x, int y, boolean range, boolean speed, boolean dmg) {
         int[] tileCords = mouse2Tile(x, y);
-        if (this.land[tileCords[0]][tileCords[1]] instanceof Tower)
-        {
+        if (this.land[tileCords[0]][tileCords[1]] instanceof Tower) {
             Tower tower = (Tower)this.land[tileCords[0]][tileCords[1]];
             int rangeInt = range ? 1 : 0;
             int speedInt = speed ? 1 : 0;
@@ -585,8 +581,7 @@ public class Map implements Draw, Tick {
     public void drawRangeCircle(App inputApp) {
         Tile potentialTower = this.mouse2Land(inputApp.mouseX, inputApp.mouseY);
 
-        if (potentialTower instanceof Tower)
-        {
+        if (potentialTower instanceof Tower) {
             Tower tower = (Tower)potentialTower;
             // draw tower
             tower.draw(inputApp);
@@ -627,10 +622,9 @@ public class Map implements Draw, Tick {
      */
     public void tick(App inputApp) {
         // tick each wave
-        if (!(waveNumber == 0 && this.waveTime > this.addWaveTimes()))
-        { // after 1st pre wave time
+        if (!(waveNumber == 0 && this.waveTime > this.addWaveTimes())) { // after 1st prewave time
             Iterator<Wave> waveIterator = this.waveList.iterator(); // use for hasNext() method
-            while(waveIterator.hasNext()) { // tick all waves in array
+            while (waveIterator.hasNext()) { // tick all waves in array
                 Wave wave = waveIterator.next();
                 wave.tick(inputApp);
 
@@ -656,7 +650,7 @@ public class Map implements Draw, Tick {
         this.mana.tick(inputApp); 
 
         // tick towers;
-        for(Tower tower: this.towerList) {
+        for (Tower tower: this.towerList) {
             tower.tick(inputApp);
         }
 
@@ -678,11 +672,10 @@ public class Map implements Draw, Tick {
      * all towers' fireballs'
      * @param inputApp needs app to draw
      */
-    public void draw(App inputApp)
-    { 
+    public void draw(App inputApp) { 
         // draw each tile in matrix onto screen
-        for(Tile[] row: this.land) {
-            for(Tile entry: row) {
+        for (Tile[] row: this.land) {
+            for (Tile entry: row) {
                 if (!(entry instanceof Wizard)) { // draw it if its not a wizard house
                     entry.draw(inputApp); 
                 } else { // if it is a wizard house, draw grass under the wizard house
@@ -693,7 +686,7 @@ public class Map implements Draw, Tick {
         }
         
         // draw each wave
-        for(Wave wave: this.waveList) {
+        for (Wave wave: this.waveList) {
             wave.draw(inputApp);
         }
 
@@ -704,8 +697,8 @@ public class Map implements Draw, Tick {
         drawRangeCircle(inputApp);
 
         // draw all towers' fireballs'
-        for(Tower tower: this.towerList) {
-            for(Fireball fireball: tower.getProjectiles()) {
+        for (Tower tower: this.towerList) {
+            for (Fireball fireball: tower.getProjectiles()) {
                 fireball.draw(inputApp);
             }
         }

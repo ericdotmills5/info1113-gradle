@@ -39,7 +39,7 @@ public class Monster implements Exists {
         int tileX, int tileY, double pixSpeed, double maxHealth, 
         double armour, ArrayList<Direction> route, App app, double manaOnKill
     ) {
-        for(Direction dir: route) {
+        for (Direction dir: route) {
             this.route.add(dir);
         } // copy route as to not edit reference
         
@@ -237,8 +237,7 @@ public class Monster implements Exists {
      * 5. update sprite throughout kill animation
      * @param inputApp app to get speed from and other information about game
      */
-    public void tick(App inputApp)
-    {
+    public void tick(App inputApp) {
         // poison
         if (inputApp.map.getPoison()) {
             this.takeDamage(inputApp.map.getPoisonDamage() * inputApp.rate); // influenced by armour
@@ -247,7 +246,7 @@ public class Monster implements Exists {
         // health
         this.healthProp = this.currHealth / this.maxHealth;
 
-        for(int i = 0; i < inputApp.rate; i++) {
+        for (int i = 0; i < inputApp.rate; i++) {
             if (this.alive && this.currHealth <= 0) {
             this.alive = false;
             inputApp.map.getMana().updateMana(manaOnKill);
