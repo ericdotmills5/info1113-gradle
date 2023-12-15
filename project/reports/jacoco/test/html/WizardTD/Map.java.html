@@ -1,0 +1,708 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Map.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">assesment</a> &gt; <a href="index.source.html" class="el_package">WizardTD</a> &gt; <span class="el_source">Map.java</span></div><h1>Map.java</h1><pre class="source lang-java linenums">package WizardTD;
+
+import processing.data.JSONObject;
+import processing.data.JSONArray;
+
+import java.util.*;
+
+// enum to for directions
+<span class="fc" id="L9">enum Direction {</span>
+<span class="fc" id="L10">    UP, DOWN, LEFT, RIGHT, NONE;</span>
+}
+
+public class Map implements Draw, Tick {
+    static final int BOARD_WIDTH = App.BOARD_WIDTH;
+    static final int FPS = App.FPS;
+
+<span class="fc" id="L17">    private Tile[][] land = new Tile[BOARD_WIDTH][BOARD_WIDTH];</span>
+<span class="fc" id="L18">    private int[] wizCordsXY = new int[2];</span>
+    private App app;
+    private Wizard wizard;
+<span class="fc" id="L21">    private HashMap&lt;Path, ArrayList&lt;Direction&gt;&gt; routes = </span>
+    new HashMap&lt;Path, ArrayList&lt;Direction&gt;&gt;(); // terminal path, assosiated route
+    private JSONObject data;
+<span class="fc" id="L24">    private ArrayList&lt;Wave&gt; waveList = new ArrayList&lt;&gt;(); // turn into wave list for many waves</span>
+<span class="fc" id="L25">    private int waveNumber = 0;</span>
+    private double waveTime;
+<span class="fc" id="L27">    private boolean lastWave = false;</span>
+    private Mana mana;
+<span class="fc" id="L29">    private ArrayList&lt;Tower&gt; towerList = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L30">    private boolean poison = false;</span>
+    private double initialPoisonFrames;
+    private double poisonFrames;
+    private double poisonDamage;
+    private double poisonCost;
+
+    /**
+     * Draws map onto screen, creates routes for each spawn, creates waves, creates mana object
+     * @param mapIterable iterable of strings representing map
+     * @param app app object
+     */
+<span class="fc" id="L41">    public Map(Iterable&lt;String&gt; mapIterable, App app, JSONObject data) {</span>
+<span class="fc" id="L42">        this.app = app;</span>
+<span class="fc" id="L43">        this.land = this.iterator2Matrix(mapIterable.iterator());</span>
+<span class="fc" id="L44">        System.out.println(&quot;matrix made&quot;);</span>
+
+<span class="fc" id="L46">        this.updateAllPaths();</span>
+
+<span class="fc" id="L48">        System.out.println(&quot;Paths rotated&quot;);</span>
+
+<span class="fc" id="L50">        this.wizard.determineWizDists();</span>
+
+<span class="fc" id="L52">        this.createRoutes();</span>
+
+<span class="fc" id="L54">        this.data = data;</span>
+
+<span class="fc" id="L56">        JSONObject tempWave = this.data.getJSONArray(&quot;waves&quot;).getJSONObject(this.waveNumber);</span>
+<span class="fc" id="L57">        this.waveList.add(new Wave(tempWave, this.routes));</span>
+<span class="fc" id="L58">        this.waveTime = this.addWaveTimes() + tempWave.getDouble(&quot;pre_wave_pause&quot;) * FPS;</span>
+
+<span class="fc" id="L60">        this.mana = new Mana(</span>
+<span class="fc" id="L61">            this.data.getDouble(&quot;initial_mana&quot;), </span>
+<span class="fc" id="L62">            this.data.getDouble(&quot;initial_mana_cap&quot;), </span>
+<span class="fc" id="L63">            this.data.getDouble(&quot;initial_mana_gained_per_second&quot;), </span>
+<span class="fc" id="L64">            this.data.getDouble(&quot;mana_pool_spell_initial_cost&quot;),</span>
+<span class="fc" id="L65">            this.data.getDouble(&quot;mana_pool_spell_cost_increase_per_use&quot;),</span>
+<span class="fc" id="L66">            this.data.getDouble(&quot;mana_pool_spell_cap_multiplier&quot;),</span>
+<span class="fc" id="L67">            this.data.getDouble(&quot;mana_pool_spell_mana_gained_multiplier&quot;)</span>
+        );
+
+<span class="fc" id="L70">        this.createPoison(this.data);</span>
+
+<span class="fc" id="L72">        System.out.println(this.waveTime);</span>
+<span class="fc" id="L73">    } </span>
+
+    /**
+     * getter for land matrix
+     * @return land matrix
+     */
+    public Tile[][] getLand() {
+<span class="fc" id="L80">        return this.land;</span>
+    }
+
+    /**
+     * getter for tower list
+     * @return list of all towers on map
+     */
+    public ArrayList&lt;Tower&gt; getTowerList() {
+<span class="fc" id="L88">        return this.towerList;</span>
+    }
+
+    /**
+     * getter for app
+     * @return app that created map
+     */
+    public App getApp() {
+<span class="fc" id="L96">        return this.app;</span>
+    }
+
+    /**
+     * getter for whether it is the last wave
+     * @return whether its the last wave
+     */
+    public boolean getLastWave() {
+<span class="fc" id="L104">        return this.lastWave;</span>
+    }
+
+    /**
+     * gets wave number
+     * @return wave number
+     */
+    public int getWaveNumber() {
+<span class="fc" id="L112">        return this.waveNumber;</span>
+    }
+
+    /**
+     * gets wave list
+     * @return wave list array list
+     */
+    public ArrayList&lt;Wave&gt; getWaves() {
+<span class="fc" id="L120">        return this.waveList;</span>
+    }
+
+    /**
+     * gets time left in wave
+     * @return time left in wave
+     */
+    public double getWaveTime() {
+<span class="fc" id="L128">        return this.waveTime;</span>
+    }
+
+    /**
+     * gets mana object
+     * @return mana object
+     */
+    public Mana getMana() {
+<span class="fc" id="L136">        return this.mana;</span>
+    }
+
+    /**
+     * gets tower of cost as loaded from config
+     * @return tower cost
+     */
+    public double getTowerCost() {
+<span class="fc" id="L144">        return this.data.getDouble(&quot;tower_cost&quot;);</span>
+    }
+
+    /**
+     * gets initial tower range as loaded from config
+     * @return initial tower range
+     */
+    public double getInitialTowerRange() {
+<span class="fc" id="L152">        return this.data.getDouble(&quot;initial_tower_range&quot;);</span>
+    }
+
+    /**
+     * gets initial tower firing speed as loaded from config
+     * @return initial tower firing speed
+     */
+    public double getInitialTowerFiringSpeed() {
+<span class="fc" id="L160">        return this.data.getDouble(&quot;initial_tower_firing_speed&quot;);</span>
+    }
+
+    /**
+     * gets initial tower damage as loaded from config
+     * @return initial tower damage
+     */
+    public double getInitialTowerDamage() {
+<span class="fc" id="L168">        return this.data.getDouble(&quot;initial_tower_damage&quot;);</span>
+    }
+
+    /**
+     * determines whether the screen is poisoned
+     * @return whether the screen is poisoned
+     */
+    public boolean getPoison() {
+<span class="fc" id="L176">        return this.poison;</span>
+    }
+
+    /*
+     * gets the hash map of spawns and their routes to the wizard house
+     * @return hash map of spawns and their routes to the wizard house
+     */
+    public HashMap&lt;Path, ArrayList&lt;Direction&gt;&gt; getRoutes() {
+<span class="fc" id="L184">        return this.routes;</span>
+    }
+
+    /**
+     * gets all data read from config file
+     * @return JSON object of config file
+     */
+    public JSONObject getData() {
+<span class="fc" id="L192">        return this.data;</span>
+    }
+
+    /**
+     * gets the amount of damage poison does per second as loaded from config
+     * @return poison damage per second
+     */
+    public double getPoisonDamage() {
+<span class="fc" id="L200">        return this.poisonDamage;</span>
+    }
+
+    /**
+     * gets the cost in mana for poisoing the screen
+     * @return poison cost
+     */
+    public double getPoisonCost() {
+<span class="fc" id="L208">        return this.poisonCost;</span>
+    }
+
+    /**
+     * Toggles poison on and off based on whether player has enough mana
+     */
+    public void togglePoison() {
+<span class="pc bpc" id="L215" title="2 of 4 branches missed.">        if (!this.poison &amp;&amp; this.mana.updateMana(-1 * this.poisonCost)) {</span>
+<span class="fc" id="L216">            this.poison = true;</span>
+        }
+<span class="fc" id="L218">    }</span>
+
+    /**
+     * Converts iterable of strings into matrix of tiles that can be drawn and iterated through
+     * @param scan iterable of strings representing map
+     * @return matrix of tiles
+     */
+    public Tile[][] iterator2Matrix(Iterator&lt;String&gt; scan) {
+<span class="fc" id="L226">        Tile[][] matrix = new Tile[BOARD_WIDTH][BOARD_WIDTH]; // assume level is sqrmapsize</span>
+        int i;
+<span class="fc" id="L228">        int j = 0;</span>
+        
+<span class="fc bfc" id="L230" title="All 2 branches covered.">        while (scan.hasNext()) { // iterate through each line</span>
+<span class="fc" id="L231">            i = 0;</span>
+<span class="fc bfc" id="L232" title="All 2 branches covered.">            for (char c: scan.next().toCharArray()) { // iterate through each letter</span>
+<span class="pc bpc" id="L233" title="1 of 5 branches missed.">                switch(c) {</span>
+                    case 'S':
+<span class="fc" id="L235">                        matrix[i][j] = new Shrub(i, j, this);</span>
+<span class="fc" id="L236">                        break;</span>
+                    case 'X':
+<span class="fc" id="L238">                        matrix[i][j] = new Path(i, j, this);</span>
+<span class="fc" id="L239">                        break;</span>
+                    case 'W':
+<span class="fc" id="L241">                        this.wizard = new Wizard(i, j, this);</span>
+<span class="fc" id="L242">                        matrix[i][j] = this.wizard;</span>
+<span class="fc" id="L243">                        this.wizCordsXY[0] = i;</span>
+<span class="fc" id="L244">                        this.wizCordsXY[1] = j;</span>
+<span class="fc" id="L245">                        break;</span>
+                    case ' ':
+<span class="fc" id="L247">                        matrix[i][j] = new Grass(i, j, this); // assume everything else is grass</span>
+                        break; // intentionally dont handle _ case easier bug fix
+                }
+<span class="fc" id="L250">                i++;</span>
+<span class="fc bfc" id="L251" title="All 2 branches covered.">                if (i &gt;= BOARD_WIDTH) {</span>
+<span class="fc" id="L252">                    break;</span>
+                } // prevent out of bounds error
+            }
+<span class="fc bfc" id="L255" title="All 2 branches covered.">            while (i &lt; BOARD_WIDTH) { // fill trailing empty text with grass</span>
+<span class="fc" id="L256">                matrix[i][j] = new Grass(i, j, this);</span>
+<span class="fc" id="L257">                i++;</span>
+            }
+<span class="fc" id="L259">            System.out.println(&quot;row &quot; + j + &quot; read&quot;);</span>
+<span class="fc" id="L260">            j++;</span>
+<span class="fc bfc" id="L261" title="All 2 branches covered.">            if (j &gt;= BOARD_WIDTH) {</span>
+<span class="fc" id="L262">                break;</span>
+            } // prevent out of bounds error
+        }
+<span class="fc bfc" id="L265" title="All 2 branches covered.">        while (j &lt; BOARD_WIDTH) {</span>
+<span class="fc bfc" id="L266" title="All 2 branches covered.">            for (i = 0; i &lt; BOARD_WIDTH; i++) {</span>
+<span class="fc" id="L267">                matrix[i][j] = new Grass(i, j, this);</span>
+            }
+<span class="fc" id="L269">            System.out.println(&quot;row &quot; + j + &quot; filled with grass&quot;);</span>
+<span class="fc" id="L270">            j++; // fill remaining rows omitted from level txt with grass</span>
+        }
+<span class="fc" id="L272">        return matrix;</span>
+    }
+
+    public void createPoison(JSONObject conf) {
+<span class="pc bpc" id="L276" title="1 of 2 branches missed.">        if (conf.hasKey(&quot;poison_cost&quot;)) {</span>
+<span class="fc" id="L277">            this.poisonCost = this.data.getDouble(&quot;poison_cost&quot;);</span>
+        } else {
+<span class="nc" id="L279">            this.poisonCost = 100;</span>
+        }
+<span class="pc bpc" id="L281" title="1 of 2 branches missed.">        if (conf.hasKey(&quot;poison_time&quot;)) {</span>
+<span class="fc" id="L282">            this.initialPoisonFrames = conf.getDouble(&quot;poison_time&quot;) * FPS;</span>
+<span class="fc" id="L283">            this.poisonFrames = this.initialPoisonFrames;</span>
+        } else {
+<span class="nc" id="L285">            this.poisonFrames = 5 * FPS;</span>
+        }
+<span class="pc bpc" id="L287" title="1 of 2 branches missed.">        if (conf.hasKey(&quot;poison_damage_per_second&quot;)) {</span>
+<span class="fc" id="L288">            this.poisonDamage = conf.getDouble(&quot;poison_damage_per_second&quot;);</span>
+        } else {
+<span class="nc" id="L290">            this.poisonDamage = 1;</span>
+        }
+        // default values in case these fields DNE
+<span class="fc" id="L293">    }</span>
+
+    /**
+     * Finds what wave time needs to be put onto the screen
+     * Does so by adding current wave time with next wave prewave pause directly from config
+     * @return wave time to be put onto screen
+     */
+    public double addWaveTimes() { 
+<span class="fc" id="L301">        JSONArray waves = this.data.getJSONArray(&quot;waves&quot;);</span>
+<span class="pc bpc" id="L302" title="1 of 2 branches missed.">        if (waves.size() == 1) { // force wave to be negative (endless)</span>
+<span class="nc" id="L303">            this.lastWave = true;</span>
+<span class="nc" id="L304">            return -1 * (waves.getJSONObject(this.waveNumber).getDouble(&quot;pre_wave_pause&quot;)*FPS +1);</span>
+        }
+<span class="fc" id="L306">        return (waves.getJSONObject(this.waveNumber).getDouble(&quot;duration&quot;) </span>
+<span class="fc" id="L307">        + waves.getJSONObject(this.waveNumber + 1).getDouble(&quot;pre_wave_pause&quot;)) * FPS;</span>
+    }
+
+    /**
+     * Iterates through each tile in matrix and assigns properties to each path
+     */
+    public void updateAllPaths() { 
+<span class="fc bfc" id="L314" title="All 2 branches covered.">        for (Tile[] row: this.land) {</span>
+<span class="fc bfc" id="L315" title="All 2 branches covered.">            for (Tile entry: row) {</span>
+<span class="fc bfc" id="L316" title="All 2 branches covered.">                if (entry instanceof WizOrPath) {</span>
+<span class="fc" id="L317">                    ((WizOrPath)entry).assignProperties(); // type cast into path type</span>
+
+                    // if it is a terminal path (and not a wizard hut), it is now a spawn
+<span class="fc bfc" id="L320" title="All 4 branches covered.">                    if (entry instanceof Path &amp;&amp; ((Path)entry).termArray[0] != Direction.NONE) {</span>
+<span class="fc" id="L321">                        this.routes.put((Path)entry, null); </span>
+                        // add it to the spawn list, no route yet
+<span class="fc" id="L323">                        System.out.println(entry + &quot; is a spawn&quot;);</span>
+                    }
+                }
+<span class="fc bfc" id="L326" title="All 2 branches covered.">                if (entry instanceof Path) {</span>
+<span class="fc" id="L327">                    ((Path)entry).updatePath();</span>
+<span class="fc" id="L328">                    System.out.println(entry + &quot; assigned rotation&quot;);</span>
+                }
+            }
+        }
+<span class="fc" id="L332">    }</span>
+
+    /**
+     * create route from terminal paths (spawns) to wizard via optimal paths.
+     * @param spawn spawn to create route from
+     * @return list of optimal path directions to get to wizard
+     */
+    public ArrayList&lt;Direction&gt; createRoute(Path spawn) { 
+<span class="fc" id="L340">        ArrayList&lt;Direction&gt; route = new ArrayList&lt;Direction&gt;();</span>
+<span class="fc" id="L341">        WizOrPath current = spawn;</span>
+
+<span class="fc bfc" id="L343" title="All 2 branches covered.">        while (!(current instanceof Wizard)) {</span>
+<span class="fc" id="L344">            System.out.println(current + &quot; optimal direction: &quot; + ((Path)current).optimal);</span>
+<span class="fc" id="L345">            Direction currentDirection = ((Path)current).optimal;</span>
+<span class="fc" id="L346">            route.add(currentDirection); // add optimal direction to route</span>
+<span class="fc" id="L347">            current = (WizOrPath)current.adj.get(currentDirection); // move to next path</span>
+<span class="fc" id="L348">        }</span>
+<span class="fc" id="L349">        return route;</span>
+    }
+
+    /**
+     * create routes for each spawns by calling createRoute on each terminal path connected to wiz
+     */
+    public void createRoutes() {
+        //Iterator&lt;Path&gt; spawnIterator = this.routes.keySet().iterator();
+<span class="fc" id="L357">        ArrayList&lt;Path&gt; spawns = new ArrayList&lt;Path&gt;(this.routes.keySet());</span>
+<span class="fc bfc" id="L358" title="All 2 branches covered.">        for (int i = spawns.size() - 1; i &gt;= 0; i--) {</span>
+<span class="fc" id="L359">            Path spawn = spawns.get(i);</span>
+<span class="pc bpc" id="L360" title="1 of 2 branches missed.">            if (spawn.wizDist &gt; 0) {</span>
+<span class="fc" id="L361">                this.routes.put(spawn, this.createRoute(spawn));</span>
+            } else {
+<span class="nc" id="L363">                this.routes.remove(spawn); // remove spawn if it is not connected to wizard</span>
+            }
+        }
+<span class="fc" id="L366">    }</span>
+
+    /**
+     * Creates next wave and adds it to wave list.
+     * If its the last wave, set last wave to true.
+     * Otherwise, set wave time to be the next wave time.
+     */
+    public void nextWave() {
+<span class="fc" id="L374">        this.waveNumber++;</span>
+<span class="fc" id="L375">        this.waveList.add(new Wave(</span>
+<span class="fc" id="L376">            this.data.getJSONArray(&quot;waves&quot;).getJSONObject(waveNumber), this.routes</span>
+        ));
+
+        // if its the last wave, set last wave to true
+<span class="pc bpc" id="L380" title="1 of 2 branches missed.">        if (this.waveNumber == this.data.getJSONArray(&quot;waves&quot;).size() - 1) { </span>
+<span class="nc" id="L381">            this.lastWave = true;</span>
+        } else { // otherwise (if its not the last wave)
+<span class="fc" id="L383">            this.waveTime = this.addWaveTimes();</span>
+        }
+        
+<span class="fc" id="L386">    }</span>
+
+    /**
+     * Converts mouse coordinates to tile coordinates.
+     * Assume only for map, not ui.
+     * Used to determine where to place towers, and which to upgrade.
+     * @param x mouse x coordinate
+     * @param y mouse y coordinate
+     * @return array of tile coordinates
+     */
+    static int[] mouse2Tile(int x, int y) {
+<span class="fc" id="L397">        int[] tileCords = new int[2];</span>
+<span class="fc" id="L398">        tileCords[0] = Math.floorDiv(x, App.CELLSIZE);</span>
+<span class="fc" id="L399">        tileCords[1] = Math.floorDiv(y - App.TOPBAR, App.CELLSIZE);</span>
+<span class="fc" id="L400">        return tileCords;</span>
+    }
+
+    /**
+     * Places tower on map (in matrix) if player can afford it, and grass tile.
+     * Deducts mana and provides initial upgrades accordingly.
+     * @param x mouse x coordinate
+     * @param y mouse y coordinate
+     * @param initialRangeLevel whether tower was placed in range mode
+     * @param initialFiringSpeedLevel whether tower was placed in firing speed mode
+     * @param initialDamageLevel whether tower was placed in damage mode
+     * @return whether tower was placed
+     */
+    public boolean place(
+        int x, int y, boolean initialRangeLevel, 
+        boolean initialFiringSpeedLevel, boolean initialDamageLevel
+    ) {
+<span class="fc bfc" id="L417" title="All 6 branches covered.">        int noOfUpgrades = (initialRangeLevel ? 1 : 0) + </span>
+                           (initialFiringSpeedLevel ? 1 : 0) + 
+                           (initialDamageLevel ? 1 : 0);
+<span class="fc" id="L420">        int[] tileCords = mouse2Tile(x, y);</span>
+
+<span class="fc bfc" id="L422" title="All 2 branches covered.">        if (this.land[tileCords[0]][tileCords[1]] instanceof Grass) { // if its grass</span>
+<span class="pc bpc" id="L423" title="1 of 2 branches missed.">            while (</span>
+                noOfUpgrades &gt;= 0 &amp;&amp;
+<span class="pc bpc" id="L425" title="1 of 2 branches missed.">                !this.mana.updateMana(-1 * (this.getTowerCost() + 20 * noOfUpgrades))</span>
+                ) { // reduce price until affordable
+<span class="nc" id="L427">                noOfUpgrades--;</span>
+<span class="pc bpc" id="L428" title="1 of 2 branches missed.">            } if (noOfUpgrades &lt; 0) {</span>
+<span class="nc" id="L429">                return false;</span>
+            } // if not affordable, return false
+            
+<span class="fc" id="L432">            boolean[] upgrades = this.determineUpgrades(</span>
+                noOfUpgrades, initialRangeLevel, initialFiringSpeedLevel, initialDamageLevel
+                );
+<span class="fc" id="L435">            Tower tower = new Tower(</span>
+                tileCords[0], tileCords[1], 
+<span class="fc" id="L437">                this.getInitialTowerRange(),</span>
+<span class="fc" id="L438">                this.getInitialTowerFiringSpeed(),</span>
+<span class="fc" id="L439">                this.getInitialTowerDamage(),</span>
+                upgrades[0], upgrades[1], upgrades[2], this
+            );
+<span class="fc" id="L442">            this.land[tileCords[0]][tileCords[1]] = tower;</span>
+<span class="fc" id="L443">            this.towerList.add(tower);</span>
+
+<span class="fc" id="L445">            return true;</span>
+        }
+<span class="fc" id="L447">        return false;</span>
+    }
+
+    /**
+     * Applies appropriate upgrade order.
+     * This is based on requested upgrades and number upgrades player can afford.
+     * @param noOfUpgrades number of upgrades player can afford
+     * @param initialRangeLevel whether player wants to upgrade range
+     * @param initialFiringSpeedLevel whether player wants to upgrade firing speed
+     * @param initialDamageLevel whether player wants to upgrade damage
+     * @return array of booleans representing which upgrades to apply
+     */
+    public boolean[] determineUpgrades(
+        int noOfUpgrades, boolean initialRangeLevel, 
+        boolean initialFiringSpeedLevel, boolean initialDamageLevel
+    ) {
+<span class="fc" id="L463">        boolean range = false;</span>
+<span class="fc" id="L464">        boolean speed = false;</span>
+<span class="fc" id="L465">        boolean dmg = false;</span>
+        // set booleans to true if they are to be upgraded
+
+<span class="pc bpc" id="L468" title="1 of 2 branches missed.">        if (noOfUpgrades == 3) {</span>
+<span class="fc" id="L469">            range = true;</span>
+<span class="fc" id="L470">            speed = true;</span>
+<span class="fc" id="L471">            dmg = true;</span>
+<span class="nc bnc" id="L472" title="All 2 branches missed.">        } else if (noOfUpgrades == 2) {</span>
+<span class="nc bnc" id="L473" title="All 2 branches missed.">            if (initialRangeLevel) {</span>
+<span class="nc" id="L474">                range = true;</span>
+            } 
+<span class="nc bnc" id="L476" title="All 2 branches missed.">            if (initialFiringSpeedLevel) {</span>
+<span class="nc" id="L477">                speed = true;</span>
+            } 
+<span class="nc bnc" id="L479" title="All 6 branches missed.">            if (initialDamageLevel &amp;&amp; !(range &amp;&amp; speed)) {</span>
+<span class="nc" id="L480">                dmg = true;</span>
+            }
+<span class="nc bnc" id="L482" title="All 2 branches missed.">        } else if (noOfUpgrades == 1) {</span>
+<span class="nc bnc" id="L483" title="All 2 branches missed.">            if (initialRangeLevel) {</span>
+<span class="nc" id="L484">                range = true;</span>
+<span class="nc bnc" id="L485" title="All 2 branches missed.">            } else if (initialFiringSpeedLevel) {</span>
+<span class="nc" id="L486">                speed = true;</span>
+            } else {
+<span class="nc" id="L488">                dmg = true;</span>
+            }
+        } // else if noOfUpgrades == 0, leave everything false  
+
+<span class="fc" id="L492">        return new boolean[] {range, speed, dmg};</span>
+    }
+
+    /**
+     * This method does multiple things:
+     * Which tower is to be upgraded
+     * What upgrades are to be applied based on what can be afforded
+     * How much mana to deduct, and doing so
+     * @param x mouse x coordinate
+     * @param y mouse y coordinate
+     * @param range whether in range mode
+     * @param speed whether in speed mode
+     * @param dmg whether in damage mode
+     */
+    public void upgrade(int x, int y, boolean range, boolean speed, boolean dmg) {
+<span class="fc" id="L507">        int[] tileCords = mouse2Tile(x, y);</span>
+<span class="pc bpc" id="L508" title="1 of 2 branches missed.">        if (this.land[tileCords[0]][tileCords[1]] instanceof Tower) {</span>
+<span class="fc" id="L509">            Tower tower = (Tower)this.land[tileCords[0]][tileCords[1]];</span>
+<span class="fc bfc" id="L510" title="All 2 branches covered.">            int rangeInt = range ? 1 : 0;</span>
+<span class="fc bfc" id="L511" title="All 2 branches covered.">            int speedInt = speed ? 1 : 0;</span>
+<span class="fc bfc" id="L512" title="All 2 branches covered.">            int dmgInt = dmg ? 1 : 0;</span>
+
+<span class="fc bfc" id="L514" title="All 6 branches covered.">            if (</span>
+                range &amp;&amp; speed &amp;&amp; dmg &amp;&amp;
+<span class="pc bpc" id="L516" title="1 of 2 branches missed.">                this.mana.updateMana(</span>
+<span class="fc" id="L517">                    -1 * (rangeInt * tower.getRangeCost() + </span>
+<span class="fc" id="L518">                    speedInt * tower.getFiringSpeedCost() + </span>
+<span class="fc" id="L519">                    dmgInt * tower.getDamageCost())</span>
+                )
+            ) {
+<span class="fc" id="L522">                tower.upgradeRange();</span>
+<span class="fc" id="L523">                tower.upgradeFiringSpeed();</span>
+<span class="fc" id="L524">                tower.upgradeDamage();</span>
+<span class="fc bfc" id="L525" title="All 4 branches covered.">            } else if (</span>
+                range &amp;&amp; speed &amp;&amp;
+<span class="pc bpc" id="L527" title="1 of 2 branches missed.">                this.mana.updateMana(</span>
+<span class="fc" id="L528">                    -1 * (rangeInt * tower.getRangeCost() + </span>
+<span class="fc" id="L529">                    speedInt * tower.getFiringSpeedCost())</span>
+                )
+            ) {
+<span class="fc" id="L532">                tower.upgradeRange();</span>
+<span class="fc" id="L533">                tower.upgradeFiringSpeed();</span>
+<span class="pc bpc" id="L534" title="1 of 4 branches missed.">            } else if (</span>
+                range &amp;&amp; dmg &amp;&amp;
+<span class="nc bnc" id="L536" title="All 2 branches missed.">                this.mana.updateMana(</span>
+<span class="nc" id="L537">                    -1 * (rangeInt * tower.getRangeCost() + </span>
+<span class="nc" id="L538">                    dmgInt * tower.getDamageCost())</span>
+                )
+            ) {
+<span class="nc" id="L541">                tower.upgradeRange();</span>
+<span class="nc" id="L542">                tower.upgradeDamage();</span>
+<span class="pc bpc" id="L543" title="3 of 4 branches missed.">            } else if (</span>
+                speed &amp;&amp; dmg &amp;&amp;
+<span class="nc bnc" id="L545" title="All 2 branches missed.">                this.mana.updateMana(</span>
+<span class="nc" id="L546">                    -1 * (speedInt * tower.getFiringSpeedCost() + </span>
+<span class="nc" id="L547">                    dmgInt * tower.getDamageCost())</span>
+                )
+            ) {
+<span class="nc" id="L550">                tower.upgradeFiringSpeed();</span>
+<span class="nc" id="L551">                tower.upgradeDamage();</span>
+<span class="fc bfc" id="L552" title="All 2 branches covered.">            } else if (</span>
+                range &amp;&amp;
+<span class="pc bpc" id="L554" title="1 of 2 branches missed.">                this.mana.updateMana(</span>
+<span class="fc" id="L555">                    -1 * (rangeInt * tower.getRangeCost())</span>
+                )
+            ) {
+<span class="fc" id="L558">                tower.upgradeRange();</span>
+<span class="pc bpc" id="L559" title="1 of 2 branches missed.">            } else if (</span>
+                speed &amp;&amp;
+<span class="nc bnc" id="L561" title="All 2 branches missed.">                this.mana.updateMana(</span>
+<span class="nc" id="L562">                    -1 * (speedInt * tower.getFiringSpeedCost())</span>
+                )
+            ) {
+<span class="nc" id="L565">                tower.upgradeFiringSpeed();</span>
+<span class="pc bpc" id="L566" title="1 of 2 branches missed.">            } else if (</span>
+                dmg &amp;&amp;
+<span class="nc bnc" id="L568" title="All 2 branches missed.">                this.mana.updateMana(</span>
+<span class="nc" id="L569">                    -1 * (dmgInt * tower.getDamageCost())</span>
+                )
+            ) {
+<span class="nc" id="L572">                tower.upgradeDamage();</span>
+            } // else do nothing
+            // cycle through upgrades you could afford to do in order of range, speed, dmg
+        }
+<span class="fc" id="L576">    }</span>
+
+    /**
+     * Draws range circle around tower cursor is over under ui, over tiles
+     * @param inputApp needs app to draw
+     */
+    public void drawRangeCircle(App inputApp) {
+<span class="fc" id="L583">        Tile potentialTower = this.mouse2Land(inputApp.mouseX, inputApp.mouseY);</span>
+
+<span class="fc bfc" id="L585" title="All 2 branches covered.">        if (potentialTower instanceof Tower) {</span>
+<span class="fc" id="L586">            Tower tower = (Tower)potentialTower;</span>
+            // draw tower
+<span class="fc" id="L588">            tower.draw(inputApp);</span>
+
+            // draw circle around tower
+<span class="fc" id="L591">            int centerX = App.CELLSIZE * tower.getX() + App.CELLSIZE / 2;</span>
+<span class="fc" id="L592">            int centerY = App.CELLSIZE * tower.getY() + App.TOPBAR + App.CELLSIZE / 2;</span>
+<span class="fc" id="L593">            float diameter = (float)(tower.getRange() * 2);</span>
+<span class="fc" id="L594">            inputApp.noFill();</span>
+<span class="fc" id="L595">            inputApp.stroke(255, 255, 0); // yellow</span>
+<span class="fc" id="L596">            inputApp.strokeWeight(2);</span>
+<span class="fc" id="L597">            inputApp.ellipse(centerX, centerY, diameter, diameter);</span>
+        }
+<span class="fc" id="L599">    }</span>
+
+    /**
+     * Converts mouse coordinates to corresponding tile object
+     * @param x mouse x coordinate
+     * @param y mouse y coordinate
+     * @return corresponding tile object
+     */
+    public Tile mouse2Land(int x, int y) {
+<span class="fc bfc" id="L608" title="All 2 branches covered.">        if (Ui.isMouseInMap(x, y)) {</span>
+<span class="fc" id="L609">            int[] tileCords = mouse2Tile(x, y);</span>
+<span class="fc" id="L610">            return this.land[tileCords[0]][tileCords[1]];</span>
+        } else {
+<span class="fc" id="L612">            return null; // potential null pointer exception</span>
+        }
+    }
+
+    /**
+     * Applies map logic each frame to:
+     * each wave (+ wave time),
+     * mana,
+     * towers,
+     * screen poison.
+     * @param inputApp needs app to figure out if paused/ff and other information about game
+     */
+    public void tick(App inputApp) {
+        // tick each wave
+<span class="fc bfc" id="L626" title="All 4 branches covered.">        if (!(waveNumber == 0 &amp;&amp; this.waveTime &gt; this.addWaveTimes())) { // after 1st prewave time</span>
+            //Iterator&lt;Wave&gt; waveIterator = this.waveList.iterator(); // use for hasNext() method
+<span class="fc bfc" id="L628" title="All 2 branches covered.">            for (int i = this.waveList.size() - 1; i &gt;= 0; i--) { // tick all waves in array</span>
+<span class="fc" id="L629">                Wave wave = this.waveList.get(i);</span>
+<span class="fc" id="L630">                wave.tick(inputApp);</span>
+
+<span class="pc bpc" id="L632" title="1 of 2 branches missed.">                if (wave.getWaveComplete()) {</span>
+<span class="nc" id="L633">                    this.waveList.remove(i);</span>
+                } // remove waves with all monsters spawned and killed
+            }
+<span class="fc" id="L636">            this.waveTime -= inputApp.rate;</span>
+
+<span class="pc bpc" id="L638" title="3 of 4 branches missed.">            if (this.lastWave &amp;&amp; this.waveList.size() == 0) { </span>
+<span class="nc" id="L639">                inputApp.onWinScreen = true;</span>
+            } // win, if its the last wave and all monsters are dead
+
+<span class="pc bpc" id="L642" title="3 of 4 branches missed.">            if (this.waveTime &lt; 0 &amp;&amp; !this.lastWave) {</span>
+<span class="nc" id="L643">                this.nextWave();</span>
+            }   
+        } else {
+<span class="fc" id="L646">            this.waveTime -= inputApp.rate;</span>
+<span class="fc" id="L647">            System.out.println(&quot;Pre wave time: &quot; + this.waveTime);</span>
+        }
+
+        // tick mana
+<span class="fc" id="L651">        this.mana.tick(inputApp); </span>
+
+        // tick towers;
+<span class="fc bfc" id="L654" title="All 2 branches covered.">        for (Tower tower: this.towerList) {</span>
+<span class="fc" id="L655">            tower.tick(inputApp);</span>
+<span class="fc" id="L656">        }</span>
+
+        // poison
+<span class="fc bfc" id="L659" title="All 4 branches covered.">        if (this.poison &amp;&amp; this.poisonFrames &lt;= 0) {</span>
+<span class="fc" id="L660">            this.poison = false;</span>
+<span class="fc" id="L661">            this.poisonFrames = this.initialPoisonFrames;</span>
+        } else {
+<span class="fc" id="L663">            this.poisonFrames -= inputApp.rate;</span>
+        }
+<span class="fc" id="L665">    }</span>
+
+    /**
+     * Draws map onto screen, from bottom to top:
+     * each tile in matrix,
+     * each wave,
+     * wizard house (seperate from matrix as to be drawn above monsters and other tiles),
+     * range circles around tower cursor is over under ui
+     * all towers' fireballs'
+     * @param inputApp needs app to draw
+     */
+    public void draw(App inputApp) { 
+        // draw each tile in matrix onto screen
+<span class="fc bfc" id="L678" title="All 2 branches covered.">        for (Tile[] row: this.land) {</span>
+<span class="fc bfc" id="L679" title="All 2 branches covered.">            for (Tile entry: row) {</span>
+<span class="fc bfc" id="L680" title="All 2 branches covered.">                if (!(entry instanceof Wizard)) { // draw it if its not a wizard house</span>
+<span class="fc" id="L681">                    entry.draw(inputApp); </span>
+                } else { // if it is a wizard house, draw grass under the wizard house
+<span class="fc" id="L683">                    Tile wizGrass = new Grass(wizCordsXY[0], wizCordsXY[1], this); // change this</span>
+<span class="fc" id="L684">                    wizGrass.draw(inputApp);</span>
+                }
+            }
+        }
+        
+        // draw each wave
+<span class="fc bfc" id="L690" title="All 2 branches covered.">        for (Wave wave: this.waveList) {</span>
+<span class="fc" id="L691">            wave.draw(inputApp);</span>
+<span class="fc" id="L692">        }</span>
+
+        // draw wizard house above monsters and other tiles
+<span class="fc" id="L695">        this.land[wizCordsXY[0]][wizCordsXY[1]].draw(inputApp); </span>
+
+        // draw range circles around tower cursor is over under ui, over tiles
+<span class="fc" id="L698">        drawRangeCircle(inputApp);</span>
+
+        // draw all towers' fireballs'
+<span class="fc bfc" id="L701" title="All 2 branches covered.">        for (Tower tower: this.towerList) {</span>
+<span class="fc bfc" id="L702" title="All 2 branches covered.">            for (Fireball fireball: tower.getProjectiles()) {</span>
+<span class="fc" id="L703">                fireball.draw(inputApp);</span>
+<span class="fc" id="L704">            }</span>
+<span class="fc" id="L705">        }</span>
+<span class="fc" id="L706">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>
