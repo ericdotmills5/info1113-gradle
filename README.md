@@ -1,10 +1,27 @@
-This repository contains a tower defence game I created to learn java, and objected oriented programming with.
+# WizardTD: A Java Tower Defense Game
 
-To play this game, download the "project" folder and run the "launch.jre" executable.
+Welcome to WizardTD, a tower defense game I created to learn Java and Object-Oriented Programming.
 
-The source code for the game can be found in the folder: project\src\main\java\WizardTD
-The source code for the test cases can be found in the folder: project\src\test\java\WizardTD
-The coverage of the test cases can be found in the file: project\reports\jacoco\test\html\index.html
+## Getting Started
 
-The controls are presented within the game as either clickable buttons on the right tab, or by pressing the respective keyboard key displayed on the button.
-The aim is to survive all of the waves by preventing the monsters from draining all your mana by reaching the wizard tower through the use of placed, upgradable towers.
+To play WizardTD, follow these steps:
+
+1. Download the `project` folder from this repository.
+2. Run the `launch.jre` executable inside the `project` folder.
+
+## Source Code
+
+The source code for the game is organized as follows:
+
+- Game code: `project\src\main\java\WizardTD`
+- Test cases: `project\src\test\java\WizardTD`
+
+You can view the coverage of the test cases in the following file: `project\reports\jacoco\test\html\index.html`
+
+## Gameplay
+
+The aim of WizardTD is to survive all the waves of monsters by preventing them from reaching the wizard tower and draining all your mana. You can do this by placing and upgrading towers.
+
+Controls are presented within the game. You can either click buttons on the right tab or press the respective keyboard key displayed on the button.
+
+Enjoy the game and happy defending!
