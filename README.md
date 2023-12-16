@@ -9,6 +9,8 @@ To play WizardTD, follow these steps:
 1. Download the `project` folder from this repository.
 2. Run the `launch.jre` executable inside the `project` folder.
 
+`game_screenshot.png` provides a taste of the game for those who wish not to download it.
+
 ## Source Code
 
 The source code for the game is organized as follows:
