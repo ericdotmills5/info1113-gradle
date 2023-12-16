@@ -1,6 +1,6 @@
 # WizardTD: A Java Tower Defense Game
 
-Welcome to WizardTD, a tower defense game I created to learn Java and Object-Oriented Programming.
+Welcome to WizardTD, a tower defense game I created to learn Java and Object-Oriented Programming for an [INFO1113](https://www.sydney.edu.au/units/INFO1113) assignment.
 
 ## Getting Started
 
