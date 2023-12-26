@@ -27,7 +27,7 @@ You can create their own map text files to play in:
 * S = Shrub (towers cannot be placed here)
 * W = Wizard Hut (maps must have exactly 1)
 
-Just remember to specify the name of the map within `project\config.json` under the _layout_ field.
+Just remember to specify the name of the map within `project\config.json` under the _layout_ field (line 2).
 
 ## Gameplay
 
