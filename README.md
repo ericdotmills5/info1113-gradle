@@ -20,6 +20,8 @@ The source code for the game is organized as follows:
 
 You can view the coverage of the test cases in the following file: `project\reports\jacoco\test\html\index.html`
 
+Gameplay elements (starting mana, tower damage, etc.) can be customised with `project\config.json`, allowing you to play your way!
+
 ## Gameplay
 
 The aim of WizardTD is to survive all the waves of monsters by preventing them from reaching the wizard tower and draining all your mana. You can do this by placing and upgrading towers.
