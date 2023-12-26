@@ -20,7 +20,13 @@ The source code for the game is organized as follows:
 
 You can view the coverage of the test cases in the following file: `project\reports\jacoco\test\html\index.html`
 
-Gameplay elements (starting mana, tower damage, etc.) can be customised with `project\config.json`, allowing you to play your way!
+Gameplay elements (starting mana, tower damage, map etc.) can be customised with `project\config.json`, allowing you to play your way!
+
+You can create their own map text files to play in:
+* X = Path (monsters spawn on map edges)
+* S = Shrub (towers cannot be placed here)
+* W = Wizard Hut (maps must have exactly 1)
+Just remember to specify the name of the map within `project\config.json` under the _layout_ field.
 
 ## Gameplay
 
